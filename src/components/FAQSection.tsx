@@ -90,26 +90,23 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="section-padding bg-card">
+    <section id="faq" className="section-padding bg-background">
       <div className="container-narrow max-w-3xl">
         <div className="text-center mb-16">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber">FAQ</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 mb-4">
-            Häufige Fragen zum Wohnmobil mieten in Berlin
+          <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">FAQ</p>
+          <h2 className="text-3xl md:text-5xl font-display font-bold">
+            Häufige Fragen
           </h2>
-          <p className="text-muted-foreground">
-            Antworten auf die wichtigsten Fragen rund um unsere Wohnmobilvermietung.
-          </p>
         </div>
 
-        <Accordion type="single" collapsible className="space-y-3">
+        <Accordion type="single" collapsible className="space-y-2">
           {faqs.map((faq, i) => (
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className="bg-popover rounded-2xl border border-border/50 px-6 hover:shadow-sm transition-shadow"
+              className="bg-surface-1 rounded-lg border border-border/20 px-6"
             >
-              <AccordionTrigger className="text-left text-sm font-semibold py-5 hover:no-underline font-display">
+              <AccordionTrigger className="text-left text-sm font-semibold py-5 hover:no-underline font-display text-foreground">
                 {faq.q}
               </AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5">
