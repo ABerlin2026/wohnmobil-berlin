@@ -1,47 +1,46 @@
 import { Play } from "lucide-react";
 
 const videoTopics = [
-  { title: "Kühlschrank", emoji: "❄️" },
-  { title: "Markise", emoji: "☂️" },
-  { title: "Stellplatz aufbauen", emoji: "🏕️" },
-  { title: "Herd", emoji: "🔥" },
-  { title: "Heizung", emoji: "🌡️" },
-  { title: "Strom & Wasser", emoji: "⚡" },
-  { title: "Grauwasser & Toilette", emoji: "🚿" },
-  { title: "Vorzelt", emoji: "⛺" },
+  "Kühlschrank",
+  "Markise",
+  "Stellplatz aufbauen",
+  "Herd",
+  "Heizung",
+  "Strom & Wasser",
+  "Grauwasser & Toilette",
+  "Vorzelt",
 ];
 
 const VideoSection = () => {
   return (
-    <section className="section-padding gradient-dark text-primary-foreground">
+    <section className="section-padding bg-surface-1">
       <div className="container-narrow">
         <div className="max-w-3xl mx-auto text-center mb-14">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-light">Video-Guides</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 mb-4">
+          <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Video-Guides</p>
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-5">
             Erklärvideos für deine erste Reise
           </h2>
-          <p className="opacity-60 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             Damit du dich unterwegs sicher fühlst – einfach per Smartphone abrufbar.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto">
           {videoTopics.map((topic) => (
             <div
-              key={topic.title}
-              className="group bg-primary-foreground/5 backdrop-blur-sm rounded-2xl p-5 border border-primary-foreground/10 hover:bg-primary-foreground/10 hover:border-amber/30 transition-all duration-300 cursor-pointer"
+              key={topic}
+              className="group bg-surface-2 hover:bg-surface-3 rounded-lg p-5 border border-border/20 transition-all duration-300 cursor-pointer"
             >
-              <div className="text-2xl mb-3">{topic.emoji}</div>
-              <p className="text-sm font-medium opacity-90 mb-3">{topic.title}</p>
-              <div className="h-8 w-8 rounded-full bg-amber/20 flex items-center justify-center group-hover:bg-amber/40 transition-colors">
-                <Play className="h-3.5 w-3.5 text-amber-light ml-0.5" />
+              <div className="h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <Play className="h-3.5 w-3.5 text-primary ml-0.5" />
               </div>
+              <p className="text-sm font-medium text-foreground">{topic}</p>
             </div>
           ))}
         </div>
 
-        <p className="text-center text-sm opacity-40 mt-10 max-w-xl mx-auto">
-          Die Videos erhältst du vor deiner Reise – für optimale Vorbereitung.
+        <p className="text-center text-xs text-muted-foreground mt-8">
+          Die Videos erhältst du vor deiner Reise.
         </p>
       </div>
     </section>

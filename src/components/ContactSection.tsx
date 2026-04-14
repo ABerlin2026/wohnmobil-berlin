@@ -15,10 +15,7 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Anfrage gesendet! 🎉",
-      description: "Vielen Dank – wir melden uns schnellstmöglich bei dir.",
-    });
+    toast({ title: "Anfrage gesendet!", description: "Wir melden uns schnellstmöglich bei dir." });
     setForm({ name: "", email: "", phone: "", period: "", persons: "", pet: "nein", message: "" });
   };
 
@@ -26,38 +23,36 @@ const ContactSection = () => {
     <section id="kontakt" className="section-padding bg-background">
       <div className="container-narrow">
         <div className="text-center mb-16">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber">Kontakt</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 mb-4">
-            Jetzt Camper in Berlin anfragen
+          <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Kontakt</p>
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+            Jetzt Camper anfragen
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Unverbindliche Anfrage – Antwort schnell und persönlich.
-          </p>
+          <p className="text-muted-foreground">Unverbindlich – Antwort schnell und persönlich.</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* WhatsApp */}
-          <div className="bg-popover rounded-2xl p-8 border border-border/50 flex flex-col">
+          <div className="bg-surface-1 rounded-xl p-8 border border-border/20 flex flex-col">
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-12 w-12 bg-whatsapp/10 rounded-xl flex items-center justify-center">
-                <MessageCircle className="h-6 w-6 text-whatsapp" />
+              <div className="h-10 w-10 bg-whatsapp/10 rounded-lg flex items-center justify-center">
+                <MessageCircle className="h-5 w-5 text-whatsapp" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-lg">Per WhatsApp</h3>
+                <h3 className="font-display font-bold text-sm">Per WhatsApp</h3>
                 <p className="text-xs text-muted-foreground">Schnellster Weg</p>
               </div>
             </div>
 
             <div className="space-y-3 mb-6">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <Zap className="h-4 w-4 text-amber shrink-0" /> Direkt und unkompliziert
+                <Zap className="h-4 w-4 text-primary shrink-0" /> Direkt und unkompliziert
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <Clock className="h-4 w-4 text-amber shrink-0" /> Schnelle Rückmeldung
+                <Clock className="h-4 w-4 text-primary shrink-0" /> Schnelle Rückmeldung
               </div>
             </div>
 
-            <div className="bg-card rounded-xl p-4 text-sm text-muted-foreground italic mb-6 border border-border/30">
+            <div className="bg-surface-2 rounded-lg p-4 text-sm text-muted-foreground italic mb-6 border border-border/10">
               „Hallo, ich interessiere mich für den Camper Berlin Brandenburg. Ist das Wohnmobil im gewünschten Zeitraum verfügbar?"
             </div>
 
@@ -70,26 +65,26 @@ const ContactSection = () => {
           </div>
 
           {/* Formular */}
-          <div className="bg-popover rounded-2xl p-8 border border-border/50">
+          <div className="bg-surface-1 rounded-xl p-8 border border-border/20">
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-12 w-12 gradient-amber rounded-xl flex items-center justify-center">
-                <Send className="h-5 w-5 text-primary-foreground" />
+              <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Send className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-lg">Anfrageformular</h3>
+                <h3 className="font-display font-bold text-sm">Anfrageformular</h3>
                 <p className="text-xs text-muted-foreground">Unverbindlich anfragen</p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3">
-              <Input placeholder="Name *" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="rounded-xl h-11" />
-              <Input type="email" placeholder="E-Mail *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="rounded-xl h-11" />
-              <Input type="tel" placeholder="Telefonnummer" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="rounded-xl h-11" />
-              <Input placeholder="Reisezeitraum (z. B. 15.07. – 25.07.)" value={form.period} onChange={(e) => setForm({ ...form, period: e.target.value })} className="rounded-xl h-11" />
+              <Input placeholder="Name *" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <Input type="email" placeholder="E-Mail *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <Input type="tel" placeholder="Telefonnummer" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <Input placeholder="Reisezeitraum (z. B. 15.07. – 25.07.)" value={form.period} onChange={(e) => setForm({ ...form, period: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <div className="grid grid-cols-2 gap-3">
-                <Input placeholder="Personen" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="rounded-xl h-11" />
+                <Input placeholder="Personen" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
                 <select
-                  className="flex h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex h-11 w-full rounded-lg border border-border/20 bg-surface-2 px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   value={form.pet}
                   onChange={(e) => setForm({ ...form, pet: e.target.value })}
                 >
@@ -97,7 +92,7 @@ const ContactSection = () => {
                   <option value="ja">Haustier: Ja</option>
                 </select>
               </div>
-              <Textarea placeholder="Nachricht (optional)" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="rounded-xl" />
+              <Textarea placeholder="Nachricht (optional)" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg" />
               <Button variant="hero" size="lg" type="submit" className="w-full py-5">
                 Unverbindlich anfragen
               </Button>

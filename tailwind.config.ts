@@ -49,28 +49,34 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        amber: {
-          DEFAULT: "hsl(var(--amber))",
-          light: "hsl(var(--amber-light))",
-          dark: "hsl(var(--amber-dark))",
+        loxone: {
+          DEFAULT: "hsl(var(--loxone-green))",
+          light: "hsl(var(--loxone-green-light))",
+          dark: "hsl(var(--loxone-green-dark))",
         },
-        ocean: {
-          DEFAULT: "hsl(var(--ocean))",
-          soft: "hsl(var(--ocean-soft))",
-        },
-        slate: {
-          deep: "hsl(var(--slate-deep))",
-          mid: "hsl(var(--slate-mid))",
-        },
-        sand: "hsl(var(--sand))",
-        petrol: {
-          DEFAULT: "hsl(var(--amber))",
-          light: "hsl(var(--amber-light))",
-          dark: "hsl(var(--amber-dark))",
+        surface: {
+          1: "hsl(var(--surface-1))",
+          2: "hsl(var(--surface-2))",
+          3: "hsl(var(--surface-3))",
         },
         whatsapp: {
           DEFAULT: "hsl(var(--whatsapp))",
           foreground: "hsl(var(--whatsapp-foreground))",
+        },
+        // Alias for existing component references
+        petrol: {
+          DEFAULT: "hsl(var(--loxone-green))",
+          light: "hsl(var(--loxone-green-light))",
+          dark: "hsl(var(--loxone-green-dark))",
+        },
+        amber: {
+          DEFAULT: "hsl(var(--loxone-green))",
+          light: "hsl(var(--loxone-green-light))",
+          dark: "hsl(var(--loxone-green-dark))",
+        },
+        ocean: {
+          DEFAULT: "hsl(var(--loxone-green))",
+          soft: "hsl(var(--surface-2))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
