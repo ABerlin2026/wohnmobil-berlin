@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const links = [
   { label: "Vorteile", href: "#vorteile" },
@@ -28,32 +29,53 @@ const Navigation = () => {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-transparent"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        scrolled
+          ? "bg-background/90 backdrop-blur-xl shadow-sm border-b border-border/50"
+          : "bg-transparent"
       )}
     >
-      <div className="container-narrow flex items-center justify-between h-16 px-4">
-        <a href="#" className={cn("font-display text-lg font-bold", scrolled ? "text-foreground" : "text-primary-foreground")}>
-          Camper Berlin Brandenburg
+      <div className="container-narrow flex items-center justify-between h-16 md:h-18 px-5">
+        <a href="#" className="flex items-center gap-2">
+          <div className={cn(
+            "h-8 w-8 rounded-lg flex items-center justify-center transition-colors",
+            scrolled ? "gradient-amber" : "bg-primary-foreground/20 backdrop-blur-sm"
+          )}>
+            <MapPin className="h-4 w-4 text-primary-foreground" />
+          </div>
+          <span className={cn(
+            "font-display text-base font-bold transition-colors",
+            scrolled ? "text-foreground" : "text-primary-foreground"
+          )}>
+            Camper Berlin
+          </span>
         </a>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-1">
           {links.map((l) => (
             <button
               key={l.href}
               onClick={() => handleClick(l.href)}
               className={cn(
-                "text-sm font-medium transition-colors",
-                scrolled ? "text-foreground/70 hover:text-foreground" : "text-primary-foreground/80 hover:text-primary-foreground"
+                "text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200",
+                scrolled
+                  ? "text-foreground/60 hover:text-foreground hover:bg-secondary"
+                  : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
               )}
             >
               {l.label}
             </button>
           ))}
+          <Button
+            variant={scrolled ? "default" : "hero"}
+            size="sm"
+            onClick={() => handleClick("#kontakt")}
+            className="ml-2"
+          >
+            Anfragen
+          </Button>
         </div>
 
-        {/* Mobile toggle */}
         <button className="md:hidden" onClick={() => setOpen(!open)}>
           {open ? (
             <X className={cn("h-6 w-6", scrolled ? "text-foreground" : "text-primary-foreground")} />
@@ -63,18 +85,20 @@ const Navigation = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-background border-t border-border p-4 space-y-2">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 p-5 space-y-1">
           {links.map((l) => (
             <button
               key={l.href}
               onClick={() => handleClick(l.href)}
-              className="block w-full text-left text-sm font-medium py-2 text-foreground/80 hover:text-foreground"
+              className="block w-full text-left text-sm font-medium py-3 px-3 rounded-lg text-foreground/70 hover:text-foreground hover:bg-secondary transition-colors"
             >
               {l.label}
             </button>
           ))}
+          <Button variant="default" className="w-full mt-3" onClick={() => handleClick("#kontakt")}>
+            Jetzt anfragen
+          </Button>
         </div>
       )}
     </nav>
