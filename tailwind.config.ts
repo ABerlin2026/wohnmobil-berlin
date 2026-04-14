@@ -8,14 +8,12 @@ export default {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      screens: { "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Space Grotesk", "system-ui", "sans-serif"],
+        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        display: ["Sora", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,21 +49,24 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        grass: {
-          DEFAULT: "hsl(var(--grass))",
-          light: "hsl(var(--grass-light))",
-          dark: "hsl(var(--grass-dark))",
+        amber: {
+          DEFAULT: "hsl(var(--amber))",
+          light: "hsl(var(--amber-light))",
+          dark: "hsl(var(--amber-dark))",
         },
-        lime: {
-          DEFAULT: "hsl(var(--lime))",
-          soft: "hsl(var(--lime-soft))",
+        ocean: {
+          DEFAULT: "hsl(var(--ocean))",
+          soft: "hsl(var(--ocean-soft))",
         },
-        forest: "hsl(var(--forest))",
-        mint: "hsl(var(--mint))",
+        slate: {
+          deep: "hsl(var(--slate-deep))",
+          mid: "hsl(var(--slate-mid))",
+        },
+        sand: "hsl(var(--sand))",
         petrol: {
-          DEFAULT: "hsl(var(--grass))",
-          light: "hsl(var(--grass-light))",
-          dark: "hsl(var(--grass-dark))",
+          DEFAULT: "hsl(var(--amber))",
+          light: "hsl(var(--amber-light))",
+          dark: "hsl(var(--amber-dark))",
         },
         whatsapp: {
           DEFAULT: "hsl(var(--whatsapp))",
@@ -97,14 +98,19 @@ export default {
           to: { height: "0" },
         },
         "fade-in-up": {
-          from: { opacity: "0", transform: "translateY(20px)" },
+          from: { opacity: "0", transform: "translateY(24px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",
+        "float": "float 3s ease-in-out infinite",
       },
     },
   },
