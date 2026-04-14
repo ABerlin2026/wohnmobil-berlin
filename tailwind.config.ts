@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["DM Sans", "system-ui", "sans-serif"],
-        serif: ["DM Serif Display", "Georgia", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,14 +51,21 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sand: {
-          DEFAULT: "hsl(var(--sand))",
-          dark: "hsl(var(--sand-dark))",
+        grass: {
+          DEFAULT: "hsl(var(--grass))",
+          light: "hsl(var(--grass-light))",
+          dark: "hsl(var(--grass-dark))",
         },
+        lime: {
+          DEFAULT: "hsl(var(--lime))",
+          soft: "hsl(var(--lime-soft))",
+        },
+        forest: "hsl(var(--forest))",
+        mint: "hsl(var(--mint))",
         petrol: {
-          DEFAULT: "hsl(var(--petrol))",
-          light: "hsl(var(--petrol-light))",
-          dark: "hsl(var(--petrol-dark))",
+          DEFAULT: "hsl(var(--grass))",
+          light: "hsl(var(--grass-light))",
+          dark: "hsl(var(--grass-dark))",
         },
         whatsapp: {
           DEFAULT: "hsl(var(--whatsapp))",

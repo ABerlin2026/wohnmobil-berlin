@@ -33,7 +33,7 @@ const Navigation = () => {
       )}
     >
       <div className="container-narrow flex items-center justify-between h-16 px-4">
-        <a href="#" className={cn("font-serif text-lg", scrolled ? "text-foreground" : "text-primary-foreground")}>
+        <a href="#" className={cn("font-display text-lg font-bold", scrolled ? "text-foreground" : "text-primary-foreground")}>
           Camper Berlin Brandenburg
         </a>
 
