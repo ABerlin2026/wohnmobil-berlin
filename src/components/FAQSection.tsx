@@ -90,23 +90,26 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="section-padding bg-background">
+    <section id="faq" className="section-padding bg-card">
       <div className="container-narrow max-w-3xl">
-        <h2 className="text-3xl md:text-4xl font-serif text-center mb-4">
-          Häufige Fragen zum Wohnmobil mieten in Berlin
-        </h2>
-        <p className="text-center text-muted-foreground mb-12">
-          Hier findest du Antworten auf die wichtigsten Fragen rund um unsere Wohnmobilvermietung in Berlin Brandenburg.
-        </p>
+        <div className="text-center mb-16">
+          <span className="text-xs font-bold uppercase tracking-widest text-amber">FAQ</span>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 mb-4">
+            Häufige Fragen zum Wohnmobil mieten in Berlin
+          </h2>
+          <p className="text-muted-foreground">
+            Antworten auf die wichtigsten Fragen rund um unsere Wohnmobilvermietung.
+          </p>
+        </div>
 
         <Accordion type="single" collapsible className="space-y-3">
           {faqs.map((faq, i) => (
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className="bg-card rounded-lg border border-border px-6"
+              className="bg-popover rounded-2xl border border-border/50 px-6 hover:shadow-sm transition-shadow"
             >
-              <AccordionTrigger className="text-left text-sm font-medium py-5 hover:no-underline">
+              <AccordionTrigger className="text-left text-sm font-semibold py-5 hover:no-underline font-display">
                 {faq.q}
               </AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5">
