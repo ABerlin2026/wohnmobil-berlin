@@ -17,25 +17,20 @@ const TrustSection = () => {
     <section id="vorteile" className="section-padding bg-background">
       <div className="container-narrow">
         <div className="text-center mb-16">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber">Auf einen Blick</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 mb-4">
-            Warum unseren Camper in Berlin mieten?
+          <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Auf einen Blick</p>
+          <h2 className="text-3xl md:text-5xl font-display font-bold">
+            Warum unseren Camper mieten?
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Transparent, fair und ohne Überraschungen – alles für deinen Roadtrip.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/30 rounded-xl overflow-hidden">
           {advantages.map((a) => (
             <div
               key={a.title}
-              className="group relative bg-popover rounded-2xl p-6 border border-border/50 hover:border-amber/30 hover:shadow-lg hover:shadow-amber/5 transition-all duration-300"
+              className="bg-background p-8 hover:bg-surface-1 transition-colors duration-300 group"
             >
-              <div className="h-11 w-11 gradient-amber rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <a.icon className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <h3 className="font-display font-semibold text-base mb-1.5">{a.title}</h3>
+              <a.icon className="h-6 w-6 text-primary mb-5 group-hover:text-loxone-light transition-colors" />
+              <h3 className="font-display font-semibold text-sm mb-2 text-foreground">{a.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{a.text}</p>
             </div>
           ))}
