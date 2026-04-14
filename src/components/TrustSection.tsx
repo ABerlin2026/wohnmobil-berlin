@@ -14,7 +14,7 @@ const advantages = [
 
 const TrustSection = () => {
   return (
-    <section className="section-padding bg-background">
+    <section id="vorteile" className="section-padding bg-background">
       <div className="container-narrow">
         <h2 className="text-3xl md:text-4xl font-serif text-center mb-4">
           Warum unseren Camper in Berlin mieten?
