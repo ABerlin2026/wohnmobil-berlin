@@ -19,7 +19,7 @@ const HeroSection = () => {
           width={1920}
           height={1080}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-petrol-dark/85 via-petrol-dark/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-grass-dark/90 via-grass-dark/65 to-transparent" />
       </div>
 
       <div className="relative z-10 container-narrow w-full section-padding">
