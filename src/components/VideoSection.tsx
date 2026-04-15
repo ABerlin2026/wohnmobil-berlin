@@ -39,9 +39,14 @@ const VideoSection = () => {
           ))}
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mt-8">
-          Die Videos erhältst du vor deiner Reise.
-        </p>
+        <div className="mt-10 text-center bg-primary/10 border border-primary/20 rounded-xl px-6 py-5 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg font-display font-bold text-foreground">
+            🎬 Die Videos erhältst du nach deiner Buchung – vor Reiseantritt.
+          </p>
+          <p className="text-sm text-muted-foreground mt-1">
+            So kannst du dich in Ruhe vorbereiten und alles Wichtige vorab lernen.
+          </p>
+        </div>
       </div>
     </section>
   );
