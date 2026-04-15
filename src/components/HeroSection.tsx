@@ -24,11 +24,12 @@ const HeroSection = () => {
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground leading-[1.05]">
-            Wohnmobil mieten in Berlin Brandenburg
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Dein Camper für 4 Personen – Dein Camper für 4 Personen – direkt aus Berlin losfahren und die Freiheit auf vier Rädern erleben. und die Freiheit auf vier Rädern erleben.
+           <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground leading-[1.05]">
+28:             Wohnmobil mieten in Berlin &amp; Brandenburg
+29:           </h1>
+30:           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+31:             Dein Camper für 4 Personen – direkt aus Berlin losfahren und die Freiheit auf vier Rädern erleben. Vollkasko, 150&nbsp;Freikilometer pro Tag und Haustiere willkommen.
+32:           </p>
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
