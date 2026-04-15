@@ -28,6 +28,7 @@ const Navigation = () => {
 
   return (
     <nav
+      aria-label="Hauptnavigation"
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled
@@ -36,7 +37,7 @@ const Navigation = () => {
       )}
     >
       <div className="container-narrow flex items-center justify-between h-16 px-5">
-        <a href="#" className="font-display text-base font-bold text-foreground tracking-tight">
+        <a href="/" className="font-display text-base font-bold text-foreground tracking-tight" aria-label="Camper Berlin Brandenburg – Startseite">
           CAMPER BERLIN
         </a>
 
@@ -60,7 +61,7 @@ const Navigation = () => {
           </Button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)} aria-label="Menü öffnen" aria-expanded={open}>
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
