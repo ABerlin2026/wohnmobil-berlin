@@ -72,7 +72,7 @@ const PricingSection = () => {
             <div className="text-sm space-y-1.5 text-muted-foreground">
               <p><span className="text-foreground font-medium">Kaution:</span> 1.500 € – per Überweisung oder bar nach Absprache.</p>
               <p><span className="text-foreground font-medium">Reinigung:</span> Bei sauberer Rückgabe keine Kosten. Sonst 200 €.</p>
-              <p><span className="text-foreground font-medium">Extras:</span> Gasgrill (40 €) · E-Scooter (75 €)</p>
+              <p><span className="text-foreground font-medium">Extras:</span> Gasgrill (40 €) · E-Scooter (75 €) · Bettwäsche (20 € pro Person)</p>
             </div>
           </div>
         </div>

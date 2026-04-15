@@ -81,7 +81,7 @@ const categories = [
       "Solarzellen für autarke Energieversorgung",
       "Versorgerbatterie",
       "Warmwassertank",
-      "Keine Kindersicherung / keine ISOFIX-Halterung vorhanden",
+      "Keine ISOFIX-Halterung vorhanden",
       "Feuerlöscher & Feuerlöschdecke",
       "Rauchmelder & Kohlenmonoxid-Detektor",
     ],
