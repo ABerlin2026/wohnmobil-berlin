@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ChevronDown } from "lucide-react";
-import camperVideo from "@/assets/camper-hero-video.mp4.asset.json";
+import heroCamper from "@/assets/hero-camper.jpg";
+import camperVideo from "@/assets/camper-hero-video-optimized.mp4";
 
 const WHATSAPP_URL = "https://wa.me/491234567890?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F";
 
@@ -17,8 +18,10 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover"
-          src={camperVideo.url}
+          preload="auto"
+          poster={heroCamper}
+          className="h-full w-full object-cover"
+          src={camperVideo}
         />
         <div className="absolute inset-0 bg-black/65" />
       </div>
