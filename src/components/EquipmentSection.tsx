@@ -1,4 +1,4 @@
-import { BedDouble, CookingPot, Bath, Monitor, Car, Tent, ShieldCheck } from "lucide-react";
+import { BedDouble, CookingPot, Bath, Monitor, Car, Tent, ShieldCheck, Wind, Thermometer } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +14,7 @@ const categories = [
       "Geräumige Schränke für Gepäck",
       "Adapter für externe Stromversorgung",
       "Zentralverriegelung",
+      "Fahrer- und Beifahrersitz drehbar – besserer Zugang zum Esstisch",
     ],
   },
   {
@@ -21,8 +22,7 @@ const categories = [
     title: "Küche",
     items: [
       "Gasherd mit mehreren Flammen",
-      "Kühlschrank mit Eisfach",
-      "Separater Gefrierschrank",
+      "Kühlschrank mit integriertem Eisfach",
       "Kaffeemaschine – morgens frischen Kaffee genießen",
     ],
   },
@@ -41,12 +41,24 @@ const categories = [
     ],
   },
   {
+    icon: Thermometer,
+    title: "Klima & Belüftung",
+    items: [
+      "Klimaanlage im Fahrerbereich (serienmäßig)",
+      "Zusätzliche Klimaanlage im Wohn- und Schlafbereich",
+      "Klimaanlage im Wohnbereich auch als Heizung nutzbar",
+      "Gasheizung für kalte Tage",
+      "Ventilator (MaxxFan) – bläst Luft hinein und hinaus",
+      "Sorgt für Luftzirkulation, Temperaturregulierung und Frischluftzufuhr auch ohne Klimaanlage",
+      "Autarkes Campen ohne Strom möglich",
+    ],
+  },
+  {
     icon: Car,
     title: "Fahrkomfort",
     items: [
       "Rückfahrkamera für sicheres Rangieren",
       "Tempomat für entspannte Langstrecken",
-      "Klimaanlage",
       "Servolenkung",
       "Elektrische Fensterheber",
     ],
@@ -57,9 +69,8 @@ const categories = [
     items: [
       "Vorzelt – zusätzlicher Wohnraum bei jedem Wetter",
       "Markise mit LED-Beleuchtung",
-      "Klappbares Sonnendach",
       "Auffahrkeile & Kabeltrommel",
-      "Starkstromanschluss für Landstrom",
+      "Stromanschluss für Landanschluss",
       "Wasserkanister",
     ],
   },
@@ -70,7 +81,7 @@ const categories = [
       "Solarzellen für autarke Energieversorgung",
       "Versorgerbatterie",
       "Warmwassertank",
-      "Verankerungspunkte für Kindersitze",
+      "Keine Kindersicherung / keine ISOFIX-Halterung vorhanden",
       "Feuerlöscher & Feuerlöschdecke",
       "Rauchmelder & Kohlenmonoxid-Detektor",
     ],
