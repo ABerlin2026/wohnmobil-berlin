@@ -73,6 +73,10 @@
   h1, h2, h3, h4 {
     @apply font-display tracking-tight;
   }
+
+  p, li, span, a, label, input, textarea, select, button {
+    font-size: inherit;
+  }
 }
 
 @layer utilities {
