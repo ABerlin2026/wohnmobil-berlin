@@ -26,7 +26,8 @@ const BLOCKED_COUNTRIES = [
   "Albanien", "Rumänien", "Bulgarien", "Belarus", "Ukraine", "Moldau",
 ];
 
-const ALL_COUNTRIES = [...ALLOWED_COUNTRIES, ...BLOCKED_COUNTRIES].sort((a, b) => a.localeCompare(b, "de"));
+const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), ...BLOCKED_COUNTRIES].sort((a, b) => a.localeCompare(b, "de"));
+const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -41,6 +42,10 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!startDate || !endDate) {
+      toast({ title: "Pflichtfeld fehlt", description: "Bitte wähle Start- und Enddatum aus.", variant: "destructive" });
+      return;
+    }
     if (isCountryBlocked) {
       toast({ title: "Land nicht verfügbar", description: "Leider deckt unsere Versicherung dieses Land nicht ab.", variant: "destructive" });
       return;
@@ -112,13 +117,13 @@ const ContactSection = () => {
             <form onSubmit={handleSubmit} className="space-y-3">
               <Input placeholder="Name *" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder="E-Mail *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <Input type="tel" placeholder="Telefonnummer" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <Input type="tel" placeholder="Telefonnummer *" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <div className="grid grid-cols-2 gap-3">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !startDate && "text-muted-foreground")}>
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum"}
+                      {startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum *"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -129,7 +134,7 @@ const ContactSection = () => {
                   <PopoverTrigger asChild>
                     <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !endDate && "text-muted-foreground")}>
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum"}
+                      {endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum *"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -164,7 +169,7 @@ const ContactSection = () => {
               </div>
 
               {/* Geschätzte Kilometer */}
-              <Input type="number" placeholder="Geschätzte Kilometer" value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+              <Input type="number" placeholder="Geschätzte Kilometer *" required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
 
               <div className="grid grid-cols-2 gap-3">
                 <Input placeholder="Personenanzahl" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
