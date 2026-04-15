@@ -6,26 +6,50 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { MessageCircle, Send, Zap, Clock, CalendarIcon } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 const WHATSAPP_URL = "https://wa.me/491234567890?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F";
 
+const ALLOWED_COUNTRIES = [
+  "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
+  "Polen", "Tschechien", "Österreich", "Schweiz", "Ungarn",
+  "Slowenien", "Kroatien", "Slowakei",
+];
+
+const BLOCKED_COUNTRIES = [
+  "Niederlande", "Belgien", "Luxemburg", "Frankreich", "Italien",
+  "Litauen", "Lettland", "Estland", "Vereinigtes Königreich", "Irland",
+  "Serbien", "Bosnien und Herzegowina", "Montenegro", "Nordmazedonien",
+  "Albanien", "Rumänien", "Bulgarien", "Belarus", "Ukraine", "Moldau",
+];
+
+const ALL_COUNTRIES = [...ALLOWED_COUNTRIES, ...BLOCKED_COUNTRIES].sort((a, b) => a.localeCompare(b, "de"));
+
 const ContactSection = () => {
   const { toast } = useToast();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+  const [selectedCountry, setSelectedCountry] = useState("");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", persons: "", pet: "nein", message: "",
+    name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
+
+  const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isCountryBlocked) {
+      toast({ title: "Land nicht verfügbar", description: "Leider deckt unsere Versicherung dieses Land nicht ab.", variant: "destructive" });
+      return;
+    }
     toast({ title: "Anfrage gesendet!", description: "Wir melden uns schnellstmöglich bei dir." });
-    setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "" });
+    setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setStartDate(undefined);
     setEndDate(undefined);
+    setSelectedCountry("");
   };
 
   return (
@@ -113,6 +137,35 @@ const ContactSection = () => {
                   </PopoverContent>
                 </Popover>
               </div>
+
+              {/* Reiseziel & Land */}
+              <Input placeholder="Reiseziel (z.B. Stadt oder Region)" value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <div>
+                <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                  <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
+                    <SelectValue placeholder="Land auswählen" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ALL_COUNTRIES.map((country) => (
+                      <SelectItem key={country} value={country}>
+                        {country}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {isCountryBlocked && (
+                  <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                    <p className="text-xs text-destructive">
+                      Leider können wir das Wohnmobil für dieses Land nicht vermieten, da unsere Versicherung dieses Reiseziel nicht abdeckt.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Geschätzte Kilometer */}
+              <Input type="number" placeholder="Geschätzte Kilometer" value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+
               <div className="grid grid-cols-2 gap-3">
                 <Input placeholder="Personenanzahl" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
                 <select
@@ -125,7 +178,7 @@ const ContactSection = () => {
                 </select>
               </div>
               <Textarea placeholder="Nachricht (optional)" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg" />
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5">
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked}>
                 Unverbindlich anfragen
               </Button>
             </form>
