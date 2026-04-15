@@ -21,6 +21,7 @@ const TrustSection = () => {
           <h2 className="text-3xl md:text-5xl font-display font-bold">
             Warum unseren Camper mieten?
           </h2>
+          <p className="text-muted-foreground mt-4">Mindestmietdauer: 5 Tage · Preis pro Tag</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/30 rounded-xl overflow-hidden">

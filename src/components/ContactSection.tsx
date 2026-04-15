@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format } from "date-fns";
+import { format, differenceInCalendarDays } from "date-fns";
 import { de } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +29,8 @@ const BLOCKED_COUNTRIES = [
 const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), ...BLOCKED_COUNTRIES].sort((a, b) => a.localeCompare(b, "de"));
 const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
+const MIN_RENTAL_DAYS = 5;
+
 const ContactSection = () => {
   const { toast } = useToast();
   const [startDate, setStartDate] = useState<Date>();
@@ -42,10 +44,17 @@ const ContactSection = () => {
 
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
 
+  const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) : null;
+  const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
       toast({ title: "Pflichtfeld fehlt", description: "Bitte wähle Start- und Enddatum aus.", variant: "destructive" });
+      return;
+    }
+    if (isTooShort) {
+      toast({ title: "Mindestmietdauer", description: "Die Mindestmietdauer beträgt 5 Tage.", variant: "destructive" });
       return;
     }
     if (isCountryBlocked) {
@@ -96,6 +105,13 @@ const ContactSection = () => {
               „Hallo, ich interessiere mich für den Camper Berlin Brandenburg. Ist das Wohnmobil im gewünschten Zeitraum verfügbar?"
             </div>
 
+            {/* Mietzeiten-Hinweis */}
+            <div className="bg-surface-2 rounded-lg p-4 text-sm text-muted-foreground mb-6 border border-border/10">
+              <p className="font-medium text-foreground mb-1">📅 Mietzeiten</p>
+              <p>Übergabe erfolgt zwischen morgens und abends. Die genaue Uhrzeit wird individuell vereinbart.</p>
+              <p className="mt-1">Mindestmietdauer: 5 Tage</p>
+            </div>
+
             <Button variant="whatsapp" size="lg" className="mt-auto py-5" asChild>
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" />
@@ -120,29 +136,39 @@ const ContactSection = () => {
               <Input placeholder="Name *" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder="E-Mail *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="tel" placeholder="Telefonnummer *" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <div className="grid grid-cols-2 gap-3">
-                <Popover open={startOpen} onOpenChange={setStartOpen}>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !startDate && "text-muted-foreground")}>
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum *"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" />
-                  </PopoverContent>
-                </Popover>
-                <Popover open={endOpen} onOpenChange={setEndOpen}>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !endDate && "text-muted-foreground")}>
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum *"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" />
-                  </PopoverContent>
-                </Popover>
+              <div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Popover open={startOpen} onOpenChange={setStartOpen}>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !startDate && "text-muted-foreground")}>
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum *"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" />
+                    </PopoverContent>
+                  </Popover>
+                  <Popover open={endOpen} onOpenChange={setEndOpen}>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !endDate && "text-muted-foreground")}>
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum *"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                {isTooShort && (
+                  <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                    <p className="text-xs text-destructive">
+                      Die Mindestmietdauer beträgt 5 Tage.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Reiseziel & Land */}
@@ -185,7 +211,7 @@ const ContactSection = () => {
                 </select>
               </div>
               <Textarea placeholder="Nachricht (optional)" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg" />
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked}>
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort}>
                 Unverbindlich anfragen
               </Button>
             </form>
