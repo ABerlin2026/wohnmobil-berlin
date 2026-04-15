@@ -69,7 +69,7 @@ const categories = [
     items: [
       "Solarzellen für autarke Energieversorgung",
       "Versorgerbatterie",
-      "Beheizbarer Wasser- und Abwassertank",
+      "Warmwassertank",
       "Verankerungspunkte für Kindersitze",
       "Feuerlöscher & Feuerlöschdecke",
       "Rauchmelder & Kohlenmonoxid-Detektor",
