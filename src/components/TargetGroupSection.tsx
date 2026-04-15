@@ -3,7 +3,7 @@ import { Heart, Users, MapPin, Dog, Compass, Globe } from "lucide-react";
 const groups = [
   { icon: Heart, title: "Für Paare", text: "Zu zweit die schönsten Ecken entdecken – romantische Abende unter der Markise inklusive." },
   { icon: Users, title: "Für kleine Familien", text: "4 Schlafplätze, Kindersitz-Verankerungen und genug Stauraum." },
-  { icon: MapPin, title: "Für Roadtrips ab Berlin", text: "Direkt aus Berlin Buchholz – Ostsee, Sächsische Schweiz oder Brandenburg." },
+  { icon: MapPin, title: "Für Roadtrips ab Berlin", text: "Direkt aus Berlin – Ostsee, Sächsische Schweiz oder Brandenburg." },
   { icon: Dog, title: "Für Reisen mit Hund", text: "Dein Vierbeiner ist willkommen – maximale Flexibilität bei Stellplätzen." },
   { icon: Compass, title: "Für Einsteiger", text: "Persönliche Einweisung und Erklärvideos – ohne Vorkenntnisse starten." },
   { icon: Globe, title: "Für Reisen ins Ausland", text: "Auslandsfahrten erlaubt – Europa in deinem Tempo." },

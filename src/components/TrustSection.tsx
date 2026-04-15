@@ -9,7 +9,7 @@ const advantages = [
   { icon: Tent, title: "Vorzelt inklusive", text: "Extra Wohnraum bei jedem Wetter." },
   { icon: Lightbulb, title: "Markise mit LED", text: "Gemütliche Abende mit Stimmungslicht." },
   { icon: Usb, title: "USB am Schlafplatz", text: "Smartphones direkt am Bett laden." },
-  { icon: MapPin, title: "Abholung Berlin", text: "Start in 13127 Berlin Buchholz." },
+  { icon: MapPin, title: "Abholung Berlin", text: "Start in Berlin." },
 ];
 
 const TrustSection = () => {
