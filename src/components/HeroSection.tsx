@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ChevronDown } from "lucide-react";
-import heroCamper from "@/assets/hero-camper.jpg";
+import camperVideo from "@/assets/camper-hero-video.mp4.asset.json";
 
 const WHATSAPP_URL = "https://wa.me/491234567890?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F";
 
@@ -12,15 +12,15 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
-        <img
-          src={heroCamper}
-          alt="Wohnmobil mieten Berlin Brandenburg – Camper am See bei Sonnenuntergang"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover"
-          width={1920}
-          height={1080}
+          src={camperVideo.url}
         />
         <div className="absolute inset-0 bg-black/65" />
-      </div>
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
