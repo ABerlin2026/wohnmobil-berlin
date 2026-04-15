@@ -112,10 +112,10 @@ const ContactSection = () => {
               <p className="mt-1">Mindestmietdauer: 5 Tage</p>
             </div>
 
-            <Button variant="whatsapp" size="lg" className="mt-auto py-5" asChild>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Jetzt per WhatsApp anfragen
+            <Button variant="whatsapp" size="lg" className="mt-auto py-5 text-sm" asChild>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-sm">
+                <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
+                <span className="truncate">Jetzt per WhatsApp anfragen</span>
               </a>
             </Button>
           </div>
@@ -140,9 +140,9 @@ const ContactSection = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <Popover open={startOpen} onOpenChange={setStartOpen}>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !startDate && "text-muted-foreground")}>
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum *"}
+                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !startDate && "text-muted-foreground")}>
+                        <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                        <span className="truncate">{startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum *"}</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -151,9 +151,9 @@ const ContactSection = () => {
                   </Popover>
                   <Popover open={endOpen} onOpenChange={setEndOpen}>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !endDate && "text-muted-foreground")}>
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum *"}
+                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !endDate && "text-muted-foreground")}>
+                        <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                        <span className="truncate">{endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum *"}</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -202,7 +202,7 @@ const ContactSection = () => {
               <div className="grid grid-cols-2 gap-3">
                 <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder="Personenanzahl" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
                 <select
-                  className="flex h-11 w-full rounded-lg border border-border/20 bg-surface-2 px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex h-11 w-full rounded-lg border border-border/20 bg-surface-2 px-3 py-2 text-xs sm:text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   value={form.pet}
                   onChange={(e) => setForm({ ...form, pet: e.target.value })}
                 >
