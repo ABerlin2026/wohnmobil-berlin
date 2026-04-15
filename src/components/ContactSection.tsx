@@ -135,7 +135,7 @@ const ContactSection = () => {
             <form onSubmit={handleSubmit} className="space-y-3">
               <Input placeholder="Name *" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder="E-Mail *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <Input type="tel" placeholder="Telefonnummer *" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <Input type="tel" inputMode="tel" placeholder="Telefonnummer *" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <div>
                 <div className="grid grid-cols-2 gap-3">
                   <Popover open={startOpen} onOpenChange={setStartOpen}>
