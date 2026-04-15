@@ -6,7 +6,7 @@ const PricingSection = () => {
     document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const features = ["150 km pro Tag inklusive", "Vollkasko inklusive", "Mindestmietdauer 5 Tage", "Weitere km: 0,35 €/km"];
+  const features = ["Preis pro Tag", "150 km pro Tag inklusive", "Vollkasko inklusive", "Mindestmietdauer: 5 Tage", "Weitere km: 0,35 €/km"];
 
   return (
     <section id="preise" className="section-padding bg-surface-1">
