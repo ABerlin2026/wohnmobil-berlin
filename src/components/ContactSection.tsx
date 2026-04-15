@@ -197,7 +197,7 @@ const ContactSection = () => {
               </div>
 
               {/* Geschätzte Kilometer */}
-              <Input type="number" placeholder="Geschätzte Kilometer *" required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+              <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder="Geschätzte Kilometer *" required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
 
               <div className="grid grid-cols-2 gap-3">
                 <Input placeholder="Personenanzahl" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
