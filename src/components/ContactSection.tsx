@@ -89,7 +89,30 @@ const ContactSection = () => {
               <Input placeholder="Name *" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder="E-Mail *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="tel" placeholder="Telefonnummer" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <Input placeholder="Reisezeitraum (z. B. 15.07. – 25.07.)" value={form.period} onChange={(e) => setForm({ ...form, period: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <div className="grid grid-cols-2 gap-3">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !startDate && "text-muted-foreground")}>
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {startDate ? format(startDate, "dd.MM.yyyy", { locale: de }) : "Startdatum"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar mode="single" selected={startDate} onSelect={setStartDate} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" />
+                  </PopoverContent>
+                </Popover>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal", !endDate && "text-muted-foreground")}>
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {endDate ? format(endDate, "dd.MM.yyyy", { locale: de }) : "Enddatum"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar mode="single" selected={endDate} onSelect={setEndDate} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" />
+                  </PopoverContent>
+                </Popover>
+              </div>
               <div className="grid grid-cols-2 gap-3">
                 <Input placeholder="Personen" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
                 <select
