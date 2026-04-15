@@ -4,6 +4,7 @@ import TrustSection from "@/components/TrustSection";
 import PricingSection from "@/components/PricingSection";
 import TargetGroupSection from "@/components/TargetGroupSection";
 import EquipmentSection from "@/components/EquipmentSection";
+import GallerySection from "@/components/GallerySection";
 import BeginnerSection from "@/components/BeginnerSection";
 import VideoSection from "@/components/VideoSection";
 import FAQSection from "@/components/FAQSection";
