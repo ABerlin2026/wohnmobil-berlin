@@ -219,7 +219,7 @@ export const de = {
     directContactSub: "Wähle deinen bevorzugten Weg",
     directSimple: "Direkt und unkompliziert",
     fastResponse: "Schnelle Rückmeldung",
-    sampleMessage: "„Hallo, ich interessiere mich für den Camper Berlin Brandenburg. Ist das Wohnmobil im gewünschten Zeitraum verfügbar?"",
+    sampleMessage: "\u201EHallo, ich interessiere mich f\u00FCr den Camper Berlin Brandenburg. Ist das Wohnmobil im gew\u00FCnschten Zeitraum verf\u00FCgbar?\u201C",
     rentalTimes: "📅 Mietzeiten",
     rentalTimesText: "Übergabe erfolgt zwischen morgens und abends. Die genaue Uhrzeit wird individuell vereinbart.",
     minRental: "Mindestmietdauer: 5 Tage",
