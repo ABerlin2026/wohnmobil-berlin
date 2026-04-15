@@ -35,7 +35,7 @@ const ContactSection = () => {
   const { toast } = useToast();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("Deutschland");
   const [form, setForm] = useState({
     name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
