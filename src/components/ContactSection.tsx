@@ -7,11 +7,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle } from "lucide-react";
+import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-const WHATSAPP_URL = "https://wa.me/491234567890?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F";
+const PHONE_NUMBER = "491234567890";
+const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F`;
+const TELEGRAM_URL = `https://t.me/+${PHONE_NUMBER}`;
+const PHONE_URL = `tel:+${PHONE_NUMBER}`;
 
 const ALLOWED_COUNTRIES = [
   "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
@@ -80,15 +83,15 @@ const ContactSection = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto w-full">
-          {/* WhatsApp */}
+          {/* Kontaktmöglichkeiten */}
           <div className="bg-surface-1 rounded-xl p-5 sm:p-8 border border-border/20 flex flex-col min-w-0">
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-10 w-10 bg-whatsapp/10 rounded-lg flex items-center justify-center">
-                <MessageCircle className="h-5 w-5 text-whatsapp" />
+              <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                <MessageCircle className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-sm">Per WhatsApp</h3>
-                <p className="text-xs text-muted-foreground">Schnellster Weg</p>
+                <h3 className="font-display font-bold text-sm">Direkt kontaktieren</h3>
+                <p className="text-xs text-muted-foreground">Wähle deinen bevorzugten Weg</p>
               </div>
             </div>
 
@@ -112,12 +115,26 @@ const ContactSection = () => {
               <p className="mt-1">Mindestmietdauer: 5 Tage</p>
             </div>
 
-            <Button variant="whatsapp" size="lg" className="mt-auto py-5 text-sm" asChild>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-sm">
-                <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
-                <span className="truncate">Jetzt per WhatsApp anfragen</span>
-              </a>
-            </Button>
+            <div className="mt-auto space-y-3">
+              <Button variant="whatsapp" size="lg" className="w-full py-5 text-sm" asChild>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-sm">
+                  <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
+                  <span className="truncate">WhatsApp</span>
+                </a>
+              </Button>
+              <Button variant="telegram" size="lg" className="w-full py-5 text-sm" asChild>
+                <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-sm">
+                  <Send className="mr-2 h-5 w-5 shrink-0" />
+                  <span className="truncate">Telegram</span>
+                </a>
+              </Button>
+              <Button variant="phone" size="lg" className="w-full py-5 text-sm" asChild>
+                <a href={PHONE_URL} className="text-sm">
+                  <Phone className="mr-2 h-5 w-5 shrink-0" />
+                  <span className="truncate">Anrufen</span>
+                </a>
+              </Button>
+            </div>
           </div>
 
           {/* Formular */}
