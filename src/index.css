@@ -47,6 +47,10 @@
     --text-muted: 0 0% 40%;
     --whatsapp: 0 0% 12%;
     --whatsapp-foreground: 0 0% 100%;
+    --telegram: 200 80% 50%;
+    --telegram-foreground: 0 0% 100%;
+    --phone: 0 0% 12%;
+    --phone-foreground: 0 0% 100%;
 
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 80%;

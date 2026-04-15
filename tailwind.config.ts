@@ -63,6 +63,14 @@ export default {
           DEFAULT: "hsl(var(--whatsapp))",
           foreground: "hsl(var(--whatsapp-foreground))",
         },
+        telegram: {
+          DEFAULT: "hsl(var(--telegram))",
+          foreground: "hsl(var(--telegram-foreground))",
+        },
+        phone: {
+          DEFAULT: "hsl(var(--phone))",
+          foreground: "hsl(var(--phone-foreground))",
+        },
         // Alias for existing component references
         petrol: {
           DEFAULT: "hsl(var(--loxone-green))",
