@@ -1,3 +1,4 @@
+import { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ChevronDown } from "lucide-react";
 import heroCamper from "@/assets/hero-camper.jpg";
@@ -6,23 +7,42 @@ import camperVideo from "@/assets/camper-hero-video-optimized.mp4";
 const WHATSAPP_URL = "https://wa.me/491234567890?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F";
 
 const HeroSection = () => {
+  const [showPhoto, setShowPhoto] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   const scrollToContact = () => {
     document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleVideoEnded = useCallback(() => {
+    setShowPhoto(true);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
+        {/* Photo layer – always mounted, fades in after video ends */}
+        <img
+          src={heroCamper}
+          alt="Wohnmobil mieten Berlin Brandenburg"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out"
+          style={{ opacity: showPhoto ? 1 : 0 }}
+        />
+
+        {/* Video layer – fades out when done */}
         <video
+          ref={videoRef}
           autoPlay
-          loop
           muted
           playsInline
           preload="auto"
           poster={heroCamper}
-          className="h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out"
+          style={{ opacity: showPhoto ? 0 : 1 }}
           src={camperVideo}
+          onEnded={handleVideoEnded}
         />
+
         <div className="absolute inset-0 bg-black/65" />
       </div>
 
