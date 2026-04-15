@@ -16,6 +16,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         hero: "bg-primary text-primary-foreground hover:bg-loxone-light text-base font-bold",
         whatsapp: "bg-whatsapp text-whatsapp-foreground hover:bg-whatsapp/85 text-base font-bold",
+        telegram: "bg-telegram text-telegram-foreground hover:bg-telegram/85 text-base font-bold",
+        phone: "bg-phone text-phone-foreground hover:bg-phone/85 text-base font-bold",
         "hero-outline": "border border-foreground/30 text-foreground hover:bg-foreground/5 hover:border-foreground/60 text-base font-bold",
       },
       size: {
