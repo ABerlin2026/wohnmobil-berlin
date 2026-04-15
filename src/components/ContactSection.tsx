@@ -72,7 +72,7 @@ const ContactSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto w-full">
           {/* WhatsApp */}
-          <div className="bg-surface-1 rounded-xl p-8 border border-border/20 flex flex-col">
+          <div className="bg-surface-1 rounded-xl p-5 sm:p-8 border border-border/20 flex flex-col min-w-0">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-10 w-10 bg-whatsapp/10 rounded-lg flex items-center justify-center">
                 <MessageCircle className="h-5 w-5 text-whatsapp" />
