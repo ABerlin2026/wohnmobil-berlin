@@ -2,18 +2,20 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
-const links = [
-  { label: "Vorteile", href: "#vorteile" },
-  { label: "Preise", href: "#preise" },
-  { label: "Ausstattung", href: "#ausstattung" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Kontakt", href: "#kontakt" },
-];
+import { useLanguage, type Language } from "@/i18n/LanguageContext";
 
 const Navigation = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const links = [
+    { label: t.nav.advantages, href: "#vorteile" },
+    { label: t.nav.pricing, href: "#preise" },
+    { label: t.nav.equipment, href: "#ausstattung" },
+    { label: t.nav.faq, href: "#faq" },
+    { label: t.nav.contact, href: "#kontakt" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -24,6 +26,10 @@ const Navigation = () => {
   const handleClick = (href: string) => {
     setOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const toggleLang = () => {
+    setLanguage(language === "de" ? "en" : "de");
   };
 
   return (
@@ -38,7 +44,7 @@ const Navigation = () => {
     >
       <div className="container-narrow flex items-center justify-between h-16 px-5">
         <a href="/" className="font-display text-base font-bold text-foreground tracking-tight" aria-label="Camper Berlin Brandenburg – Startseite">
-          CAMPER BERLIN
+          {t.nav.brand}
         </a>
 
         <div className="hidden md:flex items-center gap-1">
@@ -52,19 +58,33 @@ const Navigation = () => {
               {l.label}
             </a>
           ))}
+          <button
+            onClick={toggleLang}
+            className="ml-2 px-2.5 py-1.5 rounded-md text-xs font-bold uppercase text-muted-foreground hover:text-foreground hover:bg-surface-1 transition-colors border border-border/30"
+          >
+            {language === "de" ? "EN" : "DE"}
+          </button>
           <Button
             variant="default"
             size="sm"
             onClick={() => handleClick("#kontakt")}
-            className="ml-3"
+            className="ml-2"
           >
-            Anfragen
+            {t.nav.inquire}
           </Button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)} aria-label="Menü öffnen" aria-expanded={open}>
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleLang}
+            className="px-2.5 py-1.5 rounded-md text-xs font-bold uppercase text-muted-foreground hover:text-foreground border border-border/30"
+          >
+            {language === "de" ? "EN" : "DE"}
+          </button>
+          <button className="text-foreground" onClick={() => setOpen(!open)} aria-label={t.nav.openMenu} aria-expanded={open}>
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -80,7 +100,7 @@ const Navigation = () => {
             </a>
           ))}
           <Button variant="default" className="w-full mt-3" onClick={() => handleClick("#kontakt")}>
-            Jetzt anfragen
+            {t.nav.inquireNow}
           </Button>
         </div>
       )}
