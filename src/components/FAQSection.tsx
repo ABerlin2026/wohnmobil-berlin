@@ -40,7 +40,7 @@ const faqs = [
   },
   {
     q: "Wo erfolgt die Abholung?",
-    a: "a: "Die Abholung erfolgt in Berlin. Du startest deinen Roadtrip direkt aus Berlin.",",
+    a: "Die Abholung erfolgt in Berlin. Du startest deinen Roadtrip direkt aus Berlin.",
   },
   {
     q: "Darf ich mit dem Wohnmobil ins Ausland fahren?",
