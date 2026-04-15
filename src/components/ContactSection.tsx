@@ -70,7 +70,7 @@ const ContactSection = () => {
           <p className="text-muted-foreground">Unverbindlich – Antwort schnell und persönlich.</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto w-full">
           {/* WhatsApp */}
           <div className="bg-surface-1 rounded-xl p-8 border border-border/20 flex flex-col">
             <div className="flex items-center gap-3 mb-6">
