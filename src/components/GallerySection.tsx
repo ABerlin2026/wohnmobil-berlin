@@ -9,7 +9,7 @@ import kitchen from "@/assets/gallery/camper-kitchen.jpg";
 import kitchen2 from "@/assets/gallery/camper-kitchen-2.jpg";
 import dining from "@/assets/gallery/camper-dining.jpg";
 import bathroom1 from "@/assets/gallery/camper-bathroom-1.jpg";
-import bathroom2 from "@/assets/gallery/camper-bathroom-2.jpg";
+
 import bathroom3 from "@/assets/gallery/camper-bathroom-3.jpg";
 import storage from "@/assets/gallery/camper-storage.jpg";
 
@@ -21,7 +21,7 @@ const images = [
   { src: kitchen2, alt: "Küchenbereich mit Spüle und Leiter zum Hubbett", label: "Küchenzeile" },
   { src: dining, alt: "Gemütliche Sitzecke mit Tisch im Wohnmobil", label: "Sitzecke" },
   { src: bathroom1, alt: "Badezimmer mit Toilette und Waschbecken", label: "Bad" },
-  { src: bathroom2, alt: "Waschbecken mit Spiegel und Stauraum", label: "Waschtisch" },
+  
   { src: bathroom3, alt: "Toilette und Waschbecken im kompakten Bad", label: "WC-Bereich" },
   { src: storage, alt: "Großer Stauraum im Heck des Wohnmobils", label: "Stauraum" },
 ];

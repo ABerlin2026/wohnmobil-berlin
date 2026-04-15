@@ -28,7 +28,7 @@ const HeroSection = () => {
             Wohnmobil mieten in Berlin Brandenburg
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Dein Camper für 4 Personen – direkt aus Berlin Buchholz losfahren und die Freiheit auf vier Rädern erleben.
+            Dein Camper für 4 Personen – Dein Camper für 4 Personen – direkt aus Berlin losfahren und die Freiheit auf vier Rädern erleben. und die Freiheit auf vier Rädern erleben.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">

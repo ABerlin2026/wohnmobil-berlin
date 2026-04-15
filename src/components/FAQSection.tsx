@@ -40,7 +40,7 @@ const faqs = [
   },
   {
     q: "Wo erfolgt die Abholung?",
-    a: "Die Abholung erfolgt in 13127 Berlin Buchholz. Du startest deinen Roadtrip direkt aus dem Berliner Norden.",
+    a: "a: "Die Abholung erfolgt in Berlin. Du startest deinen Roadtrip direkt aus Berlin.",",
   },
   {
     q: "Darf ich mit dem Wohnmobil ins Ausland fahren?",
