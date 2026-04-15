@@ -52,9 +52,7 @@ const GallerySection = () => {
             <button
               key={index}
               onClick={() => openImage(index)}
-              className={`group relative overflow-hidden rounded-lg cursor-pointer ${
-                index < 2 ? "col-span-1 md:col-span-1 lg:col-span-2 aspect-[16/10]" : "aspect-square"
-              }`}
+              className="group relative overflow-hidden rounded-lg cursor-pointer aspect-square"
             >
               <img
                 src={image.src}
