@@ -60,8 +60,8 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="kontakt" className="section-padding bg-background">
-      <div className="container-narrow">
+    <section id="kontakt" className="section-padding bg-background overflow-x-hidden">
+      <div className="container-narrow w-full box-border">
         <div className="text-center mb-16">
           <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Kontakt</p>
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
