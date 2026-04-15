@@ -114,7 +114,7 @@ const ContactSection = () => {
                 </Popover>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <Input placeholder="Personen" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+                <Input placeholder="Personenanzahl" value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
                 <select
                   className="flex h-11 w-full rounded-lg border border-border/20 bg-surface-2 px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   value={form.pet}
