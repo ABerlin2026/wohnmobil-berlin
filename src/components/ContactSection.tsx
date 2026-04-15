@@ -105,7 +105,7 @@ const ContactSection = () => {
           </div>
 
           {/* Formular */}
-          <div className="bg-surface-1 rounded-xl p-8 border border-border/20">
+          <div className="bg-surface-1 rounded-xl p-5 sm:p-8 border border-border/20 min-w-0">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
                 <Send className="h-5 w-5 text-primary" />
