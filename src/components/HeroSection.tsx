@@ -24,9 +24,12 @@ const HeroSection = () => {
         {/* Photo layer – always mounted, fades in after video ends */}
         <img
           src={heroCamper}
-          alt="Wohnmobil mieten Berlin Brandenburg"
+          alt="Wohnmobil mieten Berlin Brandenburg – Camper Außenansicht"
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out"
           style={{ opacity: showPhoto ? 1 : 0 }}
+          width={1920}
+          height={1080}
+          fetchPriority="high"
         />
 
         {/* Video layer – fades out when done */}
@@ -35,12 +38,14 @@ const HeroSection = () => {
           autoPlay
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster={heroCamper}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out"
           style={{ opacity: showPhoto ? 0 : 1 }}
           src={camperVideo}
           onEnded={handleVideoEnded}
+          width={1920}
+          height={1080}
         />
 
         <div className="absolute inset-0 bg-black/65" />

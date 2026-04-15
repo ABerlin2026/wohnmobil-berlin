@@ -43,13 +43,14 @@ const Navigation = () => {
 
         <div className="hidden md:flex items-center gap-1">
           {links.map((l) => (
-            <button
+            <a
               key={l.href}
-              onClick={() => handleClick(l.href)}
+              href={l.href}
+              onClick={(e) => { e.preventDefault(); handleClick(l.href); }}
               className="text-sm font-medium px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
               {l.label}
-            </button>
+            </a>
           ))}
           <Button
             variant="default"
@@ -69,13 +70,14 @@ const Navigation = () => {
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 p-5 space-y-1">
           {links.map((l) => (
-            <button
+            <a
               key={l.href}
-              onClick={() => handleClick(l.href)}
+              href={l.href}
+              onClick={(e) => { e.preventDefault(); handleClick(l.href); }}
               className="block w-full text-left text-sm font-medium py-3 px-3 rounded-md text-muted-foreground hover:text-foreground transition-colors"
             >
               {l.label}
-            </button>
+            </a>
           ))}
           <Button variant="default" className="w-full mt-3" onClick={() => handleClick("#kontakt")}>
             Jetzt anfragen

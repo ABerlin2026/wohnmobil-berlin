@@ -115,6 +115,7 @@ const EquipmentSection = () => {
             >
               <cat.icon className="h-4 w-4" />
               <span className="hidden sm:inline">{cat.title}</span>
+              <span className="sr-only sm:hidden">{cat.title}</span>
             </button>
           ))}
         </div>
