@@ -23,7 +23,9 @@ const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({ title: "Anfrage gesendet!", description: "Wir melden uns schnellstmöglich bei dir." });
-    setForm({ name: "", email: "", phone: "", period: "", persons: "", pet: "nein", message: "" });
+    setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "" });
+    setStartDate(undefined);
+    setEndDate(undefined);
   };
 
   return (
