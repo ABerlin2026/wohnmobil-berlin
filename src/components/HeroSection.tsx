@@ -21,6 +21,7 @@ const HeroSection = () => {
           src={camperVideo.url}
         />
         <div className="absolute inset-0 bg-black/65" />
+      </div>
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
