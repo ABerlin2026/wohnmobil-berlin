@@ -39,7 +39,7 @@ const MIN_RENTAL_DAYS = 5;
 const ContactSection = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { isDateBooked, loading: calendarLoading } = useGoogleCalendarEvents();
+  const { isDateBooked, firstBookedDate, loading: calendarLoading } = useGoogleCalendarEvents();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
@@ -52,6 +52,7 @@ const ContactSection = () => {
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) : null;
   const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
+  const calendarDefaultMonth = firstBookedDate ?? new Date();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -163,7 +164,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date() || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive line-through" }} />
+                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 line-through" }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={setEndOpen}>
@@ -174,7 +175,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date()) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive line-through" }} />
+                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 line-through" }} />
                     </PopoverContent>
                   </Popover>
                 </div>
