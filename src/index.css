@@ -83,6 +83,13 @@
   }
 }
 
+/* Ensure booked calendar days stay visible even when disabled (past dates) */
+.rdp-day_disabled.rdp-day_booked {
+  opacity: 1 !important;
+  color: hsl(var(--destructive)) !important;
+  background-color: hsl(var(--destructive) / 0.2) !important;
+}
+
 @layer utilities {
   .section-padding {
     @apply py-20 md:py-28 px-4 sm:px-5 md:px-8;
