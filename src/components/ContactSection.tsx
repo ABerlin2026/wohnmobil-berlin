@@ -52,7 +52,7 @@ const ContactSection = () => {
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) : null;
   const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
-  const calendarDefaultMonth = firstBookedDate ?? new Date();
+  const calendarDefaultMonth = firstBookedDate && firstBookedDate >= new Date() ? firstBookedDate : new Date();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
