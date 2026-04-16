@@ -11,6 +11,7 @@ import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle, Phone } f
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useGoogleCalendarEvents } from "@/hooks/useGoogleCalendarEvents";
 
 const PHONE_NUMBER = "491234567890";
 const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F`;
@@ -38,6 +39,7 @@ const MIN_RENTAL_DAYS = 5;
 const ContactSection = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const { isDateBooked, loading: calendarLoading } = useGoogleCalendarEvents();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
@@ -161,7 +163,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" />
+                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date() || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive line-through" }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={setEndOpen}>
@@ -172,10 +174,16 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" />
+                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date()) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive line-through" }} />
                     </PopoverContent>
                   </Popover>
                 </div>
+                {calendarLoading && (
+                  <p className="text-xs text-muted-foreground mt-1">{t.contact.calendarLoading}</p>
+                )}
+                {!calendarLoading && (
+                  <p className="text-xs text-muted-foreground mt-1">{t.contact.dateBooked}</p>
+                )}
                 {isTooShort && (
                   <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
                     <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
