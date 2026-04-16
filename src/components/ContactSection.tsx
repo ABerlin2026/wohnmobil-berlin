@@ -39,6 +39,7 @@ const MIN_RENTAL_DAYS = 5;
 const ContactSection = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const { isDateBooked, loading: calendarLoading } = useGoogleCalendarEvents();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
