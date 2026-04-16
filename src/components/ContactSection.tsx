@@ -163,7 +163,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" />
+                      <Calendar mode="single" selected={startDate} onSelect={(date) => { setStartDate(date); setStartOpen(false); }} disabled={(date) => date < new Date() || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive line-through" }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={setEndOpen}>
@@ -174,7 +174,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" />
+                      <Calendar mode="single" selected={endDate} onSelect={(date) => { setEndDate(date); setEndOpen(false); }} disabled={(date) => date < (startDate || new Date()) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "!bg-destructive/20 !text-destructive line-through" }} />
                     </PopoverContent>
                   </Popover>
                 </div>
