@@ -115,6 +115,21 @@ const ContactSection = () => {
     [startDate],
   );
 
+  /**
+   * Checkout day rules: a day is blocked as checkout if any night between
+   * startDate (inclusive) and date (exclusive) is booked. The checkout day
+   * itself may equal the next booking's arrival day (guest leaves in the
+   * morning, next guest arrives later).
+   */
+  const isCheckoutBlocked = (date: Date, start: Date): boolean => {
+    const d = new Date(date); d.setHours(0, 0, 0, 0);
+    const s = new Date(start); s.setHours(0, 0, 0, 0);
+    for (let cur = new Date(s); cur < d; cur = addDays(cur, 1)) {
+      if (isDateBooked(cur)) return true;
+    }
+    return false;
+  };
+
   const endCalendarDefaultMonth = useMemo(() => {
     if (!startDate) return calendarDefaultMonth;
     // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
