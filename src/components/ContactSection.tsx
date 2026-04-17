@@ -271,36 +271,37 @@ const ContactSection = () => {
               {/* Buchungstyp */}
               <div className="bg-surface-2 rounded-lg p-3 border border-border/10 space-y-2">
                 <label className="text-xs font-medium text-foreground">{t.contact.bookingType}</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setBookingType("rental")}
-                    className={cn(
-                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
-                      bookingType === "rental"
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
-                    )}
-                  >
-                    {t.contact.bookingTypeRental}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBookingType("event")}
-                    className={cn(
-                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
-                      bookingType === "event"
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
-                    )}
-                  >
-                    {t.contact.bookingTypeEvent}
-                  </button>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {([
+                    { id: "rental", label: t.contact.bookingTypeRental },
+                    { id: "event", label: t.contact.bookingTypeEvent },
+                    { id: "holiday", label: t.contact.bookingTypeHoliday },
+                  ] as const).map(({ id, label }) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setBookingType(id)}
+                      className={cn(
+                        "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
+                        bookingType === id
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
                 {bookingType === "event" && (
                   <div className="bg-primary/5 rounded-md p-2 border border-primary/20">
                     <p className="text-xs font-medium text-primary">{t.contact.eventInfoTitle}</p>
                     <p className="text-xs text-muted-foreground">{t.contact.eventInfoText}</p>
+                  </div>
+                )}
+                {bookingType === "holiday" && (
+                  <div className="bg-primary/5 rounded-md p-2 border border-primary/20">
+                    <p className="text-xs font-medium text-primary">{t.contact.holidayInfoTitle}</p>
+                    <p className="text-xs text-muted-foreground">{t.contact.holidayInfoText}</p>
                   </div>
                 )}
               </div>
