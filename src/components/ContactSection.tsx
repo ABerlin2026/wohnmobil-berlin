@@ -353,8 +353,16 @@ const ContactSection = () => {
               </div>
 
               {/* Gesamtbetrag */}
-              {rentalDays !== null && rentalDays >= MIN_RENTAL_DAYS && (() => {
-                const rentalSum = rentalDays * PRICE_PER_DAY;
+              {rentalDays !== null && rentalDays >= MIN_RENTAL_DAYS && startDate && (() => {
+                // Sum nightly price per booked night (start inclusive, end exclusive)
+                let mainNights = 0;
+                let offNights = 0;
+                for (let i = 0; i < rentalDays; i++) {
+                  const d = addDays(startDate, i);
+                  if (priceForDate(d) === PRICE_MAIN_SEASON) mainNights++;
+                  else offNights++;
+                }
+                const rentalSum = mainNights * PRICE_MAIN_SEASON + offNights * PRICE_OFF_SEASON;
                 const gross = rentalSum + extrasTotal;
                 const net = gross / (1 + VAT_RATE);
                 const vat = gross - net;
@@ -362,10 +370,18 @@ const ContactSection = () => {
                 return (
                   <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
                     <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <span>{t.contact.summaryRental} ({rentalDays} {t.contact.summaryDays} × {PRICE_PER_DAY} €)</span>
-                      <span>{fmt(rentalSum)} €</span>
-                    </div>
+                    {mainNights > 0 && (
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryMainSeason} ({mainNights} {t.contact.summaryDays} × {PRICE_MAIN_SEASON} €)</span>
+                        <span>{fmt(mainNights * PRICE_MAIN_SEASON)} €</span>
+                      </div>
+                    )}
+                    {offNights > 0 && (
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryOffSeason} ({offNights} {t.contact.summaryDays} × {PRICE_OFF_SEASON} €)</span>
+                        <span>{fmt(offNights * PRICE_OFF_SEASON)} €</span>
+                      </div>
+                    )}
                     {extrasTotal > 0 && (
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <span>{t.contact.summaryExtras}</span>
