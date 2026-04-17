@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SeasonCalendar } from "@/components/SeasonCalendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
