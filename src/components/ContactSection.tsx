@@ -162,7 +162,13 @@ const ContactSection = () => {
       return;
     }
     if (isTooShort) {
-      toast({ title: t.contact.toastMinDays, description: t.contact.toastMinDaysDesc, variant: "destructive" });
+      toast({
+        title: t.contact.toastMinDays,
+        description: bookingType === "event"
+          ? `${t.contact.toastMinDays}: ${MIN_EVENT_DAYS} ${t.contact.summaryDays}.`
+          : t.contact.toastMinDaysDesc,
+        variant: "destructive",
+      });
       return;
     }
     if (isCountryBlocked) {
