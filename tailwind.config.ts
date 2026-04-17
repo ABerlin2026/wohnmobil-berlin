@@ -54,6 +54,11 @@ export default {
           light: "hsl(var(--loxone-green-light))",
           dark: "hsl(var(--loxone-green-dark))",
         },
+        brand: {
+          blue: "hsl(var(--brand-blue))",
+          green: "hsl(var(--brand-green))",
+          subtitle: "hsl(var(--brand-subtitle))",
+        },
         surface: {
           1: "hsl(var(--surface-1))",
           2: "hsl(var(--surface-2))",
