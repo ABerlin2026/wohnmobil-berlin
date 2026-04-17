@@ -9,6 +9,11 @@
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
 
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="de" href="https://camper-berlin-brandenburg.de/" />
+    <link rel="alternate" hreflang="en" href="https://camper-berlin-brandenburg.de/" />
+    <link rel="alternate" hreflang="x-default" href="https://camper-berlin-brandenburg.de/" />
+
     <!-- Preload critical assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,18 +23,29 @@
     <meta property="og:description" content="Camper für 4 Personen mieten in Berlin: Vollkasko, 150 km/Tag frei, Vorzelt, Markise mit LED. Haustiere willkommen. Jetzt unverbindlich anfragen!" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:url" content="https://camper-berlin-brandenburg.de/" />
     <meta property="og:site_name" content="Camper Berlin Brandenburg" />
+    <meta property="og:image" content="https://camper-berlin-brandenburg.de/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://camper-berlin-brandenburg.de/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:image:alt" content="Wohnmobil mieten Berlin Brandenburg – Camper Außenansicht" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Wohnmobil mieten Berlin Brandenburg | Ab 119 €/Tag" />
     <meta name="twitter:description" content="Camper für 4 Personen mieten in Berlin: Vollkasko, Vorzelt, Markise, Haustiere erlaubt. Jetzt anfragen!" />
+    <meta name="twitter:image" content="https://camper-berlin-brandenburg.de/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Wohnmobil mieten Berlin Brandenburg – Camper Außenansicht" />
 
     <!-- Additional SEO meta -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="geo.region" content="DE-BE" />
     <meta name="geo.placename" content="Berlin" />
+    <meta name="geo.position" content="52.5200;13.4050" />
+    <meta name="ICBM" content="52.5200, 13.4050" />
     <meta name="author" content="Camper Berlin Brandenburg" />
     <meta name="theme-color" content="#0d0d0d" />
 
@@ -37,11 +53,13 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "AutoRental",
       "@id": "https://camper-berlin-brandenburg.de/#business",
       "name": "Camper Berlin Brandenburg",
       "description": "Wohnmobilvermietung in Berlin Brandenburg – Camper für 4 Personen mit Vorzelt, Markise, Vollkasko und 150 Freikilometer pro Tag.",
       "url": "https://camper-berlin-brandenburg.de/",
+      "image": "https://camper-berlin-brandenburg.de/og-image.jpg",
+      "logo": "https://camper-berlin-brandenburg.de/favicon.png",
       "telephone": "+491234567890",
       "address": {
         "@type": "PostalAddress",
@@ -49,6 +67,19 @@
         "addressRegion": "Berlin",
         "addressCountry": "DE"
       },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 52.5200,
+        "longitude": 13.4050
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "08:00",
+          "closes": "20:00"
+        }
+      ],
       "priceRange": "119€ - 129€ / Tag",
       "areaServed": [
         { "@type": "City", "name": "Berlin" },
@@ -63,17 +94,57 @@
             "name": "Nebensaison (Oktober – April)",
             "price": "119",
             "priceCurrency": "EUR",
-            "unitText": "pro Tag"
+            "unitText": "pro Tag",
+            "availability": "https://schema.org/InStock"
           },
           {
             "@type": "Offer",
             "name": "Hauptsaison (Mai – September)",
             "price": "129",
             "priceCurrency": "EUR",
-            "unitText": "pro Tag"
+            "unitText": "pro Tag",
+            "availability": "https://schema.org/InStock"
           }
         ]
       }
+    }
+    </script>
+
+    <!-- Product / Vehicle Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "@id": "https://camper-berlin-brandenburg.de/#camper",
+      "name": "Wohnmobil Camper Berlin Brandenburg – 4 Personen",
+      "description": "Komfortables Wohnmobil für 4 Personen mit 4 Schlafplätzen, Küche, Bad, Klimaanlage, Vorzelt und Markise mit LED. Vollkasko und 150 Freikilometer pro Tag inklusive.",
+      "image": [
+        "https://camper-berlin-brandenburg.de/og-image.jpg"
+      ],
+      "brand": {
+        "@type": "Brand",
+        "name": "Camper Berlin Brandenburg"
+      },
+      "category": "Motorhome Rental",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "EUR",
+        "lowPrice": "119",
+        "highPrice": "129",
+        "offerCount": "2",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@id": "https://camper-berlin-brandenburg.de/#business"
+        }
+      },
+      "additionalProperty": [
+        { "@type": "PropertyValue", "name": "Schlafplätze", "value": "4" },
+        { "@type": "PropertyValue", "name": "Sitzplätze", "value": "4" },
+        { "@type": "PropertyValue", "name": "Führerschein", "value": "Klasse B" },
+        { "@type": "PropertyValue", "name": "Vollkasko", "value": "inklusive" },
+        { "@type": "PropertyValue", "name": "Freikilometer pro Tag", "value": "150" },
+        { "@type": "PropertyValue", "name": "Haustiere erlaubt", "value": "Ja" }
+      ]
     }
     </script>
 
@@ -120,7 +191,7 @@
           "name": "Darf ich mit dem Wohnmobil ins Ausland fahren?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja, Auslandsfahrten sind in ausgewählte Länder erlaubt. Abgedeckt sind: Deutschland, Dänemark, Schweden, Norwegen, Finnland, Polen, Tschechien, Österreich, Schweiz, Ungarn, Slowenien, Kroatien und Slowakei. Länder wie Niederlande, Belgien, Luxemburg, Frankreich, Italien, das Baltikum, Großbritannien, Irland, der Balkan, Rumänien, Bulgarien, Belarus, Ukraine und Moldau sind nicht abgedeckt."
+            "text": "Ja, Auslandsfahrten sind in ausgewählte Länder erlaubt. Abgedeckt sind: Deutschland, Niederlande, Dänemark, Schweden, Norwegen, Finnland, Polen, Tschechien, Österreich, Schweiz, Ungarn, Slowenien, Kroatien und Slowakei. Länder wie Belgien, Luxemburg, Frankreich, Italien, das Baltikum, Großbritannien, Irland, der Balkan, Rumänien, Bulgarien, Belarus, Ukraine und Moldau sind nicht abgedeckt."
           }
         },
         {
