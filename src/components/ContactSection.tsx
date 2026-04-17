@@ -138,7 +138,7 @@ const ContactSection = () => {
     if (!startDate) return calendarDefaultMonth;
     // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
     const daysToMonthEnd = differenceInCalendarDays(endOfMonth(startDate), startDate);
-    if (daysToMonthEnd < MIN_RENTAL_DAYS) {
+    if (daysToMonthEnd < MIN_RENTAL_DAYS - 1) {
       return new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
     }
     return startDate;
