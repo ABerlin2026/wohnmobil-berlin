@@ -5,14 +5,18 @@ import { useLanguage } from "@/i18n/LanguageContext";
 
 import exterior1 from "@/assets/gallery/camper-exterior-1.jpg";
 import exterior2 from "@/assets/gallery/camper-exterior-2.jpg";
+import awningTent from "@/assets/gallery/camper-awning-tent.jpg";
 import bedroom from "@/assets/gallery/camper-bedroom.jpg";
 import kitchen from "@/assets/gallery/camper-kitchen.jpg";
 import kitchen2 from "@/assets/gallery/camper-kitchen-2.jpg";
+import kitchen3 from "@/assets/gallery/camper-kitchen-3.jpg";
 import dining from "@/assets/gallery/camper-dining.jpg";
+import dining2 from "@/assets/gallery/camper-dining-2.jpg";
+import dining3 from "@/assets/gallery/camper-dining-3.jpg";
 import bathroom1 from "@/assets/gallery/camper-bathroom-1.jpg";
 import storage from "@/assets/gallery/camper-storage.jpg";
 
-const srcs = [exterior1, exterior2, bedroom, kitchen, kitchen2, dining, bathroom1, storage];
+const srcs = [exterior1, exterior2, awningTent, bedroom, kitchen, kitchen2, kitchen3, dining, dining2, dining3, bathroom1, storage];
 
 const GallerySection = () => {
   const { t } = useLanguage();
