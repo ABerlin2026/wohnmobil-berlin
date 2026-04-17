@@ -39,7 +39,7 @@ const MIN_RENTAL_DAYS = 5;
 const ContactSection = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { isDateBooked, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
+  const { isDateBooked, isDateUnavailable, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
@@ -55,19 +55,21 @@ const ContactSection = () => {
   const calendarDefaultMonth = firstBookedDate && firstBookedDate >= new Date() ? firstBookedDate : new Date();
 
   const renderCalendarDay = (date: Date) => {
-    const isBooked = isDateBooked(date);
+    const blocked = isDateUnavailable(date, MIN_RENTAL_DAYS);
 
     return (
       <span
         className={cn(
           "flex h-8 w-8 items-center justify-center rounded-full",
-          isBooked && "bg-destructive/15 text-destructive line-through font-semibold",
+          blocked && "bg-destructive/15 text-destructive line-through font-semibold",
         )}
       >
         {format(date, "d", { locale: de })}
       </span>
     );
   };
+
+  const endCalendarDefaultMonth = startDate ?? calendarDefaultMonth;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,7 +181,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && isDateBooked(date)) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <Calendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && isDateUnavailable(date, MIN_RENTAL_DAYS)) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isDateUnavailable(date, MIN_RENTAL_DAYS)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, MIN_RENTAL_DAYS) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
@@ -190,7 +192,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && isDateBooked(date)) return; setEndDate(date); setEndOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <Calendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && isDateBooked(date)) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                 </div>
