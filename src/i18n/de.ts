@@ -266,9 +266,7 @@ export const de = {
     summaryOffSeason: "Nebensaison",
     summaryDays: "Tage",
     summaryExtras: "Extras",
-    summaryNet: "Nettobetrag",
-    summaryVat: "MwSt. (19 %)",
-    summaryGross: "Gesamtbetrag (brutto)",
+    summaryGross: "Gesamtbetrag",
   },
 
   // Final CTA

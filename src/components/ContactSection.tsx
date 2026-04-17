@@ -38,7 +38,6 @@ const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 const MIN_RENTAL_DAYS = 5;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
-const VAT_RATE = 0.19;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
 const MAIN_SEASON_START_MONTH = 4; // May (0-indexed)
@@ -364,8 +363,6 @@ const ContactSection = () => {
                 }
                 const rentalSum = mainNights * PRICE_MAIN_SEASON + offNights * PRICE_OFF_SEASON;
                 const gross = rentalSum + extrasTotal;
-                const net = gross / (1 + VAT_RATE);
-                const vat = gross - net;
                 const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 return (
                   <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
@@ -388,14 +385,6 @@ const ContactSection = () => {
                         <span>{fmt(extrasTotal)} €</span>
                       </div>
                     )}
-                    <div className="flex items-center justify-between text-sm text-muted-foreground pt-2 border-t border-border/10">
-                      <span>{t.contact.summaryNet}</span>
-                      <span>{fmt(net)} €</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <span>{t.contact.summaryVat}</span>
-                      <span>{fmt(vat)} €</span>
-                    </div>
                     <div className="flex items-center justify-between pt-2 border-t border-border/10">
                       <span className="font-semibold">{t.contact.summaryGross}</span>
                       <span className="font-bold text-primary text-lg">{fmt(gross)} €</span>

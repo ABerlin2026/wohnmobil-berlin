@@ -268,9 +268,7 @@ export const en: typeof de = {
     summaryOffSeason: "Low season",
     summaryDays: "days",
     summaryExtras: "Extras",
-    summaryNet: "Net amount",
-    summaryVat: "VAT (19%)",
-    summaryGross: "Total (incl. VAT)",
+    summaryGross: "Total",
   },
 
   // Final CTA
