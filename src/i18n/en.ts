@@ -280,6 +280,9 @@ export const en: typeof de = {
     summaryDays: "days",
     summaryExtras: "Extras",
     summaryGross: "Total",
+    summaryFreeKm: "Free kilometers",
+    summaryExtraKm: "Extra kilometers",
+    summaryExtraKmUnit: "km × €0.35",
   },
 
   // Sunset moment
