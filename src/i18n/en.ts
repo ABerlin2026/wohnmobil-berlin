@@ -249,6 +249,23 @@ export const en: typeof de = {
       { q: "Are there videos explaining the individual functions?", a: "Yes, we provide tutorial videos on all important topics – from the awning to the stove to grey water disposal. So you can review everything at your own pace." },
       { q: "Are festivals allowed?", a: "No, trips to festivals are unfortunately not permitted." },
       { q: "Is smoking allowed in the vehicle?", a: "No, smoking in the vehicle is not permitted." },
+
+      // Event overnight stay
+      { q: "What is the event overnight stay?", a: "At weddings, birthdays or company parties the available beds at home are often not enough. Instead of booking a hotel and having to drive again at night, we park the motorhome directly in front of your venue – within walking distance, no long ride home after celebrating." },
+      { q: "How does the event option work?", a: "You give us the district and postcode of your venue. If the distance is under 50 km from Berlin, we park the motorhome at your venue and pick it up after the event. During the celebration it serves as a comfortable sleeping spot for up to 4 people." },
+      { q: "What does the event overnight stay cost?", a: "€80 per day for distances under 50 km from Berlin. Minimum rental: 3 days, so the camper is flexibly available throughout your event weekend." },
+      { q: "How far can the venue be?", a: "The flat rate of €80/day applies to venues less than 50 km from Berlin. For longer distances, please contact us directly – the regular rental conditions then apply." },
+      { q: "Is the motorhome driven during events?", a: "For the event overnight stay, the camper is used purely as a sleeping option – it stays parked at your venue and is not driven by you. So after the celebration you just walk over and fall into bed." },
+      { q: "How many people can stay during an event?", a: "Up to 4 people fit comfortably – ideal for the bridal couple, family members or close friends who want to stay right at the venue after celebrating." },
+
+      // Holiday home
+      { q: "What is the holiday home in Berlin (postcode 13127)?", a: "A special overnight option with a fixed address – not a classic hotel but our motorhome as a cozy holiday home on a quiet Old-Berlin courtyard. Something different, something special for guests who want to experience authentic Berlin." },
+      { q: "Where exactly is the motorhome located?", a: "On a green courtyard area of an Old-Berlin backyard at postcode 13127 Berlin. The motorhome is permanently stationed at this address and is not driven." },
+      { q: "What does the holiday home cost per night?", a: "Tiered pricing: 1 person €75, 2 people €100, 3 people €125, 4 people €150 per night. Minimum stay: 3 nights." },
+      { q: "How many people can stay in the holiday home?", a: "Up to 4 people. On board are 2 double beds – ideal for couples, families or groups of friends." },
+      { q: "Are toilets and showers available on site?", a: "Yes, separate toilets and showers are available on the grounds. So you have all the comfort you need." },
+      { q: "Can I drive the motorhome?", a: "No, with the holiday home booking the motorhome stays stationary on its courtyard spot. It serves exclusively as an overnight option – you use it like a holiday apartment." },
+      { q: "What sets the holiday home apart from a hotel?", a: "It's something different, something special: a motorhome as a holiday home right in Berlin on an authentic Old-Berlin courtyard. With a fixed address but the charm of an unusual accommodation – perfect for travelers looking for more than just a hotel room." },
     ],
   },
 
