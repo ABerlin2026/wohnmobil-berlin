@@ -1,1 +1,4 @@
 project_id = "rylygyaqwenafkaydycv"
+
+[functions.ical-bookings]
+verify_jwt = false
