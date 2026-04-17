@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Home, MapPin, Bath, Users, Check } from "lucide-react";
+import { Home, MapPin, Bath, Users, Check, Trees, Sparkles, Quote } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import holidayHomeImage from "@/assets/holiday-home-nature.jpg";
 
 const HolidayHomeSection = () => {
   const { t } = useLanguage();
@@ -15,6 +16,8 @@ const HolidayHomeSection = () => {
     { icon: Bath, text: t.holidayHome.feature3 },
     { icon: Users, text: t.holidayHome.feature4 },
   ];
+
+  const highlightIcons = [Trees, Sparkles, MapPin, Home];
 
   const tiers = [
     { price: 75, label: t.holidayHome.cardSingle, popular: false },
@@ -38,11 +41,61 @@ const HolidayHomeSection = () => {
           </p>
         </div>
 
+        {/* Hero image with overlay quote */}
+        <div className="max-w-5xl mx-auto mb-10 relative rounded-2xl overflow-hidden border border-border/20">
+          <img
+            src={holidayHomeImage}
+            alt={t.holidayHome.imgAlt}
+            loading="lazy"
+            width={1920}
+            height={1080}
+            className="w-full h-[260px] sm:h-[380px] md:h-[440px] object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+            <div className="flex items-start gap-3 max-w-2xl">
+              <Quote className="h-6 w-6 text-primary shrink-0 mt-1" />
+              <p className="text-base sm:text-xl font-display italic text-foreground leading-snug">
+                {t.holidayHome.quote}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="max-w-5xl mx-auto bg-background rounded-2xl p-6 sm:p-10 border border-border/20">
-          <p className="text-secondary-foreground mb-8 leading-relaxed">
+          <p className="text-secondary-foreground mb-10 leading-relaxed">
             {t.holidayHome.description}
           </p>
 
+          {/* Highlights */}
+          <div className="mb-10">
+            <h3 className="text-lg sm:text-xl font-display font-bold mb-5 text-center">
+              {t.holidayHome.highlightsTitle}
+            </h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {t.holidayHome.highlights.map((h, i) => {
+                const Icon = highlightIcons[i] ?? Sparkles;
+                return (
+                  <div
+                    key={h.title}
+                    className="bg-surface-2 rounded-xl p-5 border border-border/20 hover:border-primary/30 transition-colors"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                        <Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm mb-1">{h.title}</p>
+                        <p className="text-xs text-secondary-foreground leading-relaxed">{h.text}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Practical features */}
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             {features.map(({ icon: Icon, text }, i) => (
               <div key={i} className="flex items-start gap-3 bg-surface-2 rounded-lg p-4 border border-border/10">
@@ -54,6 +107,7 @@ const HolidayHomeSection = () => {
             ))}
           </div>
 
+          {/* Pricing tiers */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {tiers.map(({ price, label, popular }) => (
               <div
