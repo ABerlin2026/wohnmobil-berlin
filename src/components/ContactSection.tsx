@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SeasonCalendar } from "@/components/SeasonCalendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -60,6 +61,15 @@ const ContactSection = () => {
   const [form, setForm] = useState({
     name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
+  const [extras, setExtras] = useState({
+    bedding: false, towels: false, grill: false, scooterQty: 0,
+  });
+  const EXTRA_PRICES = { bedding: 20, towels: 20, grill: 40, scooter: 75 };
+  const extrasTotal =
+    (extras.bedding ? EXTRA_PRICES.bedding : 0) +
+    (extras.towels ? EXTRA_PRICES.towels : 0) +
+    (extras.grill ? EXTRA_PRICES.grill : 0) +
+    extras.scooterQty * EXTRA_PRICES.scooter;
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
@@ -119,6 +129,7 @@ const ContactSection = () => {
     }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
     setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
+    setExtras({ bedding: false, towels: false, grill: false, scooterQty: 0 });
     setStartDate(undefined);
     setEndDate(undefined);
     setSelectedCountry("");
@@ -276,6 +287,58 @@ const ContactSection = () => {
                 </select>
               </div>
               <Textarea placeholder={t.contact.message} rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg" />
+
+              {/* Extras */}
+              <div className="bg-surface-2 rounded-lg p-4 border border-border/10 space-y-3">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{t.contact.extrasTitle}</p>
+                  <p className="text-xs text-muted-foreground">{t.contact.extrasSubtitle}</p>
+                </div>
+                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-center gap-3">
+                    <Checkbox checked={extras.bedding} onCheckedChange={(c) => setExtras({ ...extras, bedding: c === true })} />
+                    <span>{t.contact.extraBedding}</span>
+                  </span>
+                  <span className="text-muted-foreground">20 €</span>
+                </label>
+                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-center gap-3">
+                    <Checkbox checked={extras.towels} onCheckedChange={(c) => setExtras({ ...extras, towels: c === true })} />
+                    <span>{t.contact.extraTowels}</span>
+                  </span>
+                  <span className="text-muted-foreground">20 €</span>
+                </label>
+                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-center gap-3">
+                    <Checkbox checked={extras.grill} onCheckedChange={(c) => setExtras({ ...extras, grill: c === true })} />
+                    <span>{t.contact.extraGrill}</span>
+                  </span>
+                  <span className="text-muted-foreground">40 €</span>
+                </label>
+                <div className="flex items-center justify-between gap-3 text-sm">
+                  <div className="flex flex-col">
+                    <span>{t.contact.extraScooter}</span>
+                    <span className="text-xs text-muted-foreground">{t.contact.extraScooterQty} · 75 € / Stk.</span>
+                  </div>
+                  <Select value={String(extras.scooterQty)} onValueChange={(v) => setExtras({ ...extras, scooterQty: parseInt(v, 10) })}>
+                    <SelectTrigger className="bg-surface-1 border-border/20 rounded-lg h-9 w-20">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3].map((n) => (
+                        <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {extrasTotal > 0 && (
+                  <div className="flex items-center justify-between pt-3 border-t border-border/10 text-sm">
+                    <span className="font-medium">{t.contact.extrasTotal}</span>
+                    <span className="font-bold text-primary">{extrasTotal} €</span>
+                  </div>
+                )}
+              </div>
+
               <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort}>
                 {t.contact.submit}
               </Button>

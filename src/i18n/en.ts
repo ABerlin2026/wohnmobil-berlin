@@ -254,6 +254,14 @@ export const en: typeof de = {
     toastCountryDesc: "Unfortunately our insurance does not cover this country.",
     toastSuccess: "Inquiry sent!",
     toastSuccessDesc: "We'll get back to you as soon as possible.",
+    extrasTitle: "Add extras (optional)",
+    extrasSubtitle: "Prices per booking",
+    extraBedding: "Bed linen",
+    extraTowels: "Towels",
+    extraGrill: "Gas grill",
+    extraScooter: "E-scooter",
+    extraScooterQty: "Quantity (max. 3)",
+    extrasTotal: "Extras subtotal",
   },
 
   // Final CTA
