@@ -86,7 +86,9 @@ const ContactSection = () => {
   const [endOpen, setEndOpen] = useState(false);
 
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
-  const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) : null;
+  // Rental duration counted in calendar days (inclusive of arrival and departure day).
+  // Example: 19.4. -> 23.4. = 5 days.
+  const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
   const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
   const today = new Date();
   const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
@@ -110,8 +112,10 @@ const ContactSection = () => {
     );
   };
 
+  // Minimum end date: arrival counts as day 1, so MIN_RENTAL_DAYS days
+  // means MIN_RENTAL_DAYS - 1 nights from the start date.
   const minEndDate = useMemo(
-    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS) : undefined),
+    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS - 1) : undefined),
     [startDate],
   );
 
@@ -134,7 +138,7 @@ const ContactSection = () => {
     if (!startDate) return calendarDefaultMonth;
     // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
     const daysToMonthEnd = differenceInCalendarDays(endOfMonth(startDate), startDate);
-    if (daysToMonthEnd < MIN_RENTAL_DAYS) {
+    if (daysToMonthEnd < MIN_RENTAL_DAYS - 1) {
       return new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
     }
     return startDate;

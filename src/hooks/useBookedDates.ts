@@ -99,9 +99,11 @@ export function useBookedDates() {
 
   /**
    * Returns true if the date itself is booked, OR it sits in a free gap
-   * between bookings that is shorter than `minDays`.
-   * Days in the past (before `from`, default = today) also count as "blocking"
-   * so a gap right after today's date is measured against today.
+   * between bookings whose total bookable length (in calendar days, including
+   * arrival and departure day) is shorter than `minDays`.
+   *
+   * Example: gap with `prevEnd = 19.4.` and `nextStart = 24.4.` allows a guest
+   * to arrive on the 19th and depart on the 24th → 6 calendar days.
    */
   const isDateUnavailable = useCallback(
     (date: Date, minDays: number, from?: Date): boolean => {
@@ -122,7 +124,7 @@ export function useBookedDates() {
         .sort((a, b) => a.s.getTime() - b.s.getTime());
 
       // Find previous booking end (or lowerBound) and next booking start
-      let prevEnd = lowerBound; // exclusive end -> first available day
+      let prevEnd = lowerBound; // first available day in this gap
       let nextStart: Date | null = null;
       for (const r of ranges) {
         if (r.e <= check) {
@@ -134,8 +136,11 @@ export function useBookedDates() {
       }
       if (!nextStart) return false; // open-ended future, no gap limit
 
-      const gapDays = Math.round((nextStart.getTime() - prevEnd.getTime()) / 86_400_000);
-      return gapDays < minDays;
+      // Nights between prevEnd (first free day) and nextStart (next arrival).
+      // Available booking length in DAYS (incl. arrival + departure) = nights + 1.
+      const gapNights = Math.round((nextStart.getTime() - prevEnd.getTime()) / 86_400_000);
+      const availableDays = gapNights + 1;
+      return availableDays < minDays;
     },
     [bookedRanges, isDateBooked, today],
   );
