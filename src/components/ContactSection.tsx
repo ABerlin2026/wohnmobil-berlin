@@ -551,16 +551,18 @@ const ContactSection = () => {
                 }
 
                 if (bookingType === "holiday") {
-                  // Holiday home: tiered nightly price by number of persons
+                  // Holiday home: tiered nightly price by number of persons.
+                  // rentalDays is inclusive of arrival + departure day, so nights = rentalDays - 1.
                   const persons = Math.min(4, Math.max(1, totalPersons));
                   const pricePerNight = HOLIDAY_PRICE_BY_PERSONS[persons];
-                  const holidaySum = rentalDays * pricePerNight;
+                  const nights = Math.max(1, rentalDays - 1);
+                  const holidaySum = nights * pricePerNight;
                   const gross = holidaySum + extrasTotal;
                   return (
                     <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
                       <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {pricePerNight} € · {persons} P.)</span>
+                        <span>{t.contact.summaryHolidayNights} ({nights} × {pricePerNight} € · {persons} P.)</span>
                         <span>{fmt(holidaySum)} €</span>
                       </div>
                       {extrasTotal > 0 && (
