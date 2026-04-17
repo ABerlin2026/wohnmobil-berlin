@@ -86,7 +86,9 @@ const ContactSection = () => {
   const [endOpen, setEndOpen] = useState(false);
 
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
-  const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) : null;
+  // Rental duration counted in calendar days (inclusive of arrival and departure day).
+  // Example: 19.4. -> 23.4. = 5 days.
+  const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
   const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
   const today = new Date();
   const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
