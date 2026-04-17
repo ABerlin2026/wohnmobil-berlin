@@ -62,6 +62,24 @@ export const en: typeof de = {
     extrasText: "Gas grill (€40) · E-scooter (€75) · Bed linen (€10 per person)",
   },
 
+  // Event Service
+  eventService: {
+    label: "Special Service",
+    title: "Motorhome as Sleeping Option for Events",
+    subtitle: "Birthdays, weddings, company parties – when guest rooms aren't enough, we create sleeping spots right at your doorstep.",
+    description: "Planning an event in the Berlin area and need extra sleeping accommodations? We park the motorhome directly in front of your venue – as a comfortable sleeping option for your guests. Perfect for everyone who doesn't want to travel far after a long celebration.",
+    feature1: "Perfect for weddings, birthdays and company parties",
+    feature2: "4 full sleeping spots with private bathroom",
+    feature3: "Directly at the venue in the Berlin area",
+    feature4: "Minimum rental: 3 days – flexible over your event weekend",
+    priceLabel: "Overnight price",
+    perDay: "/ day",
+    priceCondition: "Valid for a distance under 50 km",
+    minDays: "Minimum rental: 3 days",
+    cta: "Inquire now for event",
+    note: "Used as sleeping accommodation – not a classic camper trip. For longer distances or tours, the regular rental conditions apply.",
+  },
+
   // Target groups
   target: {
     label: "Perfect for you",
