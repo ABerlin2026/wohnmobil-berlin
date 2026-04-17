@@ -327,7 +327,7 @@ export const de = {
     eventKmWarning: "Bei mehr als 50 km gelten die regulären Mietkonditionen. Bitte kontaktiere uns direkt für ein Angebot.",
     summaryEventNights: "Event-Übernachtung",
     holidayInfoTitle: "Ferienwohnung Berlin",
-    holidayInfoText: "30 € pro Person & Nacht · Standort 13127 Berlin · Mindestmietdauer 3 Nächte",
+    holidayInfoText: "60 € pro Person & Nacht · max. 4 Personen (2 Doppelbetten) · Standort 13127 Berlin · Mindestaufenthalt 3 Nächte",
     summaryHolidayNights: "Ferienwohnung",
     eventDestination: "Bezirk mit Postleitzahl (z.B. 10115 Berlin-Mitte)",
     holidayLocationLabel: "Standort",
