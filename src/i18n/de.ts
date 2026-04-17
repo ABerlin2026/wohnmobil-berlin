@@ -260,6 +260,13 @@ export const de = {
     extraScooter: "E-Scooter",
     extraScooterQty: "Anzahl (max. 3)",
     extrasTotal: "Zwischensumme Extras",
+    summaryTitle: "Gesamtbetrag",
+    summaryRental: "Miete",
+    summaryDays: "Tage",
+    summaryExtras: "Extras",
+    summaryNet: "Nettobetrag",
+    summaryVat: "MwSt. (19 %)",
+    summaryGross: "Gesamtbetrag (brutto)",
   },
 
   // Final CTA
