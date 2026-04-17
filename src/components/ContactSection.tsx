@@ -549,6 +549,32 @@ const ContactSection = () => {
                   );
                 }
 
+                if (bookingType === "holiday") {
+                  // Holiday home: 30€ per person per day
+                  const persons = Math.max(1, totalPersons);
+                  const holidaySum = rentalDays * persons * PRICE_HOLIDAY_PER_PERSON;
+                  const gross = holidaySum + extrasTotal;
+                  return (
+                    <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
+                      <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {persons} × {PRICE_HOLIDAY_PER_PERSON} €)</span>
+                        <span>{fmt(holidaySum)} €</span>
+                      </div>
+                      {extrasTotal > 0 && (
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <span>{t.contact.summaryExtras}</span>
+                          <span>{fmt(extrasTotal)} €</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between pt-2 border-t border-border/10">
+                        <span className="font-semibold">{t.contact.summaryGross}</span>
+                        <span className="font-bold text-primary text-lg">{fmt(gross)} €</span>
+                      </div>
+                    </div>
+                  );
+                }
+
                 // Sum nightly price per booked night (start inclusive, end exclusive)
                 let mainNights = 0;
                 let offNights = 0;
