@@ -78,6 +78,15 @@ export const en: typeof de = {
     minDays: "Minimum rental: 3 days",
     cta: "Inquire now for event",
     note: "Used as sleeping accommodation – not a classic camper trip. For longer distances or tours, the regular rental conditions apply.",
+    cardTitle: "Event overnight stay",
+    cardPeriod: "Up to 50 km distance",
+    cardFeatures: [
+      "Flat rate per day",
+      "Up to 4 people",
+      "Fully insured",
+      "Minimum rental: 3 days",
+      "Stationary at the venue",
+    ],
   },
 
   // Holiday Home Service
@@ -97,6 +106,19 @@ export const en: typeof de = {
     location: "Location: 13127 Berlin",
     cta: "Inquire about holiday home",
     note: "Stationary stay – the motorhome remains on site and is not driven.",
+    perNightShort: "/ night",
+    cardSingle: "1 person",
+    cardDouble: "2 people",
+    cardTriple: "3 people",
+    cardQuad: "4 people",
+    cardPopular: "Popular",
+    cardFeatures: [
+      "Total price per night",
+      "Stationary in 13127 Berlin",
+      "2 double beds on board",
+      "Toilet & shower on the courtyard",
+      "Minimum stay: 3 nights",
+    ],
   },
 
   // Target groups
