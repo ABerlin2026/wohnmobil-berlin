@@ -455,7 +455,7 @@ const ContactSection = () => {
                 );
               })()}
 
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort}>
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons}>
                 {t.contact.submit}
               </Button>
             </form>
