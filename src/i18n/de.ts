@@ -252,6 +252,14 @@ export const de = {
     toastCountryDesc: "Leider deckt unsere Versicherung dieses Land nicht ab.",
     toastSuccess: "Anfrage gesendet!",
     toastSuccessDesc: "Wir melden uns schnellstmöglich bei dir.",
+    extrasTitle: "Extras hinzubuchen (optional)",
+    extrasSubtitle: "Preise pro Buchung",
+    extraBedding: "Bettwäsche",
+    extraTowels: "Handtücher",
+    extraGrill: "Gasgrill",
+    extraScooter: "E-Scooter",
+    extraScooterQty: "Anzahl (max. 3)",
+    extrasTotal: "Zwischensumme Extras",
   },
 
   // Final CTA
