@@ -12,6 +12,7 @@ export const en: typeof de = {
     inquireNow: "Inquire now",
     openMenu: "Open menu",
     brand: "CAMPER BERLIN",
+    tagline: "Your adventure starts in Berlin",
   },
 
   // Hero

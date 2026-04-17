@@ -49,7 +49,7 @@ const Navigation = () => {
             <span className="text-brand-green">BERLIN</span>
           </span>
           <span className="hidden sm:block text-[10px] md:text-xs text-brand-subtitle font-medium mt-0.5 tracking-wide">
-            Dein Abenteuer beginnt in Berlin
+            {t.nav.tagline}
           </span>
         </a>
 
