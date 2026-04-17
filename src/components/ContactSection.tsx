@@ -39,7 +39,7 @@ const MIN_RENTAL_DAYS = 5;
 const ContactSection = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { isDateBooked, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
+  const { isDateBooked, isDateUnavailable, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
@@ -55,19 +55,21 @@ const ContactSection = () => {
   const calendarDefaultMonth = firstBookedDate && firstBookedDate >= new Date() ? firstBookedDate : new Date();
 
   const renderCalendarDay = (date: Date) => {
-    const isBooked = isDateBooked(date);
+    const blocked = isDateUnavailable(date, MIN_RENTAL_DAYS);
 
     return (
       <span
         className={cn(
           "flex h-8 w-8 items-center justify-center rounded-full",
-          isBooked && "bg-destructive/15 text-destructive line-through font-semibold",
+          blocked && "bg-destructive/15 text-destructive line-through font-semibold",
         )}
       >
         {format(date, "d", { locale: de })}
       </span>
     );
   };
+
+  const endCalendarDefaultMonth = startDate ?? calendarDefaultMonth;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
