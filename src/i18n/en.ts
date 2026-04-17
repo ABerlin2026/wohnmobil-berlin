@@ -262,6 +262,8 @@ export const en: typeof de = {
     extraScooter: "E-scooter",
     extraBeddingQty: "Number of persons (max. 4)",
     extraScooterQty: "Quantity (max. 3)",
+    extraCleaning: "Interior & exterior cleaning flat fee",
+    extraCleaningHint: "Don't want to clean the camper inside and out yourself? Let us handle it.",
     extrasTotal: "Extras subtotal",
     summaryTitle: "Total amount",
     summaryRental: "Rental",
