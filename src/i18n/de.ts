@@ -57,7 +57,7 @@ export const de = {
     cleaning: "Reinigung:",
     cleaningText: "Bei sauberer Rückgabe keine Kosten. Sonst 200 €.",
     extras: "Extras:",
-    extrasText: "Gasgrill (40 €) · E-Scooter (75 €) · Bettwäsche (20 € pro Person)",
+    extrasText: "Gasgrill (40 €) · E-Scooter (75 €) · Bettwäsche (10 € pro Person)",
   },
 
   // Target groups
@@ -93,6 +93,7 @@ export const de = {
         items: [
           "Gasherd mit mehreren Flammen", "Kühlschrank mit integriertem Eisfach",
           "Kaffeemaschine – morgens frischen Kaffee genießen",
+          "Komplett ausgestattet mit Küchenutensilien: Kochtöpfe, Pfannen, Besteck, Teller, Tassen, Gläser & Kochutensilien",
         ],
       },
       {
