@@ -71,7 +71,7 @@ const ContactSection = () => {
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
+    name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
     beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
