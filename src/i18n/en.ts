@@ -80,6 +80,25 @@ export const en: typeof de = {
     note: "Used as sleeping accommodation – not a classic camper trip. For longer distances or tours, the regular rental conditions apply.",
   },
 
+  // Holiday Home Service
+  holidayHome: {
+    label: "Special Service",
+    title: "Motorhome as Holiday Home in Berlin",
+    subtitle: "Guests from all over the world – stay centrally in Berlin (postcode 13127) on a quiet Old-Berlin courtyard.",
+    description: "Want to discover Berlin and looking for a special place to stay? Our motorhome is permanently parked on a green area in an Old-Berlin courtyard (postcode 13127) and serves as a cozy holiday home on four wheels. Separate toilets and showers are available on the grounds – ideal for city travelers who want to experience authentic Berlin.",
+    feature1: "Stationary motorhome as holiday home – no driving required",
+    feature2: "Central location in Berlin (postcode 13127) on Old-Berlin courtyard",
+    feature3: "Separate toilets and showers on the grounds",
+    feature4: "Up to 4 people – ideal for couples, families & friends",
+    priceLabel: "Overnight price",
+    perPersonNight: "/ person & night",
+    priceExample: "Example: 2 people = €60 per night",
+    minDays: "Minimum stay: 3 nights",
+    location: "Location: 13127 Berlin",
+    cta: "Inquire about holiday home",
+    note: "Stationary stay – the motorhome remains on site and is not driven.",
+  },
+
   // Target groups
   target: {
     label: "Perfect for you",
@@ -304,10 +323,17 @@ export const en: typeof de = {
     bookingType: "Booking type *",
     bookingTypeRental: "Classic rental",
     bookingTypeEvent: "Event overnight stay (Berlin area)",
+    bookingTypeHoliday: "Holiday home in Berlin (13127)",
     eventInfoTitle: "Event overnight stay",
     eventInfoText: "€80 per day for distances under 50 km · Minimum rental: 3 days",
     eventKmWarning: "For distances over 50 km, regular rental conditions apply. Please contact us directly for a quote.",
     summaryEventNights: "Event overnight stay",
+    holidayInfoTitle: "Holiday home Berlin",
+    holidayInfoText: "€30 per person & night · Location 13127 Berlin · Minimum stay 3 nights",
+    summaryHolidayNights: "Holiday home",
+    eventDestination: "District with postcode (e.g. 10115 Berlin-Mitte)",
+    holidayLocationLabel: "Location",
+    holidayLocationValue: "13127 Berlin (Old-Berlin courtyard)",
   },
 
   // Sunset moment
