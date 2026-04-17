@@ -60,6 +60,24 @@ export const de = {
     extrasText: "Gasgrill (40 €) · E-Scooter (75 €) · Bettwäsche (10 € pro Person)",
   },
 
+  // Event Service
+  eventService: {
+    label: "Sonderservice",
+    title: "Wohnmobil als Übernachtungsmöglichkeit für Events",
+    subtitle: "Geburtstage, Hochzeiten, Firmenfeiern – wenn die Gästezimmer nicht ausreichen, schaffen wir Schlafplätze direkt vor der Tür.",
+    description: "Du planst eine Veranstaltung im Berliner Raum und brauchst zusätzliche Übernachtungsmöglichkeiten? Wir stellen das Wohnmobil direkt vor dem Veranstaltungsort ab – als komfortable Schlafmöglichkeit für deine Gäste. Ideal für alle, die nach einer langen Feier nicht weit nach Hause möchten.",
+    feature1: "Perfekt für Hochzeiten, Geburtstage und Firmenfeiern",
+    feature2: "4 vollwertige Schlafplätze mit eigenem Bad",
+    feature3: "Direkt vor dem Veranstaltungsort im Berliner Raum",
+    feature4: "Mindestmietdauer 3 Tage – flexibel über das Eventwochenende",
+    priceLabel: "Übernachtungspreis",
+    perDay: "/ Tag",
+    priceCondition: "Gültig bei einer Anfahrt unter 50 km",
+    minDays: "Mindestmietdauer: 3 Tage",
+    cta: "Jetzt für Event anfragen",
+    note: "Nutzung als Schlafmöglichkeit – keine klassische Camper-Tour. Bei längeren Anfahrten oder Touren gelten die regulären Mietkonditionen.",
+  },
+
   // Target groups
   target: {
     label: "Perfekt für dich",
@@ -281,6 +299,13 @@ export const de = {
     summaryFreeKm: "Freikilometer",
     summaryExtraKm: "Mehrkilometer",
     summaryExtraKmUnit: "km × 0,35 €",
+    bookingType: "Art der Buchung *",
+    bookingTypeRental: "Klassische Miete",
+    bookingTypeEvent: "Event-Übernachtung (Berliner Raum)",
+    eventInfoTitle: "Event-Übernachtung",
+    eventInfoText: "80 € pro Tag bei einer Anfahrt unter 50 km · Mindestmietdauer 3 Tage",
+    eventKmWarning: "Bei mehr als 50 km gelten die regulären Mietkonditionen. Bitte kontaktiere uns direkt für ein Angebot.",
+    summaryEventNights: "Event-Übernachtung",
   },
 
   // Sunset moment

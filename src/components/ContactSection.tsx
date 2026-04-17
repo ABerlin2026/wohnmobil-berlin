@@ -36,8 +36,11 @@ const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), 
 const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const MIN_RENTAL_DAYS = 5;
+const MIN_EVENT_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
+const PRICE_EVENT = 80; // Event overnight stay (<50 km)
+const EVENT_KM_LIMIT = 50;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
 const MAIN_SEASON_START_MONTH = 4; // May (0-indexed)
@@ -70,6 +73,7 @@ const ContactSection = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
+  const [bookingType, setBookingType] = useState<"rental" | "event">("rental");
   const [form, setForm] = useState({
     name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
@@ -87,10 +91,11 @@ const ContactSection = () => {
   const [endOpen, setEndOpen] = useState(false);
 
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
+  const minDays = bookingType === "event" ? MIN_EVENT_DAYS : MIN_RENTAL_DAYS;
   // Rental duration counted in calendar days (inclusive of arrival and departure day).
   // Example: 19.4. -> 23.4. = 5 days.
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
-  const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
+  const isTooShort = rentalDays !== null && rentalDays < minDays;
   const today = new Date();
   const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
   const calendarDefaultMonth =
@@ -99,7 +104,7 @@ const ContactSection = () => {
       : seasonAnchor;
 
   const renderCalendarDay = (date: Date) => {
-    const blocked = isDateUnavailable(date, MIN_RENTAL_DAYS) || isOutOfSeason(date);
+    const blocked = isDateUnavailable(date, minDays) || isOutOfSeason(date);
 
     return (
       <span
@@ -113,11 +118,11 @@ const ContactSection = () => {
     );
   };
 
-  // Minimum end date: arrival counts as day 1, so MIN_RENTAL_DAYS days
-  // means MIN_RENTAL_DAYS - 1 nights from the start date.
+  // Minimum end date: arrival counts as day 1, so minDays days
+  // means minDays - 1 nights from the start date.
   const minEndDate = useMemo(
-    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS - 1) : undefined),
-    [startDate],
+    () => (startDate ? addDays(startDate, minDays - 1) : undefined),
+    [startDate, minDays],
   );
 
   /**
@@ -137,9 +142,9 @@ const ContactSection = () => {
 
   const endCalendarDefaultMonth = useMemo(() => {
     if (!startDate) return calendarDefaultMonth;
-    // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
+    // If fewer than minDays remain in the start month, jump to next month
     const daysToMonthEnd = differenceInCalendarDays(endOfMonth(startDate), startDate);
-    if (daysToMonthEnd < MIN_RENTAL_DAYS - 1) {
+    if (daysToMonthEnd < minDays - 1) {
       return new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
     }
     return startDate;
@@ -157,7 +162,13 @@ const ContactSection = () => {
       return;
     }
     if (isTooShort) {
-      toast({ title: t.contact.toastMinDays, description: t.contact.toastMinDaysDesc, variant: "destructive" });
+      toast({
+        title: t.contact.toastMinDays,
+        description: bookingType === "event"
+          ? `${t.contact.toastMinDays}: ${MIN_EVENT_DAYS} ${t.contact.summaryDays}.`
+          : t.contact.toastMinDaysDesc,
+        variant: "destructive",
+      });
       return;
     }
     if (isCountryBlocked) {
@@ -252,6 +263,43 @@ const ContactSection = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3">
+              {/* Buchungstyp */}
+              <div className="bg-surface-2 rounded-lg p-3 border border-border/10 space-y-2">
+                <label className="text-xs font-medium text-foreground">{t.contact.bookingType}</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setBookingType("rental")}
+                    className={cn(
+                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
+                      bookingType === "rental"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                    )}
+                  >
+                    {t.contact.bookingTypeRental}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBookingType("event")}
+                    className={cn(
+                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
+                      bookingType === "event"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                    )}
+                  >
+                    {t.contact.bookingTypeEvent}
+                  </button>
+                </div>
+                {bookingType === "event" && (
+                  <div className="bg-primary/5 rounded-md p-2 border border-primary/20">
+                    <p className="text-xs font-medium text-primary">{t.contact.eventInfoTitle}</p>
+                    <p className="text-xs text-muted-foreground">{t.contact.eventInfoText}</p>
+                  </div>
+                )}
+              </div>
+
               <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
@@ -265,7 +313,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, MIN_RENTAL_DAYS) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, MIN_RENTAL_DAYS)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, MIN_RENTAL_DAYS) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, minDays) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, minDays)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, minDays) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
@@ -442,7 +490,42 @@ const ContactSection = () => {
               </div>
 
               {/* Gesamtbetrag */}
-              {rentalDays !== null && rentalDays >= MIN_RENTAL_DAYS && startDate && (() => {
+              {rentalDays !== null && rentalDays >= minDays && startDate && (() => {
+                const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const plannedKm = parseInt(form.kilometers, 10) || 0;
+
+                if (bookingType === "event") {
+                  // Event mode: flat 80€/day, valid only if distance < 50km
+                  const eventSum = rentalDays * PRICE_EVENT;
+                  const eventKmExceeded = plannedKm > EVENT_KM_LIMIT;
+                  const gross = eventSum + extrasTotal;
+                  return (
+                    <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
+                      <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryEventNights} ({rentalDays} {t.contact.summaryDays} × {PRICE_EVENT} €)</span>
+                        <span>{fmt(eventSum)} €</span>
+                      </div>
+                      {extrasTotal > 0 && (
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <span>{t.contact.summaryExtras}</span>
+                          <span>{fmt(extrasTotal)} €</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between pt-2 border-t border-border/10">
+                        <span className="font-semibold">{t.contact.summaryGross}</span>
+                        <span className="font-bold text-primary text-lg">{fmt(gross)} €</span>
+                      </div>
+                      {eventKmExceeded && (
+                        <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                          <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                          <p className="text-xs text-destructive">{t.contact.eventKmWarning}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 // Sum nightly price per booked night (start inclusive, end exclusive)
                 let mainNights = 0;
                 let offNights = 0;
@@ -455,11 +538,9 @@ const ContactSection = () => {
                 const FREE_KM_PER_DAY = 150;
                 const EXTRA_KM_PRICE = 0.35;
                 const freeKm = rentalDays * FREE_KM_PER_DAY;
-                const plannedKm = parseInt(form.kilometers, 10) || 0;
                 const extraKm = Math.max(0, plannedKm - freeKm);
                 const extraKmCost = extraKm * EXTRA_KM_PRICE;
                 const gross = rentalSum + extrasTotal + extraKmCost;
-                const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 return (
                   <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
                     <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
