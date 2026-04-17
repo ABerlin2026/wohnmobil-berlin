@@ -491,6 +491,41 @@ const ContactSection = () => {
 
               {/* Gesamtbetrag */}
               {rentalDays !== null && rentalDays >= minDays && startDate && (() => {
+                const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const plannedKm = parseInt(form.kilometers, 10) || 0;
+
+                if (bookingType === "event") {
+                  // Event mode: flat 80€/day, valid only if distance < 50km
+                  const eventSum = rentalDays * PRICE_EVENT;
+                  const eventKmExceeded = plannedKm > EVENT_KM_LIMIT;
+                  const gross = eventSum + extrasTotal;
+                  return (
+                    <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
+                      <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryEventNights} ({rentalDays} {t.contact.summaryDays} × {PRICE_EVENT} €)</span>
+                        <span>{fmt(eventSum)} €</span>
+                      </div>
+                      {extrasTotal > 0 && (
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <span>{t.contact.summaryExtras}</span>
+                          <span>{fmt(extrasTotal)} €</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between pt-2 border-t border-border/10">
+                        <span className="font-semibold">{t.contact.summaryGross}</span>
+                        <span className="font-bold text-primary text-lg">{fmt(gross)} €</span>
+                      </div>
+                      {eventKmExceeded && (
+                        <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                          <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                          <p className="text-xs text-destructive">{t.contact.eventKmWarning}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 // Sum nightly price per booked night (start inclusive, end exclusive)
                 let mainNights = 0;
                 let offNights = 0;
@@ -503,11 +538,9 @@ const ContactSection = () => {
                 const FREE_KM_PER_DAY = 150;
                 const EXTRA_KM_PRICE = 0.35;
                 const freeKm = rentalDays * FREE_KM_PER_DAY;
-                const plannedKm = parseInt(form.kilometers, 10) || 0;
                 const extraKm = Math.max(0, plannedKm - freeKm);
                 const extraKmCost = extraKm * EXTRA_KM_PRICE;
                 const gross = rentalSum + extrasTotal + extraKmCost;
-                const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 return (
                   <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
                     <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
