@@ -348,27 +348,44 @@ const ContactSection = () => {
                 )}
               </div>
 
-              <Input placeholder={t.contact.destination} value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <div>
-                <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                  <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
-                    <SelectValue placeholder={t.contact.selectCountry} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {ALL_COUNTRIES.map((country) => (
-                      <SelectItem key={country} value={country}>{country}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {isCountryBlocked && (
-                  <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
-                    <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
-                    <p className="text-xs text-destructive">{t.contact.countryBlocked}</p>
-                  </div>
-                )}
-              </div>
+              {bookingType === "holiday" ? (
+                <div className="bg-surface-2 rounded-lg p-3 border border-border/10">
+                  <p className="text-xs text-muted-foreground mb-1">{t.contact.holidayLocationLabel}</p>
+                  <p className="text-sm font-medium text-foreground">{t.contact.holidayLocationValue}</p>
+                </div>
+              ) : (
+                <Input
+                  placeholder={bookingType === "event" ? t.contact.eventDestination : t.contact.destination}
+                  value={form.destination}
+                  onChange={(e) => setForm({ ...form, destination: e.target.value })}
+                  className="bg-surface-2 border-border/20 rounded-lg h-11"
+                />
+              )}
 
-              <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+              {bookingType === "rental" && (
+                <>
+                  <div>
+                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                      <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
+                        <SelectValue placeholder={t.contact.selectCountry} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ALL_COUNTRIES.map((country) => (
+                          <SelectItem key={country} value={country}>{country}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {isCountryBlocked && (
+                      <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                        <p className="text-xs text-destructive">{t.contact.countryBlocked}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+                </>
+              )}
 
               <div className="space-y-2">
                 <div className="grid grid-cols-2 gap-3">
