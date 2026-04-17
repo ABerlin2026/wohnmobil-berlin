@@ -1,4 +1,7 @@
-import { corsHeaders } from "@supabase/supabase-js/cors";
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
 
 const ICAL_URLS = [
   "https://www.paulcamper.de/api/v1/public/ical/export?permalink=72065-d24e427491ae9f97",
