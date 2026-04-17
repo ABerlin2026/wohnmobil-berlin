@@ -264,6 +264,8 @@ export const en: typeof de = {
     extrasTotal: "Extras subtotal",
     summaryTitle: "Total amount",
     summaryRental: "Rental",
+    summaryMainSeason: "High season",
+    summaryOffSeason: "Low season",
     summaryDays: "days",
     summaryExtras: "Extras",
     summaryNet: "Net amount",

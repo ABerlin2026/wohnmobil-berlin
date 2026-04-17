@@ -262,6 +262,8 @@ export const de = {
     extrasTotal: "Zwischensumme Extras",
     summaryTitle: "Gesamtbetrag",
     summaryRental: "Miete",
+    summaryMainSeason: "Hauptsaison",
+    summaryOffSeason: "Nebensaison",
     summaryDays: "Tage",
     summaryExtras: "Extras",
     summaryNet: "Nettobetrag",
