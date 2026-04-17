@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLanguage, type Language } from "@/i18n/LanguageContext";
+import logoCamperBerlin from "@/assets/logo-camper-berlin.png";
 
 const Navigation = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -43,8 +44,14 @@ const Navigation = () => {
       )}
     >
       <div className="container-narrow flex items-center justify-between h-16 px-5">
-        <a href="/" className="font-display text-base font-bold text-foreground tracking-tight" aria-label="Camper Berlin Brandenburg – Startseite">
-          {t.nav.brand}
+        <a href="/" className="flex items-center" aria-label="Camper Berlin Brandenburg – Startseite">
+          <img
+            src={logoCamperBerlin}
+            alt={t.nav.brand}
+            className="h-8 md:h-10 w-auto object-contain"
+            width={200}
+            height={40}
+          />
         </a>
 
         <div className="hidden md:flex items-center gap-1">
