@@ -48,9 +48,9 @@ const Navigation = () => {
           <img
             src={logoCamperBerlin}
             alt={t.nav.brand}
-            className="h-8 md:h-10 w-auto object-contain"
-            width={200}
-            height={40}
+            className="h-9 md:h-11 w-auto object-contain"
+            width={861}
+            height={215}
           />
         </a>
 
