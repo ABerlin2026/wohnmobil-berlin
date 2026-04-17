@@ -262,6 +262,13 @@ export const en: typeof de = {
     extraScooter: "E-scooter",
     extraScooterQty: "Quantity (max. 3)",
     extrasTotal: "Extras subtotal",
+    summaryTitle: "Total amount",
+    summaryRental: "Rental",
+    summaryDays: "days",
+    summaryExtras: "Extras",
+    summaryNet: "Net amount",
+    summaryVat: "VAT (19%)",
+    summaryGross: "Total (incl. VAT)",
   },
 
   // Final CTA

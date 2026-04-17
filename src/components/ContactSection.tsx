@@ -36,6 +36,8 @@ const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), 
 const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const MIN_RENTAL_DAYS = 5;
+const PRICE_PER_DAY = 129;
+const VAT_RATE = 0.19;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
 
@@ -338,6 +340,42 @@ const ContactSection = () => {
                   </div>
                 )}
               </div>
+
+              {/* Gesamtbetrag */}
+              {rentalDays !== null && rentalDays >= MIN_RENTAL_DAYS && (() => {
+                const rentalSum = rentalDays * PRICE_PER_DAY;
+                const gross = rentalSum + extrasTotal;
+                const net = gross / (1 + VAT_RATE);
+                const vat = gross - net;
+                const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                return (
+                  <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
+                    <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>{t.contact.summaryRental} ({rentalDays} {t.contact.summaryDays} × {PRICE_PER_DAY} €)</span>
+                      <span>{fmt(rentalSum)} €</span>
+                    </div>
+                    {extrasTotal > 0 && (
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryExtras}</span>
+                        <span>{fmt(extrasTotal)} €</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between text-sm text-muted-foreground pt-2 border-t border-border/10">
+                      <span>{t.contact.summaryNet}</span>
+                      <span>{fmt(net)} €</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>{t.contact.summaryVat}</span>
+                      <span>{fmt(vat)} €</span>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-border/10">
+                      <span className="font-semibold">{t.contact.summaryGross}</span>
+                      <span className="font-bold text-primary text-lg">{fmt(gross)} €</span>
+                    </div>
+                  </div>
+                );
+              })()}
 
               <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort}>
                 {t.contact.submit}
