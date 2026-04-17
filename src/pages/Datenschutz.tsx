@@ -1,9 +1,20 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageSEO from "@/components/PageSEO";
 
 const Datenschutz = () => {
   return (
     <>
+      <PageSEO
+        title="Datenschutzerklärung | Camper Berlin Brandenburg"
+        description="Datenschutzerklärung gemäß DSGVO für die Website von Camper Berlin Brandenburg – Wohnmobil mieten in Berlin und Brandenburg."
+        canonical="https://camper-berlin-brandenburg.de/datenschutz"
+        noindex
+        breadcrumbs={[
+          { name: "Startseite", url: "https://camper-berlin-brandenburg.de/" },
+          { name: "Datenschutz", url: "https://camper-berlin-brandenburg.de/datenschutz" },
+        ]}
+      />
       <Navigation />
       <main className="section-padding bg-background min-h-screen pt-32">
         <div className="container-narrow max-w-3xl">

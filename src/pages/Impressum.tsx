@@ -1,9 +1,20 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageSEO from "@/components/PageSEO";
 
 const Impressum = () => {
   return (
     <>
+      <PageSEO
+        title="Impressum | Camper Berlin Brandenburg"
+        description="Impressum und Anbieterkennzeichnung gemäß § 5 TMG für Camper Berlin Brandenburg – Wohnmobilvermietung in Berlin."
+        canonical="https://camper-berlin-brandenburg.de/impressum"
+        noindex
+        breadcrumbs={[
+          { name: "Startseite", url: "https://camper-berlin-brandenburg.de/" },
+          { name: "Impressum", url: "https://camper-berlin-brandenburg.de/impressum" },
+        ]}
+      />
       <Navigation />
       <main className="section-padding bg-background min-h-screen pt-32">
         <div className="container-narrow max-w-3xl">
