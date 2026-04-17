@@ -91,14 +91,14 @@ export const en: typeof de = {
 
   // Holiday Home Service
   holidayHome: {
-    label: "Special Service",
-    title: "Motorhome as Holiday Home in Berlin",
-    subtitle: "Guests from all over the world – stay centrally in Berlin (postcode 13127) on a quiet Old-Berlin courtyard.",
-    description: "Want to discover Berlin and looking for a special place to stay? Our motorhome is permanently parked on a green area in an Old-Berlin courtyard (postcode 13127) and serves as a cozy holiday home on four wheels. Separate toilets and showers are available on the grounds – ideal for city travelers who want to experience authentic Berlin.",
-    feature1: "Stationary motorhome as holiday home – no driving required",
-    feature2: "Central location in Berlin (postcode 13127) on Old-Berlin courtyard",
-    feature3: "Separate toilets and showers on the grounds",
-    feature4: "Up to 4 people – ideal for couples, families & friends",
+    label: "A unique stay",
+    title: "Your holiday home in the green – at the edge of Berlin",
+    subtitle: "Forget anonymous hotel rooms. Stay in a lovingly furnished motorhome – permanently parked in a green Old-Berlin courtyard, surrounded by old trees and real Berlin nature.",
+    description: "Discover Berlin and still wake up in the green? Our motorhome is permanently parked on a quiet green area in a traditional Old-Berlin courtyard (postcode 13127) – not in the middle of city noise, but where Berlin breathes again. Open the door in the morning and you're standing in nature, hearing birdsong instead of traffic, enjoying coffee under old trees. An overnight option you won't find twice: a fixed home on four wheels, with the freedom of a camper and the calm of a hideaway. Separate toilets and showers on the grounds. For everyone who wants to experience the real Berlin – not the touristy one.",
+    feature1: "In the green – not in the city noise",
+    feature2: "Fixed location in 13127 Berlin – quiet Old-Berlin courtyard",
+    feature3: "Separate toilets & showers on the grounds",
+    feature4: "Up to 4 people – couples, families & friends",
     priceLabel: "Overnight price from",
     perNight: "/ night (1 person)",
     priceHint: "2 people €100 · 3 people €125 · 4 people €150 per night · 2 double beds on board",
@@ -119,6 +119,15 @@ export const en: typeof de = {
       "Toilet & shower on the courtyard",
       "Minimum stay: 3 nights",
     ],
+    highlightsTitle: "What makes this place so special",
+    highlights: [
+      { title: "Pure nature at the city edge", text: "Old trees, birdsong, green space instead of concrete – Berlin's calmest side." },
+      { title: "Not your average hotel", text: "An overnight stay you'll remember. Who else gets to sleep in a motorhome with a fixed address?" },
+      { title: "Fixed location, real address", text: "Check in like a holiday apartment – just way more personal and unique." },
+      { title: "Authentic Old-Berlin", text: "A backyard with history – this is how you live in real Berlin, far from the tourist trails." },
+    ],
+    quote: "\"It's something different. Something special. An option you won't easily find again.\"",
+    imgAlt: "Motorhome as a holiday home in the green on an Old-Berlin courtyard",
   },
 
   // Target groups

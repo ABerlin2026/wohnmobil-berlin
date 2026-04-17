@@ -89,14 +89,14 @@ export const de = {
 
   // Holiday Home Service
   holidayHome: {
-    label: "Sonderservice",
-    title: "Wohnmobil als Ferienwohnung in Berlin",
-    subtitle: "Gäste aus aller Welt – übernachte zentral in Berlin (PLZ 13127) auf einem ruhigen Alt-Berliner Hof.",
-    description: "Du möchtest Berlin entdecken und suchst eine besondere Übernachtungsmöglichkeit? Unser Wohnmobil steht fest auf einer Grünfläche in einem Alt-Berliner Hof (PLZ 13127) und dient dir als gemütliche Ferienwohnung auf vier Rädern. Auf dem Gelände stehen separate Toiletten und Duschen zur Verfügung – ideal für Städtereisende, die das authentische Berlin erleben möchten.",
-    feature1: "Festes Wohnmobil als Ferienwohnung – kein Fahren nötig",
-    feature2: "Zentrale Lage in Berlin (PLZ 13127) auf Alt-Berliner Hof",
-    feature3: "Separate Toiletten und Duschen auf dem Gelände",
-    feature4: "Bis zu 4 Personen – ideal für Paare, Familien & Freunde",
+    label: "Einzigartig übernachten",
+    title: "Deine Ferienwohnung im Grünen – am Rand von Berlin",
+    subtitle: "Vergiss anonyme Hotelzimmer. Übernachte in einem liebevoll eingerichteten Wohnmobil – fest auf einem grünen Alt-Berliner Hof, umgeben von alten Bäumen und echter Berliner Natur.",
+    description: "Berlin entdecken und trotzdem im Grünen aufwachen? Unser Wohnmobil steht dauerhaft auf einer ruhigen Grünfläche in einem traditionellen Alt-Berliner Hof (PLZ 13127) – nicht mitten im Trubel der City, sondern dort, wo Berlin wieder atmet. Hier öffnest du morgens die Tür und stehst im Grünen, hörst Vögel statt Verkehr und genießt deinen Kaffee unter Bäumen. Eine Übernachtungsmöglichkeit, die es so kein zweites Mal gibt: festes Zuhause auf vier Rädern, mit der Freiheit eines Campers und der Ruhe eines Rückzugsorts. Separate Toiletten und Duschen auf dem Gelände. Für alle, die Berlin echt erleben wollen – nicht touristisch.",
+    feature1: "Mitten im Grünen statt im Großstadt-Trubel",
+    feature2: "Fester Standort in 13127 Berlin – ruhiger Alt-Berliner Hof",
+    feature3: "Separate Toiletten & Duschen auf dem Gelände",
+    feature4: "Bis zu 4 Personen – Paare, Familien & Freunde",
     priceLabel: "Übernachtungspreis ab",
     perNight: "/ Nacht (1 Person)",
     priceHint: "2 Personen 100 € · 3 Personen 125 € · 4 Personen 150 € pro Nacht · 2 Doppelbetten an Bord",
@@ -117,6 +117,15 @@ export const de = {
       "WC & Dusche auf dem Hof",
       "Mindestaufenthalt: 3 Nächte",
     ],
+    highlightsTitle: "Was diesen Ort so besonders macht",
+    highlights: [
+      { title: "Natur pur am Stadtrand", text: "Alte Bäume, Vogelgezwitscher, Grünfläche statt Beton – Berlin von seiner ruhigen Seite." },
+      { title: "Kein 0815-Hotel", text: "Eine Übernachtung, die in Erinnerung bleibt. Wer schläft schon in einem Wohnmobil mit fester Adresse?" },
+      { title: "Fester Standort, echte Adresse", text: "Du checkst ein wie in einer Ferienwohnung – nur viel persönlicher und außergewöhnlicher." },
+      { title: "Authentisches Alt-Berlin", text: "Ein Hinterhof mit Geschichte – so wohnt man im echten Berlin, fernab der Touristenpfade." },
+    ],
+    quote: "„Es ist mal was anderes. Es ist was Besonderes. Eine Möglichkeit, die sich nicht oft bietet.\"",
+    imgAlt: "Wohnmobil als Ferienwohnung im Grünen auf einem Alt-Berliner Hof",
   },
 
   // Target groups
