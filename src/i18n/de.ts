@@ -76,6 +76,15 @@ export const de = {
     minDays: "Mindestmietdauer: 3 Tage",
     cta: "Jetzt für Event anfragen",
     note: "Nutzung als Schlafmöglichkeit – keine klassische Camper-Tour. Bei längeren Anfahrten oder Touren gelten die regulären Mietkonditionen.",
+    cardTitle: "Event-Übernachtung",
+    cardPeriod: "Bis 50 km Anfahrt",
+    cardFeatures: [
+      "Pauschalpreis pro Tag",
+      "Bis zu 4 Personen",
+      "Vollkasko inklusive",
+      "Mindestmietdauer: 3 Tage",
+      "Stationär vor dem Veranstaltungsort",
+    ],
   },
 
   // Holiday Home Service
@@ -95,6 +104,19 @@ export const de = {
     location: "Standort: 13127 Berlin",
     cta: "Jetzt Ferienwohnung anfragen",
     note: "Stationäre Übernachtung – das Wohnmobil bleibt vor Ort und wird nicht gefahren.",
+    perNightShort: "/ Nacht",
+    cardSingle: "1 Person",
+    cardDouble: "2 Personen",
+    cardTriple: "3 Personen",
+    cardQuad: "4 Personen",
+    cardPopular: "Beliebt",
+    cardFeatures: [
+      "Preis pro Nacht (gesamt)",
+      "Stationär in 13127 Berlin",
+      "2 Doppelbetten an Bord",
+      "WC & Dusche auf dem Hof",
+      "Mindestaufenthalt: 3 Nächte",
+    ],
   },
 
   // Target groups

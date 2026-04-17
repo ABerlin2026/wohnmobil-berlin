@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PartyPopper, MapPin, BedDouble, Calendar } from "lucide-react";
+import { PartyPopper, MapPin, BedDouble, Calendar, Check } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const EventServiceSection = () => {
@@ -47,23 +47,30 @@ const EventServiceSection = () => {
             ))}
           </div>
 
-          <div className="bg-primary/5 rounded-xl p-6 border border-primary/20 mb-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary mb-1">
-                  {t.eventService.priceLabel}
-                </p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-display font-bold text-foreground">80€</span>
-                  <span className="text-muted-foreground text-sm">{t.eventService.perDay}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">{t.eventService.priceCondition}</p>
-                <p className="text-xs text-muted-foreground">{t.eventService.minDays}</p>
-              </div>
-              <Button variant="hero" size="lg" onClick={scrollToContact} className="w-full sm:w-auto">
-                {t.eventService.cta}
-              </Button>
+          <div className="max-w-md mx-auto bg-primary rounded-xl p-8 relative mb-8">
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary-foreground/70 mb-1">
+              {t.eventService.cardTitle}
+            </p>
+            <p className="text-sm text-primary-foreground/60 mb-8">{t.eventService.cardPeriod}</p>
+            <div className="flex items-baseline gap-1 mb-8">
+              <span className="text-5xl font-display font-bold text-primary-foreground">80€</span>
+              <span className="text-primary-foreground/70 text-sm">{t.eventService.perDay}</span>
             </div>
+            <ul className="space-y-4 mb-8">
+              {t.eventService.cardFeatures.map((item) => (
+                <li key={item} className="flex items-center gap-3 text-sm text-primary-foreground/85">
+                  <Check className="h-4 w-4 text-primary-foreground/70 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Button
+              variant="hero-outline"
+              className="w-full py-5 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+              onClick={scrollToContact}
+            >
+              {t.eventService.cta}
+            </Button>
           </div>
 
           <p className="text-xs text-muted-foreground text-center">
