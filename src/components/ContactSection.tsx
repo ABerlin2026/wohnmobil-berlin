@@ -37,9 +37,11 @@ const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const MIN_RENTAL_DAYS = 5;
 const MIN_EVENT_DAYS = 3;
+const MIN_HOLIDAY_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
 const PRICE_EVENT = 80; // Event overnight stay (<50 km)
+const PRICE_HOLIDAY_PER_PERSON = 30; // Holiday home per person & night
 const EVENT_KM_LIMIT = 50;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
@@ -73,7 +75,7 @@ const ContactSection = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
-  const [bookingType, setBookingType] = useState<"rental" | "event">("rental");
+  const [bookingType, setBookingType] = useState<"rental" | "event" | "holiday">("rental");
   const [form, setForm] = useState({
     name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
@@ -90,8 +92,11 @@ const ContactSection = () => {
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
-  const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
-  const minDays = bookingType === "event" ? MIN_EVENT_DAYS : MIN_RENTAL_DAYS;
+  const isCountryBlocked = bookingType === "rental" && selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
+  const minDays =
+    bookingType === "event" ? MIN_EVENT_DAYS :
+    bookingType === "holiday" ? MIN_HOLIDAY_DAYS :
+    MIN_RENTAL_DAYS;
   // Rental duration counted in calendar days (inclusive of arrival and departure day).
   // Example: 19.4. -> 23.4. = 5 days.
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
@@ -266,36 +271,37 @@ const ContactSection = () => {
               {/* Buchungstyp */}
               <div className="bg-surface-2 rounded-lg p-3 border border-border/10 space-y-2">
                 <label className="text-xs font-medium text-foreground">{t.contact.bookingType}</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setBookingType("rental")}
-                    className={cn(
-                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
-                      bookingType === "rental"
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
-                    )}
-                  >
-                    {t.contact.bookingTypeRental}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBookingType("event")}
-                    className={cn(
-                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
-                      bookingType === "event"
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
-                    )}
-                  >
-                    {t.contact.bookingTypeEvent}
-                  </button>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {([
+                    { id: "rental", label: t.contact.bookingTypeRental },
+                    { id: "event", label: t.contact.bookingTypeEvent },
+                    { id: "holiday", label: t.contact.bookingTypeHoliday },
+                  ] as const).map(({ id, label }) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setBookingType(id)}
+                      className={cn(
+                        "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
+                        bookingType === id
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
                 {bookingType === "event" && (
                   <div className="bg-primary/5 rounded-md p-2 border border-primary/20">
                     <p className="text-xs font-medium text-primary">{t.contact.eventInfoTitle}</p>
                     <p className="text-xs text-muted-foreground">{t.contact.eventInfoText}</p>
+                  </div>
+                )}
+                {bookingType === "holiday" && (
+                  <div className="bg-primary/5 rounded-md p-2 border border-primary/20">
+                    <p className="text-xs font-medium text-primary">{t.contact.holidayInfoTitle}</p>
+                    <p className="text-xs text-muted-foreground">{t.contact.holidayInfoText}</p>
                   </div>
                 )}
               </div>
@@ -342,27 +348,44 @@ const ContactSection = () => {
                 )}
               </div>
 
-              <Input placeholder={t.contact.destination} value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <div>
-                <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                  <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
-                    <SelectValue placeholder={t.contact.selectCountry} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {ALL_COUNTRIES.map((country) => (
-                      <SelectItem key={country} value={country}>{country}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {isCountryBlocked && (
-                  <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
-                    <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
-                    <p className="text-xs text-destructive">{t.contact.countryBlocked}</p>
-                  </div>
-                )}
-              </div>
+              {bookingType === "holiday" ? (
+                <div className="bg-surface-2 rounded-lg p-3 border border-border/10">
+                  <p className="text-xs text-muted-foreground mb-1">{t.contact.holidayLocationLabel}</p>
+                  <p className="text-sm font-medium text-foreground">{t.contact.holidayLocationValue}</p>
+                </div>
+              ) : (
+                <Input
+                  placeholder={bookingType === "event" ? t.contact.eventDestination : t.contact.destination}
+                  value={form.destination}
+                  onChange={(e) => setForm({ ...form, destination: e.target.value })}
+                  className="bg-surface-2 border-border/20 rounded-lg h-11"
+                />
+              )}
 
-              <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+              {bookingType === "rental" && (
+                <>
+                  <div>
+                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                      <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
+                        <SelectValue placeholder={t.contact.selectCountry} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ALL_COUNTRIES.map((country) => (
+                          <SelectItem key={country} value={country}>{country}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {isCountryBlocked && (
+                      <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                        <p className="text-xs text-destructive">{t.contact.countryBlocked}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+                </>
+              )}
 
               <div className="space-y-2">
                 <div className="grid grid-cols-2 gap-3">
@@ -522,6 +545,32 @@ const ContactSection = () => {
                           <p className="text-xs text-destructive">{t.contact.eventKmWarning}</p>
                         </div>
                       )}
+                    </div>
+                  );
+                }
+
+                if (bookingType === "holiday") {
+                  // Holiday home: 30€ per person per day
+                  const persons = Math.max(1, totalPersons);
+                  const holidaySum = rentalDays * persons * PRICE_HOLIDAY_PER_PERSON;
+                  const gross = holidaySum + extrasTotal;
+                  return (
+                    <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
+                      <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {persons} × {PRICE_HOLIDAY_PER_PERSON} €)</span>
+                        <span>{fmt(holidaySum)} €</span>
+                      </div>
+                      {extrasTotal > 0 && (
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <span>{t.contact.summaryExtras}</span>
+                          <span>{fmt(extrasTotal)} €</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between pt-2 border-t border-border/10">
+                        <span className="font-semibold">{t.contact.summaryGross}</span>
+                        <span className="font-bold text-primary text-lg">{fmt(gross)} €</span>
+                      </div>
                     </div>
                   );
                 }

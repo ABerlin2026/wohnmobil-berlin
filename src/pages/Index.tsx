@@ -4,6 +4,7 @@ import TrustSection from "@/components/TrustSection";
 import PricingSection from "@/components/PricingSection";
 import TargetGroupSection from "@/components/TargetGroupSection";
 import EventServiceSection from "@/components/EventServiceSection";
+import HolidayHomeSection from "@/components/HolidayHomeSection";
 import EquipmentSection from "@/components/EquipmentSection";
 import GallerySection from "@/components/GallerySection";
 import BeginnerSection from "@/components/BeginnerSection";
@@ -23,6 +24,7 @@ const Index = () => {
         <TrustSection />
         <PricingSection />
         <EventServiceSection />
+        <HolidayHomeSection />
         <TargetGroupSection />
         <EquipmentSection />
         <GallerySection />
