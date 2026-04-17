@@ -318,8 +318,36 @@ const ContactSection = () => {
 
               <div className="space-y-2">
                 <div className="grid grid-cols-2 gap-3">
-                  <Input type="number" inputMode="numeric" min="1" max="4" placeholder={t.contact.adults} required value={form.adults} onChange={(e) => setForm({ ...form, adults: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-                  <Input type="number" inputMode="numeric" min="0" max="3" placeholder={t.contact.children} required value={form.children} onChange={(e) => setForm({ ...form, children: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+                  <Select value={form.adults} onValueChange={(v) => setForm({ ...form, adults: v })}>
+                    <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
+                      <SelectValue placeholder={t.contact.adults} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[1, 2, 3, 4].map((n) => {
+                        const disabled = n + childrenNum > 4;
+                        return (
+                          <SelectItem key={n} value={String(n)} disabled={disabled}>
+                            {n}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                  <Select value={form.children} onValueChange={(v) => setForm({ ...form, children: v })}>
+                    <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
+                      <SelectValue placeholder={t.contact.children} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3].map((n) => {
+                        const disabled = adultsNum > 0 && n + adultsNum > 4;
+                        return (
+                          <SelectItem key={n} value={String(n)} disabled={disabled}>
+                            {n}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
                 </div>
                 {isTooManyPersons && (
                   <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
