@@ -36,10 +36,21 @@ const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), 
 const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const MIN_RENTAL_DAYS = 5;
-const PRICE_PER_DAY = 129;
+const PRICE_MAIN_SEASON = 129; // May–September
+const PRICE_OFF_SEASON = 119; // April & October
 const VAT_RATE = 0.19;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
+const MAIN_SEASON_START_MONTH = 4; // May (0-indexed)
+const MAIN_SEASON_END_MONTH = 8; // September (0-indexed)
+
+/** Returns the nightly price for a given date based on season. */
+const priceForDate = (date: Date): number => {
+  const m = date.getMonth();
+  return m >= MAIN_SEASON_START_MONTH && m <= MAIN_SEASON_END_MONTH
+    ? PRICE_MAIN_SEASON
+    : PRICE_OFF_SEASON;
+};
 
 /** True if date lies outside the rental season (Apr 1 – Oct 31). */
 const isOutOfSeason = (date: Date): boolean => {
