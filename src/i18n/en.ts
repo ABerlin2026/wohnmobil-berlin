@@ -301,6 +301,13 @@ export const en: typeof de = {
     summaryFreeKm: "Free kilometers",
     summaryExtraKm: "Extra kilometers",
     summaryExtraKmUnit: "km × €0.35",
+    bookingType: "Booking type *",
+    bookingTypeRental: "Classic rental",
+    bookingTypeEvent: "Event overnight stay (Berlin area)",
+    eventInfoTitle: "Event overnight stay",
+    eventInfoText: "€80 per day for distances under 50 km · Minimum rental: 3 days",
+    eventKmWarning: "For distances over 50 km, regular rental conditions apply. Please contact us directly for a quote.",
+    summaryEventNights: "Event overnight stay",
   },
 
   // Sunset moment

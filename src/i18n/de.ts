@@ -299,6 +299,13 @@ export const de = {
     summaryFreeKm: "Freikilometer",
     summaryExtraKm: "Mehrkilometer",
     summaryExtraKmUnit: "km × 0,35 €",
+    bookingType: "Art der Buchung *",
+    bookingTypeRental: "Klassische Miete",
+    bookingTypeEvent: "Event-Übernachtung (Berliner Raum)",
+    eventInfoTitle: "Event-Übernachtung",
+    eventInfoText: "80 € pro Tag bei einer Anfahrt unter 50 km · Mindestmietdauer 3 Tage",
+    eventKmWarning: "Bei mehr als 50 km gelten die regulären Mietkonditionen. Bitte kontaktiere uns direkt für ein Angebot.",
+    summaryEventNights: "Event-Übernachtung",
   },
 
   // Sunset moment
