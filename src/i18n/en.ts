@@ -59,7 +59,7 @@ export const en: typeof de = {
     cleaning: "Cleaning:",
     cleaningText: "No charge if returned clean. Otherwise €200.",
     extras: "Extras:",
-    extrasText: "Gas grill (€40) · E-scooter (€75) · Bed linen (€20 per person)",
+    extrasText: "Gas grill (€40) · E-scooter (€75) · Bed linen (€10 per person)",
   },
 
   // Target groups
@@ -95,6 +95,7 @@ export const en: typeof de = {
         items: [
           "Gas stove with multiple burners", "Fridge with built-in freezer",
           "Coffee machine – enjoy fresh coffee in the morning",
+          "Fully equipped with kitchen utensils: pots, pans, cutlery, plates, cups, glasses & cooking tools",
         ],
       },
       {
