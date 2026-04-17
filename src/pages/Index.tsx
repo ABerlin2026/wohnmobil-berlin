@@ -24,9 +24,9 @@ const Index = () => {
         <TargetGroupSection />
         <EquipmentSection />
         <GallerySection />
-        <SunsetSection />
         <BeginnerSection />
         <VideoSection />
+        <SunsetSection />
         <FAQSection />
         <ContactSection />
         <FinalCTASection />
