@@ -88,7 +88,20 @@ const ContactSection = () => {
     );
   };
 
-  const endCalendarDefaultMonth = startDate ?? calendarDefaultMonth;
+  const minEndDate = useMemo(
+    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS) : undefined),
+    [startDate],
+  );
+
+  const endCalendarDefaultMonth = useMemo(() => {
+    if (!startDate) return calendarDefaultMonth;
+    // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
+    const daysToMonthEnd = differenceInCalendarDays(endOfMonth(startDate), startDate);
+    if (daysToMonthEnd < MIN_RENTAL_DAYS) {
+      return new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
+    }
+    return startDate;
+  }, [startDate, calendarDefaultMonth]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
