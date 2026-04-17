@@ -11,7 +11,7 @@ import { MessageCircle, Send, Zap, Clock, CalendarIcon, AlertTriangle, Phone } f
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { useGoogleCalendarEvents } from "@/hooks/useGoogleCalendarEvents";
+import { useBookedDates } from "@/hooks/useBookedDates";
 
 const PHONE_NUMBER = "491234567890";
 const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F`;
@@ -39,7 +39,7 @@ const MIN_RENTAL_DAYS = 5;
 const ContactSection = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { isDateBooked, firstBookedDate, loading: calendarLoading } = useGoogleCalendarEvents();
+  const { isDateBooked, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
@@ -171,7 +171,7 @@ const ContactSection = () => {
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <div>
                 <div className="grid grid-cols-2 gap-3">
-                  <Popover open={startOpen} onOpenChange={setStartOpen}>
+                  <Popover open={startOpen} onOpenChange={(open) => { setStartOpen(open); if (open) refetch(true); }}>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !startDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
@@ -182,7 +182,7 @@ const ContactSection = () => {
                       <Calendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && isDateBooked(date)) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date()} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
-                  <Popover open={endOpen} onOpenChange={setEndOpen}>
+                  <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !endDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
