@@ -41,7 +41,8 @@ const MIN_HOLIDAY_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
 const PRICE_EVENT = 80; // Event overnight stay (<50 km)
-const PRICE_HOLIDAY_PER_PERSON = 60; // Holiday home per person & night
+// Holiday home tiered pricing per night by total persons (1–4)
+const HOLIDAY_PRICE_BY_PERSONS: Record<number, number> = { 1: 75, 2: 100, 3: 125, 4: 150 };
 const EVENT_KM_LIMIT = 50;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
@@ -550,15 +551,16 @@ const ContactSection = () => {
                 }
 
                 if (bookingType === "holiday") {
-                  // Holiday home: 30€ per person per day
-                  const persons = Math.max(1, totalPersons);
-                  const holidaySum = rentalDays * persons * PRICE_HOLIDAY_PER_PERSON;
+                  // Holiday home: tiered nightly price by number of persons
+                  const persons = Math.min(4, Math.max(1, totalPersons));
+                  const pricePerNight = HOLIDAY_PRICE_BY_PERSONS[persons];
+                  const holidaySum = rentalDays * pricePerNight;
                   const gross = holidaySum + extrasTotal;
                   return (
                     <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
                       <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {persons} × {PRICE_HOLIDAY_PER_PERSON} €)</span>
+                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {pricePerNight} € · {persons} P.)</span>
                         <span>{fmt(holidaySum)} €</span>
                       </div>
                       {extrasTotal > 0 && (
