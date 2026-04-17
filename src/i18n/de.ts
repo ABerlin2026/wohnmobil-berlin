@@ -247,6 +247,23 @@ export const de = {
       { q: "Gibt es Videos zur Erklärung der einzelnen Funktionen?", a: "Ja, wir stellen dir Erklärvideos zu allen wichtigen Themen bereit – von der Markise über den Herd bis zur Grauwasser-Entsorgung. So kannst du alles in Ruhe nachschauen." },
       { q: "Sind Festivals erlaubt?", a: "Nein, Fahrten zu Festivals sind leider nicht gestattet." },
       { q: "Ist Rauchen im Fahrzeug erlaubt?", a: "Nein, Rauchen im Fahrzeug ist nicht gestattet." },
+
+      // Event-Übernachtung
+      { q: "Was ist die Event-Übernachtung?", a: "Bei Hochzeiten, Geburtstagen oder Firmenfeiern reichen die Schlafplätze im Haus oft nicht aus. Statt ein Hotel zu buchen und abends nochmal mit dem Auto fahren zu müssen, stellen wir das Wohnmobil direkt vor das Grundstück deines Veranstaltungsortes – fußläufig erreichbar, ohne lange Anfahrt nach der Feier." },
+      { q: "Wie funktioniert das Event-Angebot?", a: "Du gibst uns Bezirk und Postleitzahl deines Veranstaltungsortes an. Liegt die Strecke unter 50 km von Berlin entfernt, parken wir das Wohnmobil vor dem Grundstück und holen es nach der Feier wieder ab. Während der Veranstaltung dient es als komfortabler Schlafplatz für bis zu 4 Personen." },
+      { q: "Was kostet die Event-Übernachtung?", a: "80 € pro Tag bei einer Entfernung unter 50 km von Berlin. Die Mindestmietdauer beträgt 3 Tage, damit das Wohnmobil flexibel über das Veranstaltungswochenende verfügbar ist." },
+      { q: "Wie weit darf der Veranstaltungsort entfernt sein?", a: "Der Festpreis von 80 €/Tag gilt für Veranstaltungsorte unter 50 km von Berlin entfernt. Für längere Strecken sprich uns bitte direkt an – dann gelten die regulären Mietkonditionen." },
+      { q: "Ist das Wohnmobil bei Events fahrbereit?", a: "Bei der Event-Übernachtung wird das Wohnmobil ausschließlich als Schlafmöglichkeit genutzt – es bleibt vor dem Grundstück stehen und wird nicht von dir gefahren. So kannst du nach der Feier einfach reinfallen und schlafen." },
+      { q: "Wie viele Personen können beim Event übernachten?", a: "Bis zu 4 Personen finden Platz – ideal für Brautpaare, Familienmitglieder oder enge Freunde, die nach der Feier bequem direkt vor Ort übernachten möchten." },
+
+      // Ferienwohnung
+      { q: "Was ist die Ferienwohnung in Berlin (PLZ 13127)?", a: "Eine besondere Übernachtungsmöglichkeit mit fester Adresse – kein klassisches Hotel, sondern unser Wohnmobil als gemütliche Ferienwohnung auf einem ruhigen Alt-Berliner Hof. Etwas anderes, etwas besonderes für Gäste, die Berlin authentisch erleben möchten." },
+      { q: "Wo genau steht das Wohnmobil?", a: "Auf einer grünen Hoffläche eines Alt-Berliner Hofes in 13127 Berlin. Das Wohnmobil ist fest an dieser Adresse stationiert und wird nicht gefahren." },
+      { q: "Was kostet die Ferienwohnung pro Nacht?", a: "Die Preise sind gestaffelt: 1 Person 75 €, 2 Personen 100 €, 3 Personen 125 €, 4 Personen 150 € pro Nacht. Mindestaufenthalt 3 Nächte." },
+      { q: "Wie viele Personen können in der Ferienwohnung übernachten?", a: "Bis zu 4 Personen. An Bord befinden sich 2 Doppelbetten – ideal für Paare, Familien oder Freundesgruppen." },
+      { q: "Gibt es Toiletten und Duschen vor Ort?", a: "Ja, auf dem Gelände stehen separate Toiletten und Duschen zur Verfügung. So hast du allen Komfort, den du brauchst." },
+      { q: "Kann ich mit dem Wohnmobil fahren?", a: "Nein, bei der Ferienwohnungs-Buchung bleibt das Wohnmobil stationär an seinem Platz im Hof. Es dient ausschließlich als Übernachtungsmöglichkeit – du nutzt es wie eine Ferienwohnung." },
+      { q: "Was unterscheidet die Ferienwohnung von einem Hotel?", a: "Es ist mal etwas anderes, etwas besonderes: ein Wohnmobil als Ferienwohnung mitten in Berlin auf einem authentischen Alt-Berliner Hof. Mit fester Adresse, aber dem Charme einer ungewöhnlichen Unterkunft – perfekt für Reisende, die mehr als nur ein Hotelzimmer suchen." },
     ],
   },
 
