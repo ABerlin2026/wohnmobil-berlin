@@ -329,7 +329,7 @@ export const en: typeof de = {
     eventKmWarning: "For distances over 50 km, regular rental conditions apply. Please contact us directly for a quote.",
     summaryEventNights: "Event overnight stay",
     holidayInfoTitle: "Holiday home Berlin",
-    holidayInfoText: "€30 per person & night · Location 13127 Berlin · Minimum stay 3 nights",
+    holidayInfoText: "€60 per person & night · max. 4 people (2 double beds) · Location 13127 Berlin · Minimum stay 3 nights",
     summaryHolidayNights: "Holiday home",
     eventDestination: "District with postcode (e.g. 10115 Berlin-Mitte)",
     holidayLocationLabel: "Location",
