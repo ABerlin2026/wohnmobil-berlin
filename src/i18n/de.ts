@@ -78,6 +78,25 @@ export const de = {
     note: "Nutzung als Schlafmöglichkeit – keine klassische Camper-Tour. Bei längeren Anfahrten oder Touren gelten die regulären Mietkonditionen.",
   },
 
+  // Holiday Home Service
+  holidayHome: {
+    label: "Sonderservice",
+    title: "Wohnmobil als Ferienwohnung in Berlin",
+    subtitle: "Gäste aus aller Welt – übernachte zentral in Berlin (PLZ 13127) auf einem ruhigen Alt-Berliner Hof.",
+    description: "Du möchtest Berlin entdecken und suchst eine besondere Übernachtungsmöglichkeit? Unser Wohnmobil steht fest auf einer Grünfläche in einem Alt-Berliner Hof (PLZ 13127) und dient dir als gemütliche Ferienwohnung auf vier Rädern. Auf dem Gelände stehen separate Toiletten und Duschen zur Verfügung – ideal für Städtereisende, die das authentische Berlin erleben möchten.",
+    feature1: "Festes Wohnmobil als Ferienwohnung – kein Fahren nötig",
+    feature2: "Zentrale Lage in Berlin (PLZ 13127) auf Alt-Berliner Hof",
+    feature3: "Separate Toiletten und Duschen auf dem Gelände",
+    feature4: "Bis zu 4 Personen – ideal für Paare, Familien & Freunde",
+    priceLabel: "Übernachtungspreis",
+    perPersonNight: "/ Person & Nacht",
+    priceExample: "Beispiel: 2 Personen = 60 € pro Nacht",
+    minDays: "Mindestmietdauer: 3 Nächte",
+    location: "Standort: 13127 Berlin",
+    cta: "Jetzt Ferienwohnung anfragen",
+    note: "Stationäre Übernachtung – das Wohnmobil bleibt vor Ort und wird nicht gefahren.",
+  },
+
   // Target groups
   target: {
     label: "Perfekt für dich",
@@ -302,10 +321,17 @@ export const de = {
     bookingType: "Art der Buchung *",
     bookingTypeRental: "Klassische Miete",
     bookingTypeEvent: "Event-Übernachtung (Berliner Raum)",
+    bookingTypeHoliday: "Ferienwohnung in Berlin (13127)",
     eventInfoTitle: "Event-Übernachtung",
     eventInfoText: "80 € pro Tag bei einer Anfahrt unter 50 km · Mindestmietdauer 3 Tage",
     eventKmWarning: "Bei mehr als 50 km gelten die regulären Mietkonditionen. Bitte kontaktiere uns direkt für ein Angebot.",
     summaryEventNights: "Event-Übernachtung",
+    holidayInfoTitle: "Ferienwohnung Berlin",
+    holidayInfoText: "30 € pro Person & Nacht · Standort 13127 Berlin · Mindestmietdauer 3 Nächte",
+    summaryHolidayNights: "Ferienwohnung",
+    eventDestination: "Bezirk mit Postleitzahl (z.B. 10115 Berlin-Mitte)",
+    holidayLocationLabel: "Standort",
+    holidayLocationValue: "13127 Berlin (Alt-Berliner Hof)",
   },
 
   // Sunset moment
