@@ -36,8 +36,11 @@ const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), 
 const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const MIN_RENTAL_DAYS = 5;
+const MIN_EVENT_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
+const PRICE_EVENT = 80; // Event overnight stay (<50 km)
+const EVENT_KM_LIMIT = 50;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
 const MAIN_SEASON_START_MONTH = 4; // May (0-indexed)
@@ -70,6 +73,7 @@ const ContactSection = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
+  const [bookingType, setBookingType] = useState<"rental" | "event">("rental");
   const [form, setForm] = useState({
     name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
@@ -87,10 +91,11 @@ const ContactSection = () => {
   const [endOpen, setEndOpen] = useState(false);
 
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
+  const minDays = bookingType === "event" ? MIN_EVENT_DAYS : MIN_RENTAL_DAYS;
   // Rental duration counted in calendar days (inclusive of arrival and departure day).
   // Example: 19.4. -> 23.4. = 5 days.
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
-  const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
+  const isTooShort = rentalDays !== null && rentalDays < minDays;
   const today = new Date();
   const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
   const calendarDefaultMonth =
