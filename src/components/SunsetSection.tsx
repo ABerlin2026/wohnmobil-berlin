@@ -19,7 +19,7 @@ const SunsetSection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-transparent" />
 
-        <div className="relative z-10 h-full container-narrow flex items-end md:items-center md:justify-center pb-12 md:pb-0 md:pl-[20%] lg:pl-[30%]">
+        <div className="relative z-10 h-full container-narrow flex items-end md:items-center pb-12 md:pb-0 md:pl-[10%] lg:pl-[15%]">
           <div className="max-w-xl">
             <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">
               {t.sunset.label}
