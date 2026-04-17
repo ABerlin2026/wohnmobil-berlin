@@ -112,8 +112,10 @@ const ContactSection = () => {
     );
   };
 
+  // Minimum end date: arrival counts as day 1, so MIN_RENTAL_DAYS days
+  // means MIN_RENTAL_DAYS - 1 nights from the start date.
   const minEndDate = useMemo(
-    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS) : undefined),
+    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS - 1) : undefined),
     [startDate],
   );
 
