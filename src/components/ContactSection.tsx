@@ -22,11 +22,11 @@ const PHONE_URL = `tel:+${PHONE_NUMBER}`;
 const ALLOWED_COUNTRIES = [
   "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
   "Polen", "Tschechien", "Österreich", "Schweiz", "Ungarn",
-  "Slowenien", "Kroatien", "Slowakei",
+  "Slowenien", "Kroatien", "Slowakei", "Niederlande",
 ];
 
 const BLOCKED_COUNTRIES = [
-  "Niederlande", "Belgien", "Luxemburg", "Frankreich", "Italien",
+  "Belgien", "Luxemburg", "Frankreich", "Italien",
   "Litauen", "Lettland", "Estland", "Vereinigtes Königreich", "Irland",
   "Serbien", "Bosnien und Herzegowina", "Montenegro", "Nordmazedonien",
   "Albanien", "Rumänien", "Bulgarien", "Belarus", "Ukraine", "Moldau",
