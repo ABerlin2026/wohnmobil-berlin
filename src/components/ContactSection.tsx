@@ -550,15 +550,16 @@ const ContactSection = () => {
                 }
 
                 if (bookingType === "holiday") {
-                  // Holiday home: 30€ per person per day
-                  const persons = Math.max(1, totalPersons);
-                  const holidaySum = rentalDays * persons * PRICE_HOLIDAY_PER_PERSON;
+                  // Holiday home: tiered nightly price by number of persons
+                  const persons = Math.min(4, Math.max(1, totalPersons));
+                  const pricePerNight = HOLIDAY_PRICE_BY_PERSONS[persons];
+                  const holidaySum = rentalDays * pricePerNight;
                   const gross = holidaySum + extrasTotal;
                   return (
                     <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
                       <p className="text-sm font-medium text-foreground mb-1">{t.contact.summaryTitle}</p>
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {persons} × {PRICE_HOLIDAY_PER_PERSON} €)</span>
+                        <span>{t.contact.summaryHolidayNights} ({rentalDays} {t.contact.summaryDays} × {pricePerNight} € · {persons} P.)</span>
                         <span>{fmt(holidaySum)} €</span>
                       </div>
                       {extrasTotal > 0 && (
