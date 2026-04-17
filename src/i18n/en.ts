@@ -276,6 +276,14 @@ export const en: typeof de = {
     summaryGross: "Total",
   },
 
+  // Sunset moment
+  sunset: {
+    label: "Lakeside moments",
+    title: "When the day fades at the water",
+    subtitle: "Leave everyday life behind – turn on the string lights, enjoy a glass of wine and watch the sun sink into the lake.",
+    imgAlt: "Motorhome at the lake at sunset – couple enjoys a romantic evening with string lights",
+  },
+
   // Final CTA
   finalCta: {
     title: "Your Adventure Starts in Berlin",

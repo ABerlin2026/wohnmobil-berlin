@@ -274,6 +274,14 @@ export const de = {
     summaryGross: "Gesamtbetrag",
   },
 
+  // Sunset moment
+  sunset: {
+    label: "Momente am See",
+    title: "Wenn der Tag am Wasser ausklingt",
+    subtitle: "Lass den Alltag hinter dir – zünde die Lichterkette an, genieße ein Glas Wein und schau zu, wie die Sonne im See versinkt.",
+    imgAlt: "Wohnmobil am See bei Sonnenuntergang – Paar genießt romantischen Abend mit Lichterkette",
+  },
+
   // Final CTA
   finalCta: {
     title: "Dein Abenteuer beginnt in Berlin",
