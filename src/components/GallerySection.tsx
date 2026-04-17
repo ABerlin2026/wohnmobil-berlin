@@ -36,7 +36,7 @@ const GallerySection = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
           {images.map((image, index) => (
             <button key={index} onClick={() => openImage(index)} className="group relative overflow-hidden rounded-lg cursor-pointer aspect-square">
-              <img src={image.src} alt={image.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" width={600} height={400} />
+              <img src={image.src} alt={image.alt} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-125" loading="lazy" width={600} height={400} />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-end">
                 <span className="text-white text-sm font-medium px-4 py-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{image.label}</span>
               </div>
