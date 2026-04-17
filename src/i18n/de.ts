@@ -188,7 +188,8 @@ export const de = {
     label: "FAQ",
     title: "Häufige Fragen",
     items: [
-      { q: "Was kostet es, ein Wohnmobil in Berlin Brandenburg zu mieten?", a: "In der Nebensaison (Oktober – April) kostet der Camper 119 € pro Tag, in der Hauptsaison (1. Mai – 30. September) 129 € pro Tag. Im Preis sind 150 Freikilometer pro Tag und eine Vollkasko-Versicherung bereits enthalten. Es gibt keine versteckten Zusatzkosten für die Versicherung." },
+      { q: "Was kostet es, ein Wohnmobil in Berlin Brandenburg zu mieten?", a: "In der Nebensaison (April und Oktober) kostet der Camper 119 € pro Tag, in der Hauptsaison (1. Mai – 30. September) 129 € pro Tag. Im Preis sind 150 Freikilometer pro Tag und eine Vollkasko-Versicherung bereits enthalten. Es gibt keine versteckten Zusatzkosten für die Versicherung." },
+      { q: "In welchem Zeitraum kann ich das Wohnmobil mieten?", a: "Vermietet wird von April bis Oktober. In der Zeit vom 1. November bis 31. März ist keine Vermietung möglich – in diesem Zeitraum macht der Camper Winterpause." },
       { q: "Wie viele Kilometer sind pro Tag inklusive?", a: "Pro Miettag sind 150 Kilometer inklusive. Damit kannst du entspannt Tagesausflüge planen, ohne dir Gedanken über Zusatzkosten machen zu müssen." },
       { q: "Was kostet jeder weitere Kilometer?", a: "Jeder Kilometer über das Freikilometer-Kontingent hinaus wird mit 0,35 € berechnet." },
       { q: "Ist eine Vollkasko-Versicherung enthalten?", a: "Ja, eine Vollkasko-Versicherung ist im Mietpreis enthalten. Du musst keine zusätzliche Versicherung abschließen." },
