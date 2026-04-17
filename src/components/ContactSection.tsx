@@ -60,6 +60,15 @@ const ContactSection = () => {
   const [form, setForm] = useState({
     name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
+  const [extras, setExtras] = useState({
+    bedding: false, towels: false, grill: false, scooterQty: 0,
+  });
+  const EXTRA_PRICES = { bedding: 20, towels: 20, grill: 40, scooter: 75 };
+  const extrasTotal =
+    (extras.bedding ? EXTRA_PRICES.bedding : 0) +
+    (extras.towels ? EXTRA_PRICES.towels : 0) +
+    (extras.grill ? EXTRA_PRICES.grill : 0) +
+    extras.scooterQty * EXTRA_PRICES.scooter;
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
@@ -119,6 +128,7 @@ const ContactSection = () => {
     }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
     setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
+    setExtras({ bedding: false, towels: false, grill: false, scooterQty: 0 });
     setStartDate(undefined);
     setEndDate(undefined);
     setSelectedCountry("");
