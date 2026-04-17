@@ -10,6 +10,7 @@ import VideoSection from "@/components/VideoSection";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import FinalCTASection from "@/components/FinalCTASection";
+import SunsetSection from "@/components/SunsetSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -23,6 +24,7 @@ const Index = () => {
         <TargetGroupSection />
         <EquipmentSection />
         <GallerySection />
+        <SunsetSection />
         <BeginnerSection />
         <VideoSection />
         <FAQSection />
