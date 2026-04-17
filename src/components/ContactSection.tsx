@@ -145,6 +145,11 @@ const ContactSection = () => {
     return startDate;
   }, [startDate, calendarDefaultMonth]);
 
+  const adultsNum = parseInt(form.adults, 10) || 0;
+  const childrenNum = parseInt(form.children, 10) || 0;
+  const totalPersons = adultsNum + childrenNum;
+  const isTooManyPersons = totalPersons > 4;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
@@ -159,8 +164,12 @@ const ContactSection = () => {
       toast({ title: t.contact.toastCountry, description: t.contact.toastCountryDesc, variant: "destructive" });
       return;
     }
+    if (isTooManyPersons) {
+      toast({ title: t.contact.toastMaxPersons, description: t.contact.toastMaxPersonsDesc, variant: "destructive" });
+      return;
+    }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
-    setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
+    setForm({ name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
