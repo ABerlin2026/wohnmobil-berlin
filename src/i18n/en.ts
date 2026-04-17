@@ -190,7 +190,8 @@ export const en: typeof de = {
     label: "FAQ",
     title: "Frequently Asked Questions",
     items: [
-      { q: "How much does it cost to rent a motorhome in Berlin Brandenburg?", a: "In the off-season (October – April) the camper costs €119 per day, in the peak season (May 1 – September 30) €129 per day. The price includes 150 free kilometers per day and fully comprehensive insurance. There are no hidden insurance costs." },
+      { q: "How much does it cost to rent a motorhome in Berlin Brandenburg?", a: "In the off-season (April and October) the camper costs €119 per day, in the peak season (May 1 – September 30) €129 per day. The price includes 150 free kilometers per day and fully comprehensive insurance. There are no hidden insurance costs." },
+      { q: "During which period can I rent the motorhome?", a: "The camper is available from April to October. From November 1 to March 31, no rentals are possible – during this period the motorhome is on a winter break." },
       { q: "How many kilometers are included per day?", a: "150 kilometers are included per rental day. You can comfortably plan day trips without worrying about additional costs." },
       { q: "What does each additional kilometer cost?", a: "Each kilometer beyond the free mileage allowance is charged at €0.35." },
       { q: "Is comprehensive insurance included?", a: "Yes, fully comprehensive insurance is included in the rental price. You don't need to take out additional insurance." },
