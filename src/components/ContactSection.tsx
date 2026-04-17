@@ -74,14 +74,15 @@ const ContactSection = () => {
     name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
-    beddingQty: 0, towels: false, grill: false, scooterQty: 0,
+    beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
   });
-  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75 };
+  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75, cleaning: 200 };
   const extrasTotal =
     extras.beddingQty * EXTRA_PRICES.bedding +
     (extras.towels ? EXTRA_PRICES.towels : 0) +
     (extras.grill ? EXTRA_PRICES.grill : 0) +
-    extras.scooterQty * EXTRA_PRICES.scooter;
+    extras.scooterQty * EXTRA_PRICES.scooter +
+    (extras.cleaning ? EXTRA_PRICES.cleaning : 0);
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
@@ -160,7 +161,7 @@ const ContactSection = () => {
     }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
     setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
-    setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0 });
+    setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
     setSelectedCountry("");
@@ -325,6 +326,23 @@ const ContactSection = () => {
                   <p className="text-sm font-medium text-foreground">{t.contact.extrasTitle}</p>
                   <p className="text-xs text-muted-foreground">{t.contact.extrasSubtitle}</p>
                 </div>
+                {/* 1. Towels */}
+                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-center gap-3">
+                    <Checkbox checked={extras.towels} onCheckedChange={(c) => setExtras({ ...extras, towels: c === true })} />
+                    <span>{t.contact.extraTowels}</span>
+                  </span>
+                  <span className="text-muted-foreground">20 €</span>
+                </label>
+                {/* 2. Grill */}
+                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-center gap-3">
+                    <Checkbox checked={extras.grill} onCheckedChange={(c) => setExtras({ ...extras, grill: c === true })} />
+                    <span>{t.contact.extraGrill}</span>
+                  </span>
+                  <span className="text-muted-foreground">40 €</span>
+                </label>
+                {/* 3. Bedding */}
                 <div className="flex items-center justify-between gap-3 text-sm">
                   <div className="flex flex-col">
                     <span>{t.contact.extraBedding}</span>
@@ -341,20 +359,7 @@ const ContactSection = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
-                  <span className="flex items-center gap-3">
-                    <Checkbox checked={extras.towels} onCheckedChange={(c) => setExtras({ ...extras, towels: c === true })} />
-                    <span>{t.contact.extraTowels}</span>
-                  </span>
-                  <span className="text-muted-foreground">20 €</span>
-                </label>
-                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
-                  <span className="flex items-center gap-3">
-                    <Checkbox checked={extras.grill} onCheckedChange={(c) => setExtras({ ...extras, grill: c === true })} />
-                    <span>{t.contact.extraGrill}</span>
-                  </span>
-                  <span className="text-muted-foreground">40 €</span>
-                </label>
+                {/* 4. E-Scooter */}
                 <div className="flex items-center justify-between gap-3 text-sm">
                   <div className="flex flex-col">
                     <span>{t.contact.extraScooter}</span>
@@ -371,6 +376,17 @@ const ContactSection = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                {/* 5. Cleaning flat fee */}
+                <label className="flex items-start justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-start gap-3">
+                    <Checkbox className="mt-0.5" checked={extras.cleaning} onCheckedChange={(c) => setExtras({ ...extras, cleaning: c === true })} />
+                    <span className="flex flex-col">
+                      <span>{t.contact.extraCleaning}</span>
+                      <span className="text-xs text-muted-foreground">{t.contact.extraCleaningHint}</span>
+                    </span>
+                  </span>
+                  <span className="text-muted-foreground whitespace-nowrap">200 €</span>
+                </label>
                 {extrasTotal > 0 && (
                   <div className="flex items-center justify-between pt-3 border-t border-border/10 text-sm">
                     <span className="font-medium">{t.contact.extrasTotal}</span>

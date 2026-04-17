@@ -260,6 +260,8 @@ export const de = {
     extraScooter: "E-Scooter",
     extraBeddingQty: "Anzahl Personen (max. 4)",
     extraScooterQty: "Anzahl (max. 3)",
+    extraCleaning: "Innen- & Außenreinigung Pauschale",
+    extraCleaningHint: "Innen- & Außenreinigung nicht selber durchführen – einfach von uns ausführen lassen.",
     extrasTotal: "Zwischensumme Extras",
     summaryTitle: "Gesamtbetrag",
     summaryRental: "Miete",
