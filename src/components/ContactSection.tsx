@@ -257,6 +257,43 @@ const ContactSection = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3">
+              {/* Buchungstyp */}
+              <div className="bg-surface-2 rounded-lg p-3 border border-border/10 space-y-2">
+                <label className="text-xs font-medium text-foreground">{t.contact.bookingType}</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setBookingType("rental")}
+                    className={cn(
+                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
+                      bookingType === "rental"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                    )}
+                  >
+                    {t.contact.bookingTypeRental}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBookingType("event")}
+                    className={cn(
+                      "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
+                      bookingType === "event"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                    )}
+                  >
+                    {t.contact.bookingTypeEvent}
+                  </button>
+                </div>
+                {bookingType === "event" && (
+                  <div className="bg-primary/5 rounded-md p-2 border border-primary/20">
+                    <p className="text-xs font-medium text-primary">{t.contact.eventInfoTitle}</p>
+                    <p className="text-xs text-muted-foreground">{t.contact.eventInfoText}</p>
+                  </div>
+                )}
+              </div>
+
               <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
