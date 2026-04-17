@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { format, differenceInCalendarDays } from "date-fns";
+import { useState, useMemo } from "react";
+import { addDays, endOfMonth, format, differenceInCalendarDays } from "date-fns";
 import { de } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -88,7 +88,20 @@ const ContactSection = () => {
     );
   };
 
-  const endCalendarDefaultMonth = startDate ?? calendarDefaultMonth;
+  const minEndDate = useMemo(
+    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS) : undefined),
+    [startDate],
+  );
+
+  const endCalendarDefaultMonth = useMemo(() => {
+    if (!startDate) return calendarDefaultMonth;
+    // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
+    const daysToMonthEnd = differenceInCalendarDays(endOfMonth(startDate), startDate);
+    if (daysToMonthEnd < MIN_RENTAL_DAYS) {
+      return new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
+    }
+    return startDate;
+  }, [startDate, calendarDefaultMonth]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,7 +224,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && (isDateBooked(date) || isOutOfSeason(date))) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isOutOfSeason(date) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && (isDateBooked(date) || isOutOfSeason(date) || (minEndDate && date < minEndDate))) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isOutOfSeason(date) || isDateBooked(date) || (minEndDate ? date < minEndDate : false)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) || isOutOfSeason(date) || (minEndDate ? date > (startDate as Date) && date < minEndDate : false) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => (minEndDate && date > (startDate as Date) && date < minEndDate) ? (<span className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive/15 text-destructive line-through font-semibold">{format(date, "d", { locale: de })}</span>) : renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                 </div>
