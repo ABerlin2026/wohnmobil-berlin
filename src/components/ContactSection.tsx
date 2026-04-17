@@ -452,7 +452,13 @@ const ContactSection = () => {
                   else offNights++;
                 }
                 const rentalSum = mainNights * PRICE_MAIN_SEASON + offNights * PRICE_OFF_SEASON;
-                const gross = rentalSum + extrasTotal;
+                const FREE_KM_PER_DAY = 150;
+                const EXTRA_KM_PRICE = 0.35;
+                const freeKm = rentalDays * FREE_KM_PER_DAY;
+                const plannedKm = parseInt(form.kilometers, 10) || 0;
+                const extraKm = Math.max(0, plannedKm - freeKm);
+                const extraKmCost = extraKm * EXTRA_KM_PRICE;
+                const gross = rentalSum + extrasTotal + extraKmCost;
                 const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 return (
                   <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 space-y-2">
@@ -467,6 +473,16 @@ const ContactSection = () => {
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <span>{t.contact.summaryOffSeason} ({offNights} {t.contact.summaryDays} × {PRICE_OFF_SEASON} €)</span>
                         <span>{fmt(offNights * PRICE_OFF_SEASON)} €</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>{t.contact.summaryFreeKm} ({rentalDays} {t.contact.summaryDays} × {FREE_KM_PER_DAY} km)</span>
+                      <span>{freeKm} km</span>
+                    </div>
+                    {extraKm > 0 && (
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{t.contact.summaryExtraKm} ({extraKm} {t.contact.summaryExtraKmUnit})</span>
+                        <span>{fmt(extraKmCost)} €</span>
                       </div>
                     )}
                     {extrasTotal > 0 && (
