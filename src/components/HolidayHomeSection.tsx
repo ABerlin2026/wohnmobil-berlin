@@ -54,10 +54,10 @@ const HolidayHomeSection = () => {
                   {t.holidayHome.priceLabel}
                 </p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-display font-bold text-foreground">30€</span>
-                  <span className="text-muted-foreground text-sm">{t.holidayHome.perPersonNight}</span>
+                  <span className="text-4xl font-display font-bold text-foreground">60€</span>
+                  <span className="text-muted-foreground text-sm">{t.holidayHome.perNight}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">{t.holidayHome.priceExample}</p>
+                <p className="text-xs text-muted-foreground mt-2">{t.holidayHome.priceHint}</p>
                 <p className="text-xs text-muted-foreground">{t.holidayHome.minDays}</p>
                 <p className="text-xs text-muted-foreground">{t.holidayHome.location}</p>
               </div>
