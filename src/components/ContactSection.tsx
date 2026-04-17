@@ -192,7 +192,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && isDateBooked(date)) return; setEndDate(date); setEndOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < (startDate || new Date())} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <Calendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && isDateBooked(date)) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isDateBooked(date)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateBooked(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                 </div>
