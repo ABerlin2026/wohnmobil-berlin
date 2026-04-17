@@ -10,6 +10,7 @@ export const de = {
     inquireNow: "Jetzt anfragen",
     openMenu: "Menü öffnen",
     brand: "CAMPER BERLIN",
+    tagline: "Dein Abenteuer beginnt in Berlin",
   },
 
   // Hero
