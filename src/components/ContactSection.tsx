@@ -38,7 +38,6 @@ const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 const MIN_RENTAL_DAYS = 5;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
-const VAT_RATE = 0.19;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
 const MAIN_SEASON_START_MONTH = 4; // May (0-indexed)
