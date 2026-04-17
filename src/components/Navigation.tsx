@@ -3,7 +3,6 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLanguage, type Language } from "@/i18n/LanguageContext";
-import logoCamperBerlin from "@/assets/logo-camper-berlin.png";
 
 const Navigation = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -44,14 +43,14 @@ const Navigation = () => {
       )}
     >
       <div className="container-narrow flex items-center justify-between h-16 px-5">
-        <a href="/" className="flex items-center" aria-label="Camper Berlin Brandenburg – Startseite">
-          <img
-            src={logoCamperBerlin}
-            alt={t.nav.brand}
-            className="h-9 md:h-11 w-auto object-contain"
-            width={861}
-            height={215}
-          />
+        <a href="/" className="flex flex-col leading-none" aria-label="Camper Berlin – Startseite">
+          <span className="font-display font-extrabold tracking-tight text-base sm:text-lg md:text-xl">
+            <span className="text-brand-blue">CAMPER</span>{" "}
+            <span className="text-brand-green">BERLIN</span>
+          </span>
+          <span className="hidden sm:block text-[10px] md:text-xs text-brand-subtitle font-medium mt-0.5 tracking-wide">
+            Dein Abenteuer beginnt in Berlin
+          </span>
         </a>
 
         <div className="hidden md:flex items-center gap-1">
