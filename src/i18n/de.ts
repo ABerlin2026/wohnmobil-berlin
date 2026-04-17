@@ -278,6 +278,9 @@ export const de = {
     summaryDays: "Tage",
     summaryExtras: "Extras",
     summaryGross: "Gesamtbetrag",
+    summaryFreeKm: "Freikilometer",
+    summaryExtraKm: "Mehrkilometer",
+    summaryExtraKmUnit: "km × 0,35 €",
   },
 
   // Sunset moment
