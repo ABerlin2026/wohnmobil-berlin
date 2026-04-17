@@ -258,6 +258,7 @@ export const de = {
     extraTowels: "Handtücher",
     extraGrill: "Gasgrill",
     extraScooter: "E-Scooter",
+    extraBeddingQty: "Anzahl Personen (max. 4)",
     extraScooterQty: "Anzahl (max. 3)",
     extrasTotal: "Zwischensumme Extras",
     summaryTitle: "Gesamtbetrag",

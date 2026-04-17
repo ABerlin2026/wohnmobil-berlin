@@ -260,6 +260,7 @@ export const en: typeof de = {
     extraTowels: "Towels",
     extraGrill: "Gas grill",
     extraScooter: "E-scooter",
+    extraBeddingQty: "Number of persons (max. 4)",
     extraScooterQty: "Quantity (max. 3)",
     extrasTotal: "Extras subtotal",
     summaryTitle: "Total amount",
