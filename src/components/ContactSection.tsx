@@ -74,11 +74,11 @@ const ContactSection = () => {
     name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
-    bedding: false, towels: false, grill: false, scooterQty: 0,
+    beddingQty: 0, towels: false, grill: false, scooterQty: 0,
   });
-  const EXTRA_PRICES = { bedding: 20, towels: 20, grill: 40, scooter: 75 };
+  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75 };
   const extrasTotal =
-    (extras.bedding ? EXTRA_PRICES.bedding : 0) +
+    extras.beddingQty * EXTRA_PRICES.bedding +
     (extras.towels ? EXTRA_PRICES.towels : 0) +
     (extras.grill ? EXTRA_PRICES.grill : 0) +
     extras.scooterQty * EXTRA_PRICES.scooter;
@@ -160,7 +160,7 @@ const ContactSection = () => {
     }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
     setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
-    setExtras({ bedding: false, towels: false, grill: false, scooterQty: 0 });
+    setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0 });
     setStartDate(undefined);
     setEndDate(undefined);
     setSelectedCountry("");
@@ -325,13 +325,22 @@ const ContactSection = () => {
                   <p className="text-sm font-medium text-foreground">{t.contact.extrasTitle}</p>
                   <p className="text-xs text-muted-foreground">{t.contact.extrasSubtitle}</p>
                 </div>
-                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
-                  <span className="flex items-center gap-3">
-                    <Checkbox checked={extras.bedding} onCheckedChange={(c) => setExtras({ ...extras, bedding: c === true })} />
+                <div className="flex items-center justify-between gap-3 text-sm">
+                  <div className="flex flex-col">
                     <span>{t.contact.extraBedding}</span>
-                  </span>
-                  <span className="text-muted-foreground">20 €</span>
-                </label>
+                    <span className="text-xs text-muted-foreground">{t.contact.extraBeddingQty} · 10 € / Person</span>
+                  </div>
+                  <Select value={String(extras.beddingQty)} onValueChange={(v) => setExtras({ ...extras, beddingQty: parseInt(v, 10) })}>
+                    <SelectTrigger className="bg-surface-1 border-border/20 rounded-lg h-9 w-20">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3, 4].map((n) => (
+                        <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
                   <span className="flex items-center gap-3">
                     <Checkbox checked={extras.towels} onCheckedChange={(c) => setExtras({ ...extras, towels: c === true })} />
