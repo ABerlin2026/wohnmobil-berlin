@@ -41,7 +41,8 @@ const MIN_HOLIDAY_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
 const PRICE_EVENT = 80; // Event overnight stay (<50 km)
-const PRICE_HOLIDAY_PER_PERSON = 60; // Holiday home per person & night
+// Holiday home tiered pricing per night by total persons (1–4)
+const HOLIDAY_PRICE_BY_PERSONS: Record<number, number> = { 1: 75, 2: 100, 3: 125, 4: 150 };
 const EVENT_KM_LIMIT = 50;
 const SEASON_START_MONTH = 3; // April (0-indexed)
 const SEASON_END_MONTH = 9; // October (0-indexed)
