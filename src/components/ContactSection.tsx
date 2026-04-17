@@ -35,6 +35,20 @@ const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), 
 const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
 
 const MIN_RENTAL_DAYS = 5;
+const SEASON_START_MONTH = 3; // April (0-indexed)
+const SEASON_END_MONTH = 9; // October (0-indexed)
+
+/** True if date lies outside the rental season (Apr 1 – Oct 31). */
+const isOutOfSeason = (date: Date): boolean => {
+  const m = date.getMonth();
+  return m < SEASON_START_MONTH || m > SEASON_END_MONTH;
+};
+
+/** Next April 1st on or after the given date. */
+const nextSeasonStart = (from: Date): Date => {
+  const year = from.getMonth() > SEASON_END_MONTH ? from.getFullYear() + 1 : from.getFullYear();
+  return new Date(year, SEASON_START_MONTH, 1);
+};
 
 const ContactSection = () => {
   const { t } = useLanguage();
@@ -52,10 +66,15 @@ const ContactSection = () => {
   const isCountryBlocked = selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) : null;
   const isTooShort = rentalDays !== null && rentalDays < MIN_RENTAL_DAYS;
-  const calendarDefaultMonth = firstBookedDate && firstBookedDate >= new Date() ? firstBookedDate : new Date();
+  const today = new Date();
+  const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
+  const calendarDefaultMonth =
+    firstBookedDate && firstBookedDate >= today && !isOutOfSeason(firstBookedDate)
+      ? firstBookedDate
+      : seasonAnchor;
 
   const renderCalendarDay = (date: Date) => {
-    const blocked = isDateUnavailable(date, MIN_RENTAL_DAYS);
+    const blocked = isDateUnavailable(date, MIN_RENTAL_DAYS) || isOutOfSeason(date);
 
     return (
       <span
