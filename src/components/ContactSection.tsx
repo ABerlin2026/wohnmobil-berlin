@@ -118,11 +118,11 @@ const ContactSection = () => {
     );
   };
 
-  // Minimum end date: arrival counts as day 1, so MIN_RENTAL_DAYS days
-  // means MIN_RENTAL_DAYS - 1 nights from the start date.
+  // Minimum end date: arrival counts as day 1, so minDays days
+  // means minDays - 1 nights from the start date.
   const minEndDate = useMemo(
-    () => (startDate ? addDays(startDate, MIN_RENTAL_DAYS - 1) : undefined),
-    [startDate],
+    () => (startDate ? addDays(startDate, minDays - 1) : undefined),
+    [startDate, minDays],
   );
 
   /**
@@ -142,9 +142,9 @@ const ContactSection = () => {
 
   const endCalendarDefaultMonth = useMemo(() => {
     if (!startDate) return calendarDefaultMonth;
-    // If fewer than MIN_RENTAL_DAYS remain in the start month, jump to next month
+    // If fewer than minDays remain in the start month, jump to next month
     const daysToMonthEnd = differenceInCalendarDays(endOfMonth(startDate), startDate);
-    if (daysToMonthEnd < MIN_RENTAL_DAYS - 1) {
+    if (daysToMonthEnd < minDays - 1) {
       return new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
     }
     return startDate;
