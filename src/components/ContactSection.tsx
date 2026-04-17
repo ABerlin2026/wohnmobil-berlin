@@ -71,7 +71,7 @@ const ContactSection = () => {
   const [endDate, setEndDate] = useState<Date>();
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "",
+    name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
     beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
@@ -145,6 +145,11 @@ const ContactSection = () => {
     return startDate;
   }, [startDate, calendarDefaultMonth]);
 
+  const adultsNum = parseInt(form.adults, 10) || 0;
+  const childrenNum = parseInt(form.children, 10) || 0;
+  const totalPersons = adultsNum + childrenNum;
+  const isTooManyPersons = totalPersons > 4;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
@@ -159,8 +164,12 @@ const ContactSection = () => {
       toast({ title: t.contact.toastCountry, description: t.contact.toastCountryDesc, variant: "destructive" });
       return;
     }
+    if (isTooManyPersons) {
+      toast({ title: t.contact.toastMaxPersons, description: t.contact.toastMaxPersonsDesc, variant: "destructive" });
+      return;
+    }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
-    setForm({ name: "", email: "", phone: "", persons: "", pet: "nein", message: "", destination: "", kilometers: "" });
+    setForm({ name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
@@ -307,17 +316,26 @@ const ContactSection = () => {
 
               <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
 
-              <div className="grid grid-cols-2 gap-3">
-                <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.persons} required value={form.persons} onChange={(e) => setForm({ ...form, persons: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-                <select
-                  className="flex h-11 w-full rounded-lg border border-border/20 bg-surface-2 px-3 py-2 text-xs sm:text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  value={form.pet}
-                  onChange={(e) => setForm({ ...form, pet: e.target.value })}
-                >
-                  <option value="nein">{t.contact.petNo}</option>
-                  <option value="ja">{t.contact.petYes}</option>
-                </select>
+              <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-3">
+                  <Input type="number" inputMode="numeric" min="1" max="4" placeholder={t.contact.adults} required value={form.adults} onChange={(e) => setForm({ ...form, adults: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+                  <Input type="number" inputMode="numeric" min="0" max="3" placeholder={t.contact.children} required value={form.children} onChange={(e) => setForm({ ...form, children: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+                </div>
+                {isTooManyPersons && (
+                  <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                    <p className="text-xs text-destructive">{t.contact.maxPersonsError}</p>
+                  </div>
+                )}
               </div>
+              <select
+                className="flex h-11 w-full rounded-lg border border-border/20 bg-surface-2 px-3 py-2 text-xs sm:text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                value={form.pet}
+                onChange={(e) => setForm({ ...form, pet: e.target.value })}
+              >
+                <option value="nein">{t.contact.petNo}</option>
+                <option value="ja">{t.contact.petYes}</option>
+              </select>
               <Textarea placeholder={t.contact.message} rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg" />
 
               {/* Extras */}
@@ -437,7 +455,7 @@ const ContactSection = () => {
                 );
               })()}
 
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort}>
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons}>
                 {t.contact.submit}
               </Button>
             </form>
