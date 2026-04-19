@@ -406,6 +406,7 @@ export const de = {
   footer: {
     imprint: "Impressum",
     privacy: "Datenschutz",
+    terms: "AGB",
     rights: "Alle Rechte vorbehalten.",
   },
 };
