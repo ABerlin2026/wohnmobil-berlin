@@ -439,12 +439,12 @@ export const de = {
     reviewsCount: "Bewertungen",
     disclaimer: "Echte Stimmen unserer Mieter aus Berlin & Umgebung.",
     items: [
-      { name: "Anna & Markus", context: "Roadtrip Ostsee · Juli 2024", rating: 5, text: "Persönliche Übergabe, alles erklärt – wir hatten zum ersten Mal einen Camper und konnten sofort entspannt losfahren. Der Camper ist top gepflegt, alles funktionierte einwandfrei. Kommen wieder!" },
-      { name: "Familie Schulz", context: "Sächsische Schweiz · August 2024", rating: 5, text: "Mit zwei Kindern und Hund unterwegs gewesen – im Wohnmobil war alles dabei, was wir brauchten. Vorzelt war Gold wert bei Regen. Klare Empfehlung für Familien." },
-      { name: "Lea M.", context: "Ferienwohnung 13127 · September 2024", rating: 5, text: "Wir haben in der Ferienwohnung im Hinterhof übernachtet – mitten in Berlin und trotzdem so ruhig! Eine echte Berlin-Erfahrung, die wir so nicht erwartet hätten. Liebevoll eingerichtet." },
-      { name: "Thomas K.", context: "Hochzeit Brandenburg · Juni 2024", rating: 5, text: "Wir hatten den Camper als Schlafmöglichkeit für unsere Hochzeit vor dem Hof stehen. Die Brauteltern waren begeistert – nach der Feier einfach reinfallen, top. Super unkompliziert organisiert." },
-      { name: "Carolin & David", context: "Norwegen-Tour · Juli 2024", rating: 5, text: "Drei Wochen Norwegen mit dem Camper – kein einziges Problem, top Ausstattung. Klimaanlage und Heizung waren bei wechselndem Wetter perfekt. Der Hund hat sich sofort wohlgefühlt." },
-      { name: "Stefan B.", context: "Brandenburger Seen · Mai 2024", rating: 4, text: "Schöner Camper, sehr gut ausgestattet. Übergabe lief reibungslos. Kleiner Punkt: Beim ersten Mal etwas viel Technik – aber die Erklärvideos haben unterwegs alles erklärt." },
+      { name: "Anna & Markus", context: "Ferienwohnung Berlin · November 2025", rating: 5, text: "Persönliche Übergabe, alles erklärt – wir hatten zum ersten Mal in Berlin übernachtet und fühlten uns sofort wohl. Die Wohnung ist top gepflegt, alles funktionierte einwandfrei. Kommen wieder!" },
+      { name: "Familie Schulz", context: "Winter-Kurztrip Berlin · Dezember 2025", rating: 5, text: "Mit zwei Kindern und Hund über das Adventswochenende in der Ferienwohnung – alles dabei, was wir brauchten. Heizung lief perfekt, Lage ruhig und trotzdem zentral. Klare Empfehlung für Familien." },
+      { name: "Lea M.", context: "Ferienwohnung 13127 · Januar 2026", rating: 5, text: "Wir haben über Silvester in der Ferienwohnung im Hinterhof übernachtet – mitten in Berlin und trotzdem so ruhig! Eine echte Berlin-Erfahrung, die wir so nicht erwartet hätten. Liebevoll eingerichtet." },
+      { name: "Thomas K.", context: "Event-Service Brandenburg · Februar 2026", rating: 5, text: "Wir hatten den Camper als Schlafmöglichkeit für unsere Winterhochzeit vor dem Hof stehen. Die Brauteltern waren begeistert – nach der Feier einfach reinfallen, top. Super unkompliziert organisiert." },
+      { name: "Carolin & David", context: "Camper-Vorbereitung · März 2026", rating: 5, text: "Beratungstermin und Vorab-Besichtigung für unseren geplanten Roadtrip – kein einziges Problem, top Ausstattung. Klimaanlage und Heizung wurden ausführlich erklärt. Der Hund hat sich sofort wohlgefühlt." },
+      { name: "Stefan B.", context: "Saisonstart Brandenburg · April 2026", rating: 4, text: "Schöner Camper, sehr gut ausgestattet. Übergabe lief reibungslos. Kleiner Punkt: Beim ersten Mal etwas viel Technik – aber die Erklärvideos haben unterwegs alles erklärt." },
     ],
   },
 
