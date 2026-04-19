@@ -364,7 +364,7 @@ const ContactSection = () => {
                     value={form.birthdate}
                     max={maxBirthdate}
                     onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
-                    className="bg-surface-2 border-border/20 rounded-lg h-11 w-full"
+                    className="bg-surface-2 border-border/20 rounded-lg h-9 w-full text-sm"
                   />
                   <p className="text-xs text-muted-foreground mt-1">{t.contact.birthdateHint}</p>
                   {isDriverTooYoung && (
