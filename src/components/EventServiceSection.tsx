@@ -31,7 +31,7 @@ const EventServiceSection = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto bg-surface-1 rounded-2xl p-6 sm:p-10 border border-border/20">
+        <div className="max-w-4xl mx-auto bg-surface-1 rounded-2xl p-4 sm:p-10 border border-border/20">
           <p className="text-secondary-foreground mb-8 leading-relaxed">
             {t.eventService.description}
           </p>
@@ -47,13 +47,13 @@ const EventServiceSection = () => {
             ))}
           </div>
 
-          <div className="max-w-md mx-auto bg-primary rounded-xl p-8 relative mb-8">
+          <div className="max-w-md mx-auto bg-primary rounded-xl p-5 sm:p-8 relative mb-8">
             <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary-foreground/70 mb-1">
               {t.eventService.cardTitle}
             </p>
             <p className="text-sm text-primary-foreground/60 mb-8">{t.eventService.cardPeriod}</p>
-            <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-5xl font-display font-bold text-primary-foreground">80€</span>
+            <div className="flex items-baseline flex-wrap gap-1 mb-8">
+              <span className="text-4xl sm:text-5xl font-display font-bold text-primary-foreground break-all">80€</span>
               <span className="text-primary-foreground/70 text-sm">{t.eventService.perDay}</span>
             </div>
             <ul className="space-y-4 mb-8">
