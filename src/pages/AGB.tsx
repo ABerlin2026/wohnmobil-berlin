@@ -2,10 +2,38 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageSEO from "@/components/PageSEO";
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <section className="space-y-3">
-    <h2 className="font-display font-semibold text-foreground text-base md:text-lg">{title}</h2>
+const Section = ({
+  id,
+  title,
+  children,
+}: {
+  id?: string;
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <section id={id} className="space-y-3 scroll-mt-28">
+    <h3 className="font-display font-semibold text-foreground text-base md:text-lg">{title}</h3>
     <div className="space-y-3 text-secondary-foreground">{children}</div>
+  </section>
+);
+
+const Part = ({
+  id,
+  label,
+  title,
+  children,
+}: {
+  id: string;
+  label: string;
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <section id={id} className="space-y-6 scroll-mt-28 pt-4">
+    <div className="border-l-4 border-primary pl-4">
+      <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-1">{label}</p>
+      <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">{title}</h2>
+    </div>
+    {children}
   </section>
 );
 
@@ -14,7 +42,7 @@ const AGB = () => {
     <>
       <PageSEO
         title="AGB | Camper Berlin Brandenburg"
-        description="Allgemeine Mietbedingungen (AGB) für die Wohnmobilvermietung von Camper Berlin Brandenburg – Stand 08/2022."
+        description="Allgemeine Geschäftsbedingungen für Wohnmobil-Vermietung, Ferienunterkunft und Event-Service von Camper Berlin Brandenburg."
         canonical="https://camper-berlin-brandenburg.de/agb"
         breadcrumbs={[
           { name: "Startseite", url: "https://camper-berlin-brandenburg.de/" },
@@ -25,348 +53,597 @@ const AGB = () => {
       <main className="section-padding bg-background min-h-screen pt-32">
         <div className="container-narrow max-w-3xl">
           <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">
-            Allgemeine Mietbedingungen
+            Allgemeine Geschäftsbedingungen
           </h1>
-          <p className="text-sm text-muted-foreground mb-10">Stand: August 2022</p>
+          <p className="text-sm text-muted-foreground mb-2">
+            Camper Berlin Brandenburg – Wohnmobilvermietung, Ferienunterkunft & Event-Service
+          </p>
+          <p className="text-sm text-muted-foreground mb-10">
+            Stand: {new Date().toLocaleDateString("de-DE", { month: "long", year: "numeric" })}
+          </p>
 
-          <div className="space-y-10 text-sm leading-relaxed">
-            <p className="font-medium text-foreground">
-              Mehrere Mieter bilden eine Mietergemeinschaft. Jeder Mieter hat identische Rechte und Pflichten.
+          {/* Inhaltsverzeichnis */}
+          <nav
+            aria-label="Inhaltsverzeichnis"
+            className="mb-12 bg-surface-1 border border-border/30 rounded-xl p-5 sm:p-6"
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground mb-4">
+              Inhalt
+            </p>
+            <ol className="space-y-2 text-sm">
+              <li>
+                <a href="#teil-a" className="text-foreground hover:text-primary transition-colors">
+                  <span className="text-primary font-semibold">A.</span> Allgemeine Bestimmungen
+                </a>
+              </li>
+              <li>
+                <a href="#teil-b" className="text-foreground hover:text-primary transition-colors">
+                  <span className="text-primary font-semibold">B.</span> Besondere Bedingungen –
+                  Wohnmobil-Vermietung
+                </a>
+              </li>
+              <li>
+                <a href="#teil-c" className="text-foreground hover:text-primary transition-colors">
+                  <span className="text-primary font-semibold">C.</span> Besondere Bedingungen –
+                  Ferienunterkunft (stationäre Nutzung)
+                </a>
+              </li>
+              <li>
+                <a href="#teil-d" className="text-foreground hover:text-primary transition-colors">
+                  <span className="text-primary font-semibold">D.</span> Besondere Bedingungen –
+                  Event-Service
+                </a>
+              </li>
+            </ol>
+          </nav>
+
+          <div className="space-y-12 text-sm leading-relaxed">
+            <p className="font-medium text-foreground bg-surface-1 border border-border/30 rounded-lg p-4">
+              Mehrere Mieter bzw. Gäste bilden eine Mieter- bzw. Gästegemeinschaft. Jede Person hat
+              identische Rechte und Pflichten und haftet gesamtschuldnerisch.
             </p>
 
-            <Section title="Zustandekommen des verbindlichen Mietvertrages">
-              <p>
-                Absprachen oder Erklärungen, die nur mündlich, ohne schriftliche Bestätigung, per E-Mail oder
-                SMS erfolgt sind, sind in jedem Fall ohne rechtliche Wirkung. Der Abschluss eines Mietvertrages
-                über das Fahrzeug kann nur schriftlich, in der Regel durch beiderseitige Unterschrift dieses
-                Vertrages erfolgen.
-              </p>
-              <p>
-                Der Mietvertrag kommt zwischen den Vertragsparteien zustande. Eine Übertragung oder Abtretung
-                der Rechte aus dem Mietvertrag durch den Mieter auf andere dritte Personen ist nur mit
-                ausdrücklicher schriftlicher vorheriger Zustimmung des Vermieters möglich.
-              </p>
-              <p>
-                Das Fahrzeug darf ohne vorherige schriftliche Zustimmung des Vermieters nicht dritten Personen
-                zum Gebrauch überlassen werden, es darf nur von den im Mietvertrag genannten Fahrern / Mietern
-                gefahren werden.
-              </p>
-            </Section>
+            {/* ============================================================
+                TEIL A – ALLGEMEINES
+                ============================================================ */}
+            <Part id="teil-a" label="Teil A" title="Allgemeine Bestimmungen">
+              <Section id="a-1" title="1. Geltungsbereich">
+                <p>
+                  Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für sämtliche Verträge
+                  zwischen Camper Berlin Brandenburg (nachfolgend „Vermieter") und dem Kunden
+                  (nachfolgend „Mieter" bzw. „Gast") über die Vermietung des Wohnmobils zu
+                  Reisezwecken (Teil B), die Nutzung des Wohnmobils als stationäre Ferienunterkunft
+                  (Teil C) sowie die Nutzung im Rahmen von Event-Dienstleistungen (Teil D).
+                </p>
+                <p>
+                  Abweichende, entgegenstehende oder ergänzende Bedingungen des Mieters werden nur
+                  Vertragsbestandteil, wenn der Vermieter ihrer Geltung ausdrücklich schriftlich
+                  zustimmt.
+                </p>
+              </Section>
 
-            <Section title="Kündigung, Stornierungen">
-              <p>
-                Ist ein Termin für die Rückgabe des Fahrzeugs nicht bestimmt (unbefristetes Mietverhältnis),
-                so kann das Mietverhältnis von beiden Parteien unter Einhaltung der gesetzlichen
-                Kündigungsfrist (§ 580a BGB) gekündigt werden.
-              </p>
-              <p>
-                Bei befristet abgeschlossenen Mietverträgen ist die vereinbarte Mietdauer (Termine) für beide
-                Parteien verbindlich, sie kann nur im gegenseitigen Einvernehmen verlängert oder verkürzt
-                werden.
-              </p>
-              <p>
-                Eine Kündigung oder Stornierung des Vertrages ist, außer bei Vorliegen eines wichtigen Grundes
-                im Sinne von § 543 BGB, beiderseitig ausgeschlossen.
-              </p>
-              <p>
-                Der Mieter ist verpflichtet, das Fahrzeug spätestens zum angegebenen Zeitpunkt an den
-                Vermieter zurückzugeben. Sofern der Mieter das Fahrzeug selbst beim Vermieter abgeholt hat,
-                ist er verpflichtet, das Fahrzeug zum Vermieter zurückzubringen. Sofern Abholung durch den
-                Vermieter vereinbart ist, ist das Fahrzeug zum angegebenen Zeitpunkt zur Abholung am
-                vereinbarten Ort vom Mieter bereitzustellen.
-              </p>
-              <p>
-                Das Mietverhältnis verlängert sich nicht automatisch, wenn der Mieter das Fahrzeug nicht
-                termingerecht zurückbringt und dem Vermieter übergibt. Im Falle einer verspäteten Rückgabe
-                kann der Vermieter eine Entschädigung gemäß § 546 BGB in Höhe des vereinbarten Mietpreises vom
-                Mieter verlangen.
-              </p>
-            </Section>
+              <Section id="a-2" title="2. Vertragsabschluss">
+                <p>
+                  Die Darstellung der Leistungen auf der Webseite stellt kein bindendes Angebot dar.
+                  Eine Anfrage des Mieters ist eine Aufforderung zur Abgabe eines Angebots. Der
+                  Vertrag kommt erst mit ausdrücklicher Buchungsbestätigung des Vermieters in
+                  Textform (E-Mail) und – bei Wohnmobil-Vermietung – durch beiderseitige
+                  Unterzeichnung des Mietvertrages zustande.
+                </p>
+                <p>
+                  Mündliche Absprachen sind ohne schriftliche Bestätigung unwirksam. Eine
+                  Übertragung der Vertragsrechte auf Dritte ist nur mit vorheriger schriftlicher
+                  Zustimmung des Vermieters zulässig.
+                </p>
+              </Section>
 
-            <Section title="Nutzung und Nutzungsverbote des Mietfahrzeugs">
-              <p>
-                Die Benutzung des Fahrzeugs ist ausschließlich innerhalb der Europäischen Union (EU)
-                gestattet. Außerhalb dieser Grenzen besteht in der Kraftfahrversicherung (insbesondere
-                Vollkaskoschutz) kein Versicherungsschutz. Will der Mieter das Fahrzeug in anderen Ländern und
-                Gebieten benutzen, so ist hierzu eine schriftliche vorherige Zustimmung des Vermieters
-                erforderlich.
-              </p>
-              <p>Vom Vermieter generell nicht gestattet ist die Nutzung des Fahrzeugs zu folgenden Zwecken:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>Teilnahme an Wettrennen, Fahrertraining, Geländefahrten und ähnlichen Nutzungen.</li>
-                <li>Beförderung von leicht entzündlichen, giftigen oder sonst gefährlichen Stoffen.</li>
-                <li>
-                  Jegliche Verwendung im Zusammenhang mit der Begehung von Straftaten oder Zoll- und
-                  Steuervergehen, insbesondere dem Transport von Stoffen, die unter das
-                  Betäubungsmittelgesetz fallen.
-                </li>
-              </ul>
-              <p>
-                Die Benutzung des Fahrzeugs ist nicht gestattet, sofern der Mieter oder Fahrer nicht im Besitz
-                einer gültigen, in Deutschland anerkannten Fahrerlaubnis ist, ein Fahrverbot besteht oder die
-                Fahrerlaubnis vorläufig entzogen ist.
-              </p>
-              <p>
-                Die Benutzung des Fahrzeugs ist nicht gestattet, sofern der Fahrer infolge Genusses
-                alkoholischer Getränke oder anderer berauschender Mittel nicht in der Lage ist, das Fahrzeug
-                sicher zu führen (fahruntüchtiger Fahrer).
-              </p>
-              <p>
-                Hält sich der Mieter nicht an die vorstehend vereinbarten Nutzungsverbote, liegt eine
-                Pflichtverletzung des Mieters beim Gebrauch des Fahrzeugs vor.
-              </p>
-            </Section>
+              <Section id="a-3" title="3. Preise, Zahlung & Kaution">
+                <p>
+                  Es gelten die zum Zeitpunkt der Buchung auf der Webseite ausgewiesenen Preise.
+                  Sofern nicht anders angegeben, verstehen sich alle Preise in Euro inklusive der
+                  gesetzlichen Mehrwertsteuer.
+                </p>
+                <p>
+                  Sofern nicht anders vereinbart, ist eine Anzahlung in Höhe von 30 % des
+                  Gesamtpreises innerhalb von 7 Tagen nach Buchungsbestätigung fällig. Der
+                  Restbetrag ist spätestens 14 Tage vor Mietbeginn bzw. Anreise zu zahlen. Bei
+                  kurzfristigen Buchungen (weniger als 14 Tage vor Beginn) ist der Gesamtbetrag
+                  sofort fällig.
+                </p>
+                <p>
+                  Der Vermieter ist berechtigt, vor Übergabe eine angemessene Kaution zu verlangen.
+                  Die Höhe wird im jeweiligen Vertrag festgelegt und beträgt in der Regel 800–1.500
+                  € für die Wohnmobil-Vermietung sowie 200–500 € für Ferienunterkunft und
+                  Event-Service. Die Kaution wird nach mängelfreier Rückgabe innerhalb von 14 Tagen
+                  zurückerstattet.
+                </p>
+              </Section>
 
-            <Section title="Kleinreparaturen, Kraftstoffe, Öle">
-              <p>
-                Der während der Mietdauer verbrauchte Kraftstoff, Motoröl und andere Hilfs- und
-                Betriebsstoffe sind vom Mieter auf eigene Kosten zu beschaffen.
-              </p>
-              <p>
-                Kleine Instandsetzungen wie zum Beispiel der Austausch von Glühbirnen kann der Mieter selbst
-                vornehmen oder bis zur Höhe von 150 € je Einzelfall ohne vorherige Absprache mit dem Vermieter
-                durch eine Fachwerkstatt ausführen lassen. Der Vermieter erstattet dem Mieter die Kosten gegen
-                Vorlage eines Rechnungsbeleges und Vorlage des ausgetauschten beschädigten Teiles. Keine
-                Kostenerstattung ohne Rechnungsbeleg. Eigenleistungen des Mieters werden nicht vergütet.
-              </p>
-            </Section>
+              <Section id="a-4" title="4. Widerrufsrecht">
+                <p>
+                  Bei Verträgen über die Vermietung von Wohnmobilen, Ferienunterkünften sowie
+                  Dienstleistungen im Bereich Beherbergung und Freizeitveranstaltungen, die zu einem
+                  bestimmten Zeitpunkt oder für einen bestimmten Zeitraum erbracht werden, besteht
+                  gemäß § 312g Abs. 2 Nr. 9 BGB <strong>kein gesetzliches Widerrufsrecht</strong>.
+                  Es gelten ausschließlich die in den jeweiligen Teilen B, C und D geregelten
+                  Stornobedingungen.
+                </p>
+              </Section>
 
-            <Section title="Fürsorgepflichten des Mieters und Haftung für Schäden">
-              <p>
-                Der Mieter ist verpflichtet, das Fahrzeug vor der Übernahme genauestens zu überprüfen. Falls
-                Beschädigungen oder Mängel festgestellt werden, zeigt der Mieter diese dem Vermieter in
-                Textform (z. B. per E-Mail) an.
-              </p>
-              <p>
-                Der Mieter ist verpflichtet, das Fahrzeug ab dem Zeitpunkt der Übergabe so zu behandeln und zu
-                benutzen, wie es ein verständiger, auf die Werterhaltung bedachter Eigentümer tun würde.
-                Insbesondere ist der Mieter auf seine Kosten verpflichtet:
-              </p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>
-                  Das Fahrzeug bei extremen Wetterbedingungen (z. B. Hagel, Sturm, Überschwemmung, starker
-                  Schneefall) entsprechend gegen Beschädigungen zu sichern;
-                </li>
-                <li>
-                  Das Fahrzeug bei Besorgnis der Beschädigung durch Vandalismus auf eigene Kosten entsprechend
-                  zu sichern, zum Beispiel durch Abstellen in einer gesicherten Garage;
-                </li>
-                <li>
-                  Signalisieren die Kontrollleuchten im Fahrzeug (z. B. für Ölstand/Öldruck, Wasser,
-                  Temperatur, Bremsenverschleiß oder Sonstiges) ein Problem, so ist der Mieter verpflichtet,
-                  sich entsprechend den in der Betriebsanleitung des Herstellers für das Fahrzeug dafür
-                  vorgegebenen Hinweisen zu verhalten;
-                </li>
-                <li>
-                  Den Ölstand des Motors und der Nebenaggregate sowie den Reifendruck vor jedem Antritt einer
-                  längeren Fahrt zu prüfen und ggf. entsprechend den Vorgaben des Herstellers
-                  richtigzustellen.
-                </li>
-              </ul>
-              <p>
-                Der Mieter hat im Rahmen seiner gegenüber dem Vermieter bestehenden allgemeinen Fürsorge- und
-                Sorgfaltspflichten für das gemietete Fahrzeug auch das Verschulden von seinen Beifahrern und
-                Mitreisenden zu vertreten. Beifahrer und Mitreisender ist jeder, der sich mit Wissen und im
-                Einverständnis mit dem Mieter im oder am Fahrzeug befindet.
-              </p>
-              <p>
-                Der Mieter haftet für alle Vermögensschäden des Vermieters, die aufgrund einer schuldhaften
-                Verletzung seiner allgemeinen und nach diesem Mietvertrag bestehenden Fürsorgepflichten
-                entstehen, im gesetzlichen Umfang.
-              </p>
-              <p>
-                Der Vermieter ist bei Versicherungsfällen verpflichtet, zunächst die Fahrzeugvoll- oder
-                Fahrzeugteilversicherung (Voll- oder Teilkaskoversicherung) in Anspruch zu nehmen. Leistungen
-                der Versicherung mindern die Schadensersatzpflicht des Mieters.
-              </p>
-              <p>
-                Nimmt der Vermieter die Reparatur eines Schadens selbst oder durch eigene Mitarbeiter vor, so
-                wird hiermit ein Stundensatz je geleistete Arbeitsstunde und Person in Höhe von 45,00 € netto
-                als angemessene Ersatzleistung vereinbart.
-              </p>
-            </Section>
+              <Section id="a-5" title="5. Haftung des Vermieters">
+                <p>
+                  Der Vermieter haftet uneingeschränkt für Vorsatz und grobe Fahrlässigkeit sowie
+                  bei Verletzung von Leben, Körper oder Gesundheit. Bei leichter Fahrlässigkeit
+                  haftet der Vermieter nur bei Verletzung wesentlicher Vertragspflichten
+                  (Kardinalpflichten); die Haftung ist in diesem Fall auf den vertragstypischen,
+                  vorhersehbaren Schaden begrenzt.
+                </p>
+                <p>
+                  Eine verschuldensunabhängige Haftung sowie die Haftung für mittelbare Schäden,
+                  entgangenen Gewinn oder ausgefallene Urlaubsfreuden ist – soweit gesetzlich
+                  zulässig – ausgeschlossen.
+                </p>
+                <p>
+                  Der Vermieter haftet nicht für vom Mieter eingebrachte Gegenstände (z. B. Gepäck,
+                  Wertsachen, Foto- und Videoausrüstung, Fahrräder). Dem Mieter wird der Abschluss
+                  einer eigenen Reise- bzw. Hausratversicherung empfohlen.
+                </p>
+              </Section>
 
-            <Section title="Nicht unfallbedingte Fahrzeugschäden und technische Defekte">
-              <p>
-                Der Mieter haftet für alle Schäden am Fahrzeug, die auf Bedienungsfehler während der Mietzeit
-                zurückzuführen sind, im gesetzlichen Umfang.
-              </p>
-              <p>
-                Treten nach der Übergabe des Fahrzeugs an den Mieter nicht unfallbedingte technische Defekte
-                am Fahrzeug auf, die die Gebrauchstauglichkeit wesentlich einschränken, sind beide Parteien
-                berechtigt, den Vertrag mit sofortiger Wirkung fristlos zu kündigen, sofern es nicht möglich
-                ist, den Defekt durch eine Reparatur kurzfristig zu beheben.
-              </p>
-              <p>
-                Der Mieter verzichtet auch im Falle einer Kündigung auf alle weitergehenden Ansprüche, es sei
-                denn, für den technischen Defekt ist ein grob fahrlässiges oder vorsätzliches Verhalten des
-                Vermieters ursächlich.
-              </p>
-              <p>
-                Endet der Vertrag aufgrund einer fristlosen Kündigung, so bleibt der Mieter zur Zahlung der
-                vereinbarten Miete bis zum Zeitpunkt der Kündigung verpflichtet. Auf alle etwa bestehenden
-                weitergehenden Ansprüche, insbesondere Schadensersatz einschließlich Ersatz von
-                Mangelfolgeschäden, verzichtet der Mieter. Dieser Verzicht gilt nicht, wenn der Defekt vom
-                Vermieter grob fahrlässig oder vorsätzlich zu vertreten ist.
-              </p>
-              <p>
-                Der Mieter hat dem Vermieter einen etwaigen technischen Defekt des Fahrzeugs unverzüglich
-                anzuzeigen. Unterbleibt eine Anzeige, hat der Mieter dem Vermieter den daraus entstehenden
-                Schaden zu ersetzen.
-              </p>
-            </Section>
+              <Section id="a-6" title="6. Höhere Gewalt">
+                <p>
+                  Wird die Erfüllung des Vertrages durch höhere Gewalt (z. B. Naturereignisse,
+                  Pandemie, behördliche Anordnungen, Krieg) unmöglich oder erheblich erschwert,
+                  sind beide Parteien berechtigt, den Vertrag zu kündigen. Bereits geleistete
+                  Zahlungen werden – abzüglich nachweisbar entstandener Aufwendungen des Vermieters
+                  – zurückerstattet. Schadensersatzansprüche sind in diesem Fall ausgeschlossen.
+                </p>
+              </Section>
 
-            <Section title="Verkehrsunfälle, Haftungsbeschränkung des Mieters">
-              <p>
-                Der Vermieter haftet nicht für Gegenstände, die vom Mieter in das Fahrzeug eingebracht wurden,
-                wie bspw. Reisegepäck, Kameras oder Fahrräder. Bei Verkehrsunfällen ist der Vermieter
-                verpflichtet, dem Mieter alle zur Durchsetzung seiner eigenen Schadensersatz- oder
-                Schmerzensgeldansprüche gegenüber Unfallgegnern erforderlichen Daten in Textform mitzuteilen,
-                dies gilt auch für entsprechende Ansprüche seiner Beifahrer und Mitreisenden.
-              </p>
-              <p>
-                Im Falle eines Verkehrsunfalles, sofern es sich nicht nur um einen Bagatellunfall handelt,
-                durch den die Gebrauchstauglichkeit des Fahrzeugs nicht wesentlich eingeschränkt ist, sind
-                beide Parteien berechtigt, den Vertrag mit sofortiger Wirkung fristlos zu kündigen. Der Mieter
-                bleibt auch in diesem Fall zur Zahlung der vereinbarten Miete bis zum Zeitpunkt der Kündigung
-                verpflichtet.
-              </p>
-              <p>
-                Bei Verkehrsunfällen (auch ohne Fremdbeteiligung), Brand, Wildschaden und sonstigen Schäden
-                hat der Mieter unverzüglich die örtliche Polizei hinzuzuziehen und für die Aufnahme des
-                Unfall- bzw. Schadenhergangs zu sorgen, den Vermieter zu benachrichtigen, dem Vermieter einen
-                ausführlichen Unfallbericht mit beigefügter Unfallskizze zukommen zu lassen; bei Unfällen mit
-                Fremdbeteiligung sind die Kennzeichen der beteiligten Fahrzeuge und deren
-                Haftpflichtversicherungen sowie Namen und Anschriften der Fahrer und Zeugen festzuhalten.
-              </p>
-              <p>
-                Bei allen Verkehrsunfällen haftet der Mieter – sofern ihm keine Obliegenheitsverletzung
-                vorzuwerfen ist – für sämtliche Kosten, die durch eine fachgerechte Reparatur des Fahrzeugs
-                (oder bei Totalschäden für die Kosten der Wiederbeschaffung) dem Vermieter entstehen, für
-                andere Schäden haftet der Mieter nicht. <strong>Keine Haftung des Mieters</strong> besteht
-                auch insoweit, als der Vermieter Schadensersatz von Unfallbeteiligten oder deren
-                Versicherungen oder der für das Fahrzeug bestehenden Fahrzeugvoll- oder
-                Fahrzeugteilversicherung erhält. In Höhe der mit der Versicherung vereinbarten
-                Selbstbeteiligung ist ein Schaden aber regelmäßig durch Versicherungsleistungen{" "}
-                <strong>nicht gedeckt</strong> und dann vom Mieter zu begleichen.
-              </p>
-              <p>
-                Führt das Verhalten des Mieters nach einem Verkehrsunfall (beispielsweise Unfallflucht) oder
-                das Verhalten des Mieters, welches für den Verkehrsunfall ursächlich war, ein Verstoß gegen
-                die Nutzungsverbote oder eine sonstige Obliegenheitsverletzung des Mieters dazu, dass sich die
-                für das Fahrzeug bestehende Fahrzeugvoll- oder Fahrzeugteilversicherung ganz oder teilweise
-                auf Leistungsfreiheit nach den Vorschriften des Versicherungsvertragsgesetzes (VVG) gegenüber
-                dem Vermieter berufen kann, haftet der Mieter für alle Vermögensschäden des Vermieters im
-                gesetzlichen Umfang, soweit diese nicht durch eine Versicherungsleistung gedeckt sind. Die
-                Vollkaskoversicherung kann sich beispielsweise auf Leistungsfreiheit berufen, wenn der Mieter
-                das Fahrzeug unter Einfluss von alkoholischen oder sonstigen berauschenden Mitteln führt oder
-                Unfallflucht begeht.
-              </p>
-              <p>
-                Mit Wirkung ab dem Zeitpunkt der Befriedigung sämtlicher Schadensersatzansprüche des
-                Vermieters durch den Mieter tritt der Vermieter alle ihm möglicherweise gegenüber dritten
-                Personen zustehenden Schadensersatzansprüche zum Zwecke der Geltendmachung an den Mieter ab.
-              </p>
-            </Section>
+              <Section id="a-7" title="7. Datenschutz">
+                <p>
+                  Die Erhebung und Verarbeitung personenbezogener Daten erfolgt ausschließlich zur
+                  Vertragsabwicklung gemäß DSGVO. Einzelheiten ergeben sich aus unserer{" "}
+                  <a href="/datenschutz" className="text-primary hover:underline">
+                    Datenschutzerklärung
+                  </a>
+                  .
+                </p>
+              </Section>
 
-            <Section title="Fürsorgepflicht und Haftung des Vermieters">
-              <p>
-                Der Vermieter kann die Leistung verweigern, soweit diese für den Vermieter unmöglich ist. Dies
-                ist insbesondere dann der Fall, wenn das Fahrzeug vor Beginn der Mietzeit durch einen
-                Verkehrsunfall oder infolge höherer Gewalt bei Naturereignissen so beschädigt wurde, dass es
-                nicht mehr gebrauchstauglich ist, und eine Reparatur oder Ersatzbeschaffung vor Beginn der
-                Mietzeit nicht mehr möglich war oder einen unverhältnismäßigen Aufwand erfordert hätte.
-              </p>
-              <p>
-                Der Vermieter kann die Leistung auch verweigern, wenn er keinen Versicherungsschutz durch eine
-                Fahrzeugvollversicherung zu wirtschaftlich zumutbaren Bedingungen erreichen kann.
-              </p>
-              <p>
-                Im Fall einer Nichtleistung sind Schadensersatzansprüche gegenüber dem Vermieter – gleich aus
-                welchem Rechtsgrund – ausgeschlossen. Der Vermieter ist jedoch verpflichtet, alle erhaltenen
-                Zahlungen an den Mieter umgehend zurückzuzahlen.
-              </p>
-              <p>
-                Der Vermieter übernimmt keine Gewähr für die Eignung des Fahrzeugs zu dem vom Mieter
-                vorgesehenen Zweck.
-              </p>
-              <p>
-                Die verschuldensunabhängige Haftung des Vermieters ist ausgeschlossen. Der Vermieter haftet
-                nur für Vorsatz und grobe Fahrlässigkeit, für leichte Fahrlässigkeit nur bei der Verletzung
-                wesentlicher Vertragspflichten. Diese Haftungsbeschränkungen gelten nicht bei der Verletzung
-                des Körpers, des Lebens oder der Gesundheit und nicht im Fall des arglistigen Verschweigens
-                von Mängeln des Fahrzeugs. Diese Haftungsbeschränkung gilt entsprechend für alle nach
-                Vertragsschluss oder nach Überlassung des Fahrzeugs entstandenen Mängel des Fahrzeugs oder
-                sonstige Schäden.
-              </p>
-            </Section>
+              <Section id="a-8" title="8. Rechtswahl, Gerichtsstand & Schlussbestimmungen">
+                <p>
+                  Es gilt ausschließlich das Recht der Bundesrepublik Deutschland unter Ausschluss
+                  des UN-Kaufrechts. Gerichtsstand ist – soweit gesetzlich zulässig – der Sitz des
+                  Vermieters.
+                </p>
+                <p>
+                  Sollte eine Bestimmung dieser AGB unwirksam sein oder werden, bleibt die
+                  Wirksamkeit der übrigen Bestimmungen unberührt. An Stelle der unwirksamen
+                  Regelung tritt die entsprechende gesetzliche Vorschrift.
+                </p>
+                <p>
+                  Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS)
+                  bereit:{" "}
+                  <a
+                    href="https://ec.europa.eu/consumers/odr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    https://ec.europa.eu/consumers/odr
+                  </a>
+                  . Der Vermieter ist nicht verpflichtet und nicht bereit, an einem
+                  Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+                </p>
+              </Section>
+            </Part>
 
-            <Section title="Verlust von Schlüsseln oder Fahrzeugpapieren">
-              <p>
-                Sofern der Mieter den Verlust von Fahrzeugpapieren oder eines Schlüssels zu vertreten hat, ist
-                er verpflichtet, die Kosten der Ersatzbeschaffung zu tragen sowie den damit verbundenen Zeit-
-                und sonstigen Aufwand des Vermieters zu entschädigen. Der Zeitaufwand des Vermieters ist dabei
-                in Höhe von 45,00 € netto je Stunde zu entschädigen.
-              </p>
-            </Section>
+            {/* ============================================================
+                TEIL B – WOHNMOBIL-VERMIETUNG
+                ============================================================ */}
+            <Part id="teil-b" label="Teil B" title="Besondere Bedingungen – Wohnmobil-Vermietung">
+              <Section id="b-1" title="1. Mietzeit, Übergabe & Rückgabe">
+                <p>
+                  Die Mietzeit beginnt und endet zu den im Mietvertrag vereinbarten Terminen.
+                  Übergabe und Rückgabe erfolgen in der Regel am Standort des Vermieters in Berlin/
+                  Brandenburg.
+                </p>
+                <p>
+                  Sofern Abholung durch den Vermieter vereinbart ist, ist das Fahrzeug zum
+                  vereinbarten Zeitpunkt am vereinbarten Ort vollgetankt und in vertragsgemäßem
+                  Zustand bereitzustellen.
+                </p>
+                <p>
+                  Das Mietverhältnis verlängert sich nicht automatisch. Bei verspäteter Rückgabe
+                  kann der Vermieter eine Nutzungsentschädigung gemäß § 546a BGB sowie einen
+                  Aufschlag von 50 € je angefangener Stunde verlangen, mindestens jedoch den
+                  Tagesmietpreis je angefangenem Tag. Folgeschäden (z. B. ausgefallene
+                  Anschlussvermietungen) trägt der Mieter zusätzlich.
+                </p>
+              </Section>
 
-            <Section title="Beschädigung / Reparaturen">
-              <p>
-                Sollten Beschädigungen oder Reparaturen erforderlich sein, so wird die benötigte Arbeitszeit
-                für die Recherche sowie die Aufwendungen mit einem Stundensatz von 45,00 € zuzüglich der
-                gesetzlichen Mehrwertsteuer in Rechnung gestellt. Für jede Aufwendung, die dem Vermieter für
-                eine Reparatur oder Beschädigung entsteht, wird ein Mindestbetrag von 49 € zuzüglich aller
-                weiteren Kosten in Rechnung gestellt.
-              </p>
-            </Section>
+              <Section id="b-2" title="2. Stornierung Wohnmobil">
+                <p>
+                  Tritt der Mieter vom Vertrag zurück, gelten – sofern keine kostenfreie Umbuchung
+                  oder Ersatzmiete möglich ist – folgende pauschale Stornogebühren auf den
+                  Gesamtmietpreis:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>bis 60 Tage vor Mietbeginn: 20 %</li>
+                  <li>59 bis 30 Tage vor Mietbeginn: 50 %</li>
+                  <li>29 bis 7 Tage vor Mietbeginn: 80 %</li>
+                  <li>weniger als 7 Tage vor Mietbeginn oder Nichtantritt: 95 %</li>
+                </ul>
+                <p>
+                  Dem Mieter bleibt der Nachweis vorbehalten, dass dem Vermieter kein oder ein
+                  geringerer Schaden entstanden ist. Der Abschluss einer Reiserücktrittsversicherung
+                  wird ausdrücklich empfohlen.
+                </p>
+              </Section>
 
-            <Section title="Weitervermietung">
-              <p>
-                Sollte durch eine Beschädigung/Reparatur die nächsten gebuchten Vermietungen nicht möglich
-                sein (Lieferzeit von Ersatzteilen bzw. Wartezeiten für Werkstatttermine), so verpflichtet sich
-                der Mieter, die Kosten für alle weiteren Buchungen, bis das Fahrzeug wieder betriebsbereit
-                ist, in der jeweiligen Höhe der Folgebuchungen zu übernehmen. Sollten durch den Folgemieter
-                Ersatzmaßnahmen vorgenommen werden und diese dem Vermieter in Rechnung gestellt werden, ist
-                der Vermieter berechtigt, die Kosten in voller Höhe an den Mieter weiterzugeben. Sollte die
-                hinterlegte Kaution hierfür nicht ausreichend sein, so werden die weiteren Kosten in Rechnung
-                gestellt.
-              </p>
-            </Section>
+              <Section id="b-3" title="3. Nutzung & Nutzungsverbote">
+                <p>
+                  Die Benutzung des Fahrzeugs ist ausschließlich innerhalb der Europäischen Union
+                  (EU) gestattet. Außerhalb dieser Grenzen besteht in der Kraftfahrversicherung
+                  (insbesondere Vollkaskoschutz) kein Versicherungsschutz. Für die Nutzung in
+                  anderen Ländern ist die vorherige schriftliche Zustimmung des Vermieters
+                  erforderlich.
+                </p>
+                <p>Vom Vermieter generell nicht gestattet ist die Nutzung des Fahrzeugs zu folgenden Zwecken:</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>Teilnahme an Wettrennen, Fahrertraining, Geländefahrten und ähnlichen Nutzungen.</li>
+                  <li>Beförderung von leicht entzündlichen, giftigen oder sonst gefährlichen Stoffen.</li>
+                  <li>
+                    Jegliche Verwendung im Zusammenhang mit der Begehung von Straftaten oder Zoll-
+                    und Steuervergehen, insbesondere dem Transport von Stoffen, die unter das
+                    Betäubungsmittelgesetz fallen.
+                  </li>
+                  <li>Gewerbliche Personenbeförderung.</li>
+                </ul>
+                <p>
+                  Das Fahrzeug darf nur von den im Mietvertrag namentlich benannten Fahrern mit
+                  gültiger, in Deutschland anerkannter Fahrerlaubnis geführt werden. Die Nutzung
+                  unter Einfluss von Alkohol, Medikamenten oder anderen berauschenden Mitteln ist
+                  untersagt.
+                </p>
+                <p>
+                  <strong>Rauchen</strong> im Fahrzeug ist nicht gestattet. Bei Zuwiderhandlung
+                  wird eine Reinigungspauschale von mindestens 250 € erhoben.
+                </p>
+                <p>
+                  Die Mitnahme von <strong>Haustieren</strong> bedarf der vorherigen schriftlichen
+                  Zustimmung des Vermieters und ist ggf. mit einem Aufschlag verbunden.
+                </p>
+              </Section>
 
-            <Section title="Technische und optische Veränderungen">
-              <p>Der Mieter darf an dem Fahrzeug keine technischen Veränderungen vornehmen.</p>
-              <p>
-                Der Mieter ist nicht dazu befugt, das Fahrzeug optisch zu verändern; dazu zählen insbesondere
-                Lackierungen, Aufkleber oder Klebefolien.
-              </p>
-            </Section>
+              <Section id="b-4" title="4. Kraftstoffe, Öle, Kleinreparaturen">
+                <p>
+                  Der während der Mietdauer verbrauchte Kraftstoff, AdBlue, Motoröl, Gas und andere
+                  Hilfs- und Betriebsstoffe sind vom Mieter auf eigene Kosten zu beschaffen. Das
+                  Fahrzeug ist vollgetankt zurückzugeben; andernfalls wird der fehlende Kraftstoff
+                  zuzüglich einer Servicepauschale von 25 € berechnet.
+                </p>
+                <p>
+                  Kleine Instandsetzungen (z. B. Austausch von Glühbirnen) kann der Mieter bis zur
+                  Höhe von 150 € je Einzelfall ohne vorherige Absprache durch eine Fachwerkstatt
+                  ausführen lassen. Der Vermieter erstattet die Kosten gegen Vorlage des
+                  Originalrechnungsbeleges und des ausgetauschten Teils. Eigenleistungen des
+                  Mieters werden nicht vergütet.
+                </p>
+              </Section>
 
-            <Section title="Rechtswahl, Gerichtsstand, Sonstiges">
-              <p>
-                Die Einhaltung der Straßenverkehrsgesetze beim Betrieb des Fahrzeugs und der Teilnahme am
-                öffentlichen Straßenverkehr im In- und Ausland ist ausschließlich Sache des Mieters.
-              </p>
-              <p>
-                Die Parteien vereinbaren die Geltung von deutschem Recht für ihre gegenseitigen rechtlichen
-                Beziehungen aus diesem Mietvertrag.
-              </p>
-              <p>
-                Für den Fall, dass der Mieter keinen allgemeinen Gerichtsstand in Deutschland hat, vereinbaren
-                die Parteien die Zuständigkeit deutscher Gerichte für die Entscheidung über
-                Rechtsstreitigkeiten, die aufgrund dieses Mietvertrages bzw. Mietverhältnisses entstehen
-                könnten. Zuständig soll dabei das Gericht sein, bei dem der Vermieter seinen allgemeinen
-                Gerichtsstand hat, sofern nicht das Amtsgericht ausschließlich zuständig ist, in dem sich das
-                vermietete Mietobjekt befindet.
-              </p>
-              <p>
-                Wenn und soweit eine der Bestimmungen dieses Vertrages gegen eine zwingende gesetzliche
-                Vorschrift verstößt, tritt an ihre Stelle die entsprechende gesetzliche Regelung.
-              </p>
-            </Section>
+              <Section id="b-5" title="5. Fürsorgepflichten & Haftung des Mieters">
+                <p>
+                  Der Mieter ist verpflichtet, das Fahrzeug vor der Übernahme zu prüfen und Mängel
+                  in Textform anzuzeigen. Während der Mietzeit ist das Fahrzeug pfleglich zu
+                  behandeln, vor extremen Wetterbedingungen (Hagel, Sturm, Überschwemmung) und vor
+                  Vandalismus zu schützen. Kontrollleuchten ist gemäß Betriebsanleitung
+                  nachzugehen; Ölstand und Reifendruck sind vor längeren Fahrten zu prüfen.
+                </p>
+                <p>
+                  Der Mieter haftet auch für das Verschulden seiner Beifahrer und Mitreisenden im
+                  gesetzlichen Umfang.
+                </p>
+                <p>
+                  Bei Reparaturen oder Schadensbearbeitung durch den Vermieter wird ein Stundensatz
+                  von 45,00 € netto je Person sowie ein Mindestbearbeitungsbetrag von 49 € zzgl.
+                  USt. berechnet.
+                </p>
+              </Section>
+
+              <Section id="b-6" title="6. Versicherung & Schäden">
+                <p>
+                  Das Fahrzeug ist haftpflicht- und vollkaskoversichert mit einer
+                  Selbstbeteiligung, deren Höhe im Mietvertrag genannt ist. In Höhe der
+                  Selbstbeteiligung haftet der Mieter im Schadensfall.
+                </p>
+                <p>
+                  Bei Verkehrsunfällen (auch ohne Fremdbeteiligung), Brand, Wildschaden und
+                  sonstigen Schäden ist unverzüglich die Polizei hinzuzuziehen, der Vermieter zu
+                  benachrichtigen und ein ausführlicher Unfallbericht mit Skizze zu übermitteln.
+                  Bei Verstößen gegen die Nutzungsverbote oder bei Obliegenheitsverletzungen, die
+                  zur Leistungsfreiheit der Versicherung führen, haftet der Mieter im gesetzlichen
+                  Umfang.
+                </p>
+              </Section>
+
+              <Section id="b-7" title="7. Verlust von Schlüsseln, Papieren & Weitervermietung">
+                <p>
+                  Bei vom Mieter zu vertretendem Verlust von Schlüsseln oder Fahrzeugpapieren
+                  trägt dieser die Kosten der Ersatzbeschaffung sowie den Zeitaufwand des
+                  Vermieters (45,00 € netto/Stunde).
+                </p>
+                <p>
+                  Sollten durch eine Beschädigung Folgevermietungen ausfallen, verpflichtet sich
+                  der Mieter, die Kosten dieser Folgebuchungen bis zur erneuten
+                  Betriebsbereitschaft des Fahrzeugs zu übernehmen.
+                </p>
+              </Section>
+
+              <Section id="b-8" title="8. Technische & optische Veränderungen">
+                <p>
+                  Der Mieter darf am Fahrzeug keinerlei technische oder optische Veränderungen
+                  vornehmen (insbesondere keine Lackierungen, Aufkleber, Klebefolien oder Eingriffe
+                  in die Elektrik).
+                </p>
+              </Section>
+            </Part>
+
+            {/* ============================================================
+                TEIL C – FERIENUNTERKUNFT (STATIONÄRE NUTZUNG)
+                ============================================================ */}
+            <Part
+              id="teil-c"
+              label="Teil C"
+              title="Besondere Bedingungen – Ferienunterkunft (stationäre Nutzung)"
+            >
+              <Section id="c-1" title="1. Gegenstand & Standort">
+                <p>
+                  Gegenstand ist die Überlassung des Wohnmobils zur stationären Nutzung als
+                  Ferienunterkunft an einem zwischen den Parteien vereinbarten Standort
+                  (Grundstück des Vermieters, Stellplatz oder vereinbarter Aufstellort). Eine
+                  Nutzung als Fahrzeug im öffentlichen Straßenverkehr ist im Rahmen dieses
+                  Vertragsteils ausgeschlossen.
+                </p>
+              </Section>
+
+              <Section id="c-2" title="2. Anreise (Check-in) & Abreise (Check-out)">
+                <p>
+                  Sofern nicht abweichend vereinbart, gelten folgende Zeiten:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>
+                    <strong>Check-in:</strong> ab 15:00 Uhr am Anreisetag
+                  </li>
+                  <li>
+                    <strong>Check-out:</strong> bis 11:00 Uhr am Abreisetag
+                  </li>
+                </ul>
+                <p>
+                  Eine frühere Anreise oder spätere Abreise ist nur nach vorheriger Absprache und
+                  Verfügbarkeit möglich. Bei verspätetem Check-out behält sich der Vermieter vor,
+                  eine zusätzliche Übernachtung in Rechnung zu stellen.
+                </p>
+              </Section>
+
+              <Section id="c-3" title="3. Personenzahl & Belegung">
+                <p>
+                  Die Unterkunft darf nur mit der bei Buchung angemeldeten Personenzahl belegt
+                  werden, maximal jedoch mit der zulässigen Schlafplatzanzahl des Wohnmobils. Eine
+                  Überbelegung berechtigt den Vermieter zur fristlosen Kündigung ohne
+                  Erstattungsanspruch.
+                </p>
+                <p>
+                  Die Aufnahme nicht angemeldeter Übernachtungsgäste ist nicht gestattet.
+                </p>
+              </Section>
+
+              <Section id="c-4" title="4. Hausordnung">
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>
+                    <strong>Rauchen</strong> im Wohnmobil ist nicht gestattet (Reinigungspauschale
+                    bei Verstoß: 250 €).
+                  </li>
+                  <li>
+                    <strong>Haustiere</strong> nur nach vorheriger schriftlicher Zustimmung des
+                    Vermieters; ggf. fällt ein Aufschlag an.
+                  </li>
+                  <li>
+                    <strong>Nachtruhe</strong> ist von 22:00 bis 07:00 Uhr einzuhalten. Lärmende
+                    Aktivitäten und laute Musik sind in dieser Zeit untersagt.
+                  </li>
+                  <li>
+                    <strong>Besucher</strong> sind tagsüber willkommen, müssen aber dem Vermieter
+                    angezeigt werden und das Gelände bis 22:00 Uhr verlassen.
+                  </li>
+                  <li>
+                    <strong>Offenes Feuer</strong> innerhalb des Wohnmobils sowie Grillen direkt am
+                    Fahrzeug ist untersagt. Grillen ist nur an dafür ausgewiesenen Plätzen
+                    erlaubt.
+                  </li>
+                  <li>
+                    Mit dem Inventar (Bettwäsche, Geschirr, technische Geräte) ist sorgsam
+                    umzugehen. Schäden sind unverzüglich zu melden.
+                  </li>
+                </ul>
+              </Section>
+
+              <Section id="c-5" title="5. Endreinigung, Bettwäsche & Verbrauchskosten">
+                <p>
+                  Die <strong>Endreinigungspauschale</strong> wird gesondert ausgewiesen und ist
+                  zusammen mit dem Mietpreis fällig (Richtwert: 60–90 €). Bei übermäßiger
+                  Verschmutzung wird ein zusätzlicher Reinigungsaufwand mit 45 € netto je Stunde
+                  berechnet.
+                </p>
+                <p>
+                  <strong>Bettwäsche und Handtücher</strong> sind, sofern im Angebot enthalten,
+                  inklusive. Andernfalls können sie gegen Aufpreis hinzugebucht werden.
+                </p>
+                <p>
+                  Eine übliche Nutzung von <strong>Strom, Wasser und Gas</strong> ist im Mietpreis
+                  enthalten. Bei langfristigen Aufenthalten (über 14 Tage) behält sich der
+                  Vermieter eine verbrauchsabhängige Abrechnung vor; dies wird in diesem Fall
+                  vorab schriftlich vereinbart.
+                </p>
+                <p>
+                  Der Mieter ist verpflichtet, das Wohnmobil bei Abreise besenrein zu hinterlassen,
+                  Müll zu entsorgen, Geschirr zu spülen und persönliche Gegenstände zu entfernen.
+                </p>
+              </Section>
+
+              <Section id="c-6" title="6. Stornierung Ferienunterkunft">
+                <p>
+                  Sofern keine kostenfreie Umbuchung oder anderweitige Vermietung möglich ist,
+                  gelten folgende Stornogebühren auf den Gesamtpreis:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>bis 30 Tage vor Anreise: 20 %</li>
+                  <li>29 bis 14 Tage vor Anreise: 50 %</li>
+                  <li>13 bis 3 Tage vor Anreise: 80 %</li>
+                  <li>weniger als 3 Tage vor Anreise oder Nichtanreise: 95 %</li>
+                </ul>
+                <p>
+                  Dem Gast bleibt der Nachweis vorbehalten, dass dem Vermieter kein oder ein
+                  geringerer Schaden entstanden ist. Eine Reiserücktrittsversicherung wird
+                  empfohlen.
+                </p>
+              </Section>
+
+              <Section id="c-7" title="7. Meldepflicht & Kurtaxe">
+                <p>
+                  Der Mieter ist verpflichtet, sich auf Verlangen mit einem gültigen Lichtbildausweis
+                  auszuweisen und ggf. einen Meldeschein auszufüllen. Eine etwaige Kurtaxe oder
+                  Bettensteuer ist – soweit für den Standort gesetzlich vorgesehen – vor Ort vom
+                  Gast zu entrichten.
+                </p>
+              </Section>
+
+              <Section id="c-8" title="8. Haftung für eingebrachte Sachen">
+                <p>
+                  Für vom Gast eingebrachte Wertgegenstände übernimmt der Vermieter keine Haftung,
+                  soweit kein Vorsatz oder grobe Fahrlässigkeit vorliegt. Der Abschluss einer
+                  Reisegepäck- oder Hausratversicherung wird empfohlen.
+                </p>
+              </Section>
+            </Part>
+
+            {/* ============================================================
+                TEIL D – EVENT-SERVICE
+                ============================================================ */}
+            <Part id="teil-d" label="Teil D" title="Besondere Bedingungen – Event-Service">
+              <Section id="d-1" title="1. Leistungsumfang">
+                <p>
+                  Im Rahmen des Event-Services stellt der Vermieter das Wohnmobil tageweise als
+                  mobile Lounge, Foto-Location, Umkleide-, Schlaf- oder Rückzugskabine bei
+                  Veranstaltungen (z. B. Hochzeiten, Foto-/Filmproduktionen, Firmenevents,
+                  Festivals) zur Verfügung.
+                </p>
+                <p>
+                  Sofern Anlieferung, Aufbau oder Standzeit am Veranstaltungsort vereinbart sind,
+                  werden Umfang, Zeitfenster und Anfahrtspauschale individuell im Angebot geregelt.
+                </p>
+              </Section>
+
+              <Section id="d-2" title="2. Standort & Aufstellbedingungen">
+                <p>
+                  Der Mieter ist dafür verantwortlich, dass am Veranstaltungsort eine geeignete,
+                  ebene, befahrbare und tragfähige Stellfläche zur Verfügung steht und sämtliche
+                  erforderlichen <strong>Genehmigungen</strong> (z. B. Sondernutzung,
+                  Standplatzgenehmigung, GEMA, Veranstaltungsanmeldung) eingeholt sind.
+                </p>
+                <p>
+                  Wird das Fahrzeug aufgrund fehlender Zufahrt, ungeeigneter Stellfläche oder
+                  fehlender Genehmigungen nicht oder nur eingeschränkt einsetzbar, bleibt der
+                  vereinbarte Preis vollumfänglich geschuldet.
+                </p>
+                <p>
+                  Ein <strong>Stromanschluss</strong> (230 V/16 A) ist nach Möglichkeit vom Mieter
+                  bereitzustellen. Falls nicht verfügbar, kann gegen Aufpreis ein Generator
+                  zugebucht werden.
+                </p>
+              </Section>
+
+              <Section id="d-3" title="3. Veranstalterhaftung & Gäste Dritter">
+                <p>
+                  Der Mieter tritt dem Vermieter gegenüber als <strong>Veranstalter</strong> auf
+                  und haftet für sämtliche Schäden, die durch ihn, seine Mitarbeiter, Dienstleister,
+                  Eventgäste oder sonstige Dritte am Wohnmobil oder dessen Inventar verursacht
+                  werden, im gesetzlichen Umfang.
+                </p>
+                <p>
+                  Der Mieter stellt den Vermieter von sämtlichen Ansprüchen Dritter frei, die im
+                  Zusammenhang mit der Veranstaltung gegen den Vermieter geltend gemacht werden,
+                  soweit der Vermieter diese nicht selbst zu vertreten hat. Der Abschluss einer
+                  <strong> Veranstalterhaftpflichtversicherung</strong> wird dringend empfohlen.
+                </p>
+                <p>
+                  Die <strong>Aufsichtspflicht</strong> über das Wohnmobil und seine Nutzung
+                  während der Veranstaltung liegt beim Mieter.
+                </p>
+              </Section>
+
+              <Section id="d-4" title="4. Wetterklausel">
+                <p>
+                  Bei Outdoor-Veranstaltungen trägt der Mieter das Wetterrisiko. Eine Stornierung,
+                  Verschiebung oder vorzeitige Beendigung der Veranstaltung wegen ungünstiger
+                  Witterung berechtigt nicht zur Minderung oder Rückerstattung des Mietpreises.
+                </p>
+                <p>
+                  Bei extremen Wetterereignissen (Sturmwarnung ab Windstärke 8, Hagel, Hochwasser)
+                  ist der Vermieter berechtigt, das Fahrzeug aus Sicherheitsgründen vom
+                  Veranstaltungsort zu entfernen oder die Anreise abzusagen. In diesem Fall werden
+                  bereits geleistete Zahlungen anteilig erstattet, weitergehende Ansprüche sind
+                  ausgeschlossen.
+                </p>
+              </Section>
+
+              <Section id="d-5" title="5. Stornierung Event-Service">
+                <p>
+                  Aufgrund der hohen Vorbereitungs- und Reservierungsaufwände gelten für den
+                  Event-Service folgende pauschale Stornogebühren auf den Gesamtpreis:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>bis 60 Tage vor Veranstaltung: 25 %</li>
+                  <li>59 bis 30 Tage vor Veranstaltung: 60 %</li>
+                  <li>29 bis 14 Tage vor Veranstaltung: 80 %</li>
+                  <li>weniger als 14 Tage vor Veranstaltung oder Nichtinanspruchnahme: 100 %</li>
+                </ul>
+                <p>
+                  Eine kostenfreie Verschiebung des Termins ist – soweit verfügbar – einmalig
+                  zulässig, sofern sie spätestens 30 Tage vor dem ursprünglichen Termin in Textform
+                  beantragt wird.
+                </p>
+              </Section>
+
+              <Section id="d-6" title="6. Reinigung nach Eventnutzung">
+                <p>
+                  Das Wohnmobil ist nach Eventnutzung in besenreinem Zustand zurückzugeben.
+                  Übermäßige Verschmutzungen (z. B. durch Konfetti, Glitter, verschüttete Getränke,
+                  Make-up-Rückstände, Blütenblätter, Kerzenwachs) werden mit einer
+                  Sonderreinigungspauschale von mindestens 150 € berechnet; weitergehende Schäden
+                  bleiben hiervon unberührt.
+                </p>
+                <p>
+                  Das Anbringen von Dekoration mit Klebeband, Nägeln, Schrauben oder ähnlichen
+                  beschädigenden Mitteln am Innen- oder Außenbereich des Fahrzeugs ist untersagt.
+                </p>
+              </Section>
+
+              <Section id="d-7" title="7. Bild- & Filmaufnahmen">
+                <p>
+                  Bild- und Filmaufnahmen des Wohnmobils zu privaten Zwecken sind gestattet. Eine
+                  <strong> kommerzielle Nutzung</strong> der Aufnahmen (z. B. Werbung, redaktionelle
+                  Veröffentlichung, Social-Media-Werbung gewerblicher Anbieter) bedarf der
+                  vorherigen schriftlichen Zustimmung des Vermieters.
+                </p>
+              </Section>
+            </Part>
 
             <p className="pt-6 text-muted-foreground border-t border-border/30">
-              Mit der Unterzeichnung des Mietvertrages bestätigt der Mieter, die vorstehenden allgemeinen
-              Mietbedingungen zur Kenntnis genommen zu haben.
+              Mit der Buchungsbestätigung bzw. Unterzeichnung des jeweiligen Vertrages bestätigt
+              der Mieter / Gast, die vorstehenden Allgemeinen Geschäftsbedingungen zur Kenntnis
+              genommen und akzeptiert zu haben.
             </p>
           </div>
         </div>
