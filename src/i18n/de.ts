@@ -134,7 +134,7 @@ export const de = {
     title: "Für wen ist der Camper ideal?",
     items: [
       { title: "Für Paare", text: "Zu zweit die schönsten Ecken entdecken – romantische Abende unter der Markise inklusive." },
-      { title: "Für kleine Familien", text: "4 Schlafplätze, Kindersitz-Verankerungen und genug Stauraum." },
+      { title: "Für kleine Familien", text: "4 Schlafplätze und 3-Punkt-Gurte auf allen 4 Sitzen – ISOFIX ist nicht vorhanden." },
       { title: "Für Roadtrips ab Berlin", text: "Direkt aus Berlin – Ostsee, Sächsische Schweiz oder Brandenburg." },
       { title: "Für Reisen mit Hund", text: "Dein Vierbeiner ist willkommen – maximale Flexibilität bei Stellplätzen." },
       { title: "Für Einsteiger", text: "Persönliche Einweisung und Erklärvideos – ohne Vorkenntnisse starten." },
@@ -205,8 +205,8 @@ export const de = {
         title: "Sicherheit",
         items: [
           "Solarzellen für autarke Energieversorgung", "Versorgerbatterie", "Warmwassertank",
-          "Keine ISOFIX-Halterung vorhanden", "Feuerlöscher & Feuerlöschdecke",
-          "Rauchmelder & Kohlenmonoxid-Detektor",
+          "3-Punkt-Gurte auf allen 4 Sitzen (keine ISOFIX-Halterung)",
+          "Feuerlöscher & Feuerlöschdecke", "Rauchmelder & Kohlenmonoxid-Detektor",
         ],
       },
     ],

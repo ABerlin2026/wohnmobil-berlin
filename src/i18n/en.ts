@@ -136,7 +136,7 @@ export const en: typeof de = {
     title: "Who is the camper ideal for?",
     items: [
       { title: "For Couples", text: "Discover the most beautiful spots together – romantic evenings under the awning included." },
-      { title: "For Small Families", text: "4 sleeping spots, child seat anchors and plenty of storage." },
+      { title: "For Small Families", text: "4 sleeping spots and 3-point seatbelts on all 4 seats – no ISOFIX available." },
       { title: "For Road Trips from Berlin", text: "Directly from Berlin – Baltic Sea, Saxon Switzerland or Brandenburg." },
       { title: "For Trips with Dogs", text: "Your four-legged friend is welcome – maximum flexibility at campsites." },
       { title: "For Beginners", text: "Personal introduction and tutorial videos – start without prior experience." },
@@ -207,8 +207,8 @@ export const en: typeof de = {
         title: "Safety",
         items: [
           "Solar panels for independent power supply", "Auxiliary battery", "Hot water tank",
-          "No ISOFIX mount available", "Fire extinguisher & fire blanket",
-          "Smoke detector & carbon monoxide detector",
+          "3-point seatbelts on all 4 seats (no ISOFIX mount)",
+          "Fire extinguisher & fire blanket", "Smoke detector & carbon monoxide detector",
         ],
       },
     ],
