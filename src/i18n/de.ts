@@ -45,7 +45,7 @@ export const de = {
     label: "Transparente Preise",
     title: "Was kostet ein Wohnmobil in Berlin?",
     offSeason: "Nebensaison",
-    offSeasonPeriod: "Oktober – April",
+    offSeasonPeriod: "April & Oktober",
     mainSeason: "Hauptsaison",
     mainSeasonPeriod: "1. Mai – 30. September",
     popular: "Beliebt",

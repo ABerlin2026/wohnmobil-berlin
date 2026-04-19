@@ -47,7 +47,7 @@ export const en: typeof de = {
     label: "Transparent Pricing",
     title: "What does a motorhome in Berlin cost?",
     offSeason: "Off Season",
-    offSeasonPeriod: "October – April",
+    offSeasonPeriod: "April & October",
     mainSeason: "Peak Season",
     mainSeasonPeriod: "May 1 – September 30",
     popular: "Popular",
