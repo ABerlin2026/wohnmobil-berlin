@@ -35,8 +35,8 @@ const Index = () => {
         <VideoSection />
         <SunsetSection />
         <ReviewsSection />
-        <FAQSection />
         <ContactSection />
+        <FAQSection />
         <FinalCTASection />
       </main>
       <Footer />
