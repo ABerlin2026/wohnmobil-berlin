@@ -516,27 +516,34 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="c-3" title="3. Personenzahl & Belegung">
+              <Section id="c-3" title="3. Mindestaufenthalt, Personenzahl & Preise">
                 <p>
-                  Die Unterkunft darf nur mit der bei Buchung angemeldeten Personenzahl belegt
-                  werden, maximal jedoch mit der zulässigen Schlafplatzanzahl des Wohnmobils. Eine
-                  Überbelegung berechtigt den Vermieter zur fristlosen Kündigung ohne
-                  Erstattungsanspruch.
+                  Der <strong>Mindestaufenthalt beträgt 3 Nächte</strong>. Die Unterkunft darf nur
+                  mit der bei Buchung angemeldeten Personenzahl belegt werden, maximal jedoch mit{" "}
+                  <strong>4 Personen</strong> (entspricht der zulässigen Schlafplatzanzahl des
+                  Wohnmobils). Eine Überbelegung berechtigt den Vermieter zur fristlosen Kündigung
+                  ohne Erstattungsanspruch. Die Aufnahme nicht angemeldeter Übernachtungsgäste ist
+                  nicht gestattet.
                 </p>
-                <p>
-                  Die Aufnahme nicht angemeldeter Übernachtungsgäste ist nicht gestattet.
-                </p>
+                <p>Es gelten folgende Preise pro Nacht (gestaffelt nach Personenzahl):</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>1 Person: 75 €/Nacht</li>
+                  <li>2 Personen: 100 €/Nacht</li>
+                  <li>3 Personen: 125 €/Nacht</li>
+                  <li>4 Personen: 150 €/Nacht</li>
+                </ul>
               </Section>
 
               <Section id="c-4" title="4. Hausordnung">
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
                     <strong>Rauchen</strong> im Wohnmobil ist nicht gestattet (Reinigungspauschale
-                    bei Verstoß: 250 €).
+                    bei Verstoß: 200 €).
                   </li>
                   <li>
-                    <strong>Haustiere</strong> nur nach vorheriger schriftlicher Zustimmung des
-                    Vermieters; ggf. fällt ein Aufschlag an.
+                    <strong>Haustiere (insbesondere Hunde) sind willkommen</strong> und ohne
+                    Aufpreis erlaubt. Etwaige Verschmutzungen oder Schäden durch das Tier sind vor
+                    Abreise zu beseitigen bzw. zu ersetzen.
                   </li>
                   <li>
                     <strong>Nachtruhe</strong> ist von 22:00 bis 07:00 Uhr einzuhalten. Lärmende
@@ -560,24 +567,23 @@ const AGB = () => {
 
               <Section id="c-5" title="5. Endreinigung, Bettwäsche & Verbrauchskosten">
                 <p>
-                  Die <strong>Endreinigungspauschale</strong> wird gesondert ausgewiesen und ist
-                  zusammen mit dem Mietpreis fällig (Richtwert: 60–90 €). Bei übermäßiger
-                  Verschmutzung wird ein zusätzlicher Reinigungsaufwand mit 45 € netto je Stunde
-                  berechnet.
+                  Eine <strong>Innen- und Außenreinigung</strong> kann optional bei Buchung mit{" "}
+                  <strong>200 €</strong> pauschal hinzugefügt werden. Andernfalls ist das
+                  Wohnmobil bei Abreise gereinigt zu übergeben (besenrein, Müll entsorgt, Geschirr
+                  gespült, persönliche Gegenstände entfernt). Bei übermäßiger Verschmutzung oder
+                  ungereinigter Rückgabe ohne gebuchte Pauschale wird die Reinigung mit ebenfalls
+                  200 € berechnet; zusätzlicher Aufwand mit 45 € netto je Stunde.
                 </p>
                 <p>
-                  <strong>Bettwäsche und Handtücher</strong> sind, sofern im Angebot enthalten,
-                  inklusive. Andernfalls können sie gegen Aufpreis hinzugebucht werden.
+                  <strong>Bettwäsche</strong> kann gegen einen Aufpreis von 10 € pro Person (max. 4
+                  Personen) hinzugebucht werden. Ein <strong>Handtuch-Set</strong> ist optional für
+                  20 € pro Buchung verfügbar.
                 </p>
                 <p>
                   Eine übliche Nutzung von <strong>Strom, Wasser und Gas</strong> ist im Mietpreis
                   enthalten. Bei langfristigen Aufenthalten (über 14 Tage) behält sich der
                   Vermieter eine verbrauchsabhängige Abrechnung vor; dies wird in diesem Fall
                   vorab schriftlich vereinbart.
-                </p>
-                <p>
-                  Der Mieter ist verpflichtet, das Wohnmobil bei Abreise besenrein zu hinterlassen,
-                  Müll zu entsorgen, Geschirr zu spülen und persönliche Gegenstände zu entfernen.
                 </p>
               </Section>
 
