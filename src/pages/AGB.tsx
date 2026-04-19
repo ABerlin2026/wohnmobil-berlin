@@ -151,12 +151,29 @@ const AGB = () => {
                   sofort fällig.
                 </p>
                 <p>
-                  Der Vermieter ist berechtigt, vor Übergabe eine angemessene Kaution zu verlangen.
-                  Die Höhe wird im jeweiligen Vertrag festgelegt und beträgt in der Regel 800–1.500
-                  € für die Wohnmobil-Vermietung sowie 200–500 € für Ferienunterkunft und
-                  Event-Service. Die Kaution wird nach mängelfreier Rückgabe innerhalb von 14 Tagen
+                  Der Vermieter ist berechtigt, vor Übergabe eine Kaution zu verlangen. Diese
+                  beträgt:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li><strong>Wohnmobil-Vermietung:</strong> 1.500 € (per Überweisung oder bar nach Absprache)</li>
+                  <li><strong>Ferienunterkunft & Event-Service:</strong> 200–500 € je nach Buchungsumfang</li>
+                </ul>
+                <p>
+                  Die Kaution wird nach mängelfreier Rückgabe innerhalb von 14 Tagen
                   zurückerstattet.
                 </p>
+              </Section>
+
+              <Section id="a-3b" title="4. Saison & Verfügbarkeit">
+                <p>
+                  Die Vermietung des Wohnmobils erfolgt saisonal von <strong>April bis Oktober</strong>.
+                  In den Monaten November bis März steht das Fahrzeug nicht zur Verfügung.
+                </p>
+                <p>Es gelten folgende Saisonpreise pro Tag für die Wohnmobil-Vermietung:</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li><strong>Hauptsaison (1. Mai – 30. September):</strong> 129 €/Tag</li>
+                  <li><strong>Nebensaison (April & Oktober):</strong> 119 €/Tag</li>
+                </ul>
               </Section>
 
               <Section id="a-4" title="4. Widerrufsrecht">
@@ -243,11 +260,12 @@ const AGB = () => {
                 TEIL B – WOHNMOBIL-VERMIETUNG
                 ============================================================ */}
             <Part id="teil-b" label="Teil B" title="Besondere Bedingungen – Wohnmobil-Vermietung">
-              <Section id="b-1" title="1. Mietzeit, Übergabe & Rückgabe">
+              <Section id="b-1" title="1. Mietzeit, Mindestmietdauer, Übergabe & Rückgabe">
                 <p>
-                  Die Mietzeit beginnt und endet zu den im Mietvertrag vereinbarten Terminen.
-                  Übergabe und Rückgabe erfolgen in der Regel am Standort des Vermieters in Berlin/
-                  Brandenburg.
+                  Die <strong>Mindestmietdauer beträgt 5 Tage</strong> (Anreise- und Abreisetag
+                  inklusive). Die Mietzeit beginnt und endet zu den im Mietvertrag vereinbarten
+                  Terminen. Übergabe und Rückgabe erfolgen in der Regel am Standort des Vermieters
+                  in Berlin/Brandenburg.
                 </p>
                 <p>
                   Sofern Abholung durch den Vermieter vereinbart ist, ist das Fahrzeug zum
@@ -263,7 +281,14 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="b-2" title="2. Stornierung Wohnmobil">
+              <Section id="b-2" title="2. Personenanzahl">
+                <p>
+                  Das Wohnmobil verfügt über <strong>4 zugelassene Schlaf- und Sitzplätze</strong>
+                  (alle gurtgesichert). Die Mitnahme weiterer Personen ist nicht gestattet.
+                </p>
+              </Section>
+
+              <Section id="b-3" title="3. Stornierung Wohnmobil">
                 <p>
                   Tritt der Mieter vom Vertrag zurück, gelten – sofern keine kostenfreie Umbuchung
                   oder Ersatzmiete möglich ist – folgende pauschale Stornogebühren auf den
@@ -282,13 +307,21 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="b-3" title="3. Nutzung & Nutzungsverbote">
+              <Section id="b-4" title="4. Auslandsfahrten & Nutzungsverbote">
                 <p>
-                  Die Benutzung des Fahrzeugs ist ausschließlich innerhalb der Europäischen Union
-                  (EU) gestattet. Außerhalb dieser Grenzen besteht in der Kraftfahrversicherung
-                  (insbesondere Vollkaskoschutz) kein Versicherungsschutz. Für die Nutzung in
-                  anderen Ländern ist die vorherige schriftliche Zustimmung des Vermieters
-                  erforderlich.
+                  Auslandsfahrten sind ausschließlich in folgende Länder gestattet, da nur dort
+                  Versicherungsschutz (insbesondere Vollkasko) besteht:
+                </p>
+                <p className="bg-surface-1 border border-border/30 rounded-md p-3 text-sm">
+                  Deutschland, Niederlande, Dänemark, Schweden, Norwegen, Finnland, Polen,
+                  Tschechien, Österreich, Schweiz, Ungarn, Slowenien, Kroatien und Slowakei.
+                </p>
+                <p>
+                  Fahrten in andere Länder – insbesondere Belgien, Luxemburg, Frankreich, Italien,
+                  die baltischen Staaten (Litauen, Lettland, Estland), das Vereinigte Königreich,
+                  Irland, der Balkan (Serbien, Bosnien, Montenegro, Nordmazedonien, Albanien),
+                  Rumänien, Bulgarien, Belarus, Ukraine und Moldau – sind <strong>nicht
+                  versichert und nicht gestattet</strong>.
                 </p>
                 <p>Vom Vermieter generell nicht gestattet ist die Nutzung des Fahrzeugs zu folgenden Zwecken:</p>
                 <ul className="list-disc pl-6 space-y-1">
@@ -309,11 +342,67 @@ const AGB = () => {
                 </p>
                 <p>
                   <strong>Rauchen</strong> im Fahrzeug ist nicht gestattet. Bei Zuwiderhandlung
-                  wird eine Reinigungspauschale von mindestens 250 € erhoben.
+                  wird eine Reinigungspauschale von mindestens 200 € erhoben.
                 </p>
                 <p>
-                  Die Mitnahme von <strong>Haustieren</strong> bedarf der vorherigen schriftlichen
-                  Zustimmung des Vermieters und ist ggf. mit einem Aufschlag verbunden.
+                  <strong>Haustiere (insbesondere Hunde) sind willkommen</strong> und ohne Aufpreis
+                  erlaubt. Der Mieter ist verpflichtet, etwaige durch das Tier verursachte
+                  Verschmutzungen oder Schäden vor Rückgabe zu beseitigen bzw. zu ersetzen.
+                </p>
+              </Section>
+
+              <Section id="b-5" title="5. Freikilometer & Mehrkilometer">
+                <p>
+                  Im Mietpreis enthalten sind <strong>150 Freikilometer pro Mietttag</strong>.
+                  Mehrkilometer werden mit <strong>0,35 € pro Kilometer</strong> berechnet und
+                  bei Rückgabe abgerechnet.
+                </p>
+              </Section>
+
+              <Section id="b-6" title="6. Endreinigung">
+                <p>
+                  Das Wohnmobil ist innen und außen <strong>gereinigt zurückzugeben</strong>.
+                  Grauwasser- und Toilettentank müssen in jedem Fall entleert werden – dies ist
+                  Bestandteil der regulären Rückgabe und wird bei der Übergabe erklärt.
+                </p>
+                <p>
+                  Wer die Reinigung nicht selbst übernehmen möchte, kann die{" "}
+                  <strong>Innen- und Außenreinigungs-Pauschale in Höhe von 200 €</strong> direkt
+                  bei der Buchung hinzufügen. Wird das Fahrzeug ohne diese Pauschale ungereinigt
+                  zurückgegeben, wird die Reinigung mit ebenfalls 200 € in Rechnung gestellt;
+                  bei besonders starker Verschmutzung kann ein zusätzlicher Aufwand mit 45 € netto
+                  je Stunde berechnet werden.
+                </p>
+              </Section>
+
+              <Section id="b-7" title="7. Optionale Extras">
+                <p>Folgende Extras können bei Buchung hinzugefügt werden:</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>Bettwäsche: 10 € pro Person (max. 4 Personen)</li>
+                  <li>Handtuch-Set: 20 € pro Buchung</li>
+                  <li>Gasgrill: 40 € pro Buchung</li>
+                  <li>E-Scooter: 75 € pro Stück (max. 3)</li>
+                  <li>Innen- und Außenreinigung: 200 € pro Buchung</li>
+                </ul>
+                <p>
+                  Die jeweils gültigen Preise und Verfügbarkeiten ergeben sich aus dem
+                  Buchungsformular auf der Webseite.
+                </p>
+              </Section>
+
+              <Section id="b-8" title="8. Kraftstoffe, Öle, Kleinreparaturen">
+                <p>
+                  Der während der Mietdauer verbrauchte Kraftstoff, AdBlue, Motoröl, Gas und andere
+                  Hilfs- und Betriebsstoffe sind vom Mieter auf eigene Kosten zu beschaffen. Das
+                  Fahrzeug ist vollgetankt zurückzugeben; andernfalls wird der fehlende Kraftstoff
+                  zuzüglich einer Servicepauschale von 25 € berechnet.
+                </p>
+                <p>
+                  Kleine Instandsetzungen (z. B. Austausch von Glühbirnen) kann der Mieter bis zur
+                  Höhe von 150 € je Einzelfall ohne vorherige Absprache durch eine Fachwerkstatt
+                  ausführen lassen. Der Vermieter erstattet die Kosten gegen Vorlage des
+                  Originalrechnungsbeleges und des ausgetauschten Teils. Eigenleistungen des
+                  Mieters werden nicht vergütet.
                 </p>
               </Section>
 
@@ -427,27 +516,34 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="c-3" title="3. Personenzahl & Belegung">
+              <Section id="c-3" title="3. Mindestaufenthalt, Personenzahl & Preise">
                 <p>
-                  Die Unterkunft darf nur mit der bei Buchung angemeldeten Personenzahl belegt
-                  werden, maximal jedoch mit der zulässigen Schlafplatzanzahl des Wohnmobils. Eine
-                  Überbelegung berechtigt den Vermieter zur fristlosen Kündigung ohne
-                  Erstattungsanspruch.
+                  Der <strong>Mindestaufenthalt beträgt 3 Nächte</strong>. Die Unterkunft darf nur
+                  mit der bei Buchung angemeldeten Personenzahl belegt werden, maximal jedoch mit{" "}
+                  <strong>4 Personen</strong> (entspricht der zulässigen Schlafplatzanzahl des
+                  Wohnmobils). Eine Überbelegung berechtigt den Vermieter zur fristlosen Kündigung
+                  ohne Erstattungsanspruch. Die Aufnahme nicht angemeldeter Übernachtungsgäste ist
+                  nicht gestattet.
                 </p>
-                <p>
-                  Die Aufnahme nicht angemeldeter Übernachtungsgäste ist nicht gestattet.
-                </p>
+                <p>Es gelten folgende Preise pro Nacht (gestaffelt nach Personenzahl):</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>1 Person: 75 €/Nacht</li>
+                  <li>2 Personen: 100 €/Nacht</li>
+                  <li>3 Personen: 125 €/Nacht</li>
+                  <li>4 Personen: 150 €/Nacht</li>
+                </ul>
               </Section>
 
               <Section id="c-4" title="4. Hausordnung">
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
                     <strong>Rauchen</strong> im Wohnmobil ist nicht gestattet (Reinigungspauschale
-                    bei Verstoß: 250 €).
+                    bei Verstoß: 200 €).
                   </li>
                   <li>
-                    <strong>Haustiere</strong> nur nach vorheriger schriftlicher Zustimmung des
-                    Vermieters; ggf. fällt ein Aufschlag an.
+                    <strong>Haustiere (insbesondere Hunde) sind willkommen</strong> und ohne
+                    Aufpreis erlaubt. Etwaige Verschmutzungen oder Schäden durch das Tier sind vor
+                    Abreise zu beseitigen bzw. zu ersetzen.
                   </li>
                   <li>
                     <strong>Nachtruhe</strong> ist von 22:00 bis 07:00 Uhr einzuhalten. Lärmende
@@ -471,24 +567,23 @@ const AGB = () => {
 
               <Section id="c-5" title="5. Endreinigung, Bettwäsche & Verbrauchskosten">
                 <p>
-                  Die <strong>Endreinigungspauschale</strong> wird gesondert ausgewiesen und ist
-                  zusammen mit dem Mietpreis fällig (Richtwert: 60–90 €). Bei übermäßiger
-                  Verschmutzung wird ein zusätzlicher Reinigungsaufwand mit 45 € netto je Stunde
-                  berechnet.
+                  Eine <strong>Innen- und Außenreinigung</strong> kann optional bei Buchung mit{" "}
+                  <strong>200 €</strong> pauschal hinzugefügt werden. Andernfalls ist das
+                  Wohnmobil bei Abreise gereinigt zu übergeben (besenrein, Müll entsorgt, Geschirr
+                  gespült, persönliche Gegenstände entfernt). Bei übermäßiger Verschmutzung oder
+                  ungereinigter Rückgabe ohne gebuchte Pauschale wird die Reinigung mit ebenfalls
+                  200 € berechnet; zusätzlicher Aufwand mit 45 € netto je Stunde.
                 </p>
                 <p>
-                  <strong>Bettwäsche und Handtücher</strong> sind, sofern im Angebot enthalten,
-                  inklusive. Andernfalls können sie gegen Aufpreis hinzugebucht werden.
+                  <strong>Bettwäsche</strong> kann gegen einen Aufpreis von 10 € pro Person (max. 4
+                  Personen) hinzugebucht werden. Ein <strong>Handtuch-Set</strong> ist optional für
+                  20 € pro Buchung verfügbar.
                 </p>
                 <p>
                   Eine übliche Nutzung von <strong>Strom, Wasser und Gas</strong> ist im Mietpreis
                   enthalten. Bei langfristigen Aufenthalten (über 14 Tage) behält sich der
                   Vermieter eine verbrauchsabhängige Abrechnung vor; dies wird in diesem Fall
                   vorab schriftlich vereinbart.
-                </p>
-                <p>
-                  Der Mieter ist verpflichtet, das Wohnmobil bei Abreise besenrein zu hinterlassen,
-                  Müll zu entsorgen, Geschirr zu spülen und persönliche Gegenstände zu entfernen.
                 </p>
               </Section>
 
@@ -532,16 +627,23 @@ const AGB = () => {
                 TEIL D – EVENT-SERVICE
                 ============================================================ */}
             <Part id="teil-d" label="Teil D" title="Besondere Bedingungen – Event-Service">
-              <Section id="d-1" title="1. Leistungsumfang">
+              <Section id="d-1" title="1. Leistungsumfang, Mindestdauer & Preis">
                 <p>
-                  Im Rahmen des Event-Services stellt der Vermieter das Wohnmobil tageweise als
+                  Im Rahmen des Event-Services stellt der Vermieter das Wohnmobil als
                   mobile Lounge, Foto-Location, Umkleide-, Schlaf- oder Rückzugskabine bei
                   Veranstaltungen (z. B. Hochzeiten, Foto-/Filmproduktionen, Firmenevents,
                   Festivals) zur Verfügung.
                 </p>
                 <p>
+                  Der <strong>Mindestbuchungszeitraum beträgt 3 Tage</strong>. Der Preis beträgt{" "}
+                  <strong>80 € pro Tag</strong> bei einer Anfahrt bis zu{" "}
+                  <strong>50 km</strong> ab Standort des Vermieters in Berlin/Brandenburg. Für
+                  weitere Anfahrtswege wird eine individuelle Anfahrtspauschale gemäß Angebot
+                  berechnet.
+                </p>
+                <p>
                   Sofern Anlieferung, Aufbau oder Standzeit am Veranstaltungsort vereinbart sind,
-                  werden Umfang, Zeitfenster und Anfahrtspauschale individuell im Angebot geregelt.
+                  werden Umfang und Zeitfenster individuell im Angebot geregelt.
                 </p>
               </Section>
 
