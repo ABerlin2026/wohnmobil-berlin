@@ -406,7 +406,7 @@ const ContactSection = () => {
                   <p className="text-xs text-muted-foreground mt-1">{t.contact.calendarLoading}</p>
                 )}
                 {!calendarLoading && (
-                  <p className="text-xs text-muted-foreground mt-1">{t.contact.dateBooked}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t.contact.dateBooked} {t.contact.leadTimeHint}</p>
                 )}
                 {isTooShort && (
                   <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
