@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,8 @@ const Navigation = () => {
   const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const links = [
     { label: t.nav.advantages, href: "#vorteile" },
@@ -25,6 +28,14 @@ const Navigation = () => {
 
   const handleClick = (href: string) => {
     setOpen(false);
+    if (location.pathname !== "/") {
+      navigate("/" + href);
+      // Wait for navigation, then scroll to anchor
+      setTimeout(() => {
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return;
+    }
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
