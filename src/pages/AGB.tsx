@@ -627,16 +627,23 @@ const AGB = () => {
                 TEIL D – EVENT-SERVICE
                 ============================================================ */}
             <Part id="teil-d" label="Teil D" title="Besondere Bedingungen – Event-Service">
-              <Section id="d-1" title="1. Leistungsumfang">
+              <Section id="d-1" title="1. Leistungsumfang, Mindestdauer & Preis">
                 <p>
-                  Im Rahmen des Event-Services stellt der Vermieter das Wohnmobil tageweise als
+                  Im Rahmen des Event-Services stellt der Vermieter das Wohnmobil als
                   mobile Lounge, Foto-Location, Umkleide-, Schlaf- oder Rückzugskabine bei
                   Veranstaltungen (z. B. Hochzeiten, Foto-/Filmproduktionen, Firmenevents,
                   Festivals) zur Verfügung.
                 </p>
                 <p>
+                  Der <strong>Mindestbuchungszeitraum beträgt 3 Tage</strong>. Der Preis beträgt{" "}
+                  <strong>80 € pro Tag</strong> bei einer Anfahrt bis zu{" "}
+                  <strong>50 km</strong> ab Standort des Vermieters in Berlin/Brandenburg. Für
+                  weitere Anfahrtswege wird eine individuelle Anfahrtspauschale gemäß Angebot
+                  berechnet.
+                </p>
+                <p>
                   Sofern Anlieferung, Aufbau oder Standzeit am Veranstaltungsort vereinbart sind,
-                  werden Umfang, Zeitfenster und Anfahrtspauschale individuell im Angebot geregelt.
+                  werden Umfang und Zeitfenster individuell im Angebot geregelt.
                 </p>
               </Section>
 
