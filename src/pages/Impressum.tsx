@@ -1,51 +1,34 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageSEO from "@/components/PageSEO";
+import { LegalRenderer } from "@/components/LegalRenderer";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { legalContent } from "@/i18n/legalContent";
 
 const Impressum = () => {
+  const { language } = useLanguage();
+  const doc = legalContent[language].impressum;
+  const breadcrumbHome = language === "de" ? "Startseite" : "Home";
+  const breadcrumbName = language === "de" ? "Impressum" : "Legal Notice";
+
   return (
     <>
       <PageSEO
-        title="Impressum | Camper Berlin Brandenburg"
-        description="Impressum und Anbieterkennzeichnung gemäß § 5 TMG für Camper Berlin Brandenburg – Wohnmobilvermietung in Berlin."
+        title={doc.metaTitle}
+        description={doc.metaDescription}
         canonical="https://camper-berlin-brandenburg.de/impressum"
         noindex
         breadcrumbs={[
-          { name: "Startseite", url: "https://camper-berlin-brandenburg.de/" },
-          { name: "Impressum", url: "https://camper-berlin-brandenburg.de/impressum" },
+          { name: breadcrumbHome, url: "https://camper-berlin-brandenburg.de/" },
+          { name: breadcrumbName, url: "https://camper-berlin-brandenburg.de/impressum" },
         ]}
       />
       <Navigation />
       <main className="section-padding bg-background min-h-screen pt-32">
         <div className="container-narrow max-w-3xl">
-          <h1 className="text-3xl md:text-4xl font-display font-bold mb-10">Impressum</h1>
-
-          <div className="space-y-6 text-sm leading-relaxed text-secondary-foreground">
-            <div>
-              <h2 className="font-display font-semibold text-foreground text-base mb-2">Angaben gemäß § 5 TMG</h2>
-              <p>[Firmenname]</p>
-              <p>[Vor- und Nachname]</p>
-              <p>[Straße und Hausnummer]</p>
-              <p>[PLZ] [Ort]</p>
-            </div>
-
-            <div>
-              <h2 className="font-display font-semibold text-foreground text-base mb-2">Kontakt</h2>
-              <p>Telefon: [Telefonnummer]</p>
-              <p>E-Mail: [E-Mail-Adresse]</p>
-            </div>
-
-            <div>
-              <h2 className="font-display font-semibold text-foreground text-base mb-2">Steuernummer</h2>
-              <p>[Steuernummer]</p>
-            </div>
-
-            <div>
-              <h2 className="font-display font-semibold text-foreground text-base mb-2">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
-              <p>[Vor- und Nachname]</p>
-              <p>[Straße und Hausnummer]</p>
-              <p>[PLZ] [Ort]</p>
-            </div>
+          <h1 className="text-3xl md:text-4xl font-display font-bold mb-10">{doc.pageTitle}</h1>
+          <div className="space-y-4 text-sm leading-relaxed">
+            <LegalRenderer nodes={doc.nodes} />
           </div>
         </div>
       </main>

@@ -458,6 +458,15 @@ export const en: typeof de = {
     eventDestination: "District with postcode (e.g. 10115 Berlin-Mitte)",
     holidayLocationLabel: "Location",
     holidayLocationValue: "13127 Berlin (Old-Berlin courtyard)",
+    countries: {
+      DE: "Germany", NL: "Netherlands", DK: "Denmark", SE: "Sweden", NO: "Norway",
+      FI: "Finland", PL: "Poland", CZ: "Czech Republic", AT: "Austria", CH: "Switzerland",
+      HU: "Hungary", SI: "Slovenia", HR: "Croatia", SK: "Slovakia",
+      BE: "Belgium", LU: "Luxembourg", FR: "France", IT: "Italy",
+      LT: "Lithuania", LV: "Latvia", EE: "Estonia", GB: "United Kingdom", IE: "Ireland",
+      RS: "Serbia", BA: "Bosnia and Herzegovina", ME: "Montenegro", MK: "North Macedonia",
+      AL: "Albania", RO: "Romania", BG: "Bulgaria", BY: "Belarus", UA: "Ukraine", MD: "Moldova",
+    },
   },
 
   // Sunset moment

@@ -456,6 +456,15 @@ export const de = {
     eventDestination: "Bezirk mit Postleitzahl (z.B. 10115 Berlin-Mitte)",
     holidayLocationLabel: "Standort",
     holidayLocationValue: "13127 Berlin (Alt-Berliner Hof)",
+    countries: {
+      DE: "Deutschland", NL: "Niederlande", DK: "Dänemark", SE: "Schweden", NO: "Norwegen",
+      FI: "Finnland", PL: "Polen", CZ: "Tschechien", AT: "Österreich", CH: "Schweiz",
+      HU: "Ungarn", SI: "Slowenien", HR: "Kroatien", SK: "Slowakei",
+      BE: "Belgien", LU: "Luxemburg", FR: "Frankreich", IT: "Italien",
+      LT: "Litauen", LV: "Lettland", EE: "Estland", GB: "Vereinigtes Königreich", IE: "Irland",
+      RS: "Serbien", BA: "Bosnien und Herzegowina", ME: "Montenegro", MK: "Nordmazedonien",
+      AL: "Albanien", RO: "Rumänien", BG: "Bulgarien", BY: "Belarus", UA: "Ukraine", MD: "Moldau",
+    },
   },
 
   // Sunset moment

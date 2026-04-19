@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { addDays, endOfMonth, format, differenceInCalendarDays } from "date-fns";
-import { de } from "date-fns/locale";
+import { de as dfnsDe, enUS as dfnsEn } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,21 +16,16 @@ import { useBookedDates } from "@/hooks/useBookedDates";
 
 import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
-const ALLOWED_COUNTRIES = [
-  "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
-  "Polen", "Tschechien", "Österreich", "Schweiz", "Ungarn",
-  "Slowenien", "Kroatien", "Slowakei", "Niederlande",
-];
-
-const BLOCKED_COUNTRIES = [
-  "Belgien", "Luxemburg", "Frankreich", "Italien",
-  "Litauen", "Lettland", "Estland", "Vereinigtes Königreich", "Irland",
-  "Serbien", "Bosnien und Herzegowina", "Montenegro", "Nordmazedonien",
-  "Albanien", "Rumänien", "Bulgarien", "Belarus", "Ukraine", "Moldau",
-];
-
-const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), ...BLOCKED_COUNTRIES].sort((a, b) => a.localeCompare(b, "de"));
-const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
+// Country codes used in the rental dropdown. Allowed = covered by insurance.
+const ALLOWED_COUNTRY_CODES = [
+  "DE", "DK", "SE", "NO", "FI", "PL", "CZ", "AT", "CH", "HU", "SI", "HR", "SK", "NL",
+] as const;
+const BLOCKED_COUNTRY_CODES = [
+  "BE", "LU", "FR", "IT", "LT", "LV", "EE", "GB", "IE",
+  "RS", "BA", "ME", "MK", "AL", "RO", "BG", "BY", "UA", "MD",
+] as const;
+type CountryCode = typeof ALLOWED_COUNTRY_CODES[number] | typeof BLOCKED_COUNTRY_CODES[number];
+const ALL_COUNTRY_CODES: CountryCode[] = [...ALLOWED_COUNTRY_CODES, ...BLOCKED_COUNTRY_CODES];
 
 const MIN_RENTAL_DAYS = 5;
 const MIN_EVENT_DAYS = 3;
@@ -72,7 +67,15 @@ const ContactSection = () => {
   const { isDateBooked, isDateUnavailable, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
-  const [selectedCountry, setSelectedCountry] = useState("Deutschland");
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>("DE");
+  const dfnsLocale = useLanguage().language === "de" ? dfnsDe : dfnsEn;
+  // Sort country codes by their localized label for the current language
+  const sortedCountryCodes = useMemo(() => {
+    const collator = new Intl.Collator(useLanguage().language);
+    return [...ALL_COUNTRY_CODES].sort((a, b) =>
+      collator.compare(t.contact.countries[a], t.contact.countries[b])
+    );
+  }, [t.contact.countries]);
   const [bookingType, setBookingType] = useState<"rental" | "event" | "holiday">("rental");
   const [form, setForm] = useState({
     name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
@@ -91,7 +94,7 @@ const ContactSection = () => {
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
-  const isCountryBlocked = bookingType === "rental" && selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
+  const isCountryBlocked = bookingType === "rental" && selectedCountry && (BLOCKED_COUNTRY_CODES as readonly string[]).includes(selectedCountry);
   const minDays =
     bookingType === "event" ? MIN_EVENT_DAYS :
     bookingType === "holiday" ? MIN_HOLIDAY_DAYS :
@@ -117,7 +120,7 @@ const ContactSection = () => {
           blocked && "bg-destructive/15 text-destructive line-through font-semibold",
         )}
       >
-        {format(date, "d", { locale: de })}
+        {format(date, "d", { locale: dfnsLocale })}
       </span>
     );
   };
@@ -215,7 +218,7 @@ const ContactSection = () => {
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
-    setSelectedCountry("");
+    setSelectedCountry("DE");
     setTermsAccepted(false);
   };
 
@@ -365,22 +368,22 @@ const ContactSection = () => {
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !startDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-                        <span className="truncate">{startDate ? format(startDate, "EEE, dd.MM.yyyy", { locale: de }) : t.contact.startDate}</span>
+                        <span className="truncate">{startDate ? format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }) : t.contact.startDate}</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, minDays) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, minDays)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, minDays) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, minDays) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, minDays)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, minDays) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !endDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-                        <span className="truncate">{endDate ? format(endDate, "EEE, dd.MM.yyyy", { locale: de }) : t.contact.endDate}</span>
+                        <span className="truncate">{endDate ? format(endDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }) : t.contact.endDate}</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && (isOutOfSeason(date) || (minEndDate && date < minEndDate) || (startDate && isCheckoutBlocked(date, startDate)))) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isOutOfSeason(date) || (minEndDate ? date < minEndDate : false) || (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date))} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date)) || isOutOfSeason(date), tooShort: (date) => !!(minEndDate && startDate && date > startDate && date < minEndDate) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed", tooShort: "!text-muted-foreground/50 !opacity-60 cursor-not-allowed" }} components={{ DayContent: ({ date }) => (minEndDate && startDate && date > startDate && date < minEndDate) ? (<span className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground/50">{format(date, "d", { locale: de })}</span>) : renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={endDate} onSelect={(date) => { if (date && (isOutOfSeason(date) || (minEndDate && date < minEndDate) || (startDate && isCheckoutBlocked(date, startDate)))) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isOutOfSeason(date) || (minEndDate ? date < minEndDate : false) || (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date))} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date)) || isOutOfSeason(date), tooShort: (date) => !!(minEndDate && startDate && date > startDate && date < minEndDate) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed", tooShort: "!text-muted-foreground/50 !opacity-60 cursor-not-allowed" }} components={{ DayContent: ({ date }) => (minEndDate && startDate && date > startDate && date < minEndDate) ? (<span className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground/50">{format(date, "d", { locale: dfnsLocale })}</span>) : renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -415,13 +418,13 @@ const ContactSection = () => {
               {bookingType === "rental" && (
                 <>
                   <div>
-                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                    <Select value={selectedCountry} onValueChange={(v) => setSelectedCountry(v as CountryCode)}>
                       <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
                         <SelectValue placeholder={t.contact.selectCountry} />
                       </SelectTrigger>
                       <SelectContent>
-                        {ALL_COUNTRIES.map((country) => (
-                          <SelectItem key={country} value={country}>{country}</SelectItem>
+                        {sortedCountryCodes.map((code) => (
+                          <SelectItem key={code} value={code}>{t.contact.countries[code]}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
