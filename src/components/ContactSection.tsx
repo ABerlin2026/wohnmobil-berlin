@@ -355,19 +355,17 @@ const ContactSection = () => {
 
               {bookingType === "rental" && (
                 <div>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
-                    <label className="text-xs text-muted-foreground mb-1 sm:mb-0 sm:shrink-0">
-                      {t.contact.birthdate}
-                    </label>
-                    <Input
-                      type="date"
-                      required
-                      value={form.birthdate}
-                      max={maxBirthdate}
-                      onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
-                      className="bg-surface-2 border-border/20 rounded-lg h-9 text-xs w-full sm:w-40"
-                    />
-                  </div>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    {t.contact.birthdate}
+                  </label>
+                  <Input
+                    type="date"
+                    required
+                    value={form.birthdate}
+                    max={maxBirthdate}
+                    onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
+                    className="bg-surface-2 border-border/20 rounded-lg h-11 w-full"
+                  />
                   <p className="text-xs text-muted-foreground mt-1">{t.contact.birthdateHint}</p>
                   {isDriverTooYoung && (
                     <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
