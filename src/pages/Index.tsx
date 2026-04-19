@@ -6,6 +6,7 @@ import TargetGroupSection from "@/components/TargetGroupSection";
 import EventServiceSection from "@/components/EventServiceSection";
 import HolidayHomeSection from "@/components/HolidayHomeSection";
 import EquipmentSection from "@/components/EquipmentSection";
+import VehicleSpecsSection from "@/components/VehicleSpecsSection";
 import GallerySection from "@/components/GallerySection";
 import BeginnerSection from "@/components/BeginnerSection";
 import VideoSection from "@/components/VideoSection";
@@ -28,6 +29,7 @@ const Index = () => {
         <HolidayHomeSection />
         <TargetGroupSection />
         <EquipmentSection />
+        <VehicleSpecsSection />
         <GallerySection />
         <BeginnerSection />
         <VideoSection />
