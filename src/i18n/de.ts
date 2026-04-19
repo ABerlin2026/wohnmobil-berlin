@@ -390,7 +390,7 @@ export const de = {
     startDate: "Startdatum *",
     endDate: "Enddatum *",
     minDaysError: "Die Mindestmietdauer beträgt 5 Tage.",
-    dateBooked: "Dieser Tag ist bereits belegt (rot markiert).",
+    dateBooked: "Belegte Tage werden in rot markiert.",
     calendarLoading: "Verfügbarkeit wird geladen…",
     calendarError: "Kalender konnte nicht geladen werden.",
     destination: "Reiseziel (z.B. Stadt oder Region)",
