@@ -392,7 +392,7 @@ export const en: typeof de = {
     startDate: "Start date *",
     endDate: "End date *",
     minDaysError: "The minimum rental period is 5 days.",
-    dateBooked: "This day is already booked (marked in red).",
+    dateBooked: "Booked days are marked in red.",
     calendarLoading: "Loading availability…",
     calendarError: "Could not load calendar.",
     destination: "Destination (e.g. city or region)",
