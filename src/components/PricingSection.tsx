@@ -18,11 +18,11 @@ const PricingSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <div className="bg-surface-2 rounded-xl p-8 border border-border/30">
+          <div className="bg-surface-2 rounded-xl p-5 sm:p-8 border border-border/30">
             <p className="text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground mb-1">{t.pricing.offSeason}</p>
             <p className="text-sm text-muted-foreground mb-8">{t.pricing.offSeasonPeriod}</p>
-            <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-5xl font-display font-bold text-foreground">119€</span>
+            <div className="flex items-baseline flex-wrap gap-1 mb-8">
+              <span className="text-4xl sm:text-5xl font-display font-bold text-foreground break-all">119€</span>
               <span className="text-muted-foreground text-sm">{t.pricing.perDay}</span>
             </div>
             <ul className="space-y-4 mb-8">
@@ -38,14 +38,14 @@ const PricingSection = () => {
             </Button>
           </div>
 
-          <div className="bg-primary rounded-xl p-8 relative">
-            <div className="absolute top-4 right-4 bg-primary-foreground/15 text-primary-foreground text-xs font-bold px-3 py-1 rounded-full tracking-wider uppercase">
+          <div className="bg-primary rounded-xl p-5 sm:p-8 relative">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-primary-foreground/15 text-primary-foreground text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full tracking-wider uppercase">
               {t.pricing.popular}
             </div>
-            <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary-foreground/60 mb-1">{t.pricing.mainSeason}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary-foreground/60 mb-1 pr-20 sm:pr-0">{t.pricing.mainSeason}</p>
             <p className="text-sm text-primary-foreground/50 mb-8">{t.pricing.mainSeasonPeriod}</p>
-            <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-5xl font-display font-bold text-primary-foreground">129€</span>
+            <div className="flex items-baseline flex-wrap gap-1 mb-8">
+              <span className="text-4xl sm:text-5xl font-display font-bold text-primary-foreground break-all">129€</span>
               <span className="text-primary-foreground/60 text-sm">{t.pricing.perDay}</span>
             </div>
             <ul className="space-y-4 mb-8">

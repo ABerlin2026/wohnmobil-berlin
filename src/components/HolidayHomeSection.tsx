@@ -114,8 +114,8 @@ const HolidayHomeSection = () => {
                 key={label}
                 className={
                   popular
-                    ? "bg-primary rounded-xl p-6 relative"
-                    : "bg-surface-2 rounded-xl p-6 border border-border/30"
+                    ? "bg-primary rounded-xl p-4 sm:p-6 relative"
+                    : "bg-surface-2 rounded-xl p-4 sm:p-6 border border-border/30"
                 }
               >
                 {popular && (
@@ -126,18 +126,18 @@ const HolidayHomeSection = () => {
                 <p
                   className={
                     popular
-                      ? "text-xs font-bold uppercase tracking-[0.15em] text-primary-foreground/70 mb-3"
+                      ? "text-xs font-bold uppercase tracking-[0.15em] text-primary-foreground/70 mb-3 pr-16"
                       : "text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground mb-3"
                   }
                 >
                   {label}
                 </p>
-                <div className="flex items-baseline gap-1 mb-5">
+                <div className="flex items-baseline flex-wrap gap-1 mb-5">
                   <span
                     className={
                       popular
-                        ? "text-4xl font-display font-bold text-primary-foreground"
-                        : "text-4xl font-display font-bold text-foreground"
+                        ? "text-3xl sm:text-4xl font-display font-bold text-primary-foreground break-all"
+                        : "text-3xl sm:text-4xl font-display font-bold text-foreground break-all"
                     }
                   >
                     {price}€
