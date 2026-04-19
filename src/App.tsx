@@ -9,6 +9,7 @@ import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/impressum" element={<Impressum />} />
