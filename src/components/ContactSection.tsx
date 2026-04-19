@@ -67,7 +67,15 @@ const ContactSection = () => {
   const { isDateBooked, isDateUnavailable, firstBookedDate, loading: calendarLoading, refetch } = useBookedDates();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
-  const [selectedCountry, setSelectedCountry] = useState("Deutschland");
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>("DE");
+  const dfnsLocale = useLanguage().language === "de" ? dfnsDe : dfnsEn;
+  // Sort country codes by their localized label for the current language
+  const sortedCountryCodes = useMemo(() => {
+    const collator = new Intl.Collator(useLanguage().language);
+    return [...ALL_COUNTRY_CODES].sort((a, b) =>
+      collator.compare(t.contact.countries[a], t.contact.countries[b])
+    );
+  }, [t.contact.countries]);
   const [bookingType, setBookingType] = useState<"rental" | "event" | "holiday">("rental");
   const [form, setForm] = useState({
     name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
@@ -86,7 +94,7 @@ const ContactSection = () => {
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
-  const isCountryBlocked = bookingType === "rental" && selectedCountry && BLOCKED_COUNTRIES.includes(selectedCountry);
+  const isCountryBlocked = bookingType === "rental" && selectedCountry && (BLOCKED_COUNTRY_CODES as readonly string[]).includes(selectedCountry);
   const minDays =
     bookingType === "event" ? MIN_EVENT_DAYS :
     bookingType === "holiday" ? MIN_HOLIDAY_DAYS :
