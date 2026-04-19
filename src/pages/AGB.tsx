@@ -151,12 +151,29 @@ const AGB = () => {
                   sofort fällig.
                 </p>
                 <p>
-                  Der Vermieter ist berechtigt, vor Übergabe eine angemessene Kaution zu verlangen.
-                  Die Höhe wird im jeweiligen Vertrag festgelegt und beträgt in der Regel 800–1.500
-                  € für die Wohnmobil-Vermietung sowie 200–500 € für Ferienunterkunft und
-                  Event-Service. Die Kaution wird nach mängelfreier Rückgabe innerhalb von 14 Tagen
+                  Der Vermieter ist berechtigt, vor Übergabe eine Kaution zu verlangen. Diese
+                  beträgt:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li><strong>Wohnmobil-Vermietung:</strong> 1.500 € (per Überweisung oder bar nach Absprache)</li>
+                  <li><strong>Ferienunterkunft & Event-Service:</strong> 200–500 € je nach Buchungsumfang</li>
+                </ul>
+                <p>
+                  Die Kaution wird nach mängelfreier Rückgabe innerhalb von 14 Tagen
                   zurückerstattet.
                 </p>
+              </Section>
+
+              <Section id="a-3b" title="4. Saison & Verfügbarkeit">
+                <p>
+                  Die Vermietung des Wohnmobils erfolgt saisonal von <strong>April bis Oktober</strong>.
+                  In den Monaten November bis März steht das Fahrzeug nicht zur Verfügung.
+                </p>
+                <p>Es gelten folgende Saisonpreise pro Tag für die Wohnmobil-Vermietung:</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li><strong>Hauptsaison (1. Mai – 30. September):</strong> 129 €/Tag</li>
+                  <li><strong>Nebensaison (April & Oktober):</strong> 119 €/Tag</li>
+                </ul>
               </Section>
 
               <Section id="a-4" title="4. Widerrufsrecht">
