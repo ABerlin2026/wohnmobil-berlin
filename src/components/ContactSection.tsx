@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { addDays, endOfMonth, format, differenceInCalendarDays } from "date-fns";
-import { de } from "date-fns/locale";
+import { de as dfnsDe, enUS as dfnsEn } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,21 +16,16 @@ import { useBookedDates } from "@/hooks/useBookedDates";
 
 import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
-const ALLOWED_COUNTRIES = [
-  "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
-  "Polen", "Tschechien", "Österreich", "Schweiz", "Ungarn",
-  "Slowenien", "Kroatien", "Slowakei", "Niederlande",
-];
-
-const BLOCKED_COUNTRIES = [
-  "Belgien", "Luxemburg", "Frankreich", "Italien",
-  "Litauen", "Lettland", "Estland", "Vereinigtes Königreich", "Irland",
-  "Serbien", "Bosnien und Herzegowina", "Montenegro", "Nordmazedonien",
-  "Albanien", "Rumänien", "Bulgarien", "Belarus", "Ukraine", "Moldau",
-];
-
-const OTHER_COUNTRIES = [...ALLOWED_COUNTRIES.filter(c => c !== "Deutschland"), ...BLOCKED_COUNTRIES].sort((a, b) => a.localeCompare(b, "de"));
-const ALL_COUNTRIES = ["Deutschland", ...OTHER_COUNTRIES];
+// Country codes used in the rental dropdown. Allowed = covered by insurance.
+const ALLOWED_COUNTRY_CODES = [
+  "DE", "DK", "SE", "NO", "FI", "PL", "CZ", "AT", "CH", "HU", "SI", "HR", "SK", "NL",
+] as const;
+const BLOCKED_COUNTRY_CODES = [
+  "BE", "LU", "FR", "IT", "LT", "LV", "EE", "GB", "IE",
+  "RS", "BA", "ME", "MK", "AL", "RO", "BG", "BY", "UA", "MD",
+] as const;
+type CountryCode = typeof ALLOWED_COUNTRY_CODES[number] | typeof BLOCKED_COUNTRY_CODES[number];
+const ALL_COUNTRY_CODES: CountryCode[] = [...ALLOWED_COUNTRY_CODES, ...BLOCKED_COUNTRY_CODES];
 
 const MIN_RENTAL_DAYS = 5;
 const MIN_EVENT_DAYS = 3;
