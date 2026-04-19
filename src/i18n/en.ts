@@ -408,6 +408,7 @@ export const en: typeof de = {
   footer: {
     imprint: "Legal Notice",
     privacy: "Privacy Policy",
+    terms: "Terms",
     rights: "All rights reserved.",
   },
 };
