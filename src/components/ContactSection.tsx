@@ -196,6 +196,10 @@ const ContactSection = () => {
       toast({ title: t.contact.toastMissing, description: t.contact.toastMissingDesc, variant: "destructive" });
       return;
     }
+    if (startDate < earliestStart) {
+      toast({ title: t.contact.toastLeadTime, description: t.contact.toastLeadTimeDesc, variant: "destructive" });
+      return;
+    }
     if (isTooShort) {
       toast({
         title: t.contact.toastMinDays,
