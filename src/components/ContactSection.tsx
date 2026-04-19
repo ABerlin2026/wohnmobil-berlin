@@ -286,7 +286,7 @@ const ContactSection = () => {
                         "px-3 py-2 rounded-md text-xs sm:text-sm font-medium border transition-colors",
                         bookingType === id
                           ? "bg-primary text-primary-foreground border-primary"
-                          : "bg-surface-1 text-muted-foreground border-border/20 hover:text-foreground",
+                          : "bg-primary/10 text-foreground border-primary/30 hover:bg-primary/20 hover:border-primary/50",
                       )}
                     >
                       {label}
