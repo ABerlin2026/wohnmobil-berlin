@@ -30,6 +30,8 @@ const ALL_COUNTRY_CODES: CountryCode[] = [...ALLOWED_COUNTRY_CODES, ...BLOCKED_C
 const MIN_RENTAL_DAYS = 5;
 const MIN_EVENT_DAYS = 3;
 const MIN_HOLIDAY_DAYS = 3;
+/** Minimum lead time in days between today and the earliest possible arrival date. */
+const MIN_LEAD_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
 const PRICE_EVENT = 80; // Event overnight stay (<50 km)
