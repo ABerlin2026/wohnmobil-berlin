@@ -311,8 +311,7 @@ export const en: typeof de = {
       { q: "How long does the handover take?", a: "Plan around 45–60 minutes for the personal introduction. We'll go through all functions calmly with you (power, water, heating, awning, toilet) and answer your questions." },
 
       // Payment & deposit
-      { q: "How much is the deposit and when is it due?", a: "Upon booking confirmation, a down payment of 30 % of the rental price is due (by bank transfer). The remaining amount and the security deposit of €1,500 must be paid no later than 14 days before the rental starts. For short-term bookings, we arrange payment individually." },
-      { q: "Which payment methods are accepted?", a: "Down payment and balance are paid by SEPA bank transfer. The security deposit can be paid by bank transfer or in cash on handover – by arrangement." },
+      { q: "Which payment methods are accepted?", a: "Down payment and balance are paid by SEPA bank transfer or in cash by arrangement. The security deposit can be paid by bank transfer or in cash on handover." },
       { q: "What is the deductible in case of damage?", a: "Despite full comprehensive insurance, a deductible of €1,500 per damage event applies. This is offset against the security deposit if necessary." },
 
       // Cancellation

@@ -309,8 +309,7 @@ export const de = {
       { q: "Wie lange dauert die Übergabe?", a: "Plane für die persönliche Einweisung etwa 45–60 Minuten ein. Wir gehen alle Funktionen in Ruhe mit dir durch (Strom, Wasser, Heizung, Markise, Toilette) und beantworten deine Fragen." },
 
       // Zahlung & Kaution
-      { q: "Wie hoch ist die Anzahlung und wann fällig?", a: "Bei Buchungsbestätigung wird eine Anzahlung von 30 % des Mietpreises fällig (per Überweisung). Der Restbetrag und die Kaution von 1.500 € sind spätestens 14 Tage vor Reiseantritt zu zahlen. Bei kurzfristigen Buchungen vereinbaren wir die Zahlung individuell." },
-      { q: "Welche Zahlungsmittel werden akzeptiert?", a: "Anzahlung und Restbetrag erfolgen per SEPA-Überweisung. Die Kaution kann per Überweisung oder bar bei der Übergabe hinterlegt werden – nach Absprache." },
+      { q: "Welche Zahlungsmittel werden akzeptiert?", a: "Anzahlung und Restbetrag erfolgen per SEPA-Überweisung oder bar nach Absprache. Die Kaution kann per Überweisung oder bar bei der Übergabe hinterlegt werden." },
       { q: "Wie hoch ist die Selbstbeteiligung im Schadensfall?", a: "Trotz Vollkasko gilt im Schadensfall eine Selbstbeteiligung von 1.500 € pro Schadensfall. Diese wird – falls nötig – mit der Kaution verrechnet." },
 
       // Stornierung
