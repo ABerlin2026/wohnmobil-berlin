@@ -136,7 +136,7 @@ export const en: typeof de = {
     title: "Who is the camper ideal for?",
     items: [
       { title: "For Couples", text: "Discover the most beautiful spots together – romantic evenings under the awning included." },
-      { title: "For Small Families", text: "4 sleeping spots, child seat anchors and plenty of storage." },
+      { title: "For Small Families", text: "4 sleeping spots and 3-point seatbelts on all 4 seats – no ISOFIX available." },
       { title: "For Road Trips from Berlin", text: "Directly from Berlin – Baltic Sea, Saxon Switzerland or Brandenburg." },
       { title: "For Trips with Dogs", text: "Your four-legged friend is welcome – maximum flexibility at campsites." },
       { title: "For Beginners", text: "Personal introduction and tutorial videos – start without prior experience." },
@@ -207,14 +207,34 @@ export const en: typeof de = {
         title: "Safety",
         items: [
           "Solar panels for independent power supply", "Auxiliary battery", "Hot water tank",
-          "No ISOFIX mount available", "Fire extinguisher & fire blanket",
-          "Smoke detector & carbon monoxide detector",
+          "3-point seatbelts on all 4 seats (no ISOFIX mount)",
+          "Fire extinguisher & fire blanket", "Smoke detector & carbon monoxide detector",
         ],
       },
     ],
   },
 
-  // Gallery
+  // Vehicle Specs
+  vehicleSpecs: {
+    label: "Vehicle Fact Sheet",
+    title: "The motorhome in detail",
+    subtitle: "All the technical data at a glance – so you know exactly what you'll be driving.",
+    modelLabel: "Model",
+    modelValue: "Citroën · Ilusion 740 build",
+    modelType: "Semi-integrated · 4 seats & sleeping spots",
+    items: [
+      { label: "Dimensions (L × W × H)", value: "7.40 m × 2.35 m × 2.73 m", hint: "Check garage heights and bridges in advance." },
+      { label: "Transmission", value: "Manual gearbox", hint: "No automatic transmission available." },
+      { label: "Engine power", value: "130 hp" },
+      { label: "Fuel", value: "Diesel (with AdBlue)", hint: "Approx. 10 l / 100 km – depending on driving style." },
+      { label: "Payload", value: "max. 500 kg", hint: "Note: a filled fresh-water tank (150 l) counts towards payload." },
+      { label: "Fresh water tank", value: "150 liters" },
+      { label: "Auxiliary battery", value: "1–5 days off-grid", hint: "With solar – duration depends on consumption." },
+      { label: "Solar system", value: "Included", hint: "Charges the auxiliary battery even without shore power." },
+      { label: "Seats", value: "4 × 3-point belt", hint: "No ISOFIX mount – but 3-point belts on all 4 seats." },
+    ],
+    note: "Class B driving license is sufficient – vehicle under 3.5 t.",
+  },
   gallery: {
     label: "Gallery",
     title: "Your Camper in Pictures",
@@ -291,8 +311,7 @@ export const en: typeof de = {
       { q: "How long does the handover take?", a: "Plan around 45–60 minutes for the personal introduction. We'll go through all functions calmly with you (power, water, heating, awning, toilet) and answer your questions." },
 
       // Payment & deposit
-      { q: "How much is the deposit and when is it due?", a: "Upon booking confirmation, a down payment of 30 % of the rental price is due (by bank transfer). The remaining amount and the security deposit of €1,500 must be paid no later than 14 days before the rental starts. For short-term bookings, we arrange payment individually." },
-      { q: "Which payment methods are accepted?", a: "Down payment and balance are paid by SEPA bank transfer. The security deposit can be paid by bank transfer or in cash on handover – by arrangement." },
+      { q: "Which payment methods are accepted?", a: "Down payment and balance are paid by SEPA bank transfer or in cash by arrangement. The security deposit can be paid by bank transfer or in cash on handover." },
       { q: "What is the deductible in case of damage?", a: "Despite full comprehensive insurance, a deductible of €1,500 per damage event applies. This is offset against the security deposit if necessary." },
 
       // Cancellation
@@ -318,7 +337,31 @@ export const en: typeof de = {
       { q: "How many people can stay in the holiday home?", a: "Up to 4 people. On board are 2 double beds – ideal for couples, families or groups of friends." },
       { q: "Are toilets and showers available on site?", a: "Yes, separate toilets and showers are available on the grounds. So you have all the comfort you need." },
       { q: "Can I drive the motorhome?", a: "No, with the holiday home booking the motorhome stays stationary on its courtyard spot. It serves exclusively as an overnight option – you use it like a holiday apartment." },
-      { q: "What sets the holiday home apart from a hotel?", a: "It's something different, something special: a motorhome as a holiday home right in Berlin on an authentic Old-Berlin courtyard. With a fixed address but the charm of an unusual accommodation – perfect for travelers looking for more than just a hotel room." },
+      // Down payment & contract
+      { q: "How much is the down payment and when is it due?", a: "Upon booking confirmation, a down payment of 25 % of the rental price is due immediately. The remaining 75 % must be paid no later than 14 days before the rental starts. For short-term bookings, we arrange payment individually." },
+      { q: "How is the rental contract concluded?", a: "After your booking inquiry, we send you the rental contract by email. As soon as the down payment has reached us by bank transfer – or has been paid in cash – the contract becomes binding." },
+      { q: "How can the deposit be paid?", a: "The deposit of €1,500 can be paid either by bank transfer or in cash on handover – your choice." },
+
+      // Breakdown & prior damage
+      { q: "Is there breakdown assistance or a protection letter?", a: "No, a breakdown protection letter is not included. In case of a breakdown, flat tire or similar incident on the road, you have to organize towing, repair and onward travel yourself. We recommend taking out your own breakdown cover (e.g. ADAC, ACE) before your trip." },
+      { q: "What happens if the vehicle cannot be provided due to prior damage?", a: "Should we be unable to provide the motorhome on the agreed date due to damage caused by the previous renter, all payments already made will be fully refunded. There is no further claim to compensation (e.g. for booked hotels or activities)." },
+
+      // Holiday home – details
+      { q: "Is there WiFi in the holiday home?", a: "No, there is no WiFi on the courtyard. We recommend using your mobile data plan or bringing a mobile hotspot." },
+      { q: "Is there a parking spot for my car?", a: "Yes, a free parking spot for your private car is available on the courtyard." },
+      { q: "How do check-in and check-out work in the holiday home?", a: "Check-in includes a personal handover – we show you everything calmly. No personal handover is needed at check-out; you simply leave the apartment at the agreed time." },
+      { q: "Can I use the kitchen in the holiday home?", a: "Yes, the kitchen is fully usable – with gas stove, fridge, coffee machine and all necessary tableware. We don't offer breakfast, but you can cater for yourself." },
+      { q: "How well is the location connected to public transport?", a: "Tram and bus stops are within walking distance, approx. 500 m away. Supermarkets, bakeries and gas stations are also nearby." },
+
+      // Event service – power & water
+      { q: "Do I need power and water connections at the event venue?", a: "Power and water connections are not mandatory, but advantageous. You'll need to arrange power supply at the event location yourself – we bring the motorhome ready to use." },
+
+      // Cleaning & return
+      { q: "How clean does the vehicle need to be on return?", a: "The motorhome must be returned ready for the next renter – tidy inside, dishes washed, trash removed, grey water and toilet emptied. If you'd rather not do the cleaning yourself, you can add the cleaning flat fee (€200) directly to your booking." },
+
+      // Long-term rental & travel cancellation
+      { q: "Are there discounts for longer rental periods?", a: "For rentals over 14 days, a discount is possible. This needs to be requested individually – just mention it when you make your inquiry." },
+      { q: "Is travel cancellation insurance offered?", a: "No, we don't offer travel cancellation insurance ourselves. We recommend taking out your own travel cancellation insurance (e.g. via your insurer) to protect yourself against cancellation costs." },
     ],
   },
 

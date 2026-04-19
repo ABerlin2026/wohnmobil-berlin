@@ -144,11 +144,13 @@ const AGB = () => {
                   gesetzlichen Mehrwertsteuer.
                 </p>
                 <p>
-                  Sofern nicht anders vereinbart, ist eine Anzahlung in Höhe von 30 % des
-                  Gesamtpreises innerhalb von 7 Tagen nach Buchungsbestätigung fällig. Der
-                  Restbetrag ist spätestens 14 Tage vor Mietbeginn bzw. Anreise zu zahlen. Bei
-                  kurzfristigen Buchungen (weniger als 14 Tage vor Beginn) ist der Gesamtbetrag
-                  sofort fällig.
+                  Sofern nicht anders vereinbart, ist eine <strong>Anzahlung in Höhe von 25 %</strong>{" "}
+                  des Gesamtpreises sofort bei Buchungsbestätigung fällig. Der{" "}
+                  <strong>Restbetrag von 75 %</strong> ist spätestens 14 Tage vor Mietbeginn bzw.
+                  Anreise zu zahlen. Bei kurzfristigen Buchungen (weniger als 14 Tage vor Beginn)
+                  ist der Gesamtbetrag sofort fällig. Der Mietvertrag wird dem Mieter nach
+                  Buchungsanfrage per E-Mail zugesandt und wird mit Eingang der Anzahlung
+                  (per Überweisung oder bar) verbindlich.
                 </p>
                 <p>
                   Der Vermieter ist berechtigt, vor Übergabe eine Kaution zu verlangen. Diese
@@ -406,23 +408,36 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="b-4" title="4. Kraftstoffe, Öle, Kleinreparaturen">
+              <Section id="b-9" title="9. Pannen, Reifenpannen & Eigenverantwortung unterwegs">
                 <p>
-                  Der während der Mietdauer verbrauchte Kraftstoff, AdBlue, Motoröl, Gas und andere
-                  Hilfs- und Betriebsstoffe sind vom Mieter auf eigene Kosten zu beschaffen. Das
-                  Fahrzeug ist vollgetankt zurückzugeben; andernfalls wird der fehlende Kraftstoff
-                  zuzüglich einer Servicepauschale von 25 € berechnet.
+                  Ein <strong>Schutzbrief ist nicht inkludiert</strong>. Bei einer Panne, einer
+                  Reifenpanne oder vergleichbaren Vorfällen während der Mietzeit hat der Mieter sich
+                  selbst um Bergung, Reparatur und Weiterfahrt zu kümmern und trägt die hierfür
+                  anfallenden Kosten. Dem Mieter wird ausdrücklich empfohlen, vor Reiseantritt einen
+                  eigenen Schutzbrief (z. B. ADAC, ACE) abzuschließen.
                 </p>
                 <p>
-                  Kleine Instandsetzungen (z. B. Austausch von Glühbirnen) kann der Mieter bis zur
-                  Höhe von 150 € je Einzelfall ohne vorherige Absprache durch eine Fachwerkstatt
-                  ausführen lassen. Der Vermieter erstattet die Kosten gegen Vorlage des
-                  Originalrechnungsbeleges und des ausgetauschten Teils. Eigenleistungen des
-                  Mieters werden nicht vergütet.
+                  Der Vermieter ist im Pannenfall unverzüglich zu informieren. Reparaturen über
+                  150 € je Einzelfall bedürfen der vorherigen Zustimmung des Vermieters.
                 </p>
               </Section>
 
-              <Section id="b-5" title="5. Fürsorgepflichten & Haftung des Mieters">
+              <Section id="b-10" title="10. Nichtbereitstellung durch Vorschaden">
+                <p>
+                  Sollte der Vermieter das Wohnmobil aufgrund eines vom vorherigen Mieter
+                  verursachten Schadens oder eines anderen, vom Vermieter nicht zu vertretenden
+                  Umstands zum vereinbarten Termin nicht bereitstellen können, werden bereits
+                  geleistete Zahlungen vollständig erstattet.
+                </p>
+                <p>
+                  <strong>Ein darüber hinausgehender Anspruch des Mieters auf Schadensersatz</strong>
+                  {" "}(z. B. für gebuchte Hotels, Anreisekosten, Aktivitäten oder entgangene
+                  Urlaubsfreuden) <strong>besteht nicht</strong>, soweit den Vermieter nicht
+                  Vorsatz oder grobe Fahrlässigkeit trifft.
+                </p>
+              </Section>
+
+              <Section id="b-11" title="11. Fürsorgepflichten & Haftung des Mieters">
                 <p>
                   Der Mieter ist verpflichtet, das Fahrzeug vor der Übernahme zu prüfen und Mängel
                   in Textform anzuzeigen. Während der Mietzeit ist das Fahrzeug pfleglich zu
@@ -441,7 +456,7 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="b-6" title="6. Versicherung & Schäden">
+              <Section id="b-12" title="12. Versicherung & Schäden">
                 <p>
                   Das Fahrzeug ist haftpflicht- und vollkaskoversichert mit einer
                   Selbstbeteiligung, deren Höhe im Mietvertrag genannt ist. In Höhe der
@@ -457,7 +472,7 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="b-7" title="7. Verlust von Schlüsseln, Papieren & Weitervermietung">
+              <Section id="b-13" title="13. Verlust von Schlüsseln, Papieren & Weitervermietung">
                 <p>
                   Bei vom Mieter zu vertretendem Verlust von Schlüsseln oder Fahrzeugpapieren
                   trägt dieser die Kosten der Ersatzbeschaffung sowie den Zeitaufwand des
@@ -470,7 +485,7 @@ const AGB = () => {
                 </p>
               </Section>
 
-              <Section id="b-8" title="8. Technische & optische Veränderungen">
+              <Section id="b-14" title="14. Technische & optische Veränderungen">
                 <p>
                   Der Mieter darf am Fahrzeug keinerlei technische oder optische Veränderungen
                   vornehmen (insbesondere keine Lackierungen, Aufkleber, Klebefolien oder Eingriffe

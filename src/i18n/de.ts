@@ -134,7 +134,7 @@ export const de = {
     title: "Für wen ist der Camper ideal?",
     items: [
       { title: "Für Paare", text: "Zu zweit die schönsten Ecken entdecken – romantische Abende unter der Markise inklusive." },
-      { title: "Für kleine Familien", text: "4 Schlafplätze, Kindersitz-Verankerungen und genug Stauraum." },
+      { title: "Für kleine Familien", text: "4 Schlafplätze und 3-Punkt-Gurte auf allen 4 Sitzen – ISOFIX ist nicht vorhanden." },
       { title: "Für Roadtrips ab Berlin", text: "Direkt aus Berlin – Ostsee, Sächsische Schweiz oder Brandenburg." },
       { title: "Für Reisen mit Hund", text: "Dein Vierbeiner ist willkommen – maximale Flexibilität bei Stellplätzen." },
       { title: "Für Einsteiger", text: "Persönliche Einweisung und Erklärvideos – ohne Vorkenntnisse starten." },
@@ -205,14 +205,34 @@ export const de = {
         title: "Sicherheit",
         items: [
           "Solarzellen für autarke Energieversorgung", "Versorgerbatterie", "Warmwassertank",
-          "Keine ISOFIX-Halterung vorhanden", "Feuerlöscher & Feuerlöschdecke",
-          "Rauchmelder & Kohlenmonoxid-Detektor",
+          "3-Punkt-Gurte auf allen 4 Sitzen (keine ISOFIX-Halterung)",
+          "Feuerlöscher & Feuerlöschdecke", "Rauchmelder & Kohlenmonoxid-Detektor",
         ],
       },
     ],
   },
 
-  // Gallery
+  // Vehicle Specs / Steckbrief
+  vehicleSpecs: {
+    label: "Fahrzeug-Steckbrief",
+    title: "Das Wohnmobil im Detail",
+    subtitle: "Alle technischen Daten auf einen Blick – damit du genau weißt, womit du unterwegs bist.",
+    modelLabel: "Modell",
+    modelValue: "Citroën · Aufbau Ilusion 740",
+    modelType: "Teilintegriert · 4 Sitz- & Schlafplätze",
+    items: [
+      { label: "Maße (L × B × H)", value: "7,40 m × 2,35 m × 2,73 m", hint: "Garagen-Höhe und Brücken vorab prüfen." },
+      { label: "Schaltung", value: "Schaltgetriebe (manuell)", hint: "Kein Automatikgetriebe vorhanden." },
+      { label: "Motorleistung", value: "130 PS" },
+      { label: "Kraftstoff", value: "Diesel (mit AdBlue)", hint: "Verbrauch ca. 10 l / 100 km – je nach Fahrweise." },
+      { label: "Zuladung", value: "max. 500 kg", hint: "Achtung: gefüllter Frischwassertank (150 l) zählt mit." },
+      { label: "Frischwassertank", value: "150 Liter" },
+      { label: "Versorgerbatterie", value: "1–5 Tage autark", hint: "Mit Solaranlage – Dauer hängt vom Verbrauch ab." },
+      { label: "Solaranlage", value: "Inklusive", hint: "Lädt die Versorgerbatterie auch ohne Landstrom." },
+      { label: "Sitzplätze", value: "4 × 3-Punkt-Gurt", hint: "Keine ISOFIX-Halterung – aber 3-Punkt-Gurte auf allen 4 Plätzen." },
+    ],
+    note: "Führerschein Klasse B ausreichend – Fahrzeug unter 3,5 t.",
+  },
   gallery: {
     label: "Galerie",
     title: "Dein Camper in Bildern",
@@ -289,8 +309,7 @@ export const de = {
       { q: "Wie lange dauert die Übergabe?", a: "Plane für die persönliche Einweisung etwa 45–60 Minuten ein. Wir gehen alle Funktionen in Ruhe mit dir durch (Strom, Wasser, Heizung, Markise, Toilette) und beantworten deine Fragen." },
 
       // Zahlung & Kaution
-      { q: "Wie hoch ist die Anzahlung und wann fällig?", a: "Bei Buchungsbestätigung wird eine Anzahlung von 30 % des Mietpreises fällig (per Überweisung). Der Restbetrag und die Kaution von 1.500 € sind spätestens 14 Tage vor Reiseantritt zu zahlen. Bei kurzfristigen Buchungen vereinbaren wir die Zahlung individuell." },
-      { q: "Welche Zahlungsmittel werden akzeptiert?", a: "Anzahlung und Restbetrag erfolgen per SEPA-Überweisung. Die Kaution kann per Überweisung oder bar bei der Übergabe hinterlegt werden – nach Absprache." },
+      { q: "Welche Zahlungsmittel werden akzeptiert?", a: "Anzahlung und Restbetrag erfolgen per SEPA-Überweisung oder bar nach Absprache. Die Kaution kann per Überweisung oder bar bei der Übergabe hinterlegt werden." },
       { q: "Wie hoch ist die Selbstbeteiligung im Schadensfall?", a: "Trotz Vollkasko gilt im Schadensfall eine Selbstbeteiligung von 1.500 € pro Schadensfall. Diese wird – falls nötig – mit der Kaution verrechnet." },
 
       // Stornierung
@@ -316,7 +335,31 @@ export const de = {
       { q: "Wie viele Personen können in der Ferienwohnung übernachten?", a: "Bis zu 4 Personen. An Bord befinden sich 2 Doppelbetten – ideal für Paare, Familien oder Freundesgruppen." },
       { q: "Gibt es Toiletten und Duschen vor Ort?", a: "Ja, auf dem Gelände stehen separate Toiletten und Duschen zur Verfügung. So hast du allen Komfort, den du brauchst." },
       { q: "Kann ich mit dem Wohnmobil fahren?", a: "Nein, bei der Ferienwohnungs-Buchung bleibt das Wohnmobil stationär an seinem Platz im Hof. Es dient ausschließlich als Übernachtungsmöglichkeit – du nutzt es wie eine Ferienwohnung." },
-      { q: "Was unterscheidet die Ferienwohnung von einem Hotel?", a: "Es ist mal etwas anderes, etwas besonderes: ein Wohnmobil als Ferienwohnung mitten in Berlin auf einem authentischen Alt-Berliner Hof. Mit fester Adresse, aber dem Charme einer ungewöhnlichen Unterkunft – perfekt für Reisende, die mehr als nur ein Hotelzimmer suchen." },
+      // Anzahlung & Vertrag
+      { q: "Wie hoch ist die Anzahlung und wann ist sie fällig?", a: "Bei Buchungsbestätigung wird eine Anzahlung von 25 % des Mietpreises sofort fällig. Die restlichen 75 % sind spätestens 14 Tage vor Reiseantritt zu zahlen. Bei kurzfristigen Buchungen vereinbaren wir die Zahlung individuell." },
+      { q: "Wie kommt der Mietvertrag zustande?", a: "Nach deiner Buchungsanfrage senden wir dir den Mietvertrag per E-Mail zu. Sobald die Anzahlung per Überweisung bei uns eingegangen ist – oder bar bezahlt wurde – wird der Vertrag verbindlich." },
+      { q: "Wie kann die Kaution hinterlegt werden?", a: "Die Kaution von 1.500 € kann wahlweise per Überweisung oder bar bei der Übergabe hinterlegt werden – ganz nach deiner Wahl." },
+
+      // Pannenhilfe & Vorschaden
+      { q: "Gibt es einen Schutzbrief oder Pannenhilfe?", a: "Nein, ein Schutzbrief ist nicht inkludiert. Bei einer Panne, Reifenpanne oder einem ähnlichen Vorfall unterwegs musst du dich selbst um die Bergung, Reparatur und Weiterfahrt kümmern. Wir empfehlen dir, vor Reiseantritt einen eigenen Schutzbrief (z. B. ADAC, ACE) abzuschließen." },
+      { q: "Was passiert, wenn das Fahrzeug wegen eines Vorschadens nicht bereitgestellt werden kann?", a: "Sollten wir das Wohnmobil aufgrund eines Vorschadens des vorherigen Mieters nicht zum vereinbarten Termin bereitstellen können, werden bereits geleistete Zahlungen vollständig erstattet. Ein darüber hinausgehender Anspruch auf Schadensersatz (z. B. für gebuchte Hotels oder Aktivitäten) besteht nicht." },
+
+      // Ferienwohnung – Details
+      { q: "Gibt es WLAN in der Ferienwohnung?", a: "Nein, auf dem Hof steht kein WLAN zur Verfügung. Wir empfehlen dir, deinen mobilen Datentarif zu nutzen oder einen mobilen Hotspot mitzubringen." },
+      { q: "Gibt es einen Parkplatz für das Auto?", a: "Ja, ein kostenloser Parkplatz für dein privates Auto ist auf dem Hof vorhanden." },
+      { q: "Wie läuft Check-in und Check-out in der Ferienwohnung?", a: "Beim Check-in findet eine persönliche Übergabe statt – wir zeigen dir alles in Ruhe. Beim Check-out ist keine persönliche Übergabe nötig; du verlässt die Wohnung einfach zur vereinbarten Zeit." },
+      { q: "Kann ich die Küche in der Ferienwohnung nutzen?", a: "Ja, die Küche ist voll nutzbar – mit Gasherd, Kühlschrank, Kaffeemaschine und allem nötigen Geschirr. Ein Frühstück bieten wir nicht an, aber du kannst dich selbst versorgen." },
+      { q: "Wie ist die Anbindung an öffentliche Verkehrsmittel?", a: "Straßenbahn und Bus sind in ca. 500 m fußläufiger Entfernung erreichbar. In der näheren Umgebung gibt es Supermärkte, Bäckereien und Tankstellen." },
+
+      // Event-Service – Strom & Wasser
+      { q: "Brauche ich am Veranstaltungsort Strom- und Wasseranschluss?", a: "Ein Strom- und Wasseranschluss ist nicht zwingend erforderlich, aber von Vorteil. Die Stromversorgung am Event-Standort musst du separat selbst organisieren – wir bringen das Wohnmobil betriebsbereit." },
+
+      // Reinigung & Rückgabe
+      { q: "Wie sauber muss das Fahrzeug bei der Rückgabe sein?", a: "Das Wohnmobil ist so zu übergeben, dass es ohne weiteres Zutun für den nächsten Mieter bereit ist – also innen aufgeräumt, Geschirr gespült, Müll entsorgt und Grauwasser/Toilette entleert. Wenn du die Reinigung nicht selbst übernehmen möchtest, kannst du die Reinigungs-Pauschale (200 €) direkt mitbuchen." },
+
+      // Langzeitmiete & Reiserücktritt
+      { q: "Gibt es Rabatte bei längerer Mietdauer?", a: "Bei Mietzeiten über 14 Tage ist eine Rabattmöglichkeit vorhanden. Diese muss aber individuell angefragt werden – sprich uns einfach bei deiner Anfrage darauf an." },
+      { q: "Wird eine Reiserücktrittsversicherung angeboten?", a: "Nein, eine Reiserücktrittsversicherung bieten wir selbst nicht an. Wir empfehlen dir, eine eigene Reiserücktrittsversicherung (z. B. über deinen Versicherer) abzuschließen, um dich gegen Stornokosten abzusichern." },
     ],
   },
 
