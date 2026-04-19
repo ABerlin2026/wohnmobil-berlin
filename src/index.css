@@ -109,6 +109,28 @@
   background-color: hsl(var(--destructive) / 0.2) !important;
 }
 
+/* Native date inputs: keep rounded corners on the right edge across browsers.
+   Mobile WebKit/Blink renders a calendar indicator button that can clip the
+   border-radius — neutralize its background and reserve right padding. */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  opacity: 0.6;
+}
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
 @layer utilities {
   .section-padding {
     @apply py-12 md:py-16 px-4 sm:px-5 md:px-8;
