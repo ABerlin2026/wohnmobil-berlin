@@ -106,9 +106,16 @@ const ContactSection = () => {
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
   const isTooShort = rentalDays !== null && rentalDays < minDays;
   const today = new Date();
-  const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
+  today.setHours(0, 0, 0, 0);
+  /** Earliest selectable arrival date: today + MIN_LEAD_DAYS days. */
+  const earliestStart = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return addDays(d, MIN_LEAD_DAYS);
+  }, []);
+  const seasonAnchor = isOutOfSeason(earliestStart) ? nextSeasonStart(earliestStart) : earliestStart;
   const calendarDefaultMonth =
-    firstBookedDate && firstBookedDate >= today && !isOutOfSeason(firstBookedDate)
+    firstBookedDate && firstBookedDate >= earliestStart && !isOutOfSeason(firstBookedDate)
       ? firstBookedDate
       : seasonAnchor;
 
