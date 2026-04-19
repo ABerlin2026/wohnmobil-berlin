@@ -120,7 +120,7 @@ const ContactSection = () => {
       : seasonAnchor;
 
   const renderCalendarDay = (date: Date) => {
-    const blocked = isDateUnavailable(date, minDays) || isOutOfSeason(date);
+    const blocked = isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date) || date < earliestStart;
 
     return (
       <span
