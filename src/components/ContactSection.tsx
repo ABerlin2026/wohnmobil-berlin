@@ -218,7 +218,7 @@ const ContactSection = () => {
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
-    setSelectedCountry("");
+    setSelectedCountry("DE");
     setTermsAccepted(false);
   };
 
@@ -418,13 +418,13 @@ const ContactSection = () => {
               {bookingType === "rental" && (
                 <>
                   <div>
-                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                    <Select value={selectedCountry} onValueChange={(v) => setSelectedCountry(v as CountryCode)}>
                       <SelectTrigger className="bg-surface-2 border-border/20 rounded-lg h-11">
                         <SelectValue placeholder={t.contact.selectCountry} />
                       </SelectTrigger>
                       <SelectContent>
-                        {ALL_COUNTRIES.map((country) => (
-                          <SelectItem key={country} value={country}>{country}</SelectItem>
+                        {sortedCountryCodes.map((code) => (
+                          <SelectItem key={code} value={code}>{t.contact.countries[code]}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
