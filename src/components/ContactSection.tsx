@@ -75,7 +75,7 @@ const ContactSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
   const [bookingType, setBookingType] = useState<"rental" | "event" | "holiday">("rental");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
+    name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
     beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
@@ -159,6 +159,25 @@ const ContactSection = () => {
   const totalPersons = adultsNum + childrenNum;
   const isTooManyPersons = totalPersons > 4;
 
+  /** Computed driver age from birthdate string (yyyy-mm-dd). */
+  const driverAge = useMemo(() => {
+    if (!form.birthdate) return null;
+    const dob = new Date(form.birthdate);
+    if (isNaN(dob.getTime())) return null;
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    return age;
+  }, [form.birthdate]);
+  const isDriverTooYoung = bookingType === "rental" && driverAge !== null && driverAge < MIN_DRIVER_AGE;
+  // Max DOB for native date input: today minus MIN_DRIVER_AGE years.
+  const maxBirthdate = useMemo(() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - MIN_DRIVER_AGE);
+    return d.toISOString().slice(0, 10);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
@@ -183,12 +202,16 @@ const ContactSection = () => {
       toast({ title: t.contact.toastMaxPersons, description: t.contact.toastMaxPersonsDesc, variant: "destructive" });
       return;
     }
+    if (isDriverTooYoung) {
+      toast({ title: t.contact.toastMinAge, description: t.contact.toastMinAgeDesc, variant: "destructive" });
+      return;
+    }
     if (!termsAccepted) {
       toast({ title: t.contact.toastTerms, description: t.contact.toastTermsDesc, variant: "destructive" });
       return;
     }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
-    setForm({ name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
+    setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
