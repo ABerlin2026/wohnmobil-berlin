@@ -11,6 +11,7 @@ const Footer = () => {
         <nav aria-label="Footer-Navigation" className="flex items-center gap-4">
           <Link to="/impressum" className="hover:text-foreground transition-colors">{t.footer.imprint}</Link>
           <Link to="/datenschutz" className="hover:text-foreground transition-colors">{t.footer.privacy}</Link>
+          <Link to="/agb" className="hover:text-foreground transition-colors">{t.footer.terms}</Link>
           <span>© {new Date().getFullYear()} Camper Berlin Brandenburg. {t.footer.rights}</span>
         </nav>
       </div>
