@@ -14,10 +14,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBookedDates } from "@/hooks/useBookedDates";
 
-const PHONE_NUMBER = "491234567890";
-const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F`;
-const TELEGRAM_URL = `https://t.me/+${PHONE_NUMBER}`;
-const PHONE_URL = `tel:+${PHONE_NUMBER}`;
+import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
 const ALLOWED_COUNTRIES = [
   "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
@@ -78,7 +75,7 @@ const ContactSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("Deutschland");
   const [bookingType, setBookingType] = useState<"rental" | "event" | "holiday">("rental");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
+    name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
     beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
@@ -162,6 +159,25 @@ const ContactSection = () => {
   const totalPersons = adultsNum + childrenNum;
   const isTooManyPersons = totalPersons > 4;
 
+  /** Computed driver age from birthdate string (yyyy-mm-dd). */
+  const driverAge = useMemo(() => {
+    if (!form.birthdate) return null;
+    const dob = new Date(form.birthdate);
+    if (isNaN(dob.getTime())) return null;
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    return age;
+  }, [form.birthdate]);
+  const isDriverTooYoung = bookingType === "rental" && driverAge !== null && driverAge < MIN_DRIVER_AGE;
+  // Max DOB for native date input: today minus MIN_DRIVER_AGE years.
+  const maxBirthdate = useMemo(() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - MIN_DRIVER_AGE);
+    return d.toISOString().slice(0, 10);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
@@ -186,12 +202,16 @@ const ContactSection = () => {
       toast({ title: t.contact.toastMaxPersons, description: t.contact.toastMaxPersonsDesc, variant: "destructive" });
       return;
     }
+    if (isDriverTooYoung) {
+      toast({ title: t.contact.toastMinAge, description: t.contact.toastMinAgeDesc, variant: "destructive" });
+      return;
+    }
     if (!termsAccepted) {
       toast({ title: t.contact.toastTerms, description: t.contact.toastTermsDesc, variant: "destructive" });
       return;
     }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
-    setForm({ name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
+    setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
@@ -316,6 +336,29 @@ const ContactSection = () => {
               <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+
+              {bookingType === "rental" && (
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    {t.contact.birthdate}
+                  </label>
+                  <Input
+                    type="date"
+                    required
+                    value={form.birthdate}
+                    max={maxBirthdate}
+                    onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
+                    className="bg-surface-2 border-border/20 rounded-lg h-11"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">{t.contact.birthdateHint}</p>
+                  {isDriverTooYoung && (
+                    <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                      <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                      <p className="text-xs text-destructive">{t.contact.minAgeError}</p>
+                    </div>
+                  )}
+                </div>
+              )}
               <div>
                 <div className="grid grid-cols-2 gap-3">
                   <Popover open={startOpen} onOpenChange={(open) => { setStartOpen(open); if (open) refetch(true); }}>
@@ -663,7 +706,7 @@ const ContactSection = () => {
                 </label>
               </div>
 
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons || !termsAccepted}>
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons || isDriverTooYoung || !termsAccepted}>
                 {t.contact.submit}
               </Button>
             </form>

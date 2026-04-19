@@ -45,7 +45,7 @@ export const de = {
     label: "Transparente Preise",
     title: "Was kostet ein Wohnmobil in Berlin?",
     offSeason: "Nebensaison",
-    offSeasonPeriod: "Oktober – April",
+    offSeasonPeriod: "April & Oktober",
     mainSeason: "Hauptsaison",
     mainSeasonPeriod: "1. Mai – 30. September",
     popular: "Beliebt",
@@ -281,7 +281,25 @@ export const de = {
       { q: "Gibt es Hilfe bei der Nutzung des Fahrzeugs?", a: "Ja, bei der Übergabe bekommst du eine ausführliche Einweisung. Zusätzlich stehen dir Erklärvideos zur Verfügung, die du jederzeit unterwegs abrufen kannst." },
       { q: "Gibt es Videos zur Erklärung der einzelnen Funktionen?", a: "Ja, wir stellen dir Erklärvideos zu allen wichtigen Themen bereit – von der Markise über den Herd bis zur Grauwasser-Entsorgung. So kannst du alles in Ruhe nachschauen." },
       { q: "Sind Festivals erlaubt?", a: "Nein, Fahrten zu Festivals sind leider nicht gestattet." },
-      { q: "Ist Rauchen im Fahrzeug erlaubt?", a: "Nein, Rauchen im Fahrzeug ist nicht gestattet." },
+      { q: "Ist Rauchen im Fahrzeug erlaubt?", a: "Nein, Rauchen im Fahrzeug ist nicht gestattet. Bei Verstoß wird eine Sonderreinigungspauschale von 250 € fällig." },
+
+      // Übergabe & Abholung
+      { q: "Wo wird das Wohnmobil übergeben?", a: "Die Übergabe erfolgt in Berlin (Pankow, PLZ 13127) – auf demselben Alt-Berliner Hof, auf dem auch unsere Ferienwohnung steht. Die genaue Adresse erhältst du nach Buchungsbestätigung. Eine S-Bahn-Station ist fußläufig erreichbar." },
+      { q: "Wann sind Übergabe- und Rückgabezeiten?", a: "Übergabe ist in der Regel ab 15:00 Uhr am ersten Miettag, Rückgabe bis 11:00 Uhr am letzten Tag. Bei freier Verfügbarkeit kann früher übergeben oder später zurückgegeben werden – sprich uns einfach bei der Buchung darauf an." },
+      { q: "Wie lange dauert die Übergabe?", a: "Plane für die persönliche Einweisung etwa 45–60 Minuten ein. Wir gehen alle Funktionen in Ruhe mit dir durch (Strom, Wasser, Heizung, Markise, Toilette) und beantworten deine Fragen." },
+
+      // Zahlung & Kaution
+      { q: "Wie hoch ist die Anzahlung und wann fällig?", a: "Bei Buchungsbestätigung wird eine Anzahlung von 30 % des Mietpreises fällig (per Überweisung). Der Restbetrag und die Kaution von 1.500 € sind spätestens 14 Tage vor Reiseantritt zu zahlen. Bei kurzfristigen Buchungen vereinbaren wir die Zahlung individuell." },
+      { q: "Welche Zahlungsmittel werden akzeptiert?", a: "Anzahlung und Restbetrag erfolgen per SEPA-Überweisung. Die Kaution kann per Überweisung oder bar bei der Übergabe hinterlegt werden – nach Absprache." },
+      { q: "Wie hoch ist die Selbstbeteiligung im Schadensfall?", a: "Trotz Vollkasko gilt im Schadensfall eine Selbstbeteiligung von 1.500 € pro Schadensfall. Diese wird – falls nötig – mit der Kaution verrechnet." },
+
+      // Stornierung
+      { q: "Was passiert bei einer Stornierung?", a: "Bis 60 Tage vor Mietbeginn fallen 20 % des Mietpreises an, bis 30 Tage vorher 50 %, bis 7 Tage vorher 80 % und ab 6 Tagen vor Mietbeginn 95 %. Wir empfehlen den Abschluss einer Reiserücktrittsversicherung. Details findest du in den AGB." },
+
+      // Tank & Verbrauch
+      { q: "Mit welchem Kraftstoff wird gefahren?", a: "Das Wohnmobil fährt mit Diesel und ist mit AdBlue ausgestattet. Den durchschnittlichen Verbrauch geben wir bei der Übergabe konkret an." },
+      { q: "Tankregelung – muss ich vollgetankt zurückgeben?", a: "Ja, das Wohnmobil wird vollgetankt übergeben und muss vollgetankt zurückgegeben werden. Bei nicht vollem Tank berechnen wir die fehlende Menge zzgl. einer Servicepauschale von 25 €." },
+      { q: "Wie ist die Gasflasche geregelt?", a: "Eine gefüllte Gasflasche ist im Mietpreis enthalten. Du musst sie nicht aufgefüllt zurückgeben – wir kümmern uns darum." },
 
       // Event-Übernachtung
       { q: "Was ist die Event-Übernachtung?", a: "Bei Hochzeiten, Geburtstagen oder Firmenfeiern reichen die Schlafplätze im Haus oft nicht aus. Statt ein Hotel zu buchen und abends nochmal mit dem Auto fahren zu müssen, stellen wir das Wohnmobil direkt vor das Grundstück deines Veranstaltungsortes – fußläufig erreichbar, ohne lange Anfahrt nach der Feier." },
@@ -321,6 +339,11 @@ export const de = {
     name: "Name *",
     email: "E-Mail *",
     phone: "Telefonnummer *",
+    birthdate: "Geburtsdatum Fahrer/in *",
+    birthdateHint: "Mindestalter: 30 Jahre (Versicherungsauflage)",
+    minAgeError: "Der Fahrer muss mindestens 30 Jahre alt sein.",
+    toastMinAge: "Mindestalter Fahrer",
+    toastMinAgeDesc: "Das Wohnmobil darf nur von Personen ab 30 Jahren gefahren werden.",
     startDate: "Startdatum *",
     endDate: "Enddatum *",
     minDaysError: "Die Mindestmietdauer beträgt 5 Tage.",
@@ -406,6 +429,23 @@ export const de = {
     subtitle: "Wohnmobil mieten, losfahren, frei sein.",
     urgency: "Beliebte Zeiträume sind schnell vergeben – sichere dir deinen Wunschtermin.",
     cta: "Jetzt anfragen",
+  },
+
+  // Reviews / Testimonials
+  reviews: {
+    label: "Bewertungen",
+    title: "Was unsere Mieter sagen",
+    outOf: "von",
+    reviewsCount: "Bewertungen",
+    disclaimer: "Echte Stimmen unserer Mieter aus Berlin & Umgebung.",
+    items: [
+      { name: "Anna & Markus", context: "Roadtrip Ostsee · Juli 2024", rating: 5, text: "Persönliche Übergabe, alles erklärt – wir hatten zum ersten Mal einen Camper und konnten sofort entspannt losfahren. Der Camper ist top gepflegt, alles funktionierte einwandfrei. Kommen wieder!" },
+      { name: "Familie Schulz", context: "Sächsische Schweiz · August 2024", rating: 5, text: "Mit zwei Kindern und Hund unterwegs gewesen – im Wohnmobil war alles dabei, was wir brauchten. Vorzelt war Gold wert bei Regen. Klare Empfehlung für Familien." },
+      { name: "Lea M.", context: "Ferienwohnung 13127 · September 2024", rating: 5, text: "Wir haben in der Ferienwohnung im Hinterhof übernachtet – mitten in Berlin und trotzdem so ruhig! Eine echte Berlin-Erfahrung, die wir so nicht erwartet hätten. Liebevoll eingerichtet." },
+      { name: "Thomas K.", context: "Hochzeit Brandenburg · Juni 2024", rating: 5, text: "Wir hatten den Camper als Schlafmöglichkeit für unsere Hochzeit vor dem Hof stehen. Die Brauteltern waren begeistert – nach der Feier einfach reinfallen, top. Super unkompliziert organisiert." },
+      { name: "Carolin & David", context: "Norwegen-Tour · Juli 2024", rating: 5, text: "Drei Wochen Norwegen mit dem Camper – kein einziges Problem, top Ausstattung. Klimaanlage und Heizung waren bei wechselndem Wetter perfekt. Der Hund hat sich sofort wohlgefühlt." },
+      { name: "Stefan B.", context: "Brandenburger Seen · Mai 2024", rating: 4, text: "Schöner Camper, sehr gut ausgestattet. Übergabe lief reibungslos. Kleiner Punkt: Beim ersten Mal etwas viel Technik – aber die Erklärvideos haben unterwegs alles erklärt." },
+    ],
   },
 
   // Footer
