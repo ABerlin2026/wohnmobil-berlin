@@ -336,6 +336,29 @@ const ContactSection = () => {
               <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+
+              {bookingType === "rental" && (
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    {t.contact.birthdate}
+                  </label>
+                  <Input
+                    type="date"
+                    required
+                    value={form.birthdate}
+                    max={maxBirthdate}
+                    onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
+                    className="bg-surface-2 border-border/20 rounded-lg h-11"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">{t.contact.birthdateHint}</p>
+                  {isDriverTooYoung && (
+                    <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                      <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                      <p className="text-xs text-destructive">{t.contact.minAgeError}</p>
+                    </div>
+                  )}
+                </div>
+              )}
               <div>
                 <div className="grid grid-cols-2 gap-3">
                   <Popover open={startOpen} onOpenChange={(open) => { setStartOpen(open); if (open) refetch(true); }}>
