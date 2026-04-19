@@ -120,7 +120,7 @@ const ContactSection = () => {
           blocked && "bg-destructive/15 text-destructive line-through font-semibold",
         )}
       >
-        {format(date, "d", { locale: de })}
+        {format(date, "d", { locale: dfnsLocale })}
       </span>
     );
   };
@@ -368,22 +368,22 @@ const ContactSection = () => {
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !startDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-                        <span className="truncate">{startDate ? format(startDate, "EEE, dd.MM.yyyy", { locale: de }) : t.contact.startDate}</span>
+                        <span className="truncate">{startDate ? format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }) : t.contact.startDate}</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={de} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, minDays) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, minDays)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, minDays) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, minDays) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, minDays)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, minDays) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !endDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-                        <span className="truncate">{endDate ? format(endDate, "EEE, dd.MM.yyyy", { locale: de }) : t.contact.endDate}</span>
+                        <span className="truncate">{endDate ? format(endDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }) : t.contact.endDate}</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={de} selected={endDate} onSelect={(date) => { if (date && (isOutOfSeason(date) || (minEndDate && date < minEndDate) || (startDate && isCheckoutBlocked(date, startDate)))) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isOutOfSeason(date) || (minEndDate ? date < minEndDate : false) || (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date))} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date)) || isOutOfSeason(date), tooShort: (date) => !!(minEndDate && startDate && date > startDate && date < minEndDate) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed", tooShort: "!text-muted-foreground/50 !opacity-60 cursor-not-allowed" }} components={{ DayContent: ({ date }) => (minEndDate && startDate && date > startDate && date < minEndDate) ? (<span className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground/50">{format(date, "d", { locale: de })}</span>) : renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={endDate} onSelect={(date) => { if (date && (isOutOfSeason(date) || (minEndDate && date < minEndDate) || (startDate && isCheckoutBlocked(date, startDate)))) return; setEndDate(date); setEndOpen(false); }} defaultMonth={endCalendarDefaultMonth} disabled={(date) => date < (startDate || new Date()) || isOutOfSeason(date) || (minEndDate ? date < minEndDate : false) || (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date))} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => (startDate ? isCheckoutBlocked(date, startDate) : isDateBooked(date)) || isOutOfSeason(date), tooShort: (date) => !!(minEndDate && startDate && date > startDate && date < minEndDate) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed", tooShort: "!text-muted-foreground/50 !opacity-60 cursor-not-allowed" }} components={{ DayContent: ({ date }) => (minEndDate && startDate && date > startDate && date < minEndDate) ? (<span className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground/50">{format(date, "d", { locale: dfnsLocale })}</span>) : renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                 </div>
