@@ -349,12 +349,12 @@ const ContactSection = () => {
                 )}
               </div>
 
-              <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
-              <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" />
+              <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
+              <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
+              <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
 
               {bookingType === "rental" && (
-                <div>
+                <div className="w-full max-w-full min-w-0 overflow-hidden">
                   <label className="text-xs text-muted-foreground mb-1 block">
                     {t.contact.birthdate}
                   </label>
@@ -364,7 +364,7 @@ const ContactSection = () => {
                     value={form.birthdate}
                     max={maxBirthdate}
                     onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
-                    className="bg-surface-2 border-border/20 rounded-lg h-9 w-full max-w-full text-sm box-border min-w-0 block"
+                    className="bg-surface-2 border-border/20 rounded-lg h-9 w-full max-w-full min-w-0 box-border block overflow-hidden pr-3 text-sm [appearance:textfield]"
                   />
                   <p className="text-xs text-muted-foreground mt-1">{t.contact.birthdateHint}</p>
                   {isDriverTooYoung && (
@@ -379,7 +379,7 @@ const ContactSection = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <Popover open={startOpen} onOpenChange={(open) => { setStartOpen(open); if (open) refetch(true); }}>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !startDate && "text-muted-foreground")}>
+                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 justify-start text-left font-normal text-xs sm:text-sm", !startDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
                         <span className="truncate">{startDate ? format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }) : t.contact.startDate}</span>
                       </Button>
@@ -390,7 +390,7 @@ const ContactSection = () => {
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 justify-start text-left font-normal text-xs sm:text-sm", !endDate && "text-muted-foreground")}>
+                      <Button variant="outline" className={cn("bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 justify-start text-left font-normal text-xs sm:text-sm", !endDate && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
                         <span className="truncate">{endDate ? format(endDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }) : t.contact.endDate}</span>
                       </Button>
@@ -424,7 +424,7 @@ const ContactSection = () => {
                   placeholder={bookingType === "event" ? t.contact.eventDestination : t.contact.destination}
                   value={form.destination}
                   onChange={(e) => setForm({ ...form, destination: e.target.value })}
-                  className="bg-surface-2 border-border/20 rounded-lg h-11"
+                  className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border"
                 />
               )}
 
