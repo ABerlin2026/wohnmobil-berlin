@@ -83,6 +83,7 @@ const ContactSection = () => {
   const [extras, setExtras] = useState({
     beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
   });
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75, cleaning: 200 };
   const extrasTotal =
     extras.beddingQty * EXTRA_PRICES.bedding +
@@ -185,12 +186,17 @@ const ContactSection = () => {
       toast({ title: t.contact.toastMaxPersons, description: t.contact.toastMaxPersonsDesc, variant: "destructive" });
       return;
     }
+    if (!termsAccepted) {
+      toast({ title: t.contact.toastTerms, description: t.contact.toastTermsDesc, variant: "destructive" });
+      return;
+    }
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
     setForm({ name: "", email: "", phone: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
     setStartDate(undefined);
     setEndDate(undefined);
     setSelectedCountry("");
+    setTermsAccepted(false);
   };
 
   return (
@@ -633,7 +639,31 @@ const ContactSection = () => {
                 );
               })()}
 
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons}>
+              <div className="flex items-start gap-3 bg-surface-2 rounded-lg p-3 border border-border/10">
+                <Checkbox
+                  id="terms-accept"
+                  checked={termsAccepted}
+                  onCheckedChange={(checked) => setTermsAccepted(checked === true)}
+                  className="mt-0.5 shrink-0"
+                  aria-required="true"
+                />
+                <label htmlFor="terms-accept" className="text-xs text-muted-foreground leading-relaxed cursor-pointer select-none">
+                  {t.contact.termsAcceptPre}{" "}
+                  <a
+                    href="/agb"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-primary font-medium hover:underline"
+                    aria-label={t.contact.termsLinkAria}
+                  >
+                    {t.contact.termsLink}
+                  </a>
+                  {" "}{t.contact.termsAcceptPost}
+                </label>
+              </div>
+
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons || !termsAccepted}>
                 {t.contact.submit}
               </Button>
             </form>
