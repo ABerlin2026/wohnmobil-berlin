@@ -76,9 +76,14 @@
     max-width: 100vw;
   }
 
+  html {
+    /* Fluid base font-size that respects user's browser/OS font-size setting.
+       Min 16px on small screens, scales up to 18px on wide screens. */
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-size: 18px;
     line-height: 1.7;
   }
 
