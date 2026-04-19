@@ -30,6 +30,8 @@ const ALL_COUNTRY_CODES: CountryCode[] = [...ALLOWED_COUNTRY_CODES, ...BLOCKED_C
 const MIN_RENTAL_DAYS = 5;
 const MIN_EVENT_DAYS = 3;
 const MIN_HOLIDAY_DAYS = 3;
+/** Minimum lead time in days between today and the earliest possible arrival date. */
+const MIN_LEAD_DAYS = 3;
 const PRICE_MAIN_SEASON = 129; // May–September
 const PRICE_OFF_SEASON = 119; // April & October
 const PRICE_EVENT = 80; // Event overnight stay (<50 km)
@@ -104,14 +106,21 @@ const ContactSection = () => {
   const rentalDays = startDate && endDate ? differenceInCalendarDays(endDate, startDate) + 1 : null;
   const isTooShort = rentalDays !== null && rentalDays < minDays;
   const today = new Date();
-  const seasonAnchor = isOutOfSeason(today) ? nextSeasonStart(today) : today;
+  today.setHours(0, 0, 0, 0);
+  /** Earliest selectable arrival date: today + MIN_LEAD_DAYS days. */
+  const earliestStart = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return addDays(d, MIN_LEAD_DAYS);
+  }, []);
+  const seasonAnchor = isOutOfSeason(earliestStart) ? nextSeasonStart(earliestStart) : earliestStart;
   const calendarDefaultMonth =
-    firstBookedDate && firstBookedDate >= today && !isOutOfSeason(firstBookedDate)
+    firstBookedDate && firstBookedDate >= earliestStart && !isOutOfSeason(firstBookedDate)
       ? firstBookedDate
       : seasonAnchor;
 
   const renderCalendarDay = (date: Date) => {
-    const blocked = isDateUnavailable(date, minDays) || isOutOfSeason(date);
+    const blocked = isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date) || date < earliestStart;
 
     return (
       <span
@@ -185,6 +194,10 @@ const ContactSection = () => {
     e.preventDefault();
     if (!startDate || !endDate) {
       toast({ title: t.contact.toastMissing, description: t.contact.toastMissingDesc, variant: "destructive" });
+      return;
+    }
+    if (startDate < earliestStart) {
+      toast({ title: t.contact.toastLeadTime, description: t.contact.toastLeadTimeDesc, variant: "destructive" });
       return;
     }
     if (isTooShort) {
@@ -374,7 +387,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={startDate} onSelect={(date) => { if (date && (isDateUnavailable(date, minDays) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < new Date() || isOutOfSeason(date) || isDateUnavailable(date, minDays)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => isDateUnavailable(date, minDays) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={startDate} onSelect={(date) => { if (date && (date < earliestStart || isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} disabled={(date) => date < earliestStart || isOutOfSeason(date) || isDateUnavailable(date, minDays, earliestStart)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => date < earliestStart || isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
@@ -393,7 +406,7 @@ const ContactSection = () => {
                   <p className="text-xs text-muted-foreground mt-1">{t.contact.calendarLoading}</p>
                 )}
                 {!calendarLoading && (
-                  <p className="text-xs text-muted-foreground mt-1">{t.contact.dateBooked}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t.contact.dateBooked} {t.contact.leadTimeHint}</p>
                 )}
                 {isTooShort && (
                   <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
