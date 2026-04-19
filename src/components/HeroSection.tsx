@@ -4,8 +4,7 @@ import { MessageCircle, ChevronDown } from "lucide-react";
 import heroCamper from "@/assets/hero-camper.jpg";
 import camperVideo from "@/assets/camper-hero-video-optimized.mp4";
 import { useLanguage } from "@/i18n/LanguageContext";
-
-const WHATSAPP_URL = "https://wa.me/491234567890?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 const HeroSection = () => {
   const { t } = useLanguage();

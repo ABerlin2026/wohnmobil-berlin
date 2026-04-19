@@ -14,10 +14,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBookedDates } from "@/hooks/useBookedDates";
 
-const PHONE_NUMBER = "491234567890";
-const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Camper%20Berlin%20Brandenburg.%20Ist%20das%20Wohnmobil%20im%20gew%C3%BCnschten%20Zeitraum%20verf%C3%BCgbar%3F`;
-const TELEGRAM_URL = `https://t.me/+${PHONE_NUMBER}`;
-const PHONE_URL = `tel:+${PHONE_NUMBER}`;
+import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
 const ALLOWED_COUNTRIES = [
   "Deutschland", "Dänemark", "Schweden", "Norwegen", "Finnland",
