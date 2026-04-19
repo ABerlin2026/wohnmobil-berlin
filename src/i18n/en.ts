@@ -283,7 +283,25 @@ export const en: typeof de = {
       { q: "Is there help with using the vehicle?", a: "Yes, you'll get a thorough introduction during handover. Additionally, tutorial videos are available that you can access anytime on the road." },
       { q: "Are there videos explaining the individual functions?", a: "Yes, we provide tutorial videos on all important topics – from the awning to the stove to grey water disposal. So you can review everything at your own pace." },
       { q: "Are festivals allowed?", a: "No, trips to festivals are unfortunately not permitted." },
-      { q: "Is smoking allowed in the vehicle?", a: "No, smoking in the vehicle is not permitted." },
+      { q: "Is smoking allowed in the vehicle?", a: "No, smoking in the vehicle is not permitted. A special cleaning fee of €250 applies in case of violation." },
+
+      // Handover & pickup
+      { q: "Where is the motorhome handed over?", a: "Handover takes place in Berlin (Pankow, postcode 13127) – at the same Old-Berlin courtyard where our holiday home is located. You'll receive the exact address after booking confirmation. An S-Bahn station is within walking distance." },
+      { q: "What are the handover and return times?", a: "Handover is usually from 3:00 pm on the first rental day, return by 11:00 am on the last day. Subject to availability, earlier handover or later return can be arranged – just let us know when booking." },
+      { q: "How long does the handover take?", a: "Plan around 45–60 minutes for the personal introduction. We'll go through all functions calmly with you (power, water, heating, awning, toilet) and answer your questions." },
+
+      // Payment & deposit
+      { q: "How much is the deposit and when is it due?", a: "Upon booking confirmation, a down payment of 30 % of the rental price is due (by bank transfer). The remaining amount and the security deposit of €1,500 must be paid no later than 14 days before the rental starts. For short-term bookings, we arrange payment individually." },
+      { q: "Which payment methods are accepted?", a: "Down payment and balance are paid by SEPA bank transfer. The security deposit can be paid by bank transfer or in cash on handover – by arrangement." },
+      { q: "What is the deductible in case of damage?", a: "Despite full comprehensive insurance, a deductible of €1,500 per damage event applies. This is offset against the security deposit if necessary." },
+
+      // Cancellation
+      { q: "What happens if I cancel?", a: "Up to 60 days before rental start: 20 % of the rental price; up to 30 days: 50 %; up to 7 days: 80 %; from 6 days before rental: 95 %. We recommend taking out travel cancellation insurance. Details are in the Terms & Conditions." },
+
+      // Fuel & consumption
+      { q: "What fuel does the camper use?", a: "The motorhome runs on diesel and is equipped with AdBlue. We'll give you concrete consumption figures at handover." },
+      { q: "Fuel policy – do I have to return it full?", a: "Yes, the motorhome is handed over with a full tank and must be returned with a full tank. If the tank is not full on return, we charge the missing amount plus a service fee of €25." },
+      { q: "How is the gas bottle handled?", a: "A filled gas bottle is included in the rental price. You don't have to refill it – we take care of that." },
 
       // Event overnight stay
       { q: "What is the event overnight stay?", a: "At weddings, birthdays or company parties the available beds at home are often not enough. Instead of booking a hotel and having to drive again at night, we park the motorhome directly in front of your venue – within walking distance, no long ride home after celebrating." },
