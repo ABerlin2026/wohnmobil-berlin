@@ -433,6 +433,23 @@ export const en: typeof de = {
     cta: "Inquire now",
   },
 
+  // Reviews / Testimonials
+  reviews: {
+    label: "Reviews",
+    title: "What our renters say",
+    outOf: "of",
+    reviewsCount: "reviews",
+    disclaimer: "Real voices from our renters in Berlin & beyond.",
+    items: [
+      { name: "Anna & Markus", context: "Baltic Sea road trip · July 2024", rating: 5, text: "Personal handover, everything explained – it was our first camper trip and we could hit the road relaxed right away. The camper is in top condition, everything worked perfectly. We'll be back!" },
+      { name: "Schulz family", context: "Saxon Switzerland · August 2024", rating: 5, text: "Travelled with two kids and a dog – the motorhome had everything we needed. The awning tent was gold during rainy days. Clear recommendation for families." },
+      { name: "Lea M.", context: "Holiday home 13127 · September 2024", rating: 5, text: "We stayed in the holiday home in the backyard – right in Berlin and yet so quiet! A real Berlin experience we hadn't expected. Lovingly furnished." },
+      { name: "Thomas K.", context: "Wedding Brandenburg · June 2024", rating: 5, text: "We had the camper parked at the venue as a sleeping option for our wedding. The bride's parents loved it – just walk over and fall into bed after the party. Super easy to arrange." },
+      { name: "Carolin & David", context: "Norway tour · July 2024", rating: 5, text: "Three weeks in Norway with the camper – not a single issue, top equipment. AC and heating were perfect in changing weather. The dog felt at home immediately." },
+      { name: "Stefan B.", context: "Brandenburg lakes · May 2024", rating: 4, text: "Nice camper, very well equipped. Handover went smoothly. Small note: a lot of tech to learn at first – but the tutorial videos explained everything on the road." },
+    ],
+  },
+
   // Footer
   footer: {
     imprint: "Legal Notice",

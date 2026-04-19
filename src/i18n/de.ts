@@ -431,6 +431,23 @@ export const de = {
     cta: "Jetzt anfragen",
   },
 
+  // Reviews / Testimonials
+  reviews: {
+    label: "Bewertungen",
+    title: "Was unsere Mieter sagen",
+    outOf: "von",
+    reviewsCount: "Bewertungen",
+    disclaimer: "Echte Stimmen unserer Mieter aus Berlin & Umgebung.",
+    items: [
+      { name: "Anna & Markus", context: "Roadtrip Ostsee · Juli 2024", rating: 5, text: "Persönliche Übergabe, alles erklärt – wir hatten zum ersten Mal einen Camper und konnten sofort entspannt losfahren. Der Camper ist top gepflegt, alles funktionierte einwandfrei. Kommen wieder!" },
+      { name: "Familie Schulz", context: "Sächsische Schweiz · August 2024", rating: 5, text: "Mit zwei Kindern und Hund unterwegs gewesen – im Wohnmobil war alles dabei, was wir brauchten. Vorzelt war Gold wert bei Regen. Klare Empfehlung für Familien." },
+      { name: "Lea M.", context: "Ferienwohnung 13127 · September 2024", rating: 5, text: "Wir haben in der Ferienwohnung im Hinterhof übernachtet – mitten in Berlin und trotzdem so ruhig! Eine echte Berlin-Erfahrung, die wir so nicht erwartet hätten. Liebevoll eingerichtet." },
+      { name: "Thomas K.", context: "Hochzeit Brandenburg · Juni 2024", rating: 5, text: "Wir hatten den Camper als Schlafmöglichkeit für unsere Hochzeit vor dem Hof stehen. Die Brauteltern waren begeistert – nach der Feier einfach reinfallen, top. Super unkompliziert organisiert." },
+      { name: "Carolin & David", context: "Norwegen-Tour · Juli 2024", rating: 5, text: "Drei Wochen Norwegen mit dem Camper – kein einziges Problem, top Ausstattung. Klimaanlage und Heizung waren bei wechselndem Wetter perfekt. Der Hund hat sich sofort wohlgefühlt." },
+      { name: "Stefan B.", context: "Brandenburger Seen · Mai 2024", rating: 4, text: "Schöner Camper, sehr gut ausgestattet. Übergabe lief reibungslos. Kleiner Punkt: Beim ersten Mal etwas viel Technik – aber die Erklärvideos haben unterwegs alles erklärt." },
+    ],
+  },
+
   // Footer
   footer: {
     imprint: "Impressum",
