@@ -10,7 +10,7 @@ import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ScrollToTop from "./components/ScrollToTop";
-import FloatingWhatsAppButton from "./components/FloatingWhatsAppButton";
+import FloatingChatbot from "./components/FloatingChatbot";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +30,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <FloatingWhatsAppButton />
+          <FloatingChatbot />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
