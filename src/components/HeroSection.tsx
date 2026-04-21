@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ChevronDown } from "lucide-react";
 import heroCamper from "@/assets/hero-camper.jpg";
@@ -19,6 +19,15 @@ const HeroSection = () => {
     setShowPhoto(true);
   }, []);
 
+  // Force autoplay on mobile browsers that otherwise show a native play-button overlay.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.play().catch(() => setShowPhoto(true));
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -35,10 +44,14 @@ const HeroSection = () => {
           ref={videoRef}
           autoPlay
           muted
+          loop
           playsInline
-          preload="metadata"
+          disablePictureInPicture
+          disableRemotePlayback
+          controls={false}
+          preload="auto"
           poster={heroCamper}
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out pointer-events-none"
           style={{ opacity: showPhoto ? 0 : 1 }}
           src={camperVideo}
           onEnded={handleVideoEnded}
