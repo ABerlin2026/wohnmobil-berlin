@@ -151,7 +151,7 @@ const FloatingChatbot = () => {
           type="button"
           onClick={() => setOpen(true)}
           aria-label={t.chatbot.aria}
-          className="md:hidden fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/40 ring-4 ring-primary/20 transition-transform active:scale-95 hover:scale-105 animate-float"
+          className="fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/40 ring-4 ring-primary/20 transition-transform active:scale-95 hover:scale-105 animate-float"
           style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
         >
           <MessageCircle className="h-7 w-7" aria-hidden="true" />
@@ -161,7 +161,7 @@ const FloatingChatbot = () => {
       {/* Chat panel — mobile only, full-screen-ish */}
       {open && (
         <div
-          className="md:hidden fixed inset-0 z-50 flex flex-col bg-background"
+          className="fixed inset-0 z-50 flex flex-col bg-background md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
           role="dialog"
           aria-modal="true"
           aria-label={t.chatbot.title}
