@@ -48,6 +48,7 @@ const FloatingChatbot = () => {
   // Lock body scroll while open (mobile UX)
   useEffect(() => {
     if (!open) return;
+    if (typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches) return;
     const original = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
