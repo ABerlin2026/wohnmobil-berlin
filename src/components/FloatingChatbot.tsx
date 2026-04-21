@@ -24,6 +24,8 @@ const FloatingChatbot = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Honeypot value — must remain empty. Real users never see/touch this field.
+  const [honeypot, setHoneypot] = useState("");
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +82,7 @@ const FloatingChatbot = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: outgoing }),
+        body: JSON.stringify({ messages: outgoing, website: honeypot }),
       });
 
       if (!resp.ok || !resp.body) {
