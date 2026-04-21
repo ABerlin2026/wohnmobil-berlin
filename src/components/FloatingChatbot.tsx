@@ -166,21 +166,22 @@ const FloatingChatbot = () => {
           role="dialog"
           aria-modal="true"
           aria-label={t.chatbot.title}
+          style={{ height: "100dvh" }}
         >
           {/* Header */}
           <header
-            className="flex items-center justify-between border-b border-border bg-surface-2 px-4 py-3"
+            className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-surface-2 px-4 py-3"
             style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
           >
-            <div className="flex flex-col">
-              <span className="text-base font-semibold text-foreground">{t.chatbot.title}</span>
-              <span className="text-xs text-muted-foreground">{t.chatbot.subtitle}</span>
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate text-base font-semibold text-foreground">{t.chatbot.title}</span>
+              <span className="truncate text-xs text-muted-foreground">{t.chatbot.subtitle}</span>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label={t.chatbot.close}
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-surface-3"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors hover:bg-surface-3"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
