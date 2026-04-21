@@ -162,11 +162,10 @@ const FloatingChatbot = () => {
       {/* Chat panel — mobile only, full-screen-ish */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-background md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-background h-[100dvh] md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
           role="dialog"
           aria-modal="true"
           aria-label={t.chatbot.title}
-          style={{ height: "100dvh" }}
         >
           {/* Header */}
           <header
