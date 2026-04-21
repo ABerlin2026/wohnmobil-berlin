@@ -237,6 +237,17 @@ const FloatingChatbot = () => {
             className="border-t border-border bg-background px-3 py-3"
             style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
           >
+            {/* Honeypot — invisible to humans, irresistible to bots. */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0, pointerEvents: "none" }}
+            />
             <div className="flex items-end gap-2">
               <input
                 ref={inputRef}
