@@ -93,8 +93,8 @@ const MessageSchema = z.object({
 });
 const BodySchema = z.object({
   messages: z.array(MessageSchema).min(1).max(50),
-  // Honeypot — must be empty or absent. Bots will fill it.
-  website: z.string().max(0).optional(),
+  // Honeypot — checked separately (silent fail) so it never triggers a 400.
+  website: z.string().optional(),
 });
 
 // ─── System prompt (knowledge base injected once) ────────────────────────────
