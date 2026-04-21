@@ -88,6 +88,8 @@ serve(async (req) => {
         model: "google/gemini-3-flash-preview",
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...safeMessages],
         stream: true,
+        // Ask the gateway to append a final SSE chunk with token usage stats.
+        stream_options: { include_usage: true },
       }),
     });
 
