@@ -1,17 +1,103 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { z } from "https://esm.sh/zod@3.23.8";
 import { KNOWLEDGE_BASE } from "./knowledge.ts";
 
+// ─── CORS ────────────────────────────────────────────────────────────────────
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-interface IncomingMessage {
-  role: "user" | "assistant";
-  content: string;
+// ─── Layer 3a: Origin allowlist ──────────────────────────────────────────────
+// Only browsers from these origins should be calling the chatbot.
+// Skript-Kiddies können den Header zwar fälschen, aber 90 % des
+// opportunistischen Missbrauchs (Embedding auf Fremdseiten) wird hier gestoppt.
+const ALLOWED_ORIGINS = [
+  "https://wohnmobil-berlin.de",
+  "https://www.wohnmobil-berlin.de",
+  "https://wohnmobil-berlin.lovable.app",
+];
+const ALLOWED_ORIGIN_SUFFIXES = [".lovable.app", ".lovable.dev"]; // preview URLs
+const ALLOW_LOCALHOST = true;
+
+function isOriginAllowed(origin: string | null): boolean {
+  if (!origin) return false;
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  try {
+    const url = new URL(origin);
+    if (ALLOW_LOCALHOST && (url.hostname === "localhost" || url.hostname === "127.0.0.1")) return true;
+    return ALLOWED_ORIGIN_SUFFIXES.some((s) => url.hostname.endsWith(s));
+  } catch {
+    return false;
+  }
 }
 
+// ─── Layer 4: Daily token circuit-breaker ────────────────────────────────────
+const DAILY_TOKEN_LIMIT = 50_000;
+
+// ─── Layer 2: In-memory IP rate limit ────────────────────────────────────────
+// Caveat: resets on cold-start; pro Edge-Function-Instanz separat.
+// Trotzdem wirksam gegen Bursts und Massen-Spam von einer einzelnen IP.
+const RATE_LIMIT_PER_MINUTE = 10;
+const RATE_LIMIT_PER_HOUR = 60;
+type IpEntry = { minuteBucketStart: number; minuteCount: number; hourBucketStart: number; hourCount: number };
+const ipBuckets = new Map<string, IpEntry>();
+
+function getClientIp(req: Request): string {
+  return (
+    req.headers.get("cf-connecting-ip") ||
+    req.headers.get("x-real-ip") ||
+    (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip: string): { allowed: boolean; reason?: string } {
+  const now = Date.now();
+  const entry = ipBuckets.get(ip) ?? {
+    minuteBucketStart: now,
+    minuteCount: 0,
+    hourBucketStart: now,
+    hourCount: 0,
+  };
+  if (now - entry.minuteBucketStart > 60_000) {
+    entry.minuteBucketStart = now;
+    entry.minuteCount = 0;
+  }
+  if (now - entry.hourBucketStart > 3_600_000) {
+    entry.hourBucketStart = now;
+    entry.hourCount = 0;
+  }
+  entry.minuteCount += 1;
+  entry.hourCount += 1;
+  ipBuckets.set(ip, entry);
+
+  // Soft GC to avoid unbounded growth
+  if (ipBuckets.size > 5000) {
+    for (const [k, v] of ipBuckets) {
+      if (now - v.hourBucketStart > 3_600_000) ipBuckets.delete(k);
+    }
+  }
+
+  if (entry.minuteCount > RATE_LIMIT_PER_MINUTE) return { allowed: false, reason: "minute" };
+  if (entry.hourCount > RATE_LIMIT_PER_HOUR) return { allowed: false, reason: "hour" };
+  return { allowed: true };
+}
+
+// ─── Layer 1: Input validation (Zod) ─────────────────────────────────────────
+const MessageSchema = z.object({
+  role: z.enum(["user", "assistant"]),
+  content: z.string().trim().min(1).max(1000),
+});
+const BodySchema = z.object({
+  messages: z.array(MessageSchema).min(1).max(50),
+  // Honeypot — checked separately (silent fail) so it never triggers a 400.
+  website: z.string().optional(),
+});
+
+// ─── System prompt (knowledge base injected once) ────────────────────────────
 const SYSTEM_PROMPT = `Du bist der freundliche Assistent für die Webseite "Camper Berlin" (Wohnmobil-Vermietung in Berlin & Brandenburg).
 
 Sprache:
@@ -44,31 +130,79 @@ Stil:
 ${KNOWLEDGE_BASE}
 === ENDE WISSENSBASIS ===`;
 
+// ─── Supabase admin client (for circuit-breaker DB calls) ────────────────────
+const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: { autoRefreshToken: false, persistSession: false },
+});
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const body = await req.json();
-    const messages = (body?.messages ?? []) as IncomingMessage[];
+    // ── Layer 3a: Origin check ──────────────────────────────────────────────
+    const origin = req.headers.get("origin");
+    if (!isOriginAllowed(origin)) {
+      console.warn(`[chat-block] reason=origin origin=${origin}`);
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
-    if (!Array.isArray(messages) || messages.length === 0) {
-      return new Response(JSON.stringify({ error: "messages must be a non-empty array" }), {
+    // ── Layer 2: IP rate limit ──────────────────────────────────────────────
+    const ip = getClientIp(req);
+    const rl = checkRateLimit(ip);
+    if (!rl.allowed) {
+      console.warn(`[chat-block] reason=ratelimit-${rl.reason} ip=${ip}`);
+      return new Response(
+        JSON.stringify({ error: "Aktuell zu viele Anfragen. Bitte einen Moment warten." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    // ── Layer 1: Input validation ───────────────────────────────────────────
+    const rawBody = await req.json().catch(() => null);
+    const parsed = BodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      console.warn(`[chat-block] reason=validation issues=${JSON.stringify(parsed.error.issues)}`);
+      return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Basic validation + size guard
-    const safeMessages = messages
-      .filter(
-        (m) =>
-          m &&
-          (m.role === "user" || m.role === "assistant") &&
-          typeof m.content === "string" &&
-          m.content.trim().length > 0,
-      )
-      .slice(-20) // keep only last 20 turns
-      .map((m) => ({ role: m.role, content: m.content.slice(0, 2000) }));
+    // ── Layer 3b: Honeypot ──────────────────────────────────────────────────
+    // Silent OK — don't tell the bot it failed.
+    if (rawBody?.website && String(rawBody.website).trim().length > 0) {
+      console.warn(`[chat-block] reason=honeypot ip=${ip}`);
+      return new Response(JSON.stringify({ choices: [{ delta: {} }] }), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ── Layer 4: Daily token circuit-breaker ────────────────────────────────
+    const { data: usedToday, error: usageErr } = await supabaseAdmin.rpc("get_today_chat_tokens");
+    if (usageErr) {
+      console.error("[chat] get_today_chat_tokens failed:", usageErr);
+      // Fail open — don't block users if the DB hiccups.
+    } else if ((usedToday as number) >= DAILY_TOKEN_LIMIT) {
+      console.warn(`[chat-block] reason=daily-limit used=${usedToday} limit=${DAILY_TOKEN_LIMIT}`);
+      return new Response(
+        JSON.stringify({
+          error:
+            "Der Chat hat heute sein Tageslimit erreicht. Bitte schreib uns direkt auf WhatsApp (+49 173 1980777).",
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    // Trim to last 20 turns and clamp content (defense in depth on top of Zod)
+    const safeMessages = parsed.data.messages
+      .slice(-20)
+      .map((m) => ({ role: m.role, content: m.content.slice(0, 1000) }));
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
@@ -88,7 +222,6 @@ serve(async (req) => {
         model: "google/gemini-3-flash-preview",
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...safeMessages],
         stream: true,
-        // Ask the gateway to append a final SSE chunk with token usage stats.
         stream_options: { include_usage: true },
       }),
     });
@@ -114,8 +247,6 @@ serve(async (req) => {
       });
     }
 
-    // Tee the stream: one branch goes straight to the client, the other we
-    // sniff for the final `usage` SSE chunk so we can log token counts.
     if (!response.body) {
       return new Response(JSON.stringify({ error: "Empty AI response" }), {
         status: 500,
@@ -123,10 +254,9 @@ serve(async (req) => {
       });
     }
 
+    // Tee the stream: client gets one branch, we sniff the other for usage logging + DB increment.
     const [clientStream, logStream] = response.body.tee();
 
-    // Background task: parse the secondary stream, find usage, log it.
-    // Uses Deno's native string decoding; never blocks the client response.
     (async () => {
       try {
         const reader = logStream.getReader();
@@ -149,20 +279,28 @@ serve(async (req) => {
             const payload = line.slice(6).trim();
             if (payload === "[DONE]" || !payload) continue;
             try {
-              const parsed = JSON.parse(payload);
-              if (parsed.usage) {
-                const u = parsed.usage;
+              const parsedChunk = JSON.parse(payload);
+              if (parsedChunk.usage) {
+                const u = parsedChunk.usage;
+                const promptT = u.prompt_tokens ?? 0;
+                const completionT = u.completion_tokens ?? 0;
+                const totalT = u.total_tokens ?? 0;
                 console.log(
                   `[chat-usage] model=google/gemini-3-flash-preview ` +
-                    `prompt_tokens=${u.prompt_tokens ?? 0} ` +
-                    `completion_tokens=${u.completion_tokens ?? 0} ` +
-                    `total_tokens=${u.total_tokens ?? 0} ` +
-                    `turns=${safeMessages.length} ` +
-                    `user_preview="${userPreview}"`,
+                    `prompt_tokens=${promptT} completion_tokens=${completionT} total_tokens=${totalT} ` +
+                    `turns=${safeMessages.length} ip=${ip} user_preview="${userPreview}"`,
                 );
+                // Persist to DB so the circuit-breaker has fresh numbers
+                const { data: newTotal, error: incErr } = await supabaseAdmin.rpc("increment_chat_usage", {
+                  p_prompt_tokens: promptT,
+                  p_completion_tokens: completionT,
+                  p_total_tokens: totalT,
+                });
+                if (incErr) console.error("[chat-usage] DB increment failed:", incErr);
+                else console.log(`[chat-usage-daily] today_total=${newTotal}/${DAILY_TOKEN_LIMIT}`);
               }
             } catch {
-              // Ignore partial JSON; usage chunk arrives whole at the end.
+              // Partial JSON — usage chunk arrives whole at end, safe to ignore.
             }
           }
         }

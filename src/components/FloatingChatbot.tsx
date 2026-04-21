@@ -24,6 +24,8 @@ const FloatingChatbot = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Honeypot value — must remain empty. Real users never see/touch this field.
+  const [honeypot, setHoneypot] = useState("");
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +82,7 @@ const FloatingChatbot = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: outgoing }),
+        body: JSON.stringify({ messages: outgoing, website: honeypot }),
       });
 
       if (!resp.ok || !resp.body) {
@@ -235,6 +237,17 @@ const FloatingChatbot = () => {
             className="border-t border-border bg-background px-3 py-3"
             style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
           >
+            {/* Honeypot — invisible to humans, irresistible to bots. */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0, pointerEvents: "none" }}
+            />
             <div className="flex items-end gap-2">
               <input
                 ref={inputRef}

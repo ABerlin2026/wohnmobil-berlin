@@ -500,7 +500,7 @@ export const de = {
     send: "Senden",
     close: "Schließen",
     error: "Da ist etwas schiefgelaufen. Bitte versuche es erneut.",
-    rateLimit: "Aktuell zu viele Anfragen. Bitte einen Moment warten.",
+    rateLimit: "Aktuell zu viele Anfragen. Bitte einen Moment warten oder uns direkt auf WhatsApp schreiben.",
     paymentRequired: "Der Chat ist gerade nicht verfügbar. Bitte schreib uns direkt auf WhatsApp.",
     whatsappFallback: "Lieber direkt schreiben? Auf WhatsApp",
     typing: "schreibt …",

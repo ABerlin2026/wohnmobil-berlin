@@ -502,7 +502,7 @@ export const en: typeof de = {
     send: "Send",
     close: "Close",
     error: "Something went wrong. Please try again.",
-    rateLimit: "Too many requests right now. Please wait a moment.",
+    rateLimit: "Too many requests right now. Please wait a moment or message us on WhatsApp.",
     paymentRequired: "The chat is currently unavailable. Please message us on WhatsApp.",
     whatsappFallback: "Rather chat directly? On WhatsApp",
     typing: "typing …",
