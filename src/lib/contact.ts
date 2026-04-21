@@ -4,7 +4,11 @@
  *
  * Format: international, digits only, no leading "+" (used in tel:, wa.me, t.me).
  */
-export const PHONE_NUMBER = "491234567890"; // TODO: replace with real number
+export const PHONE_NUMBER = "491731980777";
+
+/** Contact email address (used in mailto: links and legal pages). */
+export const CONTACT_EMAIL = "info@wohnmobil-berlin.de";
+export const EMAIL_URL = `mailto:${CONTACT_EMAIL}`;
 
 const WHATSAPP_TEXT_DE =
   "Hallo, ich interessiere mich für den Camper Berlin Brandenburg. Ist das Wohnmobil im gewünschten Zeitraum verfügbar?";
