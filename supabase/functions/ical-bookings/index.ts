@@ -3,15 +3,16 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ICAL_URLS = [
-  "https://www.paulcamper.de/api/v1/public/ical/export?permalink=72065-d24e427491ae9f97",
-  "https://www.paulcamper.de/api/v1/public/ical/export?permalink=023a4c6a477e1d13b602",
-];
+const ICAL_BASE = "https://www.paulcamper.de/api/v1/public/ical/export?permalink=";
+const ICAL_TOKEN_1 = Deno.env.get("PAULCAMPER_ICAL_TOKEN_1");
+const ICAL_TOKEN_2 = Deno.env.get("PAULCAMPER_ICAL_TOKEN_2");
+const ICAL_URLS = [ICAL_TOKEN_1, ICAL_TOKEN_2]
+  .filter((t): t is string => !!t && t.length > 0)
+  .map((t) => ICAL_BASE + t);
 
 interface BookingRange {
   start: string; // YYYY-MM-DD
   end: string;   // YYYY-MM-DD (exclusive)
-  summary: string;
   source: number;
 }
 
@@ -49,7 +50,6 @@ function parseIcs(text: string, source: number): BookingRange[] {
         events.push({
           start: current.start,
           end: current.end,
-          summary: current.summary || "",
           source,
         });
       }
@@ -62,7 +62,7 @@ function parseIcs(text: string, source: number): BookingRange[] {
       const key = keyPart.split(";")[0];
       if (key === "DTSTART") current.start = parseIcsDate(value) ?? undefined;
       else if (key === "DTEND") current.end = parseIcsDate(value) ?? undefined;
-      else if (key === "SUMMARY") current.summary = value.replace(/\\,/g, ",").replace(/\\n/g, " ");
+      // SUMMARY intentionally ignored to avoid leaking guest PII to clients.
     }
   }
   return events;
