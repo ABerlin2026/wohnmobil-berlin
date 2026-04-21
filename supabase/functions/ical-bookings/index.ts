@@ -50,7 +50,6 @@ function parseIcs(text: string, source: number): BookingRange[] {
         events.push({
           start: current.start,
           end: current.end,
-          summary: current.summary || "",
           source,
         });
       }
@@ -63,7 +62,7 @@ function parseIcs(text: string, source: number): BookingRange[] {
       const key = keyPart.split(";")[0];
       if (key === "DTSTART") current.start = parseIcsDate(value) ?? undefined;
       else if (key === "DTEND") current.end = parseIcsDate(value) ?? undefined;
-      else if (key === "SUMMARY") current.summary = value.replace(/\\,/g, ",").replace(/\\n/g, " ");
+      // SUMMARY intentionally ignored to avoid leaking guest PII to clients.
     }
   }
   return events;
