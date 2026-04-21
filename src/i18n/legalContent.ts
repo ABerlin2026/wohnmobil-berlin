@@ -629,7 +629,7 @@ const datenschutzEn: LegalDoc = {
     { type: "callout", html: "<strong>Note:</strong> This is a non-binding English convenience translation. The German version is legally authoritative." },
     { type: "section", id: "d-1", title: "1. Controller" },
     { type: "p", html: "The controller responsible for data processing on this website is:" },
-    { type: "p", html: "[Company name / Name]<br />[Street + house number]<br />[Postal code, City]<br />Phone: [Phone number]<br />E-mail: [E-mail address]" },
+    { type: "p", html: "Wohnmobilvermietung Nicole Kiesling<br />Clementweg 23<br />13127 Berlin<br />Germany<br />Phone: <a href=\"tel:+491731980777\" class=\"text-primary hover:underline\">+49 173 1980777</a><br />E-mail: <a href=\"mailto:info@wohnmobil-berlin.de\" class=\"text-primary hover:underline\">info@wohnmobil-berlin.de</a>" },
 
     { type: "section", id: "d-2", title: "2. General notes on data processing" },
     { type: "p", html: "We process personal data exclusively within the framework of the legal provisions of the General Data Protection Regulation (GDPR)." },
