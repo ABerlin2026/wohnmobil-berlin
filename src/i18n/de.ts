@@ -490,9 +490,21 @@ export const de = {
     cta: "Jetzt anfragen",
   },
 
-  // Floating WhatsApp button (mobile only)
-  floatingWhatsapp: {
-    aria: "Schreib uns auf WhatsApp",
+  // Floating chatbot (mobile only)
+  chatbot: {
+    aria: "Chat öffnen",
+    title: "Camper-Chat",
+    subtitle: "Wir antworten meist innerhalb weniger Minuten",
+    greeting: "Hallo! 👋 Ich helfe dir gerne weiter rund um unseren Camper – frag mich z. B. zu Saisonzeiten, Versicherung oder allgemeinen Themen. Bei konkreten Buchungen schreibst du am besten direkt auf WhatsApp.",
+    placeholder: "Frag mich etwas …",
+    send: "Senden",
+    close: "Schließen",
+    error: "Da ist etwas schiefgelaufen. Bitte versuche es erneut.",
+    rateLimit: "Aktuell zu viele Anfragen. Bitte einen Moment warten.",
+    paymentRequired: "Der Chat ist gerade nicht verfügbar. Bitte schreib uns direkt auf WhatsApp.",
+    whatsappFallback: "Lieber direkt schreiben? Auf WhatsApp",
+    typing: "schreibt …",
+    poweredBy: "KI-Assistent · Antworten ohne Gewähr",
   },
 
   // Reviews / Testimonials

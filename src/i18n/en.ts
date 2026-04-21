@@ -492,9 +492,21 @@ export const en: typeof de = {
     cta: "Inquire now",
   },
 
-  // Floating WhatsApp button (mobile only)
-  floatingWhatsapp: {
-    aria: "Message us on WhatsApp",
+  // Floating chatbot (mobile only)
+  chatbot: {
+    aria: "Open chat",
+    title: "Camper Chat",
+    subtitle: "We usually reply within a few minutes",
+    greeting: "Hi! 👋 I'm happy to help with general questions about our camper – e.g. season times, insurance or general topics. For specific bookings, please reach out directly on WhatsApp.",
+    placeholder: "Ask me anything …",
+    send: "Send",
+    close: "Close",
+    error: "Something went wrong. Please try again.",
+    rateLimit: "Too many requests right now. Please wait a moment.",
+    paymentRequired: "The chat is currently unavailable. Please message us on WhatsApp.",
+    whatsappFallback: "Rather chat directly? On WhatsApp",
+    typing: "typing …",
+    poweredBy: "AI assistant · Answers without guarantee",
   },
 
   // Reviews / Testimonials
