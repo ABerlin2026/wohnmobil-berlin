@@ -490,6 +490,11 @@ export const de = {
     cta: "Jetzt anfragen",
   },
 
+  // Floating WhatsApp button (mobile only)
+  floatingWhatsapp: {
+    aria: "Schreib uns auf WhatsApp",
+  },
+
   // Reviews / Testimonials
   reviews: {
     label: "Bewertungen",
