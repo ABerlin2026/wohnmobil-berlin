@@ -162,25 +162,25 @@ const FloatingChatbot = () => {
       {/* Chat panel — mobile only, full-screen-ish */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-background md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-background h-[100dvh] md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
           role="dialog"
           aria-modal="true"
           aria-label={t.chatbot.title}
         >
           {/* Header */}
           <header
-            className="flex items-center justify-between border-b border-border bg-surface-2 px-4 py-3"
+            className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-surface-2 px-4 py-3"
             style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
           >
-            <div className="flex flex-col">
-              <span className="text-base font-semibold text-foreground">{t.chatbot.title}</span>
-              <span className="text-xs text-muted-foreground">{t.chatbot.subtitle}</span>
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate text-base font-semibold text-foreground">{t.chatbot.title}</span>
+              <span className="truncate text-xs text-muted-foreground">{t.chatbot.subtitle}</span>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label={t.chatbot.close}
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-surface-3"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors hover:bg-surface-3"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
