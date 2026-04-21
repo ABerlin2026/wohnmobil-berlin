@@ -4,14 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 interface BookingRange {
   start: Date;
   end: Date;
-  summary: string;
   source: number;
 }
 
 interface RawBooking {
   start: string;
   end: string;
-  summary: string;
   source: number;
 }
 
