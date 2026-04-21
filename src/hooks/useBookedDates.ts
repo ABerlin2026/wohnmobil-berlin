@@ -38,7 +38,6 @@ export function useBookedDates() {
           .map((b) => ({
             start: new Date(`${b.start}T00:00:00`),
             end: new Date(`${b.end}T00:00:00`),
-            summary: b.summary,
             source: b.source,
           }))
           .filter((b) => !Number.isNaN(b.start.getTime()) && !Number.isNaN(b.end.getTime()));
