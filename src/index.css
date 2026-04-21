@@ -74,6 +74,11 @@
   html, body {
     @apply overflow-x-hidden;
     max-width: 100vw;
+    /* `clip` is more robust than `hidden` — prevents fixed/transformed
+       descendants (like the floating chatbot launcher) from creating
+       a horizontal scroll container on mobile. */
+    overflow-x: clip;
+    position: relative;
   }
 
   html {
