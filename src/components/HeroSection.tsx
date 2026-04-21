@@ -63,16 +63,16 @@ const HeroSection = () => {
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground leading-[1.05]">
+          <h1 className="text-3xl [@media(min-width:360px)]:text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground leading-[1.05]">
             {t.hero.title}
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base [@media(min-width:360px)]:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             {t.hero.subtitle}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap justify-center gap-2 [@media(min-width:360px)]:gap-3 sm:gap-4 text-xs [@media(min-width:360px)]:text-sm text-muted-foreground">
             {t.hero.badges.map((item) => (
-              <span key={item} className="border border-border/60 rounded-full px-4 py-1.5 text-foreground/70">
+              <span key={item} className="border border-border/60 rounded-full px-3 py-1 [@media(min-width:360px)]:px-4 [@media(min-width:360px)]:py-1.5 text-foreground/70 whitespace-nowrap">
                 {item}
               </span>
             ))}
