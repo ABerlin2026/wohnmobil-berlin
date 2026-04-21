@@ -58,7 +58,8 @@ const HeroSection = () => {
           width={1920}
           height={1080}
         />
-        <div className="absolute inset-0 bg-black/65" />
+        {/* Lighter overlay: subtle gradient keeps text readable but lets the video shine through. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black/45" />
       </div>
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
