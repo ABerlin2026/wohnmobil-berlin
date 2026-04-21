@@ -514,13 +514,11 @@ const impressumDe: LegalDoc = {
   metaDescription: "Impressum und Anbieterkennzeichnung gemäß § 5 TMG für Camper Berlin Brandenburg – Wohnmobilvermietung in Berlin.",
   nodes: [
     { type: "section", id: "i-1", title: "Angaben gemäß § 5 TMG" },
-    { type: "p", html: "[Firmenname]<br />[Vor- und Nachname]<br />[Straße und Hausnummer]<br />[PLZ] [Ort]" },
+    { type: "p", html: "Wohnmobilvermietung Nicole Kiesling<br />Clementweg 23<br />13127 Berlin" },
     { type: "section", id: "i-2", title: "Kontakt" },
-    { type: "p", html: "Telefon: [Telefonnummer]<br />E-Mail: [E-Mail-Adresse]" },
-    { type: "section", id: "i-3", title: "Steuernummer" },
-    { type: "p", html: "[Steuernummer]" },
+    { type: "p", html: "Telefon: <a href=\"tel:+491731980777\" class=\"text-primary hover:underline\">+49 173 1980777</a><br />E-Mail: <a href=\"mailto:info@wohnmobil-berlin.de\" class=\"text-primary hover:underline\">info@wohnmobil-berlin.de</a>" },
     { type: "section", id: "i-4", title: "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV" },
-    { type: "p", html: "[Vor- und Nachname]<br />[Straße und Hausnummer]<br />[PLZ] [Ort]" },
+    { type: "p", html: "Nicole Kiesling<br />Clementweg 23<br />13127 Berlin" },
   ],
 };
 
@@ -531,13 +529,11 @@ const impressumEn: LegalDoc = {
   nodes: [
     { type: "callout", html: "<strong>Note:</strong> This is a non-binding English convenience translation. The German version is legally authoritative." },
     { type: "section", id: "i-1", title: "Information pursuant to § 5 TMG" },
-    { type: "p", html: "[Company name]<br />[First and last name]<br />[Street and house number]<br />[Postal code] [City]" },
+    { type: "p", html: "Wohnmobilvermietung Nicole Kiesling<br />Clementweg 23<br />13127 Berlin<br />Germany" },
     { type: "section", id: "i-2", title: "Contact" },
-    { type: "p", html: "Phone: [Phone number]<br />E-mail: [E-mail address]" },
-    { type: "section", id: "i-3", title: "Tax number" },
-    { type: "p", html: "[Tax number]" },
+    { type: "p", html: "Phone: <a href=\"tel:+491731980777\" class=\"text-primary hover:underline\">+49 173 1980777</a><br />E-mail: <a href=\"mailto:info@wohnmobil-berlin.de\" class=\"text-primary hover:underline\">info@wohnmobil-berlin.de</a>" },
     { type: "section", id: "i-4", title: "Responsible for content pursuant to § 55 (2) RStV" },
-    { type: "p", html: "[First and last name]<br />[Street and house number]<br />[Postal code] [City]" },
+    { type: "p", html: "Nicole Kiesling<br />Clementweg 23<br />13127 Berlin<br />Germany" },
   ],
 };
 
@@ -551,7 +547,7 @@ const datenschutzDe: LegalDoc = {
   nodes: [
     { type: "section", id: "d-1", title: "1. Verantwortlicher" },
     { type: "p", html: "Verantwortlich für die Datenverarbeitung auf dieser Website ist:" },
-    { type: "p", html: "[Firmenname / Name]<br />[Straße + Hausnummer]<br />[PLZ, Ort]<br />Telefon: [Telefonnummer]<br />E-Mail: [E-Mail-Adresse]" },
+    { type: "p", html: "Wohnmobilvermietung Nicole Kiesling<br />Clementweg 23<br />13127 Berlin<br />Telefon: <a href=\"tel:+491731980777\" class=\"text-primary hover:underline\">+49 173 1980777</a><br />E-Mail: <a href=\"mailto:info@wohnmobil-berlin.de\" class=\"text-primary hover:underline\">info@wohnmobil-berlin.de</a>" },
 
     { type: "section", id: "d-2", title: "2. Allgemeine Hinweise zur Datenverarbeitung" },
     { type: "p", html: "Wir verarbeiten personenbezogene Daten ausschließlich im Rahmen der gesetzlichen Bestimmungen der Datenschutz-Grundverordnung (DSGVO)." },
