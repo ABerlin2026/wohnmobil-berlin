@@ -114,7 +114,64 @@ serve(async (req) => {
       });
     }
 
-    return new Response(response.body, {
+    // Tee the stream: one branch goes straight to the client, the other we
+    // sniff for the final `usage` SSE chunk so we can log token counts.
+    if (!response.body) {
+      return new Response(JSON.stringify({ error: "Empty AI response" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const [clientStream, logStream] = response.body.tee();
+
+    // Background task: parse the secondary stream, find usage, log it.
+    // Uses Deno's native string decoding; never blocks the client response.
+    (async () => {
+      try {
+        const reader = logStream.getReader();
+        const decoder = new TextDecoder();
+        let buf = "";
+        const lastUserMsg = safeMessages.filter((m) => m.role === "user").slice(-1)[0]?.content ?? "";
+        const userPreview = lastUserMsg.slice(0, 80).replace(/\s+/g, " ");
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+
+          let nl: number;
+          while ((nl = buf.indexOf("\n")) !== -1) {
+            let line = buf.slice(0, nl);
+            buf = buf.slice(nl + 1);
+            if (line.endsWith("\r")) line = line.slice(0, -1);
+            if (!line.startsWith("data: ")) continue;
+            const payload = line.slice(6).trim();
+            if (payload === "[DONE]" || !payload) continue;
+            try {
+              const parsed = JSON.parse(payload);
+              if (parsed.usage) {
+                const u = parsed.usage;
+                console.log(
+                  `[chat-usage] model=google/gemini-3-flash-preview ` +
+                    `prompt_tokens=${u.prompt_tokens ?? 0} ` +
+                    `completion_tokens=${u.completion_tokens ?? 0} ` +
+                    `total_tokens=${u.total_tokens ?? 0} ` +
+                    `turns=${safeMessages.length} ` +
+                    `user_preview="${userPreview}"`,
+                );
+              }
+            } catch {
+              // Ignore partial JSON; usage chunk arrives whole at the end.
+            }
+          }
+        }
+      } catch (err) {
+        console.error("[chat-usage] log stream error:", err);
+      }
+    })();
+
+    return new Response(clientStream, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {
