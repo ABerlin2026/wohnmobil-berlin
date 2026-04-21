@@ -280,6 +280,10 @@ export const de = {
   faq: {
     label: "FAQ",
     title: "Häufige Fragen",
+    showButton: "Fragen anzeigen",
+    hideButton: "Fragen ausblenden",
+    searchPlaceholder: "Fragen durchsuchen…",
+    noResults: "Keine passenden Fragen gefunden.",
     items: [
       { q: "Was kostet es, ein Wohnmobil in Berlin Brandenburg zu mieten?", a: "In der Nebensaison (April und Oktober) kostet der Camper 119 € pro Tag, in der Hauptsaison (1. Mai – 30. September) 129 € pro Tag. Im Preis sind 150 Freikilometer pro Tag und eine Vollkasko-Versicherung bereits enthalten. Es gibt keine versteckten Zusatzkosten für die Versicherung." },
       { q: "In welchem Zeitraum kann ich das Wohnmobil mieten?", a: "Vermietet wird von April bis Oktober. In der Zeit vom 1. November bis 31. März ist keine Vermietung möglich – in diesem Zeitraum macht der Camper Winterpause." },
