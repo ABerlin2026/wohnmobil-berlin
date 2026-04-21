@@ -14,13 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_usage_daily: {
+        Row: {
+          completion_tokens: number
+          created_at: string
+          prompt_tokens: number
+          request_count: number
+          total_tokens: number
+          updated_at: string
+          usage_date: string
+        }
+        Insert: {
+          completion_tokens?: number
+          created_at?: string
+          prompt_tokens?: number
+          request_count?: number
+          total_tokens?: number
+          updated_at?: string
+          usage_date?: string
+        }
+        Update: {
+          completion_tokens?: number
+          created_at?: string
+          prompt_tokens?: number
+          request_count?: number
+          total_tokens?: number
+          updated_at?: string
+          usage_date?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_today_chat_tokens: { Args: never; Returns: number }
+      increment_chat_usage: {
+        Args: {
+          p_completion_tokens: number
+          p_prompt_tokens: number
+          p_total_tokens: number
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
