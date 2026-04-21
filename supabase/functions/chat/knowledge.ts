@@ -64,6 +64,28 @@ ausgewählten Ländern erlaubt.
 - Versorgerbatterie + Solaranlage: 1–5 Tage autark
 - 4 Sitzplätze mit 3-Punkt-Gurten (KEIN ISOFIX)
 
+# Heizung & Klimaanlage
+Das Wohnmobil hat ZWEI getrennte Heizsysteme:
+
+1. Gasheizung (autark) — läuft über die Bord-Gasflasche (11 kg).
+   - Funktioniert OHNE externen Stromanschluss → ideal fürs autarke Stehen
+     (z. B. Stellplatz ohne Strom, frei stehen, Winterbetrieb am Wochenende).
+   - Laufzeit einer 11-kg-Gasflasche je nach gewählter Heizstufe: mehrere Tage.
+     Auf niedriger Stufe entsprechend länger, auf hoher Stufe entsprechend kürzer.
+     2× Gasflasche an Bord (eine in Nutzung, eine als Reserve).
+   - Wird auch zum Warmwasser & Kochen mitgenutzt.
+
+2. Klimaanlage im Innenraum (kühlen UND heizen über Wärmepumpen-Funktion).
+   - Benötigt zwingend einen 230-V-Stromanschluss (Landstrom).
+   - 230 V ist auf praktisch allen Campingplätzen vorhanden
+     (Anschlusskabel 50 m liegt an Bord).
+   - Ohne Landstrom (autark / freistehend) → Klima nicht nutzbar,
+     dann auf die Gasheizung ausweichen.
+
+Faustregel:
+- Campingplatz mit Strom → Klimaanlage (heizen oder kühlen).
+- Frei stehen / kein Strom → Gasheizung.
+
 # Auslandsfahrten — erlaubte Länder
 Deutschland, Niederlande, Dänemark, Schweden, Norwegen, Finnland, Polen, Tschechien,
 Österreich, Schweiz, Ungarn, Slowenien, Kroatien, Slowakei.
