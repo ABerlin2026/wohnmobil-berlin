@@ -152,10 +152,10 @@ const FloatingChatbot = () => {
           type="button"
           onClick={() => setOpen(true)}
           aria-label={t.chatbot.aria}
-          className="fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/40 ring-4 ring-primary/20 transition-transform active:scale-95 md:hover:scale-105 animate-float [transform-origin:center_right]"
+          className="fixed right-3 [@media(min-width:360px)]:right-4 z-40 flex h-12 w-12 [@media(min-width:360px)]:h-14 [@media(min-width:360px)]:w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/40 ring-4 ring-primary/20 transition-transform active:scale-95 md:hover:scale-105 animate-float [transform-origin:center_right]"
           style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
         >
-          <MessageCircle className="h-7 w-7" aria-hidden="true" />
+          <MessageCircle className="h-6 w-6 [@media(min-width:360px)]:h-7 [@media(min-width:360px)]:w-7" aria-hidden="true" />
         </button>
       )}
 
