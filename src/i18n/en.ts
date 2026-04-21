@@ -492,6 +492,11 @@ export const en: typeof de = {
     cta: "Inquire now",
   },
 
+  // Floating WhatsApp button (mobile only)
+  floatingWhatsapp: {
+    aria: "Message us on WhatsApp",
+  },
+
   // Reviews / Testimonials
   reviews: {
     label: "Reviews",

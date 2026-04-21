@@ -17,7 +17,7 @@ const FloatingWhatsAppButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t.floatingWhatsapp.aria}
-      className="md:hidden fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-2xl shadow-whatsapp/40 ring-4 ring-whatsapp/20 transition-transform active:scale-95 hover:scale-105 animate-pulse-slow"
+      className="md:hidden fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-2xl shadow-whatsapp/40 ring-4 ring-whatsapp/20 transition-transform active:scale-95 hover:scale-105 animate-float"
       style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
     >
       {/* Official WhatsApp glyph (inline SVG so we don't pull in a new icon package) */}
