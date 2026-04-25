@@ -1,4 +1,7 @@
 project_id = "rylygyaqwenafkaydycv"
 
-[functions.ical-bookings]
-verify_jwt = false
+[functions]
+  [functions.auth-email-hook]
+    verify_jwt = false
+  [functions.ical-bookings]
+    verify_jwt = false
