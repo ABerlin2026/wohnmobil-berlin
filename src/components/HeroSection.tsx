@@ -66,22 +66,23 @@ const HeroSection = () => {
           {/* Fallback: stark komprimierte Mobile-Version */}
           <source src={camperVideoMp4} type="video/mp4" />
         </video>
-        {/* Stärkerer Gradient für bessere Textlesbarkeit über dem Video */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/60" />
+        {/* Mehrschichtiges Overlay: dunkler Gradient + radialer Vignette-Effekt für maximalen Textkontrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/75" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.45)_0%,_rgba(0,0,0,0.7)_100%)]" />
       </div>
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h1 className="text-3xl [@media(min-width:360px)]:text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground leading-[1.05]">
+          <h1 className="text-3xl [@media(min-width:360px)]:text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.05] [text-shadow:_0_2px_12px_rgba(0,0,0,0.7)]">
             {t.hero.title}
           </h1>
-          <p className="text-base [@media(min-width:360px)]:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base [@media(min-width:360px)]:text-lg md:text-xl text-white/95 leading-relaxed max-w-2xl mx-auto [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]">
             {t.hero.subtitle}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-2 [@media(min-width:360px)]:gap-3 sm:gap-4 text-xs [@media(min-width:360px)]:text-sm text-muted-foreground">
+          <div className="flex flex-wrap justify-center gap-2 [@media(min-width:360px)]:gap-3 sm:gap-4 text-xs [@media(min-width:360px)]:text-sm">
             {t.hero.badges.map((item) => (
-              <span key={item} className="border border-border/60 rounded-full px-3 py-1 [@media(min-width:360px)]:px-4 [@media(min-width:360px)]:py-1.5 text-foreground/70 whitespace-nowrap">
+              <span key={item} className="border border-white/40 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1 [@media(min-width:360px)]:px-4 [@media(min-width:360px)]:py-1.5 text-white whitespace-nowrap [text-shadow:_0_1px_4px_rgba(0,0,0,0.6)]">
                 {item}
               </span>
             ))}
