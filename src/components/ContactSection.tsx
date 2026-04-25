@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { addDays, endOfMonth, format, differenceInCalendarDays } from "date-fns";
 import { de as dfnsDe, enUS as dfnsEn } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBookedDates } from "@/hooks/useBookedDates";
 import { supabase } from "@/integrations/supabase/client";
-import AvailabilityChecker, { type BookingType } from "@/components/AvailabilityChecker";
+import type { BookingType } from "@/components/AvailabilityChecker";
+import { AVAILABILITY_PREFILL_KEY } from "@/components/AvailabilitySection";
 
 import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
@@ -218,15 +219,30 @@ const ContactSection = () => {
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
-  const handleAvailabilityProceed = (type: BookingType, s: Date, e: Date) => {
-    setBookingType(type);
-    setStartDate(s);
-    setEndDate(e);
-    // Smooth-scroll to the form so the user can complete the inquiry.
-    requestAnimationFrame(() => {
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  };
+  // Pick up dates/type from the AvailabilitySection (above PricingSection on the page).
+  // Reads on mount AND on the custom event fired right after the user clicks "Anfrage senden".
+  useEffect(() => {
+    const apply = () => {
+      try {
+        const raw = sessionStorage.getItem(AVAILABILITY_PREFILL_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw) as {
+          type: BookingType;
+          start: string;
+          end: string;
+        };
+        if (parsed?.type) setBookingType(parsed.type);
+        if (parsed?.start) setStartDate(new Date(parsed.start));
+        if (parsed?.end) setEndDate(new Date(parsed.end));
+        sessionStorage.removeItem(AVAILABILITY_PREFILL_KEY);
+      } catch {
+        // ignore malformed prefill
+      }
+    };
+    apply();
+    window.addEventListener("availability:prefill", apply);
+    return () => window.removeEventListener("availability:prefill", apply);
+  }, []);
 
   const buildExtrasSummary = () => {
     const parts: string[] = [];
@@ -364,18 +380,7 @@ const ContactSection = () => {
           <p className="text-muted-foreground">{t.contact.subtitle}</p>
         </div>
 
-        {/* Verfügbarkeit prüfen – eigener Bereich oberhalb des Kontakt-/Formular-Grids */}
-        <div className="max-w-5xl mx-auto w-full mb-8">
-          <AvailabilityChecker
-            onProceedToInquiry={handleAvailabilityProceed}
-            minDaysFor={{
-              rental: MIN_RENTAL_DAYS,
-              event: MIN_EVENT_DAYS,
-              holiday: MIN_HOLIDAY_DAYS,
-            }}
-            minLeadDays={MIN_LEAD_DAYS}
-          />
-        </div>
+
 
         <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto w-full">
           {/* Kontaktmöglichkeiten */}
