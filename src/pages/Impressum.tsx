@@ -16,11 +16,11 @@ const Impressum = () => {
       <PageSEO
         title={doc.metaTitle}
         description={doc.metaDescription}
-        canonical="https://camper-berlin-brandenburg.de/impressum"
+        canonical="https://wohnmobil-berlin.de/impressum"
         noindex
         breadcrumbs={[
-          { name: breadcrumbHome, url: "https://camper-berlin-brandenburg.de/" },
-          { name: breadcrumbName, url: "https://camper-berlin-brandenburg.de/impressum" },
+          { name: breadcrumbHome, url: "https://wohnmobil-berlin.de/" },
+          { name: breadcrumbName, url: "https://wohnmobil-berlin.de/impressum" },
         ]}
       />
       <Navigation />
