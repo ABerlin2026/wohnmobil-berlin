@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBookedDates } from "@/hooks/useBookedDates";
+import { supabase } from "@/integrations/supabase/client";
 
 import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
@@ -190,7 +191,44 @@ const ContactSection = () => {
     return d.toISOString().slice(0, 10);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const buildExtrasSummary = () => {
+    const parts: string[] = [];
+    if (extras.towels) parts.push("Handtücher (20 €)");
+    if (extras.grill) parts.push("Grill (40 €)");
+    if (extras.beddingQty > 0) parts.push(`Bettwäsche × ${extras.beddingQty} (${extras.beddingQty * 10} €)`);
+    if (extras.scooterQty > 0) parts.push(`E-Scooter × ${extras.scooterQty} (${extras.scooterQty * 75} €)`);
+    if (extras.cleaning) parts.push("Endreinigung (200 €)");
+    return parts.length ? parts.join(", ") : "Keine";
+  };
+
+  const computeTotalGross = (): string | undefined => {
+    if (!startDate || !endDate || rentalDays === null) return undefined;
+    const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    const plannedKm = parseInt(form.kilometers, 10) || 0;
+    if (bookingType === "event") {
+      return fmt(rentalDays * PRICE_EVENT + extrasTotal);
+    }
+    if (bookingType === "holiday") {
+      const persons = Math.min(4, Math.max(1, totalPersons));
+      const pricePerNight = HOLIDAY_PRICE_BY_PERSONS[persons];
+      const nights = Math.max(1, rentalDays - 1);
+      return fmt(nights * pricePerNight + extrasTotal);
+    }
+    let mainNights = 0, offNights = 0;
+    for (let i = 0; i < rentalDays; i++) {
+      const d = addDays(startDate, i);
+      if (priceForDate(d) === PRICE_MAIN_SEASON) mainNights++;
+      else offNights++;
+    }
+    const rentalSum = mainNights * PRICE_MAIN_SEASON + offNights * PRICE_OFF_SEASON;
+    const freeKm = rentalDays * 150;
+    const extraKmCost = Math.max(0, plannedKm - freeKm) * 0.35;
+    return fmt(rentalSum + extrasTotal + extraKmCost);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
       toast({ title: t.contact.toastMissing, description: t.contact.toastMissingDesc, variant: "destructive" });
@@ -226,13 +264,60 @@ const ContactSection = () => {
       toast({ title: t.contact.toastTerms, description: t.contact.toastTermsDesc, variant: "destructive" });
       return;
     }
-    toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
-    setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
-    setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
-    setStartDate(undefined);
-    setEndDate(undefined);
-    setSelectedCountry("DE");
-    setTermsAccepted(false);
+
+    setSubmitting(true);
+    try {
+      const bookingTypeLabel =
+        bookingType === "rental" ? "Wohnmobil-Miete"
+          : bookingType === "event" ? "Event/Übernachtung"
+          : "Ferienwohnung";
+      const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "inquiry-notification",
+          recipientEmail: "anfrage@wohnmobil-berlin.de",
+          idempotencyKey,
+          templateData: {
+            bookingType: bookingTypeLabel,
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            birthdate: form.birthdate || undefined,
+            startDate: format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
+            endDate: format(endDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
+            rentalDays,
+            destination: bookingType === "holiday" ? t.contact.holidayLocationValue : (form.destination || undefined),
+            country: bookingType === "rental" ? t.contact.countries[selectedCountry] : undefined,
+            kilometers: bookingType === "rental" ? (form.kilometers || undefined) : undefined,
+            adults: form.adults || undefined,
+            children: form.children || undefined,
+            pet: form.pet === "ja" ? "Ja" : "Nein",
+            message: form.message || undefined,
+            extras: buildExtrasSummary(),
+            totalGross: computeTotalGross(),
+            submittedAt: new Date().toLocaleString("de-DE"),
+          },
+        },
+      });
+      if (error) throw error;
+
+      toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
+      setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
+      setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
+      setStartDate(undefined);
+      setEndDate(undefined);
+      setSelectedCountry("DE");
+      setTermsAccepted(false);
+    } catch (err) {
+      console.error("Anfrage konnte nicht gesendet werden:", err);
+      toast({
+        title: "Senden fehlgeschlagen",
+        description: "Bitte versuche es erneut oder schreib uns direkt per WhatsApp.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -724,8 +809,8 @@ const ContactSection = () => {
                 </label>
               </div>
 
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons || isDriverTooYoung || !termsAccepted}>
-                {t.contact.submit}
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={submitting || !!isCountryBlocked || isTooShort || isTooManyPersons || isDriverTooYoung || !termsAccepted}>
+                {submitting ? "Wird gesendet…" : t.contact.submit}
               </Button>
             </form>
           </div>
