@@ -55,11 +55,17 @@ const HeroSection = () => {
           poster={heroCamper}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out pointer-events-none"
           style={{ opacity: showPhoto ? 0 : 1 }}
-          src={camperVideo}
           onEnded={handleVideoEnded}
           width={1920}
           height={1080}
-        />
+        >
+          {/* HD WebM zuerst (kleinste Datei bei bester Qualität, moderne Browser) */}
+          <source src={camperVideoHdWebm} type="video/webm" />
+          {/* HD MP4 für Desktop & Safari */}
+          <source src={camperVideoHdMp4} type="video/mp4" />
+          {/* Fallback: stark komprimierte Mobile-Version */}
+          <source src={camperVideoMp4} type="video/mp4" />
+        </video>
         {/* Stärkerer Gradient für bessere Textlesbarkeit über dem Video */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/60" />
       </div>
