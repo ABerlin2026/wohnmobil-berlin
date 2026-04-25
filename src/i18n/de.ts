@@ -9,7 +9,7 @@ export const de = {
     inquire: "Anfragen",
     inquireNow: "Jetzt anfragen",
     openMenu: "Menü öffnen",
-    brand: "CAMPER BERLIN",
+    brand: "WOHNMOBIL BERLIN",
     tagline: "Dein Abenteuer beginnt in Berlin",
   },
 
