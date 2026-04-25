@@ -380,18 +380,7 @@ const ContactSection = () => {
           <p className="text-muted-foreground">{t.contact.subtitle}</p>
         </div>
 
-        {/* Verfügbarkeit prüfen – eigener Bereich oberhalb des Kontakt-/Formular-Grids */}
-        <div className="max-w-5xl mx-auto w-full mb-8">
-          <AvailabilityChecker
-            onProceedToInquiry={handleAvailabilityProceed}
-            minDaysFor={{
-              rental: MIN_RENTAL_DAYS,
-              event: MIN_EVENT_DAYS,
-              holiday: MIN_HOLIDAY_DAYS,
-            }}
-            minLeadDays={MIN_LEAD_DAYS}
-          />
-        </div>
+
 
         <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto w-full">
           {/* Kontaktmöglichkeiten */}
