@@ -173,11 +173,36 @@ const ContactSection = () => {
   const totalPersons = adultsNum + childrenNum;
   const isTooManyPersons = totalPersons > 4;
 
-  /** Computed driver age from birthdate string (yyyy-mm-dd). */
+  /** Parse birthdate from "TT.MM.JJJJ" string. Returns null if invalid/incomplete. */
+  const parseBirthdate = (value: string): Date | null => {
+    const m = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+    if (!m) return null;
+    const day = parseInt(m[1], 10);
+    const month = parseInt(m[2], 10);
+    const year = parseInt(m[3], 10);
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+    const d = new Date(year, month - 1, day);
+    if (
+      d.getFullYear() !== year ||
+      d.getMonth() !== month - 1 ||
+      d.getDate() !== day
+    ) return null;
+    if (d > new Date()) return null;
+    return d;
+  };
+
+  /** Auto-format input as user types: 12082001 -> 12.08.2001 */
+  const formatBirthdateInput = (raw: string): string => {
+    const digits = raw.replace(/\D/g, "").slice(0, 8);
+    if (digits.length <= 2) return digits;
+    if (digits.length <= 4) return `${digits.slice(0, 2)}.${digits.slice(2)}`;
+    return `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4)}`;
+  };
+
+  /** Computed driver age from birthdate string ("TT.MM.JJJJ"). */
   const driverAge = useMemo(() => {
-    if (!form.birthdate) return null;
-    const dob = new Date(form.birthdate);
-    if (isNaN(dob.getTime())) return null;
+    const dob = parseBirthdate(form.birthdate);
+    if (!dob) return null;
     const today = new Date();
     let age = today.getFullYear() - dob.getFullYear();
     const m = today.getMonth() - dob.getMonth();
@@ -185,12 +210,10 @@ const ContactSection = () => {
     return age;
   }, [form.birthdate]);
   const isDriverTooYoung = bookingType === "rental" && driverAge !== null && driverAge < MIN_DRIVER_AGE;
-  // Max DOB for native date input: today minus MIN_DRIVER_AGE years.
-  const maxBirthdate = useMemo(() => {
-    const d = new Date();
-    d.setFullYear(d.getFullYear() - MIN_DRIVER_AGE);
-    return d.toISOString().slice(0, 10);
-  }, []);
+  const isBirthdateInvalid =
+    bookingType === "rental" &&
+    form.birthdate.length > 0 &&
+    parseBirthdate(form.birthdate) === null;
 
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
@@ -469,14 +492,24 @@ const ContactSection = () => {
                     {t.contact.birthdate}
                   </label>
                   <Input
-                    type="date"
+                    type="text"
+                    inputMode="numeric"
                     required
                     value={form.birthdate}
-                    max={maxBirthdate}
-                    onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
-                    className="bg-surface-2 border-border/20 rounded-lg h-9 w-full max-w-full min-w-0 box-border block overflow-hidden pr-3 text-sm [appearance:textfield]"
+                    placeholder="TT.MM.JJJJ"
+                    maxLength={10}
+                    pattern="\d{2}\.\d{2}\.\d{4}"
+                    autoComplete="bday"
+                    onChange={(e) => setForm({ ...form, birthdate: formatBirthdateInput(e.target.value) })}
+                    className="bg-surface-2 border-border/20 rounded-lg h-9 w-full max-w-full min-w-0 box-border block overflow-hidden pr-3 text-sm"
                   />
                   <p className="text-xs text-muted-foreground mt-1">{t.contact.birthdateHint}</p>
+                  {isBirthdateInvalid && (
+                    <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                      <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                      <p className="text-xs text-destructive">{t.contact.birthdateInvalid}</p>
+                    </div>
+                  )}
                   {isDriverTooYoung && (
                     <div className="flex items-start gap-2 mt-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
                       <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
