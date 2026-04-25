@@ -15,7 +15,7 @@ export const de = {
 
   // Hero
   hero: {
-    title: "Wohnmobil mieten in Berlin & Brandenburg",
+    title: "Wohnmobil mieten Berlin & Camper mieten Berlin",
     subtitle: "Dein Camper für 4 Personen – direkt aus Berlin losfahren und die Freiheit auf vier Rädern erleben. Vollkasko, 150\u00A0Freikilometer pro Tag und Haustiere willkommen.",
     badges: ["4 Schlafplätze", "Vollkasko inkl.", "Ab 119 €/Tag", "Hunde willkommen"],
     cta: "Jetzt unverbindlich anfragen",
