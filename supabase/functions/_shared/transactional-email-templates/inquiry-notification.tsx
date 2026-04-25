@@ -155,3 +155,16 @@ export const template = {
     submittedAt: '24.04.2026, 14:32',
   },
 } satisfies TemplateEntry
+
+const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif', margin: 0, padding: 0 }
+const container = { padding: '24px', maxWidth: '600px', margin: '0 auto' }
+const h1 = { fontSize: '22px', fontWeight: 'bold', color: '#0f172a', margin: '0 0 8px' }
+const h2 = { fontSize: '14px', fontWeight: 'bold', color: '#0f172a', margin: '0 0 8px', textTransform: 'uppercase' as const, letterSpacing: '0.05em' }
+const subtitle = { fontSize: '14px', color: '#55575d', margin: '0 0 24px', lineHeight: '1.5' }
+const card = { backgroundColor: '#f8fafc', borderRadius: '8px', padding: '16px', margin: '0 0 16px', border: '1px solid #e2e8f0' }
+const row = { fontSize: '14px', color: '#0f172a', margin: '0 0 6px', lineHeight: '1.5' }
+const rowLabel = { color: '#475569', fontWeight: 600 }
+const rowValue = { color: '#0f172a' }
+const messageText = { fontSize: '14px', color: '#0f172a', margin: 0, lineHeight: '1.6', whiteSpace: 'pre-wrap' as const }
+const hr = { borderColor: '#e2e8f0', margin: '24px 0 12px' }
+const footer = { fontSize: '12px', color: '#999999', margin: 0, textAlign: 'center' as const }
