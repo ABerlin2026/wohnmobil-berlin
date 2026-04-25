@@ -11,7 +11,7 @@ export const en: typeof de = {
     inquire: "Inquire",
     inquireNow: "Inquire now",
     openMenu: "Open menu",
-    brand: "CAMPER BERLIN",
+    brand: "WOHNMOBIL BERLIN",
     tagline: "Your adventure starts in Berlin",
   },
 
