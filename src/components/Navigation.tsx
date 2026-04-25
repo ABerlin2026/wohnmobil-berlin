@@ -110,11 +110,21 @@ const Navigation = () => {
         <div className="flex items-center gap-2 md:hidden">
           <button
             onClick={toggleLang}
-            className="px-2.5 py-1.5 rounded-md text-xs font-bold uppercase text-muted-foreground hover:text-foreground border border-border/30"
+            className={cn(
+              "px-2.5 py-1.5 rounded-md text-xs font-bold uppercase border",
+              scrolled
+                ? "text-muted-foreground hover:text-foreground border-border/30"
+                : "text-white border-white/40 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+            )}
           >
             {language === "de" ? "EN" : "DE"}
           </button>
-          <button className="text-foreground" onClick={() => setOpen(!open)} aria-label={t.nav.openMenu} aria-expanded={open}>
+          <button
+            className={scrolled ? "text-foreground" : "text-white [filter:drop-shadow(0_1px_3px_rgba(0,0,0,0.8))]"}
+            onClick={() => setOpen(!open)}
+            aria-label={t.nav.openMenu}
+            aria-expanded={open}
+          >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
