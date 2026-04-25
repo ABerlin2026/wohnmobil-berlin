@@ -92,7 +92,7 @@ export const en: typeof de = {
   // Holiday Home Service
   holidayHome: {
     label: "A unique stay",
-    title: "Your holiday home in the green – at the edge of Berlin",
+    title: "Use the motorhome as a holiday home in 13127 Berlin",
     subtitle: "Forget anonymous hotel rooms. Stay in a lovingly furnished motorhome – permanently parked in a green Old-Berlin courtyard, surrounded by old trees and real Berlin nature.",
     description: "Imagine this: you're exploring Berlin – and still waking up surrounded by green. Our motorhome has found its permanent home on a quiet green patch in a traditional Old-Berlin courtyard (postcode 13127). Not in the city's noise, but where Berlin breathes again, where time slows down just a little. You open the door in the morning – and step right into nature. Birdsong instead of traffic. Your first coffee under old trees, sunlight dancing through the leaves. In the evening, fairy lights shimmer above you, a glass of wine in hand, and you wonder how a place this hidden can exist in the middle of Berlin. This isn't an off-the-shelf overnight stay. It's a retreat with a fixed address – the comfort of a home, the freedom of a camper, the magic of a little secret. Separate toilets and showers are available on the grounds. For everyone who doesn't just want to tick Berlin off a list – but truly feel it.",
     feature1: "In the green – not in the city noise",
