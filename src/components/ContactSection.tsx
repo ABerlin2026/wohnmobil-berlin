@@ -341,6 +341,19 @@ const ContactSection = () => {
           <p className="text-muted-foreground">{t.contact.subtitle}</p>
         </div>
 
+        {/* Verfügbarkeit prüfen – eigener Bereich oberhalb des Kontakt-/Formular-Grids */}
+        <div className="max-w-5xl mx-auto w-full mb-8">
+          <AvailabilityChecker
+            onProceedToInquiry={handleAvailabilityProceed}
+            minDaysFor={{
+              rental: MIN_RENTAL_DAYS,
+              event: MIN_EVENT_DAYS,
+              holiday: MIN_HOLIDAY_DAYS,
+            }}
+            minLeadDays={MIN_LEAD_DAYS}
+          />
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto w-full">
           {/* Kontaktmöglichkeiten */}
           <div className="bg-surface-1 rounded-xl p-5 sm:p-8 border border-border/20 flex flex-col min-w-0">
@@ -396,7 +409,7 @@ const ContactSection = () => {
           </div>
 
           {/* Formular */}
-          <div className="bg-surface-1 rounded-xl p-5 sm:p-8 border border-border/20 min-w-0">
+          <div ref={formRef} className="bg-surface-1 rounded-xl p-5 sm:p-8 border border-border/20 min-w-0 scroll-mt-24">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
                 <Send className="h-5 w-5 text-primary" />
