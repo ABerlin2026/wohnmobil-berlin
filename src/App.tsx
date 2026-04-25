@@ -9,7 +9,6 @@ import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import Unsubscribe from "./pages/Unsubscribe.tsx";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingChatbot from "./components/FloatingChatbot";
 
@@ -28,7 +27,6 @@ const App = () => (
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/agb" element={<AGB />} />
-            <Route path="/unsubscribe" element={<Unsubscribe />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
