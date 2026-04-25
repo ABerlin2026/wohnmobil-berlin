@@ -6,9 +6,9 @@ const corsHeaders = {
 const ICAL_BASE = "https://www.paulcamper.de/api/v1/public/ical/export?permalink=";
 const ICAL_TOKEN_1 = Deno.env.get("PAULCAMPER_ICAL_TOKEN_1");
 const ICAL_TOKEN_2 = Deno.env.get("PAULCAMPER_ICAL_TOKEN_2");
-const ICAL_URLS = [ICAL_TOKEN_1, ICAL_TOKEN_2]
-  .filter((t): t is string => !!t && t.length > 0)
-  .map((t) => ICAL_BASE + t);
+const ICAL_TOKENS = [ICAL_TOKEN_1, ICAL_TOKEN_2].filter(
+  (t): t is string => !!t && t.length > 0,
+);
 
 interface BookingRange {
   start: string; // YYYY-MM-DD
@@ -73,35 +73,72 @@ Deno.serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
-  try {
-    const results = await Promise.all(
-      ICAL_URLS.map(async (url, idx) => {
-        const res = await fetch(url, { headers: { "Cache-Control": "no-cache" } });
-        if (!res.ok) throw new Error(`Feed ${idx} returned ${res.status}`);
-        const text = await res.text();
-        return parseIcs(text, idx);
-      }),
+  // Surface configuration problems instead of silently returning empty.
+  if (ICAL_TOKENS.length === 0) {
+    console.error(
+      "ical-bookings: no PAULCAMPER_ICAL_TOKEN_1 / PAULCAMPER_ICAL_TOKEN_2 secrets configured",
     );
-
-    const merged = results.flat().sort((a, b) => a.start.localeCompare(b.start));
-
     return new Response(
-      JSON.stringify({ bookings: merged, fetchedAt: new Date().toISOString() }),
+      JSON.stringify({
+        error: "ICAL_TOKENS_MISSING",
+        message:
+          "Paul Camper iCal-Tokens sind nicht konfiguriert. Bitte PAULCAMPER_ICAL_TOKEN_1 (und optional _2) als Secret hinterlegen.",
+        bookings: [],
+      }),
       {
-        status: 200,
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-          "Cache-Control": "no-store",
-        },
+        status: 200, // 200 so client UI degrades gracefully (calendar shows empty)
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       },
     );
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    console.error("ical-bookings error:", message);
-    return new Response(JSON.stringify({ error: message, bookings: [] }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
   }
+
+  const perFeed: Array<{ idx: number; ok: boolean; status?: number; count: number; error?: string }> = [];
+
+  const results = await Promise.all(
+    ICAL_TOKENS.map(async (token, idx) => {
+      const url = ICAL_BASE + token;
+      try {
+        const res = await fetch(url, { headers: { "Cache-Control": "no-cache" } });
+        if (!res.ok) {
+          const body = await res.text().catch(() => "");
+          console.error(
+            `ical-bookings feed ${idx} HTTP ${res.status}`,
+            body.slice(0, 500),
+          );
+          perFeed.push({ idx, ok: false, status: res.status, count: 0, error: `HTTP ${res.status}` });
+          return [] as BookingRange[];
+        }
+        const text = await res.text();
+        const events = parseIcs(text, idx);
+        console.log(`ical-bookings feed ${idx}: parsed ${events.length} events`);
+        perFeed.push({ idx, ok: true, status: res.status, count: events.length });
+        return events;
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error(`ical-bookings feed ${idx} fetch error:`, message);
+        perFeed.push({ idx, ok: false, count: 0, error: message });
+        return [] as BookingRange[];
+      }
+    }),
+  );
+
+  const merged = results.flat().sort((a, b) => a.start.localeCompare(b.start));
+  const allFailed = perFeed.every((f) => !f.ok);
+
+  return new Response(
+    JSON.stringify({
+      bookings: merged,
+      fetchedAt: new Date().toISOString(),
+      feeds: perFeed,
+      ...(allFailed ? { error: "ALL_FEEDS_FAILED" } : {}),
+    }),
+    {
+      status: 200,
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store",
+      },
+    },
+  );
 });
