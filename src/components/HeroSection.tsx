@@ -66,9 +66,8 @@ const HeroSection = () => {
           {/* Fallback: stark komprimierte Mobile-Version */}
           <source src={camperVideoMp4} type="video/mp4" />
         </video>
-        {/* Mehrschichtiges Overlay: dunkler Gradient + radialer Vignette-Effekt für maximalen Textkontrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/75" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.45)_0%,_rgba(0,0,0,0.7)_100%)]" />
+        {/* Dezenter Gradient – das Video bleibt hell, der Text wird durch Text-Shadow lesbar gehalten */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/35" />
       </div>
 
       <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
