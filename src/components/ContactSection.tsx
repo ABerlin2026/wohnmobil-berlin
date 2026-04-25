@@ -809,8 +809,8 @@ const ContactSection = () => {
                 </label>
               </div>
 
-              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={!!isCountryBlocked || isTooShort || isTooManyPersons || isDriverTooYoung || !termsAccepted}>
-                {t.contact.submit}
+              <Button variant="hero" size="lg" type="submit" className="w-full py-5" disabled={submitting || !!isCountryBlocked || isTooShort || isTooManyPersons || isDriverTooYoung || !termsAccepted}>
+                {submitting ? "Wird gesendet…" : t.contact.submit}
               </Button>
             </form>
           </div>
