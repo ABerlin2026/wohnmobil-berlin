@@ -2,7 +2,9 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ChevronDown } from "lucide-react";
 import heroCamper from "@/assets/hero-camper.jpg";
-import camperVideo from "@/assets/camper-hero-video-optimized.mp4";
+import camperVideoMp4 from "@/assets/camper-hero-video-optimized.mp4";
+import camperVideoHdMp4 from "@/assets/camper-hero-video-hd.mp4";
+import camperVideoHdWebm from "@/assets/camper-hero-video-hd.webm";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { WHATSAPP_URL } from "@/lib/contact";
 
