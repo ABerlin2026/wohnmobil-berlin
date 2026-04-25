@@ -50,16 +50,22 @@ const Navigation = () => {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled
           ? "bg-background/90 backdrop-blur-xl border-b border-border/50"
-          : "bg-transparent"
+          : "bg-gradient-to-b from-black/60 via-black/30 to-transparent backdrop-blur-[2px]"
       )}
     >
       <div className="container-narrow flex items-center justify-between h-16 px-5">
         <a href="/" className="flex flex-col leading-none" aria-label="Camper Berlin – Startseite">
-          <span className="font-display font-extrabold tracking-tight text-base sm:text-lg md:text-xl">
-            <span className="text-brand-blue">CAMPER</span>{" "}
-            <span className="text-brand-green">BERLIN</span>
+          <span className={cn(
+            "font-display font-extrabold tracking-tight text-base sm:text-lg md:text-xl",
+            !scrolled && "[text-shadow:_0_2px_8px_rgba(0,0,0,0.85)]"
+          )}>
+            <span className={scrolled ? "text-brand-blue" : "text-white"}>CAMPER</span>{" "}
+            <span className={scrolled ? "text-brand-green" : "text-brand-green-light"} style={!scrolled ? { color: "hsl(105 60% 65%)" } : undefined}>BERLIN</span>
           </span>
-          <span className="hidden sm:block text-[10px] md:text-xs text-brand-subtitle font-medium mt-0.5 tracking-wide">
+          <span className={cn(
+            "hidden sm:block text-[10px] md:text-xs font-medium mt-0.5 tracking-wide",
+            scrolled ? "text-brand-subtitle" : "text-white/90 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+          )}>
             {t.nav.tagline}
           </span>
         </a>
@@ -70,14 +76,24 @@ const Navigation = () => {
               key={l.href}
               href={l.href}
               onClick={(e) => { e.preventDefault(); handleClick(l.href); }}
-              className="text-sm font-medium px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors duration-200"
+              className={cn(
+                "text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200",
+                scrolled
+                  ? "text-muted-foreground hover:text-foreground"
+                  : "text-white/95 hover:text-white [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+              )}
             >
               {l.label}
             </a>
           ))}
           <button
             onClick={toggleLang}
-            className="ml-2 px-2.5 py-1.5 rounded-md text-xs font-bold uppercase text-muted-foreground hover:text-foreground hover:bg-surface-1 transition-colors border border-border/30"
+            className={cn(
+              "ml-2 px-2.5 py-1.5 rounded-md text-xs font-bold uppercase transition-colors border",
+              scrolled
+                ? "text-muted-foreground hover:text-foreground hover:bg-surface-1 border-border/30"
+                : "text-white hover:bg-white/10 border-white/40 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+            )}
           >
             {language === "de" ? "EN" : "DE"}
           </button>
@@ -94,11 +110,21 @@ const Navigation = () => {
         <div className="flex items-center gap-2 md:hidden">
           <button
             onClick={toggleLang}
-            className="px-2.5 py-1.5 rounded-md text-xs font-bold uppercase text-muted-foreground hover:text-foreground border border-border/30"
+            className={cn(
+              "px-2.5 py-1.5 rounded-md text-xs font-bold uppercase border",
+              scrolled
+                ? "text-muted-foreground hover:text-foreground border-border/30"
+                : "text-white border-white/40 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+            )}
           >
             {language === "de" ? "EN" : "DE"}
           </button>
-          <button className="text-foreground" onClick={() => setOpen(!open)} aria-label={t.nav.openMenu} aria-expanded={open}>
+          <button
+            className={scrolled ? "text-foreground" : "text-white [filter:drop-shadow(0_1px_3px_rgba(0,0,0,0.8))]"}
+            onClick={() => setOpen(!open)}
+            aria-label={t.nav.openMenu}
+            aria-expanded={open}
+          >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
