@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBookedDates } from "@/hooks/useBookedDates";
+import { supabase } from "@/integrations/supabase/client";
 
 import { PHONE_URL, TELEGRAM_URL, WHATSAPP_URL, MIN_DRIVER_AGE } from "@/lib/contact";
 
@@ -190,7 +191,7 @@ const ContactSection = () => {
     return d.toISOString().slice(0, 10);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) {
       toast({ title: t.contact.toastMissing, description: t.contact.toastMissingDesc, variant: "destructive" });
@@ -226,6 +227,68 @@ const ContactSection = () => {
       toast({ title: t.contact.toastTerms, description: t.contact.toastTermsDesc, variant: "destructive" });
       return;
     }
+
+    // Build a stable submission ID for idempotency
+    const submissionId = crypto.randomUUID();
+    const fmt = (d: Date) => format(d, "dd.MM.yyyy", { locale: dfnsLocale });
+
+    // Human-readable extras list
+    const extrasList: string[] = [];
+    if (extras.beddingQty > 0) extrasList.push(`${extras.beddingQty}× Bettwäsche`);
+    if (extras.towels) extrasList.push("Handtücher");
+    if (extras.grill) extrasList.push("Grill");
+    if (extras.scooterQty > 0) extrasList.push(`${extras.scooterQty}× E-Scooter`);
+    if (extras.cleaning) extrasList.push("Endreinigung");
+    const extrasText = extrasList.join(", ") || undefined;
+
+    const sharedData = {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      bookingType,
+      startDate: fmt(startDate),
+      endDate: fmt(endDate),
+      adults: form.adults,
+      children: form.children,
+      pet: form.pet,
+      destination: form.destination || undefined,
+      kilometers: form.kilometers || undefined,
+      country: t.contact.countries[selectedCountry] || selectedCountry,
+      birthdate: form.birthdate || undefined,
+      driverAge: driverAge ?? undefined,
+      extras: extrasText,
+      message: form.message || undefined,
+    };
+
+    try {
+      // 1) Confirmation to the guest
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "contact-confirmation",
+          recipientEmail: form.email,
+          idempotencyKey: `contact-confirm-${submissionId}`,
+          templateData: {
+            name: form.name,
+            bookingType,
+            startDate: fmt(startDate),
+            endDate: fmt(endDate),
+          },
+        },
+      });
+
+      // 2) Notification to the owner (recipient is overridden by template.to)
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "booking-notification",
+          recipientEmail: "anfrage@wohnmobil-berlin.de",
+          idempotencyKey: `booking-notify-${submissionId}`,
+          templateData: sharedData,
+        },
+      });
+    } catch (err) {
+      console.error("Failed to send anfrage emails", err);
+    }
+
     toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
     setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
     setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
