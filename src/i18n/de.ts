@@ -90,7 +90,7 @@ export const de = {
   // Holiday Home Service
   holidayHome: {
     label: "Einzigartig übernachten",
-    title: "Deine Ferienwohnung im Grünen – am Rand von Berlin",
+    title: "Nutze das Wohnmobil als Ferienwohnung in 13127 Berlin",
     subtitle: "Vergiss anonyme Hotelzimmer. Übernachte in einem liebevoll eingerichteten Wohnmobil – fest auf einem grünen Alt-Berliner Hof, umgeben von alten Bäumen und echter Berliner Natur.",
     description: "Stell dir vor: Du entdeckst Berlin – und wachst trotzdem mitten im Grünen auf. Unser Wohnmobil hat seinen festen Platz auf einer ruhigen Grünfläche in einem traditionellen Alt-Berliner Hof (PLZ 13127) gefunden. Nicht im Trubel der City, sondern dort, wo Berlin wieder atmet, wo die Zeit ein bisschen langsamer tickt. Du öffnest morgens die Tür – und stehst im Grünen. Vogelgezwitscher statt Verkehrslärm. Dein erster Kaffee unter alten Bäumen, das Sonnenlicht tanzt durch die Blätter. Abends knistert die Lichterkette über dir, ein Glas Wein in der Hand, und du fragst dich, wie ein Ort so versteckt mitten in Berlin sein kann. Das ist keine Übernachtung von der Stange. Das ist ein Rückzugsort mit fester Adresse – die Geborgenheit eines Zuhauses, die Freiheit eines Campers, die Magie eines kleinen Geheimnisses. Auf dem Gelände stehen separate Toiletten und Duschen für dich bereit. Für alle, die Berlin nicht abhaken, sondern fühlen wollen.",
     feature1: "Mitten im Grünen statt im Großstadt-Trubel",
