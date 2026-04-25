@@ -526,6 +526,32 @@ export const en: typeof de = {
     ],
   },
 
+  // Availability checker (above contact form)
+  availability: {
+    title: "Check availability",
+    subtitle: "Verify your dates are free before sending an inquiry.",
+    useCase: "What would you like to check? *",
+    optionRental: "Camper rental",
+    optionEvent: "Event overnight stay",
+    optionHoliday: "Holiday apartment Berlin",
+    from: "From *",
+    to: "To *",
+    checkBtn: "Check availability",
+    loading: "Checking…",
+    minDaysHint: "Minimum duration: {n} days (incl. arrival and departure).",
+    resultAvailable: "Available – your dates are free!",
+    resultUnavailable: "Sorry, not available",
+    days: "days",
+    nights: "nights",
+    proceedBtn: "Send inquiry",
+    resetBtn: "Reset",
+    errMissing: "Please select a start and end date.",
+    errLeadTime: "Inquiries must be made at least {n} days in advance.",
+    errOutOfSeason: "Outside the season (April – October).",
+    errMinDays: "Minimum duration is {n} days.",
+    errBooked: "Some dates in this range are already booked.",
+  },
+
   // Footer
   footer: {
     imprint: "Legal Notice",

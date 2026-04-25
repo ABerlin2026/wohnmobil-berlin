@@ -524,6 +524,32 @@ export const de = {
     ],
   },
 
+  // Availability checker (above contact form)
+  availability: {
+    title: "Verfügbarkeit prüfen",
+    subtitle: "Prüfe deinen Wunschzeitraum, bevor du eine Anfrage stellst.",
+    useCase: "Wofür möchtest du prüfen? *",
+    optionRental: "Wohnmobil-Miete",
+    optionEvent: "Event-Übernachtung",
+    optionHoliday: "Ferienwohnung Berlin",
+    from: "Von *",
+    to: "Bis *",
+    checkBtn: "Verfügbarkeit prüfen",
+    loading: "Wird geprüft…",
+    minDaysHint: "Mindestdauer: {n} Tage (inkl. An- und Abreisetag).",
+    resultAvailable: "Verfügbar – dein Zeitraum ist frei!",
+    resultUnavailable: "Leider nicht verfügbar",
+    days: "Tage",
+    nights: "Nächte",
+    proceedBtn: "Anfrage senden",
+    resetBtn: "Zurücksetzen",
+    errMissing: "Bitte wähle Start- und Enddatum aus.",
+    errLeadTime: "Anfragen müssen mindestens {n} Tage im Voraus erfolgen.",
+    errOutOfSeason: "Außerhalb der Saison (April – Oktober).",
+    errMinDays: "Die Mindestdauer beträgt {n} Tage.",
+    errBooked: "In diesem Zeitraum liegen bereits Buchungen.",
+  },
+
   // Footer
   footer: {
     imprint: "Impressum",
