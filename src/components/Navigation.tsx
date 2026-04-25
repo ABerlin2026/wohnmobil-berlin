@@ -55,11 +55,17 @@ const Navigation = () => {
     >
       <div className="container-narrow flex items-center justify-between h-16 px-5">
         <a href="/" className="flex flex-col leading-none" aria-label="Camper Berlin – Startseite">
-          <span className="font-display font-extrabold tracking-tight text-base sm:text-lg md:text-xl">
-            <span className="text-brand-blue">CAMPER</span>{" "}
-            <span className="text-brand-green">BERLIN</span>
+          <span className={cn(
+            "font-display font-extrabold tracking-tight text-base sm:text-lg md:text-xl",
+            !scrolled && "[text-shadow:_0_2px_8px_rgba(0,0,0,0.85)]"
+          )}>
+            <span className={scrolled ? "text-brand-blue" : "text-white"}>CAMPER</span>{" "}
+            <span className={scrolled ? "text-brand-green" : "text-brand-green-light"} style={!scrolled ? { color: "hsl(105 60% 65%)" } : undefined}>BERLIN</span>
           </span>
-          <span className="hidden sm:block text-[10px] md:text-xs text-brand-subtitle font-medium mt-0.5 tracking-wide">
+          <span className={cn(
+            "hidden sm:block text-[10px] md:text-xs font-medium mt-0.5 tracking-wide",
+            scrolled ? "text-brand-subtitle" : "text-white/90 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+          )}>
             {t.nav.tagline}
           </span>
         </a>
