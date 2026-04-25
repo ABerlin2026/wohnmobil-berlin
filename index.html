@@ -50,28 +50,103 @@
     <meta name="author" content="Wohnmobil Berlin Brandenburg" />
     <meta name="theme-color" content="#0d0d0d" />
 
-    <!-- LocalBusiness Schema -->
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://wohnmobil-berlin.de/#organization",
+      "name": "Wohnmobil Berlin Brandenburg",
+      "alternateName": "Wohnmobil Berlin",
+      "url": "https://wohnmobil-berlin.de/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://wohnmobil-berlin.de/favicon.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://wohnmobil-berlin.de/og-image.jpg",
+      "description": "Wohnmobilvermietung in Berlin Brandenburg – Camper für 4 Personen, Vollkasko und 150 Freikilometer pro Tag inklusive.",
+      "areaServed": [
+        { "@type": "City", "name": "Berlin" },
+        { "@type": "State", "name": "Brandenburg" }
+      ],
+      "knowsLanguage": ["de", "en"]
+    }
+    </script>
+
+    <!-- WebSite Schema (mit SearchAction) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://wohnmobil-berlin.de/#website",
+      "url": "https://wohnmobil-berlin.de/",
+      "name": "Wohnmobil Berlin Brandenburg",
+      "description": "Wohnmobil mieten Berlin & Camper mieten Berlin – ab 119 €/Tag inklusive Vollkasko und 150 Freikilometern pro Tag.",
+      "inLanguage": ["de-DE", "en-US"],
+      "publisher": {
+        "@id": "https://wohnmobil-berlin.de/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://wohnmobil-berlin.de/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://wohnmobil-berlin.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Wohnmobil mieten Berlin",
+          "item": "https://wohnmobil-berlin.de/#camper"
+        }
+      ]
+    }
+    </script>
+
+    <!-- LocalBusiness / AutoRental Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "AutoRental",
       "@id": "https://wohnmobil-berlin.de/#business",
       "name": "Wohnmobil Berlin Brandenburg",
+      "alternateName": "Wohnmobil Berlin",
       "description": "Wohnmobilvermietung in Berlin Brandenburg – Camper für 4 Personen mit Vorzelt, Markise, Vollkasko und 150 Freikilometer pro Tag.",
+      "slogan": "Wohnmobil mieten Berlin – ab 119 €/Tag inkl. Vollkasko",
       "url": "https://wohnmobil-berlin.de/",
-      "image": "https://wohnmobil-berlin.de/og-image.jpg",
+      "image": [
+        "https://wohnmobil-berlin.de/og-image.jpg"
+      ],
       "logo": "https://wohnmobil-berlin.de/favicon.png",
-      "telephone": "+491234567890",
       "address": {
         "@type": "PostalAddress",
+        "postalCode": "13127",
         "addressLocality": "Berlin",
         "addressRegion": "Berlin",
         "addressCountry": "DE"
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 52.5200,
-        "longitude": 13.4050
+        "latitude": 52.5800,
+        "longitude": 13.4350
       },
       "openingHoursSpecification": [
         {
@@ -81,7 +156,10 @@
           "closes": "20:00"
         }
       ],
-      "priceRange": "119€ - 129€ / Tag",
+      "priceRange": "€€",
+      "currenciesAccepted": "EUR",
+      "paymentAccepted": "Cash, Bank transfer, PayPal",
+      "knowsLanguage": ["de", "en"],
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.8",
@@ -100,21 +178,38 @@
         "itemListElement": [
           {
             "@type": "Offer",
-            "name": "Nebensaison (Oktober – April)",
+            "name": "Wohnmobil mieten Berlin – Nebensaison (Oktober – April)",
             "price": "119",
             "priceCurrency": "EUR",
             "unitText": "pro Tag",
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
           },
           {
             "@type": "Offer",
-            "name": "Hauptsaison (Mai – September)",
+            "name": "Wohnmobil mieten Berlin – Hauptsaison (Mai – September)",
             "price": "129",
             "priceCurrency": "EUR",
             "unitText": "pro Tag",
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
+          },
+          {
+            "@type": "Offer",
+            "name": "Sonderservice: Wohnmobil als Übernachtungsmöglichkeit für Events (< 50 km)",
+            "price": "80",
+            "priceCurrency": "EUR",
+            "unitText": "pro Tag",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
           }
         ]
+      },
+      "makesOffer": {
+        "@type": "Offer",
+        "itemOffered": {
+          "@id": "https://wohnmobil-berlin.de/#camper"
+        }
       }
     }
     </script>
