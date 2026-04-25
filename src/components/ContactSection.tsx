@@ -193,6 +193,17 @@ const ContactSection = () => {
   }, []);
 
   const [submitting, setSubmitting] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleAvailabilityProceed = (type: BookingType, s: Date, e: Date) => {
+    setBookingType(type);
+    setStartDate(s);
+    setEndDate(e);
+    // Smooth-scroll to the form so the user can complete the inquiry.
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   const buildExtrasSummary = () => {
     const parts: string[] = [];
