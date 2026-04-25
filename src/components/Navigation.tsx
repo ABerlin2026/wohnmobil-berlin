@@ -76,14 +76,24 @@ const Navigation = () => {
               key={l.href}
               href={l.href}
               onClick={(e) => { e.preventDefault(); handleClick(l.href); }}
-              className="text-sm font-medium px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors duration-200"
+              className={cn(
+                "text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200",
+                scrolled
+                  ? "text-muted-foreground hover:text-foreground"
+                  : "text-white/95 hover:text-white [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+              )}
             >
               {l.label}
             </a>
           ))}
           <button
             onClick={toggleLang}
-            className="ml-2 px-2.5 py-1.5 rounded-md text-xs font-bold uppercase text-muted-foreground hover:text-foreground hover:bg-surface-1 transition-colors border border-border/30"
+            className={cn(
+              "ml-2 px-2.5 py-1.5 rounded-md text-xs font-bold uppercase transition-colors border",
+              scrolled
+                ? "text-muted-foreground hover:text-foreground hover:bg-surface-1 border-border/30"
+                : "text-white hover:bg-white/10 border-white/40 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]"
+            )}
           >
             {language === "de" ? "EN" : "DE"}
           </button>
