@@ -30,10 +30,10 @@ export type LegalDoc = {
 // =====================================================================
 const agbDe: LegalDoc = {
   pageTitle: "Allgemeine Geschäftsbedingungen",
-  pageSubtitle: "Camper Berlin Brandenburg – Wohnmobilvermietung, Ferienunterkunft & Event-Service",
-  metaTitle: "AGB | Camper Berlin Brandenburg",
+  pageSubtitle: "Wohnmobil Berlin Brandenburg – Wohnmobilvermietung, Ferienunterkunft & Event-Service",
+  metaTitle: "AGB | Wohnmobil Berlin Brandenburg",
   metaDescription:
-    "Allgemeine Geschäftsbedingungen für Wohnmobil-Vermietung, Ferienunterkunft und Event-Service von Camper Berlin Brandenburg.",
+    "Allgemeine Geschäftsbedingungen für Wohnmobil-Vermietung, Ferienunterkunft und Event-Service von Wohnmobil Berlin Brandenburg.",
   toc: {
     label: "Inhalt",
     entries: [
@@ -48,7 +48,7 @@ const agbDe: LegalDoc = {
 
     { type: "part", id: "teil-a", label: "Teil A", title: "Allgemeine Bestimmungen" },
     { type: "section", id: "a-1", title: "1. Geltungsbereich" },
-    { type: "p", html: "Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für sämtliche Verträge zwischen Camper Berlin Brandenburg (nachfolgend „Vermieter\") und dem Kunden (nachfolgend „Mieter\" bzw. „Gast\") über die Vermietung des Wohnmobils zu Reisezwecken (Teil B), die Nutzung des Wohnmobils als stationäre Ferienunterkunft (Teil C) sowie die Nutzung im Rahmen von Event-Dienstleistungen (Teil D)." },
+    { type: "p", html: "Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für sämtliche Verträge zwischen Wohnmobil Berlin Brandenburg (nachfolgend „Vermieter\") und dem Kunden (nachfolgend „Mieter\" bzw. „Gast\") über die Vermietung des Wohnmobils zu Reisezwecken (Teil B), die Nutzung des Wohnmobils als stationäre Ferienunterkunft (Teil C) sowie die Nutzung im Rahmen von Event-Dienstleistungen (Teil D)." },
     { type: "p", html: "Abweichende, entgegenstehende oder ergänzende Bedingungen des Mieters werden nur Vertragsbestandteil, wenn der Vermieter ihrer Geltung ausdrücklich schriftlich zustimmt." },
 
     { type: "section", id: "a-2", title: "2. Vertragsabschluss" },
@@ -268,10 +268,10 @@ const agbDe: LegalDoc = {
 
 const agbEn: LegalDoc = {
   pageTitle: "General Terms and Conditions",
-  pageSubtitle: "Camper Berlin Brandenburg – Motorhome rental, holiday accommodation & event service",
-  metaTitle: "Terms & Conditions | Camper Berlin Brandenburg",
+  pageSubtitle: "Wohnmobil Berlin Brandenburg – Motorhome rental, holiday accommodation & event service",
+  metaTitle: "Terms & Conditions | Wohnmobil Berlin Brandenburg",
   metaDescription:
-    "General Terms and Conditions for motorhome rental, holiday accommodation and event service of Camper Berlin Brandenburg.",
+    "General Terms and Conditions for motorhome rental, holiday accommodation and event service of Wohnmobil Berlin Brandenburg.",
   toc: {
     label: "Contents",
     entries: [
@@ -287,7 +287,7 @@ const agbEn: LegalDoc = {
 
     { type: "part", id: "teil-a", label: "Part A", title: "General Provisions" },
     { type: "section", id: "a-1", title: "1. Scope" },
-    { type: "p", html: "These General Terms and Conditions (GTC) apply to all contracts between Camper Berlin Brandenburg (hereinafter \"Lessor\") and the customer (hereinafter \"Renter\" or \"Guest\") concerning the rental of the motorhome for travel purposes (Part B), the use of the motorhome as stationary holiday accommodation (Part C) and the use within the framework of event services (Part D)." },
+    { type: "p", html: "These General Terms and Conditions (GTC) apply to all contracts between Wohnmobil Berlin Brandenburg (hereinafter \"Lessor\") and the customer (hereinafter \"Renter\" or \"Guest\") concerning the rental of the motorhome for travel purposes (Part B), the use of the motorhome as stationary holiday accommodation (Part C) and the use within the framework of event services (Part D)." },
     { type: "p", html: "Deviating, conflicting or supplementary terms of the Renter shall only become part of the contract if the Lessor expressly agrees to their validity in writing." },
 
     { type: "section", id: "a-2", title: "2. Conclusion of contract" },
@@ -510,8 +510,8 @@ const agbEn: LegalDoc = {
 // =====================================================================
 const impressumDe: LegalDoc = {
   pageTitle: "Impressum",
-  metaTitle: "Impressum | Camper Berlin Brandenburg",
-  metaDescription: "Impressum und Anbieterkennzeichnung gemäß § 5 TMG für Camper Berlin Brandenburg – Wohnmobilvermietung in Berlin.",
+  metaTitle: "Impressum | Wohnmobil Berlin Brandenburg",
+  metaDescription: "Impressum und Anbieterkennzeichnung gemäß § 5 TMG für Wohnmobil Berlin Brandenburg – Wohnmobilvermietung in Berlin.",
   nodes: [
     { type: "section", id: "i-1", title: "Angaben gemäß § 5 TMG" },
     { type: "p", html: "Wohnmobilvermietung Nicole Kiesling<br />Clementweg 23<br />13127 Berlin" },
@@ -524,8 +524,8 @@ const impressumDe: LegalDoc = {
 
 const impressumEn: LegalDoc = {
   pageTitle: "Legal Notice",
-  metaTitle: "Legal Notice | Camper Berlin Brandenburg",
-  metaDescription: "Legal notice and provider identification pursuant to § 5 TMG for Camper Berlin Brandenburg – motorhome rental in Berlin.",
+  metaTitle: "Legal Notice | Wohnmobil Berlin Brandenburg",
+  metaDescription: "Legal notice and provider identification pursuant to § 5 TMG for Wohnmobil Berlin Brandenburg – motorhome rental in Berlin.",
   nodes: [
     { type: "callout", html: "<strong>Note:</strong> This is a non-binding English convenience translation. The German version is legally authoritative." },
     { type: "section", id: "i-1", title: "Information pursuant to § 5 TMG" },
@@ -542,8 +542,8 @@ const impressumEn: LegalDoc = {
 // =====================================================================
 const datenschutzDe: LegalDoc = {
   pageTitle: "Datenschutzerklärung",
-  metaTitle: "Datenschutzerklärung | Camper Berlin Brandenburg",
-  metaDescription: "Datenschutzerklärung gemäß DSGVO für die Website von Camper Berlin Brandenburg – Wohnmobil mieten in Berlin und Brandenburg.",
+  metaTitle: "Datenschutzerklärung | Wohnmobil Berlin Brandenburg",
+  metaDescription: "Datenschutzerklärung gemäß DSGVO für die Website von Wohnmobil Berlin Brandenburg – Wohnmobil mieten in Berlin und Brandenburg.",
   nodes: [
     { type: "section", id: "d-1", title: "1. Verantwortlicher" },
     { type: "p", html: "Verantwortlich für die Datenverarbeitung auf dieser Website ist:" },
@@ -623,8 +623,8 @@ const datenschutzDe: LegalDoc = {
 
 const datenschutzEn: LegalDoc = {
   pageTitle: "Privacy Policy",
-  metaTitle: "Privacy Policy | Camper Berlin Brandenburg",
-  metaDescription: "Privacy policy in accordance with the GDPR for the website of Camper Berlin Brandenburg – rent a motorhome in Berlin and Brandenburg.",
+  metaTitle: "Privacy Policy | Wohnmobil Berlin Brandenburg",
+  metaDescription: "Privacy policy in accordance with the GDPR for the website of Wohnmobil Berlin Brandenburg – rent a motorhome in Berlin and Brandenburg.",
   nodes: [
     { type: "callout", html: "<strong>Note:</strong> This is a non-binding English convenience translation. The German version is legally authoritative." },
     { type: "section", id: "d-1", title: "1. Controller" },

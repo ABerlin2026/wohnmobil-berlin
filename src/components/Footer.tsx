@@ -12,7 +12,7 @@ const Footer = () => {
           <Link to="/impressum" className="hover:text-foreground transition-colors">{t.footer.imprint}</Link>
           <Link to="/datenschutz" className="hover:text-foreground transition-colors">{t.footer.privacy}</Link>
           <Link to="/agb" className="hover:text-foreground transition-colors">{t.footer.terms}</Link>
-          <span>© {new Date().getFullYear()} Camper Berlin Brandenburg. {t.footer.rights}</span>
+          <span>© {new Date().getFullYear()} Wohnmobil Berlin Brandenburg. {t.footer.rights}</span>
         </nav>
       </div>
     </footer>

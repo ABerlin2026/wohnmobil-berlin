@@ -16,11 +16,11 @@ const Datenschutz = () => {
       <PageSEO
         title={doc.metaTitle}
         description={doc.metaDescription}
-        canonical="https://camper-berlin-brandenburg.de/datenschutz"
+        canonical="https://wohnmobil-berlin.de/datenschutz"
         noindex
         breadcrumbs={[
-          { name: breadcrumbHome, url: "https://camper-berlin-brandenburg.de/" },
-          { name: breadcrumbName, url: "https://camper-berlin-brandenburg.de/datenschutz" },
+          { name: breadcrumbHome, url: "https://wohnmobil-berlin.de/" },
+          { name: breadcrumbName, url: "https://wohnmobil-berlin.de/datenschutz" },
         ]}
       />
       <Navigation />

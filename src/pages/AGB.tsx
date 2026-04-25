@@ -16,10 +16,10 @@ const AGB = () => {
       <PageSEO
         title={doc.metaTitle}
         description={doc.metaDescription}
-        canonical="https://camper-berlin-brandenburg.de/agb"
+        canonical="https://wohnmobil-berlin.de/agb"
         breadcrumbs={[
-          { name: breadcrumbHome, url: "https://camper-berlin-brandenburg.de/" },
-          { name: breadcrumbAgb, url: "https://camper-berlin-brandenburg.de/agb" },
+          { name: breadcrumbHome, url: "https://wohnmobil-berlin.de/" },
+          { name: breadcrumbAgb, url: "https://wohnmobil-berlin.de/agb" },
         ]}
       />
       <Navigation />

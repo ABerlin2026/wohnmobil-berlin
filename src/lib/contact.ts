@@ -11,7 +11,7 @@ export const CONTACT_EMAIL = "info@wohnmobil-berlin.de";
 export const EMAIL_URL = `mailto:${CONTACT_EMAIL}`;
 
 const WHATSAPP_TEXT_DE =
-  "Hallo, ich interessiere mich für den Camper Berlin Brandenburg. Ist das Wohnmobil im gewünschten Zeitraum verfügbar?";
+  "Hallo, ich interessiere mich für den Wohnmobil Berlin Brandenburg. Ist das Wohnmobil im gewünschten Zeitraum verfügbar?";
 
 export const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(WHATSAPP_TEXT_DE)}`;
 export const TELEGRAM_URL = `https://t.me/+${PHONE_NUMBER}`;

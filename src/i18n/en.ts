@@ -378,7 +378,7 @@ export const en: typeof de = {
     directContactSub: "Choose your preferred way",
     directSimple: "Direct and uncomplicated",
     fastResponse: "Fast response",
-    sampleMessage: '"Hi, I\'m interested in the Camper Berlin Brandenburg. Is the motorhome available for my desired dates?"',
+    sampleMessage: '"Hi, I\'m interested in the Wohnmobil Berlin Brandenburg. Is the motorhome available for my desired dates?"',
     rentalTimes: "📅 Rental Times",
     rentalTimesText: "Handover takes place between morning and evening. The exact time is arranged individually.",
     minRental: "Minimum rental period: 5 days",
