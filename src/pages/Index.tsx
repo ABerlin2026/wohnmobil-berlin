@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import TrustSection from "@/components/TrustSection";
 import PricingSection from "@/components/PricingSection";
+import AvailabilitySection from "@/components/AvailabilitySection";
 import TargetGroupSection from "@/components/TargetGroupSection";
 import EventServiceSection from "@/components/EventServiceSection";
 import HolidayHomeSection from "@/components/HolidayHomeSection";
@@ -25,6 +26,7 @@ const Index = () => {
         <HeroSection />
         <TrustSection />
         <PricingSection />
+        <AvailabilitySection />
         <EventServiceSection />
         <HolidayHomeSection />
         <TargetGroupSection />

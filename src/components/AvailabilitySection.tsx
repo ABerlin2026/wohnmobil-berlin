@@ -41,7 +41,7 @@ const AvailabilitySection = () => {
       <div className="container-narrow">
         <div className="text-center mb-10">
           <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">
-            {t.availability.label ?? t.availability.title}
+            {t.availability.title}
           </p>
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
             {t.availability.title}
