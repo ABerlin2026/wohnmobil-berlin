@@ -8,7 +8,8 @@ const Footer = () => {
     <footer className="bg-surface-1 border-t border-border/20 py-10 px-5" role="contentinfo">
       <div className="container-narrow flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
         <span className="font-display font-bold text-foreground tracking-tight">{t.nav.brand}</span>
-        <nav aria-label="Footer-Navigation" className="flex items-center gap-4">
+        <nav aria-label="Footer-Navigation" className="flex items-center gap-4 flex-wrap justify-center">
+          <Link to="/empfehlen" className="hover:text-foreground transition-colors font-medium text-primary">{t.footer.referral}</Link>
           <Link to="/impressum" className="hover:text-foreground transition-colors">{t.footer.imprint}</Link>
           <Link to="/datenschutz" className="hover:text-foreground transition-colors">{t.footer.privacy}</Link>
           <Link to="/agb" className="hover:text-foreground transition-colors">{t.footer.terms}</Link>
