@@ -30,6 +30,8 @@ const App = () => (
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/agb" element={<AGB />} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
+            <Route path="/empfehlen" element={<Empfehlen />} />
+            <Route path="/refer" element={<Empfehlen />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
