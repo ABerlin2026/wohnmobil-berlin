@@ -355,7 +355,7 @@ const ContactSection = () => {
 
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
       setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
-      setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
+      setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false });
       setStartDate(undefined);
       setEndDate(undefined);
       setSelectedCountry("DE");
