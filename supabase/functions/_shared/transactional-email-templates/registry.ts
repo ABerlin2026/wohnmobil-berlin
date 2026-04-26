@@ -10,7 +10,9 @@ export interface TemplateEntry {
 }
 
 import { template as inquiryNotification } from './inquiry-notification.tsx'
+import { template as referralNotification } from './referral-notification.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'inquiry-notification': inquiryNotification,
+  'referral-notification': referralNotification,
 }
