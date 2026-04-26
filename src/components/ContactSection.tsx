@@ -252,6 +252,7 @@ const ContactSection = () => {
     if (extras.beddingQty > 0) parts.push(`Bettwäsche × ${extras.beddingQty} (${extras.beddingQty * 10} €)`);
     if (extras.scooterQty > 0) parts.push(`E-Scooter × ${extras.scooterQty} (${extras.scooterQty * 75} €)`);
     if (extras.cleaning) parts.push("Endreinigung (200 €)");
+    if (extras.awning) parts.push("Vorzelt (100 €)");
     return parts.length ? parts.join(", ") : "Keine";
   };
 
