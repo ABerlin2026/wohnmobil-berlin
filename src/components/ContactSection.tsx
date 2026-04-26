@@ -86,16 +86,17 @@ const ContactSection = () => {
     name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
-    beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
+    beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false,
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75, cleaning: 200 };
+  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75, cleaning: 200, awning: 100 };
   const extrasTotal =
     extras.beddingQty * EXTRA_PRICES.bedding +
     (extras.towels ? EXTRA_PRICES.towels : 0) +
     (extras.grill ? EXTRA_PRICES.grill : 0) +
     extras.scooterQty * EXTRA_PRICES.scooter +
-    (extras.cleaning ? EXTRA_PRICES.cleaning : 0);
+    (extras.cleaning ? EXTRA_PRICES.cleaning : 0) +
+    (extras.awning ? EXTRA_PRICES.awning : 0);
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
