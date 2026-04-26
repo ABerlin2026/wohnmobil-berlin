@@ -722,6 +722,17 @@ const ContactSection = () => {
                   </span>
                   <span className="text-muted-foreground whitespace-nowrap">200 €</span>
                 </label>
+                {/* 6. Awning tent */}
+                <label className="flex items-start justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-start gap-3">
+                    <Checkbox className="mt-0.5" checked={extras.awning} onCheckedChange={(c) => setExtras({ ...extras, awning: c === true })} />
+                    <span className="flex flex-col">
+                      <span>{t.contact.extraAwning}</span>
+                      <span className="text-xs text-muted-foreground">{t.contact.extraAwningHint}</span>
+                    </span>
+                  </span>
+                  <span className="text-muted-foreground whitespace-nowrap">100 €</span>
+                </label>
                 {extrasTotal > 0 && (
                   <div className="flex items-center justify-between pt-3 border-t border-border/10 text-sm">
                     <span className="font-medium">{t.contact.extrasTotal}</span>
