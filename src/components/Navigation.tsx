@@ -59,7 +59,7 @@ const Navigation = () => {
             "font-display font-extrabold tracking-tight text-base sm:text-lg md:text-xl",
             !scrolled && "[text-shadow:_0_2px_8px_rgba(0,0,0,0.85)]"
           )}>
-            <span className={scrolled ? "text-brand-blue" : "text-white"}>WOHNMOBIL</span>{" "}
+            <span className="text-brand-blue" style={!scrolled ? { color: "hsl(205 67% 55%)" } : undefined}>WOHNMOBIL</span>{" "}
             <span className={scrolled ? "text-brand-green" : "text-brand-green-light"} style={!scrolled ? { color: "hsl(105 60% 65%)" } : undefined}>BERLIN</span>
           </span>
           <span className={cn(
