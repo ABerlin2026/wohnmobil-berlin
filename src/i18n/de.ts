@@ -553,11 +553,44 @@ export const de = {
     errBooked: "In diesem Zeitraum liegen bereits Buchungen.",
   },
 
+  // Referral program
+  referral: {
+    label: "Empfehlen & verdienen",
+    title: "Empfehlen & 50 € verdienen",
+    subtitle: "Du kennst jemanden, der ein Wohnmobil mieten möchte? Empfiehl uns weiter und erhalte 50 € Provision nach erfolgreicher Buchung.",
+    steps: [
+      { title: "1. Empfehlen", text: "Sag uns, wer Interesse hat – Name, E-Mail und Telefon der empfohlenen Person." },
+      { title: "2. Wir kontaktieren", text: "Wir melden uns persönlich und besprechen alle Details der Wohnmobilmiete." },
+      { title: "3. 50 € erhalten", text: "Sobald die empfohlene Person erfolgreich gebucht hat, überweisen wir dir 50 €." },
+    ],
+    formTitle: "Empfehlung absenden",
+    formSubtitle: "Alle Felder mit * sind Pflichtfelder.",
+    yourData: "Deine Daten",
+    referredData: "Daten der empfohlenen Person",
+    referrerName: "Dein Name *",
+    referrerEmail: "Deine E-Mail *",
+    referrerEmailHint: "Wir kontaktieren dich nach der Buchung wegen der Auszahlung.",
+    referredName: "Name der empfohlenen Person *",
+    referredEmail: "E-Mail der empfohlenen Person *",
+    referredPhone: "Telefon der empfohlenen Person *",
+    consentLabel: "Ich bestätige, dass die empfohlene Person der Weitergabe ihrer Kontaktdaten an Wohnmobil Berlin ausdrücklich zugestimmt hat (DSGVO Art. 6 Abs. 1 lit. a). *",
+    privacyLabel: "Ich habe die Datenschutzerklärung gelesen und stimme der Verarbeitung meiner Daten zu. *",
+    submit: "Empfehlung absenden",
+    submitting: "Wird gesendet…",
+    successTitle: "Vielen Dank für deine Empfehlung!",
+    successText: "Wir nehmen umgehend Kontakt mit der empfohlenen Person auf. Nach erfolgreicher Buchung melden wir uns bei dir wegen der Auszahlung der 50 €.",
+    errorMessage: "Beim Absenden ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+    payoutNote: "Die Provision wird nach erfolgreichem Mietabschluss per Überweisung ausgezahlt. Bankdaten erfragen wir separat per E-Mail.",
+    seoTitle: "Wohnmobil Berlin empfehlen & 50 € verdienen | Empfehlungsprogramm",
+    seoDescription: "Empfiehl Wohnmobil Berlin weiter und erhalte 50 € Provision nach erfolgreicher Buchung. Einfaches Empfehlungsformular – DSGVO-konform.",
+  },
+
   // Footer
   footer: {
     imprint: "Impressum",
     privacy: "Datenschutz",
     terms: "AGB",
+    referral: "Empfehlen & 50 € verdienen",
     rights: "Alle Rechte vorbehalten.",
   },
 };

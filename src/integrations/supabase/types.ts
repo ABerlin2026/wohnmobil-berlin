@@ -131,6 +131,51 @@ export type Database = {
         }
         Relationships: []
       }
+      referrals: {
+        Row: {
+          consent_confirmed: boolean
+          created_at: string
+          id: string
+          internal_notes: string | null
+          metadata: Json | null
+          referred_email: string
+          referred_name: string
+          referred_phone: string
+          referrer_email: string
+          referrer_name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          consent_confirmed?: boolean
+          created_at?: string
+          id?: string
+          internal_notes?: string | null
+          metadata?: Json | null
+          referred_email: string
+          referred_name: string
+          referred_phone: string
+          referrer_email: string
+          referrer_name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          consent_confirmed?: boolean
+          created_at?: string
+          id?: string
+          internal_notes?: string | null
+          metadata?: Json | null
+          referred_email?: string
+          referred_name?: string
+          referred_phone?: string
+          referrer_email?: string
+          referrer_name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string

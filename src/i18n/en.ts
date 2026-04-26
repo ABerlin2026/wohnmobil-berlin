@@ -555,11 +555,44 @@ export const en: typeof de = {
     errBooked: "Some dates in this range are already booked.",
   },
 
+  // Referral program
+  referral: {
+    label: "Refer & earn",
+    title: "Refer a friend & earn €50",
+    subtitle: "Know someone who wants to rent a motorhome? Refer us and receive €50 commission after a successful booking.",
+    steps: [
+      { title: "1. Refer", text: "Tell us who's interested – name, email and phone of the person you'd like to refer." },
+      { title: "2. We get in touch", text: "We'll personally reach out and discuss all motorhome rental details." },
+      { title: "3. Earn €50", text: "Once the referred person successfully books, we'll transfer €50 to you." },
+    ],
+    formTitle: "Submit your referral",
+    formSubtitle: "All fields marked with * are required.",
+    yourData: "Your details",
+    referredData: "Details of the person you're referring",
+    referrerName: "Your name *",
+    referrerEmail: "Your email *",
+    referrerEmailHint: "We'll contact you after the booking regarding the payout.",
+    referredName: "Referred person's name *",
+    referredEmail: "Referred person's email *",
+    referredPhone: "Referred person's phone *",
+    consentLabel: "I confirm that the referred person has explicitly consented to sharing their contact details with Wohnmobil Berlin (GDPR Art. 6(1)(a)). *",
+    privacyLabel: "I have read the privacy policy and agree to the processing of my data. *",
+    submit: "Submit referral",
+    submitting: "Sending…",
+    successTitle: "Thank you for your referral!",
+    successText: "We will contact the referred person as soon as possible. After a successful booking, we'll get in touch with you about the €50 payout.",
+    errorMessage: "An error occurred while submitting. Please try again.",
+    payoutNote: "The commission is paid by bank transfer after a successful rental. We'll request your bank details separately by email.",
+    seoTitle: "Refer Wohnmobil Berlin & earn €50 | Referral Program",
+    seoDescription: "Recommend Wohnmobil Berlin and receive €50 commission after a successful booking. Simple referral form – GDPR compliant.",
+  },
+
   // Footer
   footer: {
     imprint: "Legal Notice",
     privacy: "Privacy Policy",
     terms: "Terms",
+    referral: "Refer & earn €50",
     rights: "All rights reserved.",
   },
 };

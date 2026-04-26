@@ -16,6 +16,7 @@ import ContactSection from "@/components/ContactSection";
 import FinalCTASection from "@/components/FinalCTASection";
 import SunsetSection from "@/components/SunsetSection";
 import ReviewsSection from "@/components/ReviewsSection";
+import ReferralSection from "@/components/ReferralSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -40,6 +41,7 @@ const Index = () => {
         <ContactSection />
         <FAQSection />
         <FinalCTASection />
+        <ReferralSection />
       </main>
       <Footer />
     </>
