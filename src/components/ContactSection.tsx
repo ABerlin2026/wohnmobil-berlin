@@ -86,16 +86,17 @@ const ContactSection = () => {
     name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
-    beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false,
+    beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false,
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75, cleaning: 200 };
+  const EXTRA_PRICES = { bedding: 10, towels: 20, grill: 40, scooter: 75, cleaning: 200, awning: 100 };
   const extrasTotal =
     extras.beddingQty * EXTRA_PRICES.bedding +
     (extras.towels ? EXTRA_PRICES.towels : 0) +
     (extras.grill ? EXTRA_PRICES.grill : 0) +
     extras.scooterQty * EXTRA_PRICES.scooter +
-    (extras.cleaning ? EXTRA_PRICES.cleaning : 0);
+    (extras.cleaning ? EXTRA_PRICES.cleaning : 0) +
+    (extras.awning ? EXTRA_PRICES.awning : 0);
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
 
@@ -251,6 +252,7 @@ const ContactSection = () => {
     if (extras.beddingQty > 0) parts.push(`Bettwäsche × ${extras.beddingQty} (${extras.beddingQty * 10} €)`);
     if (extras.scooterQty > 0) parts.push(`E-Scooter × ${extras.scooterQty} (${extras.scooterQty * 75} €)`);
     if (extras.cleaning) parts.push("Endreinigung (200 €)");
+    if (extras.awning) parts.push("Vorzelt (100 €)");
     return parts.length ? parts.join(", ") : "Keine";
   };
 
@@ -354,7 +356,7 @@ const ContactSection = () => {
 
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
       setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
-      setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false });
+      setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false });
       setStartDate(undefined);
       setEndDate(undefined);
       setSelectedCountry("DE");
@@ -719,6 +721,17 @@ const ContactSection = () => {
                     </span>
                   </span>
                   <span className="text-muted-foreground whitespace-nowrap">200 €</span>
+                </label>
+                {/* 6. Awning tent */}
+                <label className="flex items-start justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-start gap-3">
+                    <Checkbox className="mt-0.5" checked={extras.awning} onCheckedChange={(c) => setExtras({ ...extras, awning: c === true })} />
+                    <span className="flex flex-col">
+                      <span>{t.contact.extraAwning}</span>
+                      <span className="text-xs text-muted-foreground">{t.contact.extraAwningHint}</span>
+                    </span>
+                  </span>
+                  <span className="text-muted-foreground whitespace-nowrap">100 €</span>
                 </label>
                 {extrasTotal > 0 && (
                   <div className="flex items-center justify-between pt-3 border-t border-border/10 text-sm">

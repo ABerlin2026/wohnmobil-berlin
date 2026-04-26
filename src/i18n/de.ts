@@ -439,6 +439,8 @@ export const de = {
     extraScooterQty: "Anzahl (max. 3)",
     extraCleaning: "Innen- & Außenreinigung Pauschale",
     extraCleaningHint: "Innen- & Außenreinigung nicht selber durchführen – einfach von uns ausführen lassen.",
+    extraAwning: "Vorzelt",
+    extraAwningHint: "Zusätzlicher überdachter Wohnraum bei jedem Wetter.",
     extrasTotal: "Zwischensumme Extras",
     summaryTitle: "Gesamtbetrag",
     summaryRental: "Miete",
