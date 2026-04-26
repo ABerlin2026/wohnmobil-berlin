@@ -41,6 +41,7 @@ const Index = () => {
         <ContactSection />
         <FAQSection />
         <FinalCTASection />
+        <ReferralSection />
       </main>
       <Footer />
     </>
