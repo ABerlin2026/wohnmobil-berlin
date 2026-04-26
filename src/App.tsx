@@ -10,6 +10,7 @@ import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
+import Empfehlen from "./pages/Empfehlen.tsx";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingChatbot from "./components/FloatingChatbot";
 
