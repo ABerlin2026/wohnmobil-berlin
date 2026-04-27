@@ -70,7 +70,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/35" />
       </div>
 
-      <div className="relative z-10 container-narrow w-full section-padding pt-28 text-center">
+      <div className="relative z-10 container-narrow w-full section-padding pt-36 [@media(min-width:360px)]:pt-40 sm:pt-32 md:pt-28 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
           <h1 className="text-3xl [@media(min-width:360px)]:text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.05] [text-shadow:_0_2px_12px_rgba(0,0,0,0.7)]">
             {t.hero.title}
