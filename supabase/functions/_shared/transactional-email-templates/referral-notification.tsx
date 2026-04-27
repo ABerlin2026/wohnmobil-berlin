@@ -86,6 +86,7 @@ const ReferralNotificationEmail = ({
 export const template = {
   component: ReferralNotificationEmail,
   subject: '🎉 Neue Empfehlung – jetzt kontaktieren',
+  to: 'anfrage@wohnmobil-berlin.de',
   displayName: 'Empfehlung – interne Benachrichtigung',
   previewData: {
     referrerName: 'Max Mustermann',
