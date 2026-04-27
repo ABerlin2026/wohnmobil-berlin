@@ -31,7 +31,7 @@ const AvailabilitySection = () => {
     // Scroll to contact form section.
     requestAnimationFrame(() => {
       document
-        .getElementById("contact")
+        .getElementById("kontakt")
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
