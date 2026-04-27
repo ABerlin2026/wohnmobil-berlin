@@ -547,7 +547,7 @@ export const en: typeof de = {
     resultUnavailable: "Sorry, not available",
     days: "days",
     nights: "nights",
-    proceedBtn: "Send inquiry",
+    proceedBtn: "Go to contact form",
     resetBtn: "Reset",
     errMissing: "Please select a start and end date.",
     errLeadTime: "Inquiries must be made at least {n} days in advance.",
