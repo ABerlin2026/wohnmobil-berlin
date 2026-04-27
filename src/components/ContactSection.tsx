@@ -601,7 +601,10 @@ const ContactSection = () => {
                     )}
                   </div>
 
-                  <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+                  <div className="space-y-1.5">
+                    <Input type="text" inputMode="numeric" pattern="[0-9]*" placeholder={t.contact.kilometers} required value={form.kilometers} onChange={(e) => setForm({ ...form, kilometers: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11" min="0" />
+                    <p className="text-xs text-muted-foreground px-1">{t.contact.kilometersHint}</p>
+                  </div>
                 </>
               )}
 
