@@ -545,7 +545,7 @@ export const de = {
     resultUnavailable: "Leider nicht verfügbar",
     days: "Tage",
     nights: "Nächte",
-    proceedBtn: "Zum Kontaktformular",
+    proceedBtn: "Jetzt anfragen",
     resetBtn: "Zurücksetzen",
     errMissing: "Bitte wähle Start- und Enddatum aus.",
     errLeadTime: "Anfragen müssen mindestens {n} Tage im Voraus erfolgen.",

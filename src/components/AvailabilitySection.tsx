@@ -28,11 +28,13 @@ const AvailabilitySection = () => {
     }
     // Notify ContactSection to read the prefill immediately.
     window.dispatchEvent(new CustomEvent("availability:prefill"));
-    // Scroll to contact form section.
+    // Scroll to and focus the name field in the contact form.
     requestAnimationFrame(() => {
-      document
-        .getElementById("kontakt")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const nameField = document.getElementById("contact-name") as HTMLInputElement | null;
+      const target = nameField ?? document.getElementById("kontakt");
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Focus after scroll settles, without re-scrolling.
+      setTimeout(() => nameField?.focus({ preventScroll: true }), 600);
     });
   };
 
