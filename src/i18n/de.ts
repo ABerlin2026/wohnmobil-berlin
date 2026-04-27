@@ -402,6 +402,7 @@ export const de = {
     selectCountry: "Land auswählen",
     countryBlocked: "Leider können wir das Wohnmobil für dieses Land nicht vermieten, da unsere Versicherung dieses Reiseziel nicht abdeckt.",
     kilometers: "Geschätzte Kilometer *",
+    kilometersHint: "Hinweis: Die tatsächlich gefahrenen Kilometer werden nach Rückgabe des Wohnmobils abgerechnet.",
     persons: "Personenanzahl",
     adults: "Erwachsene *",
     children: "Kinder (unter 14) *",

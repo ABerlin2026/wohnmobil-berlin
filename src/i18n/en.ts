@@ -404,6 +404,7 @@ export const en: typeof de = {
     selectCountry: "Select country",
     countryBlocked: "Unfortunately we cannot rent the motorhome for this country as our insurance does not cover this destination.",
     kilometers: "Estimated kilometers *",
+    kilometersHint: "Note: The actual kilometers driven will be settled after the motorhome is returned.",
     persons: "Number of people",
     adults: "Adults *",
     children: "Children (under 14) *",
