@@ -489,7 +489,7 @@ const ContactSection = () => {
                 )}
               </div>
 
-              <Input placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
+              <Input id="contact-name" placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border scroll-mt-24" />
               <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
 
