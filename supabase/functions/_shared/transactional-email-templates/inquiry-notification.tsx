@@ -201,3 +201,7 @@ const rowValue = { color: '#0f172a' }
 const messageText = { fontSize: '14px', color: '#0f172a', margin: 0, lineHeight: '1.6', whiteSpace: 'pre-wrap' as const }
 const hr = { borderColor: '#e2e8f0', margin: '24px 0 12px' }
 const footer = { fontSize: '12px', color: '#999999', margin: 0, textAlign: 'center' as const }
+const costRow = { fontSize: '14px', color: '#0f172a', margin: '0 0 6px', lineHeight: '1.5', display: 'flex', justifyContent: 'space-between', gap: '12px' }
+const costAmount = { color: '#0f172a', fontVariantNumeric: 'tabular-nums' as const, whiteSpace: 'nowrap' as const }
+const costTotal = { color: '#0f172a', fontWeight: 700, fontVariantNumeric: 'tabular-nums' as const, whiteSpace: 'nowrap' as const }
+const costHr = { borderColor: '#e2e8f0', margin: '8px 0' }
