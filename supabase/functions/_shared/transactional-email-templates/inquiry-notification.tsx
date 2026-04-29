@@ -178,7 +178,13 @@ export const template = {
     pet: 'nein',
     message: 'Wir freuen uns auf den Trip!',
     extras: 'Bettwäsche (2), Grill, Endreinigung',
-    totalGross: '849,00 €',
+    costBreakdown: [
+      { label: '2 Nächte Hauptsaison × 129,00 €', amount: '258,00 €' },
+      { label: '3 Nächte Nebensaison × 119,00 €', amount: '357,00 €' },
+      { label: 'Extras (Bettwäsche, Grill, Endreinigung)', amount: '260,00 €' },
+      { label: 'Mehrkilometer (300 km × 0,35 €)', amount: '105,00 €' },
+    ],
+    totalGross: '980,00 €',
     submittedAt: '24.04.2026, 14:32',
   },
 } satisfies TemplateEntry
