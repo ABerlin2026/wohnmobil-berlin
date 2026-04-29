@@ -159,7 +159,7 @@ export const template = {
   component: InquiryNotificationEmail,
   subject: (data: Record<string, any>) =>
     `Neue Anfrage: ${data?.name ?? 'Gast'}${data?.bookingType ? ` (${data.bookingType})` : ''}`,
-  to: 'anfrage@wohnmobil-berlin.de',
+  to: 'wohnmobil.pankow@gmail.com',
   displayName: 'Anfrage-Benachrichtigung',
   previewData: {
     bookingType: 'Wohnmobil-Miete',
