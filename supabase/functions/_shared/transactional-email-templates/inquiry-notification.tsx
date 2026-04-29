@@ -95,8 +95,28 @@ const InquiryNotificationEmail = ({
           <Row label="Reiseziel" value={destination} />
           <Row label="Land der Nutzung" value={country} />
           <Row label="Geplante Kilometer" value={kilometers} />
-          <Row label="Gesamtbetrag (brutto)" value={totalGross} />
         </Section>
+
+        {(costBreakdown && costBreakdown.length > 0) || totalGross ? (
+          <Section style={card}>
+            <Heading as="h2" style={h2}>Kostenaufstellung (brutto)</Heading>
+            {costBreakdown?.map((line, i) => (
+              <Text key={i} style={costRow}>
+                <span style={rowValue}>{line.label}</span>
+                <span style={costAmount}>{line.amount}</span>
+              </Text>
+            ))}
+            {totalGross && (
+              <>
+                <Hr style={costHr} />
+                <Text style={costRow}>
+                  <strong style={rowLabel}>Gesamt</strong>
+                  <strong style={costTotal}>{totalGross}</strong>
+                </Text>
+              </>
+            )}
+          </Section>
+        ) : null}
 
         <Section style={card}>
           <Heading as="h2" style={h2}>Personen</Heading>
