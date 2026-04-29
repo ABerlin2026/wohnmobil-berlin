@@ -14,6 +14,11 @@ import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'Wohnmobil Berlin'
 
+interface CostLine {
+  label: string
+  amount: string
+}
+
 interface InquiryNotificationProps {
   bookingType?: string
   name?: string
@@ -32,6 +37,7 @@ interface InquiryNotificationProps {
   message?: string
   extras?: string
   totalGross?: string
+  costBreakdown?: CostLine[]
   submittedAt?: string
 }
 
