@@ -12,7 +12,7 @@ import {
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
-const SITE_NAME = 'Camper Berlin'
+const SITE_NAME = 'Wohnmobil Berlin'
 
 interface InquiryNotificationProps {
   bookingType?: string
