@@ -390,6 +390,7 @@ const ContactSection = () => {
             message: form.message || undefined,
             extras: buildExtrasSummary(),
             totalGross: computeTotalGross(),
+            costBreakdown: buildCostBreakdown(),
             submittedAt: new Date().toLocaleString("de-DE"),
           },
         },
