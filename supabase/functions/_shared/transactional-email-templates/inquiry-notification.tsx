@@ -69,6 +69,7 @@ const InquiryNotificationEmail = ({
   message,
   extras,
   totalGross,
+  costBreakdown,
   submittedAt,
 }: InquiryNotificationProps) => (
   <Html lang="de" dir="ltr">
