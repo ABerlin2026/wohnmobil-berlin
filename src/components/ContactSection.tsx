@@ -367,35 +367,50 @@ const ContactSection = () => {
           : bookingType === "event" ? "Event/Übernachtung"
           : "Ferienwohnung";
       const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
+      const templateData = {
+        bookingType: bookingTypeLabel,
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        birthdate: form.birthdate || undefined,
+        startDate: format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
+        endDate: format(endDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
+        rentalDays,
+        destination: bookingType === "holiday" ? t.contact.holidayLocationValue : (form.destination || undefined),
+        country: bookingType === "rental" ? t.contact.countries[selectedCountry] : undefined,
+        kilometers: bookingType === "rental" ? (form.kilometers || undefined) : undefined,
+        adults: form.adults || undefined,
+        children: form.children || undefined,
+        pet: form.pet === "ja" ? "Ja" : "Nein",
+        message: form.message || undefined,
+        extras: buildExtrasSummary(),
+        totalGross: computeTotalGross(),
+        costBreakdown: buildCostBreakdown(),
+        submittedAt: new Date().toLocaleString("de-DE"),
+      };
+
       const { error } = await supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "inquiry-notification",
           recipientEmail: "anfrage@wohnmobil-berlin.de",
           idempotencyKey,
-          templateData: {
-            bookingType: bookingTypeLabel,
-            name: form.name,
-            email: form.email,
-            phone: form.phone,
-            birthdate: form.birthdate || undefined,
-            startDate: format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
-            endDate: format(endDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
-            rentalDays,
-            destination: bookingType === "holiday" ? t.contact.holidayLocationValue : (form.destination || undefined),
-            country: bookingType === "rental" ? t.contact.countries[selectedCountry] : undefined,
-            kilometers: bookingType === "rental" ? (form.kilometers || undefined) : undefined,
-            adults: form.adults || undefined,
-            children: form.children || undefined,
-            pet: form.pet === "ja" ? "Ja" : "Nein",
-            message: form.message || undefined,
-            extras: buildExtrasSummary(),
-            totalGross: computeTotalGross(),
-            costBreakdown: buildCostBreakdown(),
-            submittedAt: new Date().toLocaleString("de-DE"),
-          },
+          templateData,
         },
       });
       if (error) throw error;
+
+      // Bestätigungs-Kopie an den Gast (Fehler hier nicht blockierend)
+      if (form.email) {
+        const { error: guestError } = await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "inquiry-confirmation",
+            recipientEmail: form.email,
+            idempotencyKey: `${idempotencyKey}-guest`,
+            templateData,
+          },
+        });
+        if (guestError) console.error("Bestätigungs-E-Mail an Gast fehlgeschlagen:", guestError);
+      }
 
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
       setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
