@@ -14,6 +14,11 @@ import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'Wohnmobil Berlin'
 
+interface CostLine {
+  label: string
+  amount: string
+}
+
 interface InquiryNotificationProps {
   bookingType?: string
   name?: string
@@ -32,6 +37,7 @@ interface InquiryNotificationProps {
   message?: string
   extras?: string
   totalGross?: string
+  costBreakdown?: CostLine[]
   submittedAt?: string
 }
 
@@ -63,6 +69,7 @@ const InquiryNotificationEmail = ({
   message,
   extras,
   totalGross,
+  costBreakdown,
   submittedAt,
 }: InquiryNotificationProps) => (
   <Html lang="de" dir="ltr">
@@ -88,8 +95,28 @@ const InquiryNotificationEmail = ({
           <Row label="Reiseziel" value={destination} />
           <Row label="Land der Nutzung" value={country} />
           <Row label="Geplante Kilometer" value={kilometers} />
-          <Row label="Gesamtbetrag (brutto)" value={totalGross} />
         </Section>
+
+        {(costBreakdown && costBreakdown.length > 0) || totalGross ? (
+          <Section style={card}>
+            <Heading as="h2" style={h2}>Kostenaufstellung (brutto)</Heading>
+            {costBreakdown?.map((line, i) => (
+              <Text key={i} style={costRow}>
+                <span style={rowValue}>{line.label}</span>
+                <span style={costAmount}>{line.amount}</span>
+              </Text>
+            ))}
+            {totalGross && (
+              <>
+                <Hr style={costHr} />
+                <Text style={costRow}>
+                  <strong style={rowLabel}>Gesamt</strong>
+                  <strong style={costTotal}>{totalGross}</strong>
+                </Text>
+              </>
+            )}
+          </Section>
+        ) : null}
 
         <Section style={card}>
           <Heading as="h2" style={h2}>Personen</Heading>
@@ -151,7 +178,13 @@ export const template = {
     pet: 'nein',
     message: 'Wir freuen uns auf den Trip!',
     extras: 'Bettwäsche (2), Grill, Endreinigung',
-    totalGross: '849,00 €',
+    costBreakdown: [
+      { label: '2 Nächte Hauptsaison × 129,00 €', amount: '258,00 €' },
+      { label: '3 Nächte Nebensaison × 119,00 €', amount: '357,00 €' },
+      { label: 'Extras (Bettwäsche, Grill, Endreinigung)', amount: '260,00 €' },
+      { label: 'Mehrkilometer (300 km × 0,35 €)', amount: '105,00 €' },
+    ],
+    totalGross: '980,00 €',
     submittedAt: '24.04.2026, 14:32',
   },
 } satisfies TemplateEntry
@@ -168,3 +201,7 @@ const rowValue = { color: '#0f172a' }
 const messageText = { fontSize: '14px', color: '#0f172a', margin: 0, lineHeight: '1.6', whiteSpace: 'pre-wrap' as const }
 const hr = { borderColor: '#e2e8f0', margin: '24px 0 12px' }
 const footer = { fontSize: '12px', color: '#999999', margin: 0, textAlign: 'center' as const }
+const costRow = { fontSize: '14px', color: '#0f172a', margin: '0 0 6px', lineHeight: '1.5', display: 'flex', justifyContent: 'space-between', gap: '12px' }
+const costAmount = { color: '#0f172a', fontVariantNumeric: 'tabular-nums' as const, whiteSpace: 'nowrap' as const }
+const costTotal = { color: '#0f172a', fontWeight: 700, fontVariantNumeric: 'tabular-nums' as const, whiteSpace: 'nowrap' as const }
+const costHr = { borderColor: '#e2e8f0', margin: '8px 0' }

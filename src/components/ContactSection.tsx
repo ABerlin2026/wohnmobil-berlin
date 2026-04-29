@@ -256,18 +256,60 @@ const ContactSection = () => {
     return parts.length ? parts.join(", ") : "Keine";
   };
 
+  const fmtEuro = (n: number) =>
+    n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+
+  const buildExtrasBreakdown = (): { label: string; amount: string }[] => {
+    const lines: { label: string; amount: string }[] = [];
+    if (extras.beddingQty > 0) lines.push({ label: `Bettwäsche × ${extras.beddingQty}`, amount: fmtEuro(extras.beddingQty * EXTRA_PRICES.bedding) });
+    if (extras.towels) lines.push({ label: "Handtücher", amount: fmtEuro(EXTRA_PRICES.towels) });
+    if (extras.grill) lines.push({ label: "Grill", amount: fmtEuro(EXTRA_PRICES.grill) });
+    if (extras.scooterQty > 0) lines.push({ label: `E-Scooter × ${extras.scooterQty}`, amount: fmtEuro(extras.scooterQty * EXTRA_PRICES.scooter) });
+    if (extras.cleaning) lines.push({ label: "Endreinigung", amount: fmtEuro(EXTRA_PRICES.cleaning) });
+    if (extras.awning) lines.push({ label: "Vorzelt", amount: fmtEuro(EXTRA_PRICES.awning) });
+    return lines;
+  };
+
+  const buildCostBreakdown = (): { label: string; amount: string }[] => {
+    if (!startDate || !endDate || rentalDays === null) return [];
+    const lines: { label: string; amount: string }[] = [];
+    if (bookingType === "event") {
+      lines.push({ label: `Event-Übernachtung: ${rentalDays} Tage × ${fmtEuro(PRICE_EVENT)}`, amount: fmtEuro(rentalDays * PRICE_EVENT) });
+    } else if (bookingType === "holiday") {
+      const persons = Math.min(4, Math.max(1, totalPersons));
+      const pricePerNight = HOLIDAY_PRICE_BY_PERSONS[persons];
+      const nights = Math.max(1, rentalDays - 1);
+      lines.push({ label: `Ferienwohnung: ${nights} Nächte × ${fmtEuro(pricePerNight)} (${persons} P.)`, amount: fmtEuro(nights * pricePerNight) });
+    } else {
+      let mainNights = 0, offNights = 0;
+      for (let i = 0; i < rentalDays; i++) {
+        const d = addDays(startDate, i);
+        if (priceForDate(d) === PRICE_MAIN_SEASON) mainNights++;
+        else offNights++;
+      }
+      if (mainNights > 0) lines.push({ label: `Hauptsaison: ${mainNights} Tage × ${fmtEuro(PRICE_MAIN_SEASON)}`, amount: fmtEuro(mainNights * PRICE_MAIN_SEASON) });
+      if (offNights > 0) lines.push({ label: `Nebensaison: ${offNights} Tage × ${fmtEuro(PRICE_OFF_SEASON)}`, amount: fmtEuro(offNights * PRICE_OFF_SEASON) });
+      const plannedKm = parseInt(form.kilometers, 10) || 0;
+      const freeKm = rentalDays * 150;
+      const extraKm = Math.max(0, plannedKm - freeKm);
+      lines.push({ label: `Inkl. Freikilometer: ${freeKm} km`, amount: fmtEuro(0) });
+      if (extraKm > 0) lines.push({ label: `Mehrkilometer: ${extraKm} km × 0,35 €`, amount: fmtEuro(extraKm * 0.35) });
+    }
+    lines.push(...buildExtrasBreakdown());
+    return lines;
+  };
+
   const computeTotalGross = (): string | undefined => {
     if (!startDate || !endDate || rentalDays === null) return undefined;
-    const fmt = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
     const plannedKm = parseInt(form.kilometers, 10) || 0;
     if (bookingType === "event") {
-      return fmt(rentalDays * PRICE_EVENT + extrasTotal);
+      return fmtEuro(rentalDays * PRICE_EVENT + extrasTotal);
     }
     if (bookingType === "holiday") {
       const persons = Math.min(4, Math.max(1, totalPersons));
       const pricePerNight = HOLIDAY_PRICE_BY_PERSONS[persons];
       const nights = Math.max(1, rentalDays - 1);
-      return fmt(nights * pricePerNight + extrasTotal);
+      return fmtEuro(nights * pricePerNight + extrasTotal);
     }
     let mainNights = 0, offNights = 0;
     for (let i = 0; i < rentalDays; i++) {
@@ -278,7 +320,7 @@ const ContactSection = () => {
     const rentalSum = mainNights * PRICE_MAIN_SEASON + offNights * PRICE_OFF_SEASON;
     const freeKm = rentalDays * 150;
     const extraKmCost = Math.max(0, plannedKm - freeKm) * 0.35;
-    return fmt(rentalSum + extrasTotal + extraKmCost);
+    return fmtEuro(rentalSum + extrasTotal + extraKmCost);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -348,6 +390,7 @@ const ContactSection = () => {
             message: form.message || undefined,
             extras: buildExtrasSummary(),
             totalGross: computeTotalGross(),
+            costBreakdown: buildCostBreakdown(),
             submittedAt: new Date().toLocaleString("de-DE"),
           },
         },
