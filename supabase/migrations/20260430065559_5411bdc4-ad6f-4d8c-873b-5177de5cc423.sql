@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.prevent_internal_email_suppression() FROM PUBLIC, anon, authenticated;
