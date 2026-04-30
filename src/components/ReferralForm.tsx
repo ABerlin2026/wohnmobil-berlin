@@ -76,7 +76,7 @@ const ReferralForm = ({ variant = "section" }: ReferralFormProps) => {
       const { error: emailError } = await supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "referral-notification",
-          recipientEmail: "anfrage@wohnmobil-berlin.de",
+          recipientEmail: "wohnmobil.berlin@gmx.de",
           idempotencyKey: `referral-${id}`,
           templateData: {
             referrerName: parsed.data.referrer_name,
