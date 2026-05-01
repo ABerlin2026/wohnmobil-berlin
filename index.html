@@ -12,7 +12,6 @@
 
     <!-- hreflang -->
     <link rel="alternate" hreflang="de" href="https://wohnmobil-berlin.de/" />
-    <link rel="alternate" hreflang="en" href="https://wohnmobil-berlin.de/" />
     <link rel="alternate" hreflang="x-default" href="https://wohnmobil-berlin.de/" />
 
     <!-- Preload critical assets -->
@@ -24,7 +23,6 @@
     
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
-    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:url" content="https://wohnmobil-berlin.de/" />
     <meta property="og:site_name" content="Wohnmobil Berlin Brandenburg" />
     <meta property="og:image" content="https://wohnmobil-berlin.de/og-image.jpg">
@@ -71,7 +69,17 @@
         { "@type": "City", "name": "Berlin" },
         { "@type": "State", "name": "Brandenburg" }
       ],
-      "knowsLanguage": ["de", "en"]
+      "knowsLanguage": ["de"],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Clementweg 23",
+        "postalCode": "13127",
+        "addressLocality": "Berlin",
+        "addressRegion": "Berlin",
+        "addressCountry": "DE"
+      },
+      "telephone": "+49 173 1980777",
+      "email": "info@wohnmobil-berlin.de"
     }
     </script>
 
@@ -84,7 +92,7 @@
       "url": "https://wohnmobil-berlin.de/",
       "name": "Wohnmobil Berlin Brandenburg",
       "description": "Wohnmobil mieten Berlin & Camper mieten Berlin – ab 119 €/Tag inklusive Vollkasko und 150 Freikilometern pro Tag.",
-      "inLanguage": ["de-DE", "en-US"],
+      "inLanguage": ["de-DE"],
       "publisher": {
         "@id": "https://wohnmobil-berlin.de/#organization"
       },
