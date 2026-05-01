@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://wohnmobil-berlin.de/</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="de" href="https://wohnmobil-berlin.de/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://wohnmobil-berlin.de/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wohnmobil-berlin.de/" />
+  </url>
+  <url>
+    <loc>https://wohnmobil-berlin.de/empfehlen</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wohnmobil-berlin.de/agb</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://wohnmobil-berlin.de/impressum</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://wohnmobil-berlin.de/datenschutz</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
