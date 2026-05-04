@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLanguage, type Language } from "@/i18n/LanguageContext";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const Navigation = () => {
   const { language, setLanguage, t } = useLanguage();
