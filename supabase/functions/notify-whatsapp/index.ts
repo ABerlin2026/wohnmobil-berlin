@@ -41,12 +41,12 @@ Deno.serve(async (req) => {
     if (!res.ok || !isQueued) {
       console.error("CallMeBot Fehler", res.status, text);
       return new Response(
-        JSON.stringify({ success: false, status: res.status, body: text }),
-        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        JSON.stringify({ success: false, queued: false, error: "provider_rejected", status: res.status, body: text }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    return new Response(JSON.stringify({ success: true, status: res.status, body: text }), {
+    return new Response(JSON.stringify({ success: true, queued: true, status: res.status, body: text }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
