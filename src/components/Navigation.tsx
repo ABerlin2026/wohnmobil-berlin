@@ -28,15 +28,20 @@ const Navigation = () => {
 
   const handleClick = (href: string) => {
     setOpen(false);
+    const isContact = href === "#kontakt";
+    const scroll = () => {
+      if (isContact) {
+        scrollToContactName();
+      } else {
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      }
+    };
     if (location.pathname !== "/") {
       navigate("/" + href);
-      // Wait for navigation, then scroll to anchor
-      setTimeout(() => {
-        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      setTimeout(scroll, 100);
       return;
     }
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    scroll();
   };
 
   const toggleLang = () => {
