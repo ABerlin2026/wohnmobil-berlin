@@ -5,6 +5,10 @@ export interface TemplateEntry {
   component: React.ComponentType<any>
   subject: string | ((data: Record<string, any>) => string)
   to?: string
+  // When true, the template is allowed to send to a caller-supplied recipientEmail.
+  // Required for templates without a fixed `to` so that the send function does not
+  // become an open relay for arbitrary emails.
+  allowDynamicRecipient?: boolean
   displayName?: string
   previewData?: Record<string, any>
 }
