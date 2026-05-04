@@ -33,7 +33,12 @@ Deno.serve(async (req) => {
     const res = await fetch(url, { method: "GET" });
     const text = await res.text();
 
-    if (!res.ok) {
+    const normalizedText = text.toLowerCase();
+    const isQueued = normalizedText.includes("message queued") || normalizedText.includes("queued");
+
+    console.log("CallMeBot Antwort", res.status, text);
+
+    if (!res.ok || !isQueued) {
       console.error("CallMeBot Fehler", res.status, text);
       return new Response(
         JSON.stringify({ success: false, status: res.status, body: text }),
@@ -41,7 +46,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, status: res.status, body: text }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
