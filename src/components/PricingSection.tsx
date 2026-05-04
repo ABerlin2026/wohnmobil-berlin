@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Check, Info } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const PricingSection = () => {
   const { t } = useLanguage();
 
-  const scrollToContact = () => {
-    document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToContactName();
 
   return (
     <section id="preise" className="section-padding bg-surface-1">

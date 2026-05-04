@@ -731,12 +731,15 @@ const ContactSection = () => {
                   <span className="text-muted-foreground">20 €</span>
                 </label>
                 {/* 2. Grill */}
-                <label className="flex items-center justify-between gap-3 cursor-pointer text-sm">
-                  <span className="flex items-center gap-3">
-                    <Checkbox checked={extras.grill} onCheckedChange={(c) => setExtras({ ...extras, grill: c === true })} />
-                    <span>{t.contact.extraGrill}</span>
+                <label className="flex items-start justify-between gap-3 cursor-pointer text-sm">
+                  <span className="flex items-start gap-3">
+                    <Checkbox className="mt-0.5" checked={extras.grill} onCheckedChange={(c) => setExtras({ ...extras, grill: c === true })} />
+                    <span className="flex flex-col">
+                      <span>{t.contact.extraGrill}</span>
+                      <span className="text-xs text-muted-foreground">{t.contact.extraGrillHint}</span>
+                    </span>
                   </span>
-                  <span className="text-muted-foreground">40 €</span>
+                  <span className="text-muted-foreground whitespace-nowrap">40 €</span>
                 </label>
                 {/* 3. Bedding */}
                 <div className="flex items-center justify-between gap-3 text-sm">

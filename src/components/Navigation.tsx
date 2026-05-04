@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLanguage, type Language } from "@/i18n/LanguageContext";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const Navigation = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -28,15 +29,20 @@ const Navigation = () => {
 
   const handleClick = (href: string) => {
     setOpen(false);
+    const isContact = href === "#kontakt";
+    const scroll = () => {
+      if (isContact) {
+        scrollToContactName();
+      } else {
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      }
+    };
     if (location.pathname !== "/") {
       navigate("/" + href);
-      // Wait for navigation, then scroll to anchor
-      setTimeout(() => {
-        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      setTimeout(scroll, 100);
       return;
     }
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    scroll();
   };
 
   const toggleLang = () => {
