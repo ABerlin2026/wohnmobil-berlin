@@ -412,6 +412,22 @@ const ContactSection = () => {
         if (guestError) console.error("Bestätigungs-E-Mail an Gast fehlgeschlagen:", guestError);
       }
 
+      // WhatsApp-Benachrichtigung an den Vermieter (nicht blockierend)
+      try {
+        const waMessage =
+          `🚐 Neue Anfrage (${bookingTypeLabel})\n` +
+          `Name: ${form.name}\n` +
+          `E-Mail: ${form.email}\n` +
+          `Telefon: ${form.phone || "—"}\n` +
+          `Zeitraum: ${format(startDate, "dd.MM.yyyy", { locale: dfnsLocale })} – ${format(endDate, "dd.MM.yyyy", { locale: dfnsLocale })} (${rentalDays} Tage)\n` +
+          `Summe: ${computeTotalGross()}`;
+        supabase.functions
+          .invoke("notify-whatsapp", { body: { message: waMessage } })
+          .catch((e) => console.error("WhatsApp-Benachrichtigung fehlgeschlagen:", e));
+      } catch (e) {
+        console.error("WhatsApp-Benachrichtigung Fehler:", e);
+      }
+
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
       setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
       setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false });
