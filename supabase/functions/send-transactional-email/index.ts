@@ -199,6 +199,49 @@ Deno.serve(async (req) => {
     )
   }
 
+  // Open-relay protection: templates without a hardcoded `to` may only be
+  // invoked when explicitly opted in via `allowDynamicRecipient`. This
+  // prevents anonymous callers from using the function as a generic mailer
+  // to arbitrary addresses from our verified sending domain.
+  if (!template.to && !template.allowDynamicRecipient && !isServiceRole) {
+    console.warn('[send-transactional-email-block] reason=dynamic-recipient-not-allowed', { templateName })
+    return new Response(
+      JSON.stringify({ error: 'This template does not allow dynamic recipients' }),
+      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+    )
+  }
+
+  // Validate recipient email format and length to limit relay abuse.
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (
+    typeof effectiveRecipient !== 'string' ||
+    effectiveRecipient.length > 254 ||
+    !emailRegex.test(effectiveRecipient)
+  ) {
+    return new Response(
+      JSON.stringify({ error: 'Invalid recipientEmail' }),
+      { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+    )
+  }
+
+  // For dynamic-recipient templates invoked by non-service-role callers,
+  // require that templateData.email matches the recipient. This ensures the
+  // confirmation email's body content corresponds to the recipient and
+  // prevents using the template to deliver crafted content to third parties.
+  if (
+    !template.to &&
+    template.allowDynamicRecipient &&
+    !isServiceRole
+  ) {
+    const dataEmail = typeof templateData?.email === 'string' ? templateData.email.toLowerCase() : ''
+    if (dataEmail !== effectiveRecipient.toLowerCase()) {
+      return new Response(
+        JSON.stringify({ error: 'recipientEmail must match templateData.email' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      )
+    }
+  }
+
   // Create Supabase client with service role (bypasses RLS)
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
