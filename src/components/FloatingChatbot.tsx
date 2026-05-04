@@ -164,7 +164,11 @@ const FloatingChatbot = () => {
       {/* Chat panel — mobile only, full-screen-ish */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-background h-[100dvh] md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-background h-[100dvh] max-w-full overflow-x-hidden md:inset-auto md:bottom-4 md:right-4 md:h-[600px] md:max-h-[calc(100vh-2rem)] md:w-[400px] md:rounded-2xl md:border md:border-border md:shadow-2xl md:overflow-hidden"
+          style={{
+            paddingLeft: "env(safe-area-inset-left, 0px)",
+            paddingRight: "env(safe-area-inset-right, 0px)",
+          }}
           role="dialog"
           aria-modal="true"
           aria-label={t.chatbot.title}
@@ -248,7 +252,7 @@ const FloatingChatbot = () => {
               aria-hidden="true"
               style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0, pointerEvents: "none" }}
             />
-            <div className="flex items-end gap-2">
+            <div className="flex w-full items-end gap-2 min-w-0">
               <input
                 ref={inputRef}
                 type="text"
@@ -256,7 +260,7 @@ const FloatingChatbot = () => {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t.chatbot.placeholder}
                 disabled={isStreaming}
-                className="flex-1 rounded-full border border-input bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                className="min-w-0 flex-1 rounded-full border border-input bg-surface-2 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                 maxLength={1000}
               />
               <button
