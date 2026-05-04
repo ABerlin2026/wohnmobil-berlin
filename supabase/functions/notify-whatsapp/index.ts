@@ -24,7 +24,10 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json().catch(() => ({}));
-    const message: string = (body?.message ?? "Neue Anfrage über wohnmobil-berlin.de").toString();
+    const rawMessage = (body?.message ?? "Neue Anfrage über wohnmobil-berlin.de").toString();
+    // Cap length to prevent abuse / quota exhaustion via overly long messages.
+    const MAX_LEN = 1000;
+    const message: string = rawMessage.slice(0, MAX_LEN);
 
     const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(
       phone,
