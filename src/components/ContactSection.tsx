@@ -389,6 +389,26 @@ const ContactSection = () => {
         submittedAt: new Date().toLocaleString("de-DE"),
       };
 
+      // WhatsApp-Benachrichtigung an den Vermieter (zuerst, unabhängig vom E-Mail-Erfolg, nicht blockierend)
+      try {
+        const waMessage =
+          `🚐 Neue Anfrage (${bookingTypeLabel})\n` +
+          `Name: ${form.name}\n` +
+          `E-Mail: ${form.email}\n` +
+          `Telefon: ${form.phone || "—"}\n` +
+          `Zeitraum: ${format(startDate, "dd.MM.yyyy", { locale: dfnsLocale })} – ${format(endDate, "dd.MM.yyyy", { locale: dfnsLocale })} (${rentalDays} Tage)\n` +
+          `Summe: ${computeTotalGross()}`;
+        supabase.functions
+          .invoke("notify-whatsapp", { body: { message: waMessage } })
+          .then((res) => {
+            if (res.error) console.error("WhatsApp-Benachrichtigung Fehler:", res.error);
+            else console.log("WhatsApp-Benachrichtigung gesendet");
+          })
+          .catch((e) => console.error("WhatsApp-Benachrichtigung fehlgeschlagen:", e));
+      } catch (e) {
+        console.error("WhatsApp-Benachrichtigung Fehler:", e);
+      }
+
       const { error } = await supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "inquiry-notification",
@@ -410,22 +430,6 @@ const ContactSection = () => {
           },
         });
         if (guestError) console.error("Bestätigungs-E-Mail an Gast fehlgeschlagen:", guestError);
-      }
-
-      // WhatsApp-Benachrichtigung an den Vermieter (nicht blockierend)
-      try {
-        const waMessage =
-          `🚐 Neue Anfrage (${bookingTypeLabel})\n` +
-          `Name: ${form.name}\n` +
-          `E-Mail: ${form.email}\n` +
-          `Telefon: ${form.phone || "—"}\n` +
-          `Zeitraum: ${format(startDate, "dd.MM.yyyy", { locale: dfnsLocale })} – ${format(endDate, "dd.MM.yyyy", { locale: dfnsLocale })} (${rentalDays} Tage)\n` +
-          `Summe: ${computeTotalGross()}`;
-        supabase.functions
-          .invoke("notify-whatsapp", { body: { message: waMessage } })
-          .catch((e) => console.error("WhatsApp-Benachrichtigung fehlgeschlagen:", e));
-      } catch (e) {
-        console.error("WhatsApp-Benachrichtigung Fehler:", e);
       }
 
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
