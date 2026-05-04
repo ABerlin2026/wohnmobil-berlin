@@ -2,13 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Home, MapPin, Bath, Users, Check, Trees, Sparkles, Quote } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import holidayHomeImage from "@/assets/holiday-home-nature.jpg";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const HolidayHomeSection = () => {
   const { t } = useLanguage();
 
-  const scrollToContact = () => {
-    document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToContactName();
 
   const features = [
     { icon: Home, text: t.holidayHome.feature1 },

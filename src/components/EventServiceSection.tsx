@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { PartyPopper, MapPin, BedDouble, Calendar, Check } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const EventServiceSection = () => {
   const { t } = useLanguage();
 
-  const scrollToContact = () => {
-    document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToContactName();
 
   const features = [
     { icon: PartyPopper, text: t.eventService.feature1 },

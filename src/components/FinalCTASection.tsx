@@ -2,13 +2,12 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { WHATSAPP_URL } from "@/lib/contact";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const FinalCTASection = () => {
   const { t } = useLanguage();
 
-  const scrollToContact = () => {
-    document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToContactName();
 
   return (
     <section className="section-padding bg-primary">

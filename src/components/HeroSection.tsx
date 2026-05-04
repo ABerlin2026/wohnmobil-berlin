@@ -7,15 +7,14 @@ import camperVideoHdMp4 from "@/assets/camper-hero-video-hd.mp4";
 import camperVideoHdWebm from "@/assets/camper-hero-video-hd.webm";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { WHATSAPP_URL } from "@/lib/contact";
+import { scrollToContactName } from "@/lib/scrollToContact";
 
 const HeroSection = () => {
   const { t } = useLanguage();
   const [showPhoto, setShowPhoto] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const scrollToContact = () => {
-    document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToContactName();
 
   const handleVideoEnded = useCallback(() => {
     setShowPhoto(true);
