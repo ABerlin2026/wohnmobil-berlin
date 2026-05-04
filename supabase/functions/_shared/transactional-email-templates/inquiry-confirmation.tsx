@@ -169,6 +169,7 @@ export const template = {
   subject: (data: Record<string, any>) =>
     `Deine Anfrage bei ${SITE_NAME}${data?.bookingType ? ` (${data.bookingType})` : ''}`,
   displayName: 'Anfrage-Bestätigung (Gast)',
+  allowDynamicRecipient: true,
   previewData: {
     bookingType: 'Wohnmobil-Miete',
     name: 'Max Mustermann',
