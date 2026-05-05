@@ -529,11 +529,11 @@ const impressumEn: LegalDoc = {
   nodes: [
     { type: "callout", html: "<strong>Note:</strong> This is a non-binding English convenience translation. The German version is legally authoritative." },
     { type: "section", id: "i-1", title: "Information pursuant to § 5 TMG" },
-    { type: "p", html: "Wohnmobilvermietung Nicole Kiesling<br />Clementweg 23<br />13127 Berlin<br />Germany" },
+    { type: "p", html: "<img src=\"/contact/adresse.png\" alt=\"Wohnmobilvermietung Nicole Kiesling, Clementweg 23, 13127 Berlin, Germany\" loading=\"lazy\" class=\"max-w-full h-auto\" />" },
     { type: "section", id: "i-2", title: "Contact" },
-    { type: "p", html: "Phone: <a href=\"tel:+491731980777\" class=\"text-primary hover:underline\">+49 173 1980777</a><br />E-mail: <a href=\"mailto:info@wohnmobil-berlin.de\" class=\"text-primary hover:underline\">info@wohnmobil-berlin.de</a>" },
+    { type: "p", html: "<span class=\"block mb-1\">Phone:</span><img src=\"/contact/telefon.png\" alt=\"Phone number\" loading=\"lazy\" class=\"max-w-full h-auto mb-3\" /><span class=\"block mb-1\">E-mail:</span><img src=\"/contact/email.png\" alt=\"E-mail address\" loading=\"lazy\" class=\"max-w-full h-auto\" />" },
     { type: "section", id: "i-4", title: "Responsible for content pursuant to § 55 (2) RStV" },
-    { type: "p", html: "Nicole Kiesling<br />Clementweg 23<br />13127 Berlin<br />Germany" },
+    { type: "p", html: "<img src=\"/contact/verantwortlich.png\" alt=\"Nicole Kiesling, Clementweg 23, 13127 Berlin, Germany\" loading=\"lazy\" class=\"max-w-full h-auto\" />" },
   ],
 };
 
