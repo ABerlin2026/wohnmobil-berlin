@@ -469,8 +469,110 @@ Deno.serve(async (req) => {
 
   console.log('Transactional email enqueued', { templateName, effectiveRecipient })
 
+  // Side-effect: when an inquiry-notification is sent to the site owner,
+  // automatically dispatch a guest confirmation copy to templateData.email
+  // server-side. This avoids exposing inquiry-confirmation as a dynamic-
+  // recipient template that anon callers could abuse as an open relay.
+  let guestQueued = false
+  const guestEmailRaw = typeof templateData?.email === 'string' ? templateData.email : ''
+  if (
+    templateName === 'inquiry-notification' &&
+    guestEmailRaw &&
+    emailRegex.test(guestEmailRaw) &&
+    guestEmailRaw.length <= 254
+  ) {
+    const guestTemplate = TEMPLATES['inquiry-confirmation']
+    if (guestTemplate) {
+      try {
+        const guestRecipient = guestEmailRaw
+        const guestNormalized = guestRecipient.toLowerCase()
+
+        const { data: guestSuppressed } = await supabase
+          .from('suppressed_emails')
+          .select('id')
+          .eq('email', guestNormalized)
+          .maybeSingle()
+
+        if (!guestSuppressed) {
+          // Get/create unsubscribe token for the guest address
+          let guestToken: string | null = null
+          const { data: existingGuestToken } = await supabase
+            .from('email_unsubscribe_tokens')
+            .select('token, used_at')
+            .eq('email', guestNormalized)
+            .maybeSingle()
+          if (existingGuestToken && !existingGuestToken.used_at) {
+            guestToken = existingGuestToken.token
+          } else if (!existingGuestToken) {
+            const newToken = generateToken()
+            await supabase
+              .from('email_unsubscribe_tokens')
+              .upsert(
+                { token: newToken, email: guestNormalized },
+                { onConflict: 'email', ignoreDuplicates: true },
+              )
+            const { data: storedGuestToken } = await supabase
+              .from('email_unsubscribe_tokens')
+              .select('token')
+              .eq('email', guestNormalized)
+              .maybeSingle()
+            guestToken = storedGuestToken?.token ?? null
+          }
+
+          if (guestToken) {
+            const guestHtml = await renderAsync(
+              React.createElement(guestTemplate.component, templateData),
+            )
+            const guestPlain = await renderAsync(
+              React.createElement(guestTemplate.component, templateData),
+              { plainText: true },
+            )
+            const guestSubject =
+              typeof guestTemplate.subject === 'function'
+                ? guestTemplate.subject(templateData)
+                : guestTemplate.subject
+            const guestMessageId = crypto.randomUUID()
+
+            await supabase.from('email_send_log').insert({
+              message_id: guestMessageId,
+              template_name: 'inquiry-confirmation',
+              recipient_email: guestRecipient,
+              status: 'pending',
+            })
+
+            const { error: guestEnqueueError } = await supabase.rpc('enqueue_email', {
+              queue_name: 'transactional_emails',
+              payload: {
+                message_id: guestMessageId,
+                to: guestRecipient,
+                from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                sender_domain: SENDER_DOMAIN,
+                subject: guestSubject,
+                html: guestHtml,
+                text: guestPlain,
+                purpose: 'transactional',
+                label: 'inquiry-confirmation',
+                idempotency_key: `${idempotencyKey}-guest`,
+                unsubscribe_token: guestToken,
+                queued_at: new Date().toISOString(),
+              },
+            })
+
+            if (guestEnqueueError) {
+              console.error('Failed to enqueue guest confirmation', { error: guestEnqueueError })
+            } else {
+              guestQueued = true
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Guest confirmation side-effect failed', e)
+      }
+    }
+  }
+
   return new Response(
-    JSON.stringify({ success: true, queued: true }),
+    JSON.stringify({ success: true, queued: true, guestQueued }),
     {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

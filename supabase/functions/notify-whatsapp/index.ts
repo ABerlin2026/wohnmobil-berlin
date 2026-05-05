@@ -7,9 +7,79 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// In-memory IP rate limit (per-instance, resets on cold start).
+// Stoppt opportunistische Bursts; produktiv reicht das für ein Kontaktformular.
+const RATE_LIMIT_PER_MINUTE = 3;
+const RATE_LIMIT_PER_HOUR = 10;
+type IpEntry = {
+  minuteBucketStart: number;
+  minuteCount: number;
+  hourBucketStart: number;
+  hourCount: number;
+};
+const ipBuckets = new Map<string, IpEntry>();
+
+function getClientIp(req: Request): string {
+  return (
+    req.headers.get("cf-connecting-ip") ||
+    req.headers.get("x-real-ip") ||
+    (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip: string): { allowed: boolean; reason?: string } {
+  const now = Date.now();
+  const entry = ipBuckets.get(ip) ?? {
+    minuteBucketStart: now,
+    minuteCount: 0,
+    hourBucketStart: now,
+    hourCount: 0,
+  };
+  if (now - entry.minuteBucketStart > 60_000) {
+    entry.minuteBucketStart = now;
+    entry.minuteCount = 0;
+  }
+  if (now - entry.hourBucketStart > 3_600_000) {
+    entry.hourBucketStart = now;
+    entry.hourCount = 0;
+  }
+  entry.minuteCount += 1;
+  entry.hourCount += 1;
+  ipBuckets.set(ip, entry);
+
+  if (ipBuckets.size > 5000) {
+    for (const [k, v] of ipBuckets) {
+      if (now - v.hourBucketStart > 3_600_000) ipBuckets.delete(k);
+    }
+  }
+
+  if (entry.minuteCount > RATE_LIMIT_PER_MINUTE) return { allowed: false, reason: "minute" };
+  if (entry.hourCount > RATE_LIMIT_PER_HOUR) return { allowed: false, reason: "hour" };
+  return { allowed: true };
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // IP-basiertes Rate Limit: schützt den Vermieter vor WhatsApp-Spam-Floods.
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(ip);
+  if (!rl.allowed) {
+    console.warn(`[notify-whatsapp-block] reason=ratelimit-${rl.reason} ip=${ip}`);
+    return new Response(
+      JSON.stringify({ success: false, error: "rate_limited" }),
+      {
+        status: 429,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+          "Retry-After": rl.reason === "minute" ? "60" : "3600",
+        },
+      },
+    );
   }
 
   try {

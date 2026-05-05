@@ -169,7 +169,9 @@ export const template = {
   subject: (data: Record<string, any>) =>
     `Deine Anfrage bei ${SITE_NAME}${data?.bookingType ? ` (${data.bookingType})` : ''}`,
   displayName: 'Anfrage-Bestätigung (Gast)',
-  allowDynamicRecipient: true,
+  // Intentionally NOT allowing dynamic recipients from anon callers.
+  // The guest confirmation is dispatched server-side by send-transactional-email
+  // as a side-effect of inquiry-notification, so only the service role triggers it.
   previewData: {
     bookingType: 'Wohnmobil-Miete',
     name: 'Max Mustermann',
