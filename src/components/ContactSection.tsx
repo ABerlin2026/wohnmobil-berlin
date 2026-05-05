@@ -419,18 +419,8 @@ const ContactSection = () => {
       });
       if (error) throw error;
 
-      // Bestätigungs-Kopie an den Gast (Fehler hier nicht blockierend)
-      if (form.email) {
-        const { error: guestError } = await supabase.functions.invoke("send-transactional-email", {
-          body: {
-            templateName: "inquiry-confirmation",
-            recipientEmail: form.email,
-            idempotencyKey: `${idempotencyKey}-guest`,
-            templateData,
-          },
-        });
-        if (guestError) console.error("Bestätigungs-E-Mail an Gast fehlgeschlagen:", guestError);
-      }
+      // Bestätigungs-Kopie an den Gast wird serverseitig von
+      // send-transactional-email automatisch verschickt (kein Open-Relay-Risiko).
 
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
       setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
