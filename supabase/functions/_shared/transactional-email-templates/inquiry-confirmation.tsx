@@ -73,7 +73,9 @@ const InquiryConfirmationEmail = ({
   submittedAt,
 }: InquiryConfirmationProps) => (
   <Html lang="de" dir="ltr">
-    <Head />
+    <Head>
+      <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+    </Head>
     <Preview>Vielen Dank für deine Anfrage bei {SITE_NAME}</Preview>
     <Body style={main}>
       <Container style={container}>

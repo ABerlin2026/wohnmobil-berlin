@@ -44,7 +44,9 @@ const ReferralNotificationEmail = ({
   submittedAt,
 }: ReferralNotificationProps) => (
   <Html lang="de" dir="ltr">
-    <Head />
+    <Head>
+      <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+    </Head>
     <Preview>Neue Empfehlung über das Empfehlungsprogramm</Preview>
     <Body style={main}>
       <Container style={container}>
