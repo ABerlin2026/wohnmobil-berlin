@@ -83,7 +83,7 @@ const ContactSection = () => {
   }, [t.contact.countries]);
   const [bookingType, setBookingType] = useState<"rental" | "event" | "holiday">("rental");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
+    firstName: "", name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "",
   });
   const [extras, setExtras] = useState({
     beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false,
@@ -369,7 +369,7 @@ const ContactSection = () => {
       const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
       const templateData = {
         bookingType: bookingTypeLabel,
-        name: form.name,
+        name: `${form.firstName} ${form.name}`.trim(),
         email: form.email,
         phone: form.phone,
         birthdate: form.birthdate || undefined,
@@ -393,7 +393,7 @@ const ContactSection = () => {
       try {
         const waMessage =
           `🚐 Neue Anfrage (${bookingTypeLabel})\n` +
-          `Name: ${form.name}\n` +
+          `Name: ${form.firstName} ${form.name}\n` +
           `E-Mail: ${form.email}\n` +
           `Telefon: ${form.phone || "—"}\n` +
           `Zeitraum: ${format(startDate, "dd.MM.yyyy", { locale: dfnsLocale })} – ${format(endDate, "dd.MM.yyyy", { locale: dfnsLocale })} (${rentalDays} Tage)\n` +
@@ -423,7 +423,7 @@ const ContactSection = () => {
       // send-transactional-email automatisch verschickt (kein Open-Relay-Risiko).
 
       toast({ title: t.contact.toastSuccess, description: t.contact.toastSuccessDesc });
-      setForm({ name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
+      setForm({ firstName: "", name: "", email: "", phone: "", birthdate: "", adults: "", children: "", pet: "nein", message: "", destination: "", kilometers: "" });
       setExtras({ beddingQty: 0, towels: false, grill: false, scooterQty: 0, cleaning: false, awning: false });
       setStartDate(undefined);
       setEndDate(undefined);
@@ -557,7 +557,10 @@ const ContactSection = () => {
                 )}
               </div>
 
-              <Input id="contact-name" placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border scroll-mt-24" />
+              <div className="grid sm:grid-cols-2 gap-3 w-full max-w-full min-w-0">
+                <Input id="contact-firstname" placeholder={t.contact.firstName} required value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border scroll-mt-24" />
+                <Input id="contact-name" placeholder={t.contact.name} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
+              </div>
               <Input type="email" placeholder={t.contact.email} required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
               <Input type="tel" inputMode="tel" placeholder={t.contact.phone} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-surface-2 border-border/20 rounded-lg h-11 w-full max-w-full min-w-0 box-border" />
 
