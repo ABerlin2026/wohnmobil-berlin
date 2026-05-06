@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
 import { de as dfnsDe, enUS as dfnsEn } from "date-fns/locale";
 import { CalendarIcon, CheckCircle2, XCircle, Search, Loader2 } from "lucide-react";
@@ -44,6 +44,15 @@ const AvailabilityChecker = ({
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (result) {
+      requestAnimationFrame(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+  }, [result]);
 
   const tA = t.availability;
 
@@ -271,7 +280,7 @@ const AvailabilityChecker = ({
 
         {/* Ergebnis */}
         {result?.kind === "available" && start && end && (
-          <div className="rounded-lg border border-primary/40 bg-primary/10 p-4 space-y-3">
+          <div ref={resultRef} className="rounded-lg border border-primary/40 bg-primary/10 p-4 space-y-3">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="min-w-0">
@@ -300,7 +309,7 @@ const AvailabilityChecker = ({
         )}
 
         {result?.kind === "unavailable" && (
-          <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4">
+          <div ref={resultRef} className="rounded-lg border border-destructive/40 bg-destructive/10 p-4">
             <div className="flex items-start gap-3">
               <XCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
               <div className="min-w-0">
