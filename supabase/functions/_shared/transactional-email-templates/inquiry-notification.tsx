@@ -73,7 +73,9 @@ const InquiryNotificationEmail = ({
   submittedAt,
 }: InquiryNotificationProps) => (
   <Html lang="de" dir="ltr">
-    <Head />
+    <Head>
+      <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+    </Head>
     <Preview>
       Neue Anfrage von {name || 'Gast'}
       {bookingType ? ` (${bookingType})` : ''}
