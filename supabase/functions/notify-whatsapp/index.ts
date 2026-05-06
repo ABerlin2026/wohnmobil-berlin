@@ -7,6 +7,27 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Origin allowlist — blockt Aufrufe von fremden Seiten / Bots ohne Browser-Origin.
+const ALLOWED_ORIGINS = [
+  "https://wohnmobil-berlin.de",
+  "https://www.wohnmobil-berlin.de",
+  "https://wohnmobil-berlin.lovable.app",
+];
+const ALLOWED_ORIGIN_SUFFIXES = [".lovable.app", ".lovable.dev"];
+const ALLOW_LOCALHOST = true;
+
+function isOriginAllowed(origin: string | null): boolean {
+  if (!origin) return false;
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  try {
+    const url = new URL(origin);
+    if (ALLOW_LOCALHOST && (url.hostname === "localhost" || url.hostname === "127.0.0.1")) return true;
+    return ALLOWED_ORIGIN_SUFFIXES.some((s) => url.hostname.endsWith(s));
+  } catch {
+    return false;
+  }
+}
+
 // In-memory IP rate limit (per-instance, resets on cold start).
 // Stoppt opportunistische Bursts; produktiv reicht das für ein Kontaktformular.
 const RATE_LIMIT_PER_MINUTE = 3;
