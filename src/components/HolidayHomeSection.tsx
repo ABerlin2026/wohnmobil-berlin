@@ -62,6 +62,11 @@ const HolidayHomeSection = () => {
         </div>
 
         <div className="max-w-5xl mx-auto bg-background rounded-2xl p-6 sm:p-10 border border-border/20">
+          <div className="mb-8 p-5 sm:p-6 rounded-xl bg-primary/5 border border-primary/20">
+            <p className="text-sm sm:text-base text-foreground leading-relaxed">
+              {t.holidayHome.intro}
+            </p>
+          </div>
           <p className="text-secondary-foreground mb-10 leading-relaxed">
             {t.holidayHome.description}
           </p>
