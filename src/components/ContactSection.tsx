@@ -325,6 +325,32 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Vor- und Nachname validieren
+    const nameRegex = /^[\p{L}][\p{L}\s'-]{1,49}$/u;
+    const firstNameTrim = form.firstName.trim();
+    const lastNameTrim = form.name.trim();
+    if (!firstNameTrim) {
+      toast({ title: t.contact.toastNameMissing, description: t.contact.toastFirstNameMissingDesc, variant: "destructive" });
+      document.getElementById("contact-firstname")?.focus();
+      return;
+    }
+    if (!nameRegex.test(firstNameTrim)) {
+      toast({ title: t.contact.toastNameMissing, description: t.contact.toastNameInvalidDesc, variant: "destructive" });
+      document.getElementById("contact-firstname")?.focus();
+      return;
+    }
+    if (!lastNameTrim) {
+      toast({ title: t.contact.toastNameMissing, description: t.contact.toastLastNameMissingDesc, variant: "destructive" });
+      document.getElementById("contact-name")?.focus();
+      return;
+    }
+    if (!nameRegex.test(lastNameTrim)) {
+      toast({ title: t.contact.toastNameMissing, description: t.contact.toastNameInvalidDesc, variant: "destructive" });
+      document.getElementById("contact-name")?.focus();
+      return;
+    }
+
     if (!startDate || !endDate) {
       toast({ title: t.contact.toastMissing, description: t.contact.toastMissingDesc, variant: "destructive" });
       return;
