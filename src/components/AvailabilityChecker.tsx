@@ -44,6 +44,15 @@ const AvailabilityChecker = ({
   const [startOpen, setStartOpen] = useState(false);
   const [endOpen, setEndOpen] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (result) {
+      requestAnimationFrame(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+  }, [result]);
 
   const tA = t.availability;
 
