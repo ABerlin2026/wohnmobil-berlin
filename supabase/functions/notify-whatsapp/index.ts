@@ -85,6 +85,16 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Origin-Check: blockiert Cross-Site / Server-zu-Server Aufrufe ohne gültige Browser-Origin.
+  const origin = req.headers.get("origin");
+  if (!isOriginAllowed(origin)) {
+    console.warn(`[notify-whatsapp-block] reason=origin origin=${origin}`);
+    return new Response(
+      JSON.stringify({ success: false, error: "forbidden_origin" }),
+      { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
+  }
+
   // IP-basiertes Rate Limit: schützt den Vermieter vor WhatsApp-Spam-Floods.
   const ip = getClientIp(req);
   const rl = checkRateLimit(ip);
