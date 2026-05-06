@@ -571,6 +571,35 @@ Deno.serve(async (req) => {
     }
   }
 
+  // Side-effect: WhatsApp notification to the site owner for inquiry-notification.
+  // Moved server-side so the public notify-whatsapp endpoint can be removed.
+  if (templateName === 'inquiry-notification') {
+    try {
+      const phone = Deno.env.get('CALLMEBOT_PHONE')
+      const apikey = Deno.env.get('CALLMEBOT_APIKEY')
+      if (phone && apikey) {
+        const td = templateData as Record<string, unknown>
+        const lines = [
+          `🚐 Neue Anfrage (${td.bookingType ?? ''})`,
+          `Name: ${td.name ?? ''}`,
+          `E-Mail: ${td.email ?? ''}`,
+          `Telefon: ${td.phone ?? '—'}`,
+          `Zeitraum: ${td.startDate ?? ''} – ${td.endDate ?? ''}${td.rentalDays ? ` (${td.rentalDays} Tage)` : ''}`,
+          `Summe: ${td.totalGross ?? ''}`,
+        ]
+        const waMessage = lines.join('\n').slice(0, 1000)
+        const waUrl = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(waMessage)}&apikey=${encodeURIComponent(apikey)}`
+        const waRes = await fetch(waUrl, { method: 'GET' })
+        const waText = await waRes.text().catch(() => '')
+        console.log('CallMeBot Antwort', waRes.status, waText.slice(0, 200))
+      } else {
+        console.warn('CALLMEBOT_PHONE oder CALLMEBOT_APIKEY fehlt — WhatsApp übersprungen')
+      }
+    } catch (e) {
+      console.error('WhatsApp side-effect failed', e)
+    }
+  }
+
   return new Response(
     JSON.stringify({ success: true, queued: true, guestQueued }),
     {
