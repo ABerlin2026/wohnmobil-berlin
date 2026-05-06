@@ -280,7 +280,7 @@ const AvailabilityChecker = ({
 
         {/* Ergebnis */}
         {result?.kind === "available" && start && end && (
-          <div className="rounded-lg border border-primary/40 bg-primary/10 p-4 space-y-3">
+          <div ref={resultRef} className="rounded-lg border border-primary/40 bg-primary/10 p-4 space-y-3">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="min-w-0">
