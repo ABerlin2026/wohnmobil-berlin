@@ -5,9 +5,9 @@
  */
 export const scrollToContactName = () => {
   requestAnimationFrame(() => {
-    const nameField = document.getElementById("contact-name") as HTMLInputElement | null;
-    const target = nameField ?? document.getElementById("kontakt");
+    const firstNameField = document.getElementById("contact-firstname") as HTMLInputElement | null;
+    const target = firstNameField ?? document.getElementById("kontakt");
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setTimeout(() => nameField?.focus({ preventScroll: true }), 600);
+    setTimeout(() => firstNameField?.focus({ preventScroll: true }), 600);
   });
 };
