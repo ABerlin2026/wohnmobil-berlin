@@ -606,6 +606,16 @@ Deno.serve(async (req) => {
               console.error('Failed to enqueue guest confirmation', { error: guestEnqueueError })
             } else {
               guestQueued = true
+              if (consumedTicketId) {
+                const { error: consumeError } = await supabase
+                  .from('inquiry_confirmation_tickets')
+                  .update({ confirmation_sent_at: new Date().toISOString() })
+                  .eq('id', consumedTicketId)
+                  .is('confirmation_sent_at', null)
+                if (consumeError) {
+                  console.error('Failed to mark inquiry ticket as consumed', { error: consumeError })
+                }
+              }
             }
           }
         }
