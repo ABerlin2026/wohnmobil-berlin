@@ -487,6 +487,39 @@ Deno.serve(async (req) => {
         const guestRecipient = guestEmailRaw
         const guestNormalized = guestRecipient.toLowerCase()
 
+        // Persistent per-address rate limit for guest confirmations.
+        // Prevents anon callers from using the inquiry-notification side-effect
+        // as an email bomb against arbitrary addresses across edge cold starts.
+        // Limits: max 2 guest confirmations per address per hour, 5 per 24h.
+        // Service-role calls bypass (server-side trigger / admin).
+        if (!isServiceRole) {
+          const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+          const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+          const { count: hourCount } = await supabase
+            .from('email_send_log')
+            .select('id', { count: 'exact', head: true })
+            .eq('recipient_email', guestRecipient)
+            .eq('template_name', 'inquiry-confirmation')
+            .gte('created_at', oneHourAgo)
+          const { count: dayCount } = await supabase
+            .from('email_send_log')
+            .select('id', { count: 'exact', head: true })
+            .eq('recipient_email', guestRecipient)
+            .eq('template_name', 'inquiry-confirmation')
+            .gte('created_at', oneDayAgo)
+          if ((hourCount ?? 0) >= 2 || (dayCount ?? 0) >= 5) {
+            console.warn('[send-transactional-email-block] reason=guest-address-ratelimit', {
+              guestRecipient,
+              hourCount,
+              dayCount,
+            })
+            return new Response(
+              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'address_rate_limited' }),
+              { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+            )
+          }
+        }
+
         const { data: guestSuppressed } = await supabase
           .from('suppressed_emails')
           .select('id')
