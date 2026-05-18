@@ -131,6 +131,30 @@ export type Database = {
         }
         Relationships: []
       }
+      inquiry_confirmation_tickets: {
+        Row: {
+          confirmation_sent_at: string | null
+          created_at: string
+          email: string
+          id: string
+          ip_hash: string | null
+        }
+        Insert: {
+          confirmation_sent_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          ip_hash?: string | null
+        }
+        Update: {
+          confirmation_sent_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          ip_hash?: string | null
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           consent_confirmed: boolean
