@@ -15,8 +15,8 @@ export const de = {
 
   // Hero
   hero: {
-    title: "Wohnmobil mieten Berlin & Camper mieten Berlin",
-    subtitle: "Dein Camper für 4 Personen – direkt aus Berlin losfahren und die Freiheit auf vier Rädern erleben. Vollkasko, 150\u00A0Freikilometer pro Tag und Haustiere willkommen.",
+    title: "Wohnmobil mieten in Berlin – Camper für 4 Personen, ab 119 €/Tag",
+    subtitle: "Camper leihen in Berlin & Brandenburg – privates Reisemobil für 4 Personen, direkt aus Berlin losfahren. Vollkasko, 150\u00A0Freikilometer pro Tag und Haustiere willkommen.",
     badges: ["4 Schlafplätze", "Vollkasko inkl.", "Ab 119 €/Tag", "Hunde willkommen"],
     cta: "Jetzt unverbindlich anfragen",
     imgAlt: "Wohnmobil mieten Berlin Brandenburg – Camper Außenansicht",
@@ -25,7 +25,7 @@ export const de = {
   // Trust / Advantages
   trust: {
     label: "Auf einen Blick",
-    title: "Warum unseren Camper mieten?",
+    title: "Warum unser Wohnmobil aus Berlin mieten?",
     subtitle: "Mindestmietdauer: 5 Tage · Preis pro Tag",
     items: [
       { title: "4 Schlaf- & Sitzplätze", text: "Platz für die ganze Familie – alle mit Gurt gesichert." },
@@ -43,7 +43,7 @@ export const de = {
   // Pricing
   pricing: {
     label: "Transparente Preise",
-    title: "Was kostet ein Wohnmobil in Berlin?",
+    title: "Was kostet es, ein Wohnmobil in Berlin zu mieten?",
     offSeason: "Nebensaison",
     offSeasonPeriod: "April & Oktober",
     mainSeason: "Hauptsaison",
@@ -132,7 +132,7 @@ export const de = {
   // Target groups
   target: {
     label: "Perfekt für dich",
-    title: "Für wen ist der Camper ideal?",
+    title: "Wohnmobil leihen Berlin – für Familien, Paare & Hundebesitzer",
     items: [
       { title: "Für Paare", text: "Zu zweit die schönsten Ecken entdecken – romantische Abende unter der Markise inklusive." },
       { title: "Für kleine Familien", text: "4 Schlafplätze und 3-Punkt-Gurte auf allen 4 Sitzen – ISOFIX ist nicht vorhanden." },
@@ -280,7 +280,7 @@ export const de = {
   // FAQ
   faq: {
     label: "FAQ",
-    title: "Häufige Fragen",
+    title: "Wohnmobilvermietung Berlin – häufige Fragen",
     showButton: "Fragen anzeigen",
     hideButton: "Fragen ausblenden",
     searchPlaceholder: "Fragen durchsuchen…",

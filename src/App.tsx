@@ -16,6 +16,7 @@ const AGB = lazy(() => import("./pages/AGB.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 const Empfehlen = lazy(() => import("./pages/Empfehlen.tsx"));
+const WohnmobilBrandenburg = lazy(() => import("./pages/WohnmobilBrandenburg.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/empfehlen" element={<Empfehlen />} />
               <Route path="/refer" element={<Empfehlen />} />
+              <Route path="/wohnmobil-brandenburg" element={<WohnmobilBrandenburg />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
