@@ -487,37 +487,48 @@ Deno.serve(async (req) => {
         const guestRecipient = guestEmailRaw
         const guestNormalized = guestRecipient.toLowerCase()
 
-        // Persistent per-address rate limit for guest confirmations.
-        // Prevents anon callers from using the inquiry-notification side-effect
-        // as an email bomb against arbitrary addresses across edge cold starts.
-        // Limits: max 2 guest confirmations per address per hour, 5 per 24h.
-        // Service-role calls bypass (server-side trigger / admin).
+        // Ticket-bound guest confirmation: the caller MUST present a fresh,
+        // unconsumed inquiry_confirmation_tickets row whose email matches the
+        // guest recipient. This binds each guest confirmation to a real
+        // anonymous DB insert (rate-limited at the DB layer by RLS volume),
+        // closing the open-relay-at-low-volume residual risk.
+        // Service-role calls bypass the ticket check.
+        let consumedTicketId: string | null = null
         if (!isServiceRole) {
-          const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
-          const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-          const { count: hourCount } = await supabase
-            .from('email_send_log')
-            .select('id', { count: 'exact', head: true })
-            .eq('recipient_email', guestRecipient)
-            .eq('template_name', 'inquiry-confirmation')
-            .gte('created_at', oneHourAgo)
-          const { count: dayCount } = await supabase
-            .from('email_send_log')
-            .select('id', { count: 'exact', head: true })
-            .eq('recipient_email', guestRecipient)
-            .eq('template_name', 'inquiry-confirmation')
-            .gte('created_at', oneDayAgo)
-          if ((hourCount ?? 0) >= 2 || (dayCount ?? 0) >= 5) {
-            console.warn('[send-transactional-email-block] reason=guest-address-ratelimit', {
-              guestRecipient,
-              hourCount,
-              dayCount,
-            })
+          const ticketId = typeof (templateData as Record<string, unknown>)?.inquiryTicketId === 'string'
+            ? ((templateData as Record<string, unknown>).inquiryTicketId as string)
+            : ''
+          if (!ticketId) {
+            console.warn('[send-transactional-email-block] reason=missing-inquiry-ticket')
             return new Response(
-              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'address_rate_limited' }),
+              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'missing_ticket' }),
               { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
             )
           }
+          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString()
+          const { data: ticket, error: ticketError } = await supabase
+            .from('inquiry_confirmation_tickets')
+            .select('id, email, confirmation_sent_at, created_at')
+            .eq('id', ticketId)
+            .maybeSingle()
+          if (
+            ticketError ||
+            !ticket ||
+            ticket.confirmation_sent_at ||
+            ticket.created_at < tenMinAgo ||
+            (ticket.email || '').toLowerCase() !== guestNormalized
+          ) {
+            console.warn('[send-transactional-email-block] reason=invalid-inquiry-ticket', {
+              ticketId,
+              hasTicket: !!ticket,
+              alreadyUsed: !!ticket?.confirmation_sent_at,
+            })
+            return new Response(
+              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'invalid_ticket' }),
+              { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+            )
+          }
+          consumedTicketId = ticket.id
         }
 
         const { data: guestSuppressed } = await supabase
@@ -595,6 +606,16 @@ Deno.serve(async (req) => {
               console.error('Failed to enqueue guest confirmation', { error: guestEnqueueError })
             } else {
               guestQueued = true
+              if (consumedTicketId) {
+                const { error: consumeError } = await supabase
+                  .from('inquiry_confirmation_tickets')
+                  .update({ confirmation_sent_at: new Date().toISOString() })
+                  .eq('id', consumedTicketId)
+                  .is('confirmation_sent_at', null)
+                if (consumeError) {
+                  console.error('Failed to mark inquiry ticket as consumed', { error: consumeError })
+                }
+              }
             }
           }
         }

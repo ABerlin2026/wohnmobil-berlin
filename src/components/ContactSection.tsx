@@ -393,7 +393,20 @@ const ContactSection = () => {
           : bookingType === "event" ? "Event/Übernachtung"
           : "Ferienwohnung";
       const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
+
+      // Anker für die Gast-Bestätigung: einen Ticket-Eintrag anlegen, dessen ID
+      // die Edge Function als Nachweis verlangt, bevor sie eine Bestätigung an
+      // form.email versendet. Das verhindert, dass anonyme Aufrufer den
+      // Bestätigungs-Versand auf beliebige Adressen auslösen können.
+      const { data: ticket, error: ticketError } = await supabase
+        .from("inquiry_confirmation_tickets")
+        .insert({ email: form.email })
+        .select("id")
+        .single();
+      if (ticketError || !ticket) throw ticketError ?? new Error("ticket insert failed");
+
       const templateData = {
+        inquiryTicketId: ticket.id,
         bookingType: bookingTypeLabel,
         name: `${form.firstName} ${form.name}`.trim(),
         email: form.email,
