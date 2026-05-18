@@ -112,7 +112,7 @@ const FAQSection = () => {
                       {faq.q}
                     </AccordionTrigger>
                     <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5 whitespace-pre-line">
-                      {faq.a}
+                      {renderAnswer(faq.a)}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
