@@ -529,6 +529,39 @@ Deno.serve(async (req) => {
             )
           }
           consumedTicketId = ticket.id
+
+          // Persistent per-address rate limit on guest confirmation sends.
+          // Survives cold starts and is enforced regardless of IP. Caps the
+          // residual open-relay risk at low volume even if an attacker rotates
+          // IPs and creates valid tickets.
+          const hourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+          const dayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+          const { count: hourCount } = await supabase
+            .from('email_send_log')
+            .select('id', { count: 'exact', head: true })
+            .eq('template_name', 'inquiry-confirmation')
+            .eq('recipient_email', guestNormalized)
+            .gte('created_at', hourAgo)
+          if ((hourCount ?? 0) >= 2) {
+            console.warn('[send-transactional-email-block] reason=guest-address-hour-limit', { guestNormalized })
+            return new Response(
+              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'address_rate_limited' }),
+              { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+            )
+          }
+          const { count: dayCount } = await supabase
+            .from('email_send_log')
+            .select('id', { count: 'exact', head: true })
+            .eq('template_name', 'inquiry-confirmation')
+            .eq('recipient_email', guestNormalized)
+            .gte('created_at', dayAgo)
+          if ((dayCount ?? 0) >= 5) {
+            console.warn('[send-transactional-email-block] reason=guest-address-day-limit', { guestNormalized })
+            return new Response(
+              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'address_rate_limited' }),
+              { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+            )
+          }
         }
 
         const { data: guestSuppressed } = await supabase
