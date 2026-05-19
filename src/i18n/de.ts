@@ -6,6 +6,7 @@ export const de = {
     equipment: "Ausstattung",
     faq: "FAQ",
     contact: "Kontakt",
+    travelTips: "Reisetipps",
     inquire: "Anfragen",
     inquireNow: "Jetzt anfragen",
     openMenu: "Menü öffnen",
