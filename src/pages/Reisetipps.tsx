@@ -1,66 +1,17 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageSEO from "@/components/PageSEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { travelPosts, type ContentBlock } from "@/content/travelTips";
-
-const PREVIEW_BLOCKS = 3;
-
-const renderBlock = (block: ContentBlock, idx: number) => {
-  switch (block.type) {
-    case "h2":
-      return (
-        <h3 key={idx} className="text-xl md:text-2xl font-display font-bold mt-8 mb-3">
-          {block.text}
-        </h3>
-      );
-    case "h3":
-      return (
-        <h4 key={idx} className="text-lg md:text-xl font-display font-semibold mt-5 mb-2">
-          {block.text}
-        </h4>
-      );
-    case "p":
-      return (
-        <p key={idx} className="text-base leading-relaxed text-foreground/90 mb-4">
-          {block.text}
-        </p>
-      );
-    case "ul":
-      return (
-        <ul key={idx} className="list-disc pl-6 space-y-2 mb-5 text-foreground/90">
-          {block.items.map((it, i) => (
-            <li key={i} className="leading-relaxed">{it}</li>
-          ))}
-        </ul>
-      );
-    case "quote":
-      return (
-        <blockquote
-          key={idx}
-          className="border-l-4 border-primary pl-5 py-2 my-6 italic text-base text-foreground/80"
-          style={{ textAlign: "left" }}
-        >
-          {block.text}
-        </blockquote>
-      );
-  }
-};
+import { travelPosts } from "@/content/travelTips";
 
 const Reisetipps = () => {
   const { language, t } = useLanguage();
   const isDE = language === "de";
   const homeLabel = isDE ? "Startseite" : "Home";
   const ui = t.travelTips;
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
-  const toggle = (slug: string) => {
-    setExpanded((p) => ({ ...p, [slug]: !p[slug] }));
-  };
 
   return (
     <>
@@ -93,10 +44,6 @@ const Reisetipps = () => {
           <div className="max-w-3xl mx-auto space-y-10">
             {travelPosts.map((post) => {
               const loc = isDE ? post.de : post.en;
-              const isOpen = !!expanded[post.slug];
-              const preview = loc.content.slice(0, PREVIEW_BLOCKS);
-              const rest = loc.content.slice(PREVIEW_BLOCKS);
-
               return (
                 <article
                   key={post.slug}
@@ -129,28 +76,12 @@ const Reisetipps = () => {
                       {loc.excerpt}
                     </p>
 
-                    <div className="prose-content">
-                      {preview.map(renderBlock)}
-                      {isOpen && rest.map((b, i) => renderBlock(b, i + PREVIEW_BLOCKS))}
-                    </div>
-
-                    {rest.length > 0 && (
-                      <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                        <Button
-                          variant="secondary"
-                          onClick={() => toggle(post.slug)}
-                          className="gap-2"
-                        >
-                          {isOpen ? ui.collapse : ui.readMore}
-                          {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                        </Button>
-                        <Button variant="ghost" asChild className="gap-2">
-                          <Link to={`/reisetipps/${post.slug}`}>
-                            {ui.eyebrow} →
-                          </Link>
-                        </Button>
-                      </div>
-                    )}
+                    <Button asChild variant="secondary" className="gap-2">
+                      <Link to={`/reisetipps/${post.slug}`}>
+                        {ui.readMore}
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
                   </div>
                 </article>
               );
