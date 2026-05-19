@@ -142,3 +142,10 @@ input[type="date"]::-webkit-clear-button {
     @apply max-w-6xl mx-auto px-4 sm:px-6 md:px-8;
   }
 }
+
+@layer base {
+  h1, h2, h3 {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+}

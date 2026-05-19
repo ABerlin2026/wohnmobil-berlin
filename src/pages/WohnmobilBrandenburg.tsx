@@ -30,7 +30,7 @@ const WohnmobilBrandenburg = () => {
                 <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">
                   Wohnmobil mieten Brandenburg
                 </p>
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold leading-[1.1] mb-6">
+                <h1 className="text-[1.625rem] [@media(min-width:360px)]:text-3xl md:text-5xl lg:text-6xl font-display font-bold leading-[1.1] mb-6">
                   Wohnmobil mieten in Brandenburg – privat ab Berlin
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
