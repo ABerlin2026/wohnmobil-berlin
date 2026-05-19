@@ -20,8 +20,10 @@ const TrustSection = () => {
             const Icon = icons[i];
             return (
               <div key={i} className="bg-background p-8 hover:bg-surface-1 transition-colors duration-300 group">
-                <Icon className="h-6 w-6 text-primary mb-5 group-hover:text-loxone-light transition-colors" />
-                <h3 className="font-display font-semibold text-sm mb-2 text-foreground">{a.title}</h3>
+                <div className="flex items-center gap-3 mb-2">
+                  <Icon className="h-6 w-6 text-primary shrink-0 group-hover:text-loxone-light transition-colors" />
+                  <h3 className="font-display font-semibold text-sm text-foreground">{a.title}</h3>
+                </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">{a.text}</p>
               </div>
             );
