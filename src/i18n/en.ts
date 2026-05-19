@@ -601,6 +601,34 @@ export const en: typeof de = {
     seoDescription: "Recommend Wohnmobil Berlin and receive €50 commission after a successful booking. Simple referral form – GDPR compliant.",
   },
 
+  // Brandenburg landing page
+  brandenburgPage: {
+    metaTitle: "Rent a motorhome in Brandenburg – private, from Berlin, €119/day",
+    metaDescription: "Rent a motorhome in Brandenburg – private camper for 4 people, from Berlin. Fully comprehensive insurance & 150 km/day included.",
+    breadcrumb: "Rent a motorhome in Brandenburg",
+    eyebrow: "Rent a motorhome in Brandenburg",
+    h1: "Rent a motorhome in Brandenburg – private, from Berlin",
+    intro: "Looking for a motorhome for your Brandenburg trip? Rent our private camper for 4 people – pick it up directly in Berlin and within a few kilometers you'll be in the middle of the Spreewald, at the Brandenburg lakes or on your way to the Baltic Sea.",
+    bullets: [
+      "✓ Motorhome for 4 people, fully comprehensive insurance included",
+      "✓ 150 free kilometers per day – perfect for Brandenburg tours",
+      "✓ Pickup in Berlin-Pankow (13127) – quick access to the A10/A11",
+      "✓ Dogs welcome, awning tent & roof awning included",
+    ],
+    cta: "Inquire about a camper for Brandenburg",
+    imgAlt: "Rent a motorhome Brandenburg – camper for Spreewald, Lake District and the Baltic Sea",
+    destinationsTitle: "Motorhome rental Brandenburg – the most beautiful destinations",
+    destinationsIntro: "Brandenburg is probably Germany's most underrated camping region. Over 3,000 lakes, dense forests, small villages and the untouched nature of the Spreewald lie right on Berlin's doorstep. With our motorhome you'll reach places where you can truly switch off within 30 – 60 minutes.",
+    destinations: [
+      { title: "Spreewald", text: "Punt boat rides, canals and pickle tours. Park the camper at one of the quiet pitches in Lübbenau or Burg – about 1 hour from Berlin." },
+      { title: "Mecklenburg Lake District", text: "Over 1,000 lakes, perfect for families and dog owners. Müritz, Plauer See or Feldberg – flexibly hop from lake to lake with the motorhome." },
+      { title: "Baltic Sea in 2 – 3 hours", text: "Usedom, Rügen or Darß – with 150 free kilometers per day and full insurance, set off relaxed from Berlin Brandenburg." },
+      { title: "Brandenburg lakes", text: "Werbellinsee, Stechlin, Scharmützelsee – pitches right by the water, swim straight from the camper door. Ideal for a long weekend." },
+    ],
+    whyTitle: "Rent a motorhome Brandenburg – why private?",
+    whyText: "We're not a large rental company with counters and queue numbers. You rent our own, well-maintained camper – personal handover in Berlin, honest advice, transparent prices with no hidden costs. That's how motorhome rental in Berlin Brandenburg should be.",
+  },
+
   // Footer
   footer: {
     imprint: "Legal Notice",
