@@ -637,6 +637,7 @@ export const de = {
     indexH1: "Reisetipps für deinen nächsten Wohnmobil-Trip ab Berlin",
     indexIntro: "Ehrliche Erfahrungsberichte, konkrete Stellplatz-Empfehlungen und Insider-Tipps für Camper, die von Berlin aus Brandenburg, die Ostsee und den Spreewald entdecken wollen.",
     readMore: "Weiterlesen",
+    collapse: "Einklappen",
     related: "Weitere Reisetipps",
     ctaTitle: "Bereit für deine eigene Tour?",
     ctaText: "Miete unseren privaten Camper für 4 Personen direkt in Berlin-Pankow – Vollkasko, 150 Freikilometer pro Tag und Hunde willkommen.",
