@@ -17,6 +17,7 @@ const Navigation = () => {
     { label: t.nav.advantages, href: "#vorteile" },
     { label: t.nav.pricing, href: "#preise" },
     { label: t.nav.equipment, href: "#ausstattung" },
+    { label: t.nav.travelTips, href: "/reisetipps", route: true as const },
     { label: t.nav.faq, href: "#faq" },
     { label: t.nav.contact, href: "#kontakt" },
   ];
@@ -27,8 +28,12 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleClick = (href: string) => {
+  const handleClick = (href: string, isRoute?: boolean) => {
     setOpen(false);
+    if (isRoute) {
+      navigate(href);
+      return;
+    }
     const isContact = href === "#kontakt";
     const scroll = () => {
       if (isContact) {
