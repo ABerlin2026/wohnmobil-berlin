@@ -57,7 +57,7 @@ const GallerySection = () => {
               <button onClick={closeImage} className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"><X className="h-6 w-6" /></button>
               <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all"><ChevronLeft className="h-6 w-6" /></button>
               <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all"><ChevronRight className="h-6 w-6" /></button>
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">{selectedIndex + 1} / {images.length}</div>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-white text-sm font-medium">{selectedIndex + 1} / {images.length}</div>
             </div>
           )}
         </DialogContent>
