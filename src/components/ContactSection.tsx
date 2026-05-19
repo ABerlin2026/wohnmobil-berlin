@@ -430,6 +430,7 @@ const ContactSection = () => {
         bookingType === "rental" ? "Wohnmobil-Miete"
           : bookingType === "event" ? "Event/Übernachtung"
           : "Ferienwohnung";
+      const inquiryTicketId = crypto.randomUUID();
       const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
       const normalizedEmail = form.email.trim().toLowerCase();
 
@@ -439,13 +440,11 @@ const ContactSection = () => {
       // Bestätigungs-Versand auf beliebige Adressen auslösen können.
       const { data: ticket, error: ticketError } = await supabase
         .from("inquiry_confirmation_tickets")
-        .insert({ email: normalizedEmail })
-        .select("id")
-        .single();
-      if (ticketError || !ticket) throw ticketError ?? new Error("ticket insert failed");
+        .insert({ id: inquiryTicketId, email: normalizedEmail });
+      if (ticketError) throw ticketError;
 
       const templateData = {
-        inquiryTicketId: ticket.id,
+        inquiryTicketId,
         bookingType: bookingTypeLabel,
         name: `${form.firstName} ${form.name}`.trim(),
         email: normalizedEmail,
