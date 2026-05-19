@@ -204,7 +204,7 @@ export const en: typeof de = {
       {
         title: "Exterior",
         items: [
-          "Awning tent – additional living space in any weather", "Awning with LED lighting",
+          "Awning tent available as add-on – additional living space in any weather (extra fee)", "Awning with LED lighting",
           "Leveling wedges & cable reel", "Power connection for shore power", "Water canister",
         ],
       },
