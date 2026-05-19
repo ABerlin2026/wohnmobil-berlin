@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import PageSEO from "@/components/PageSEO";
 
 type Status = "loading" | "valid" | "already" | "invalid" | "submitting" | "success" | "error";
 
