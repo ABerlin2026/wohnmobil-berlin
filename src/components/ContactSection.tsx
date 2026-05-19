@@ -171,6 +171,43 @@ const ContactSection = () => {
     return startDate;
   }, [startDate, calendarDefaultMonth]);
 
+  /** Walk forward from `earliestStart` until we find a date that is in season
+   *  and not unavailable (booked or in a too-short gap). Returns undefined if
+   *  nothing valid found within ~2 years. */
+  const findNextValidStart = (): Date | undefined => {
+    let d = new Date(earliestStart);
+    for (let i = 0; i < 800; i++) {
+      if (!isOutOfSeason(d) && !isDateUnavailable(d, minDays, earliestStart)) return d;
+      d = addDays(d, 1);
+    }
+    return undefined;
+  };
+
+  /** Compute the earliest valid end date for a given start (start + minDays - 1).
+   *  Returns undefined if any night in between is booked or end falls out of season. */
+  const computeAutoEnd = (start: Date): Date | undefined => {
+    const end = addDays(start, minDays - 1);
+    if (isOutOfSeason(end)) return undefined;
+    for (let cur = new Date(start); cur < end; cur = addDays(cur, 1)) {
+      if (isDateBooked(cur)) return undefined;
+    }
+    return end;
+  };
+
+  // Auto-select earliest valid start date once bookings have loaded (only if
+  // user has not already picked a date, e.g. via the availability prefill).
+  useEffect(() => {
+    if (calendarLoading) return;
+    if (startDate) return;
+    const next = findNextValidStart();
+    if (!next) return;
+    setStartDate(next);
+    const autoEnd = computeAutoEnd(next);
+    if (autoEnd) setEndDate(autoEnd);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calendarLoading, bookingType]);
+
+
   const adultsNum = parseInt(form.adults, 10) || 0;
   const childrenNum = parseInt(form.children, 10) || 0;
   const totalPersons = adultsNum + childrenNum;
@@ -633,7 +670,7 @@ const ContactSection = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={startDate} onSelect={(date) => { if (date && (date < earliestStart || isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date))) return; setStartDate(date); setStartOpen(false); }} defaultMonth={calendarDefaultMonth} fromMonth={startOfMonth(new Date())} disabled={(date) => date < earliestStart || isOutOfSeason(date) || isDateUnavailable(date, minDays, earliestStart)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => date < earliestStart || isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
+                      <SeasonCalendar mode="single" locale={dfnsLocale} selected={startDate} onSelect={(date) => { if (date && (date < earliestStart || isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date))) return; setStartDate(date); if (date) { const autoEnd = computeAutoEnd(date); setEndDate(autoEnd); } setStartOpen(false); }} defaultMonth={calendarDefaultMonth} fromMonth={startOfMonth(new Date())} disabled={(date) => date < earliestStart || isOutOfSeason(date) || isDateUnavailable(date, minDays, earliestStart)} initialFocus className="p-3 pointer-events-auto" weekStartsOn={1} modifiers={{ booked: (date) => date < earliestStart || isDateUnavailable(date, minDays, earliestStart) || isOutOfSeason(date) }} modifiersClassNames={{ booked: "rdp-day_booked !bg-destructive/20 !text-destructive !opacity-100 font-semibold ring-1 ring-destructive/30 cursor-not-allowed" }} components={{ DayContent: ({ date }) => renderCalendarDay(date) }} />
                     </PopoverContent>
                   </Popover>
                   <Popover open={endOpen} onOpenChange={(open) => { setEndOpen(open); if (open) refetch(true); }}>
