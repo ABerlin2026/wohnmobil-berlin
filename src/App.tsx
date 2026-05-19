@@ -17,6 +17,8 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 const Empfehlen = lazy(() => import("./pages/Empfehlen.tsx"));
 const WohnmobilBrandenburg = lazy(() => import("./pages/WohnmobilBrandenburg.tsx"));
+const Reisetipps = lazy(() => import("./pages/Reisetipps.tsx"));
+const Reisetipp = lazy(() => import("./pages/Reisetipp.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
               <Route path="/empfehlen" element={<Empfehlen />} />
               <Route path="/refer" element={<Empfehlen />} />
               <Route path="/wohnmobil-brandenburg" element={<WohnmobilBrandenburg />} />
+              <Route path="/reisetipps" element={<Reisetipps />} />
+              <Route path="/reisetipps/:slug" element={<Reisetipp />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

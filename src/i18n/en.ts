@@ -629,6 +629,24 @@ export const en: typeof de = {
     whyText: "We're not a large rental company with counters and queue numbers. You rent our own, well-maintained camper – personal handover in Berlin, honest advice, transparent prices with no hidden costs. That's how motorhome rental in Berlin Brandenburg should be.",
   },
 
+  // Travel tips (Blog)
+  travelTips: {
+    eyebrow: "Travel tips",
+    breadcrumb: "Travel tips",
+    indexMetaTitle: "Motorhome travel tips from Berlin – Baltic Sea, Spreewald & more",
+    indexMetaDescription: "Travel tips for campers from Berlin: motorhome trips to Rügen, the Spreewald and Tropical Islands. First-hand reports, pitches and insider tips.",
+    indexH1: "Travel tips for your next motorhome trip from Berlin",
+    indexIntro: "Honest first-hand reports, concrete pitch recommendations and insider tips for campers exploring Brandenburg, the Baltic Sea and the Spreewald from Berlin.",
+    readMore: "Read more",
+    related: "More travel tips",
+    ctaTitle: "Ready for your own trip?",
+    ctaText: "Rent our private camper for 4 people directly in Berlin-Pankow – full insurance, 150 free kilometres per day and dogs welcome.",
+    ctaButton: "Send a no-obligation inquiry",
+    footerLink: "Travel tips",
+  },
+
+
+
   // Footer
   footer: {
     imprint: "Legal Notice",
