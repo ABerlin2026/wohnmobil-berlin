@@ -641,6 +641,9 @@ export const de = {
     ctaText: "Miete unseren privaten Camper für 4 Personen direkt in Berlin-Pankow – Vollkasko, 150 Freikilometer pro Tag und Hunde willkommen.",
     ctaButton: "Jetzt unverbindlich anfragen",
     footerLink: "Reisetipps",
+    inspirationTitle: "Inspiration für deine Reise",
+    inspirationText: "Lies vorab unsere Erfahrungsberichte mit konkreten Stellplatz-Tipps:",
+    inlineLead: "Reise-Inspiration:",
   },
 
 

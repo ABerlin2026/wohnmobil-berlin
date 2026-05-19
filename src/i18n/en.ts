@@ -643,6 +643,9 @@ export const en: typeof de = {
     ctaText: "Rent our private camper for 4 people directly in Berlin-Pankow – full insurance, 150 free kilometres per day and dogs welcome.",
     ctaButton: "Send a no-obligation inquiry",
     footerLink: "Travel tips",
+    inspirationTitle: "Inspiration for your trip",
+    inspirationText: "Read our first-hand reports with concrete pitch tips:",
+    inlineLead: "Trip inspiration:",
   },
 
 
