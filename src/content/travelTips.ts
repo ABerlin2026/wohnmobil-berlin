@@ -33,7 +33,7 @@ export const travelPosts: TravelPost[] = [
   // ============================================================
   {
     slug: "wohnmobil-ruegen-ostsee-von-berlin",
-    image: sunsetImg,
+    image: ruegenImg,
     publishedAt: "2026-05-19",
     de: {
       title: "Mit dem Wohnmobil nach Rügen – Ostsee-Urlaub ab Berlin",
@@ -134,7 +134,7 @@ export const travelPosts: TravelPost[] = [
   // ============================================================
   {
     slug: "tropical-island-mit-wohnmobil-ausflug",
-    image: natureImg,
+    image: tropicalImg,
     publishedAt: "2026-05-19",
     de: {
       title: "Mit dem Wohnmobil ins Tropical Island – entspannt mit Übernachtung",
@@ -215,7 +215,7 @@ export const travelPosts: TravelPost[] = [
   // ============================================================
   {
     slug: "spreewald-tour-wohnmobil-ab-berlin",
-    image: camperImg,
+    image: spreewaldImg,
     publishedAt: "2026-05-19",
     de: {
       title: "Spreewald-Tour mit dem Wohnmobil – Kahnfahrt, Stellplätze & Geheimtipps",
