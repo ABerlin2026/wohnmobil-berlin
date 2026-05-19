@@ -26,7 +26,7 @@ const ReviewsSection = () => {
                   className={
                     i <= Math.round(avg)
                       ? "h-4 w-4 fill-primary text-primary"
-                      : "h-4 w-4 text-muted-foreground/40"
+                      : "h-4 w-4 text-muted-foreground/70"
                   }
                 />
               ))}
@@ -54,7 +54,7 @@ const ReviewsSection = () => {
                       className={
                         s <= r.rating
                           ? "h-3.5 w-3.5 fill-primary text-primary"
-                          : "h-3.5 w-3.5 text-muted-foreground/40"
+                          : "h-3.5 w-3.5 text-muted-foreground/70"
                       }
                     />
                   ))}
