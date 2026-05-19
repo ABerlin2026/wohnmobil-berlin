@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:mobile-layout": "node scripts/mobile-layout-check.mjs",
+    "test:mobile-layout:shots": "SCREENSHOTS=1 node scripts/mobile-layout-check.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
