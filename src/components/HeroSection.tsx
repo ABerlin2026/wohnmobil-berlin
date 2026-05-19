@@ -50,7 +50,7 @@ const HeroSection = () => {
           disablePictureInPicture
           disableRemotePlayback
           controls={false}
-          preload="auto"
+          preload="metadata"
           poster={heroCamper}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-in-out pointer-events-none"
           style={{ opacity: showPhoto ? 0 : 1 }}
