@@ -25,13 +25,13 @@ const WohnmobilBrandenburg = () => {
       <main>
         <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-background px-4 sm:px-6 md:px-8">
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div className="grid md:grid-cols-2 gap-10 items-center min-w-0">
 
-              <div>
+              <div className="min-w-0">
                 <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">
                   Wohnmobil mieten Brandenburg
                 </p>
-                <h1 className="text-2xl [@media(min-width:380px)]:text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-[1.1] mb-6">
+                <h1 className="text-2xl [@media(min-width:380px)]:text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-[1.1] mb-6 break-words">
                   Wohnmobil mieten in Brandenburg – privat ab Berlin
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
@@ -45,9 +45,10 @@ const WohnmobilBrandenburg = () => {
                   <li>✓ Abholung in Berlin-Pankow (13127) – schnell auf der A10/A11</li>
                   <li>✓ Hunde willkommen, Vorzelt & Markise inklusive</li>
                 </ul>
-                <Button variant="hero" size="lg" onClick={scrollToContactName} className="px-10 py-6">
+                <Button variant="hero" size="lg" onClick={scrollToContactName} className="px-6 sm:px-10 py-6 max-w-full whitespace-normal h-auto text-center">
                   Camper für Brandenburg-Trip anfragen
                 </Button>
+
               </div>
               <div className="relative">
                 <img
