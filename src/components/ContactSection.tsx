@@ -431,6 +431,7 @@ const ContactSection = () => {
           : bookingType === "event" ? "Event/Übernachtung"
           : "Ferienwohnung";
       const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
+      const normalizedEmail = form.email.trim().toLowerCase();
 
       // Anker für die Gast-Bestätigung: einen Ticket-Eintrag anlegen, dessen ID
       // die Edge Function als Nachweis verlangt, bevor sie eine Bestätigung an
@@ -438,7 +439,7 @@ const ContactSection = () => {
       // Bestätigungs-Versand auf beliebige Adressen auslösen können.
       const { data: ticket, error: ticketError } = await supabase
         .from("inquiry_confirmation_tickets")
-        .insert({ email: form.email })
+        .insert({ email: normalizedEmail })
         .select("id")
         .single();
       if (ticketError || !ticket) throw ticketError ?? new Error("ticket insert failed");
@@ -447,7 +448,7 @@ const ContactSection = () => {
         inquiryTicketId: ticket.id,
         bookingType: bookingTypeLabel,
         name: `${form.firstName} ${form.name}`.trim(),
-        email: form.email,
+        email: normalizedEmail,
         phone: form.phone,
         birthdate: form.birthdate || undefined,
         startDate: format(startDate, "EEE, dd.MM.yyyy", { locale: dfnsLocale }),
