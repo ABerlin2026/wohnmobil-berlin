@@ -436,6 +436,8 @@ export const en: typeof de = {
     toastCountryDesc: "Unfortunately our insurance does not cover this country.",
     toastSuccess: "Inquiry sent!",
     toastSuccessDesc: "We'll get back to you as soon as possible.",
+    toastError: "Sending failed",
+    toastErrorDesc: "Please try again or message us directly on WhatsApp.",
     termsAcceptPre: "I have read and accept the",
     termsLink: "Terms & Conditions",
     termsAcceptPost: ".",
