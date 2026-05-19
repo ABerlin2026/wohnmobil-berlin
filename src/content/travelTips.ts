@@ -1,6 +1,6 @@
-import sunsetImg from "@/assets/camper-sunset-hero.jpg";
-import natureImg from "@/assets/holiday-home-nature.jpg";
-import camperImg from "@/assets/hero-camper.jpg";
+import ruegenImg from "@/assets/travel-ruegen.jpg";
+import tropicalImg from "@/assets/travel-tropical.jpg";
+import spreewaldImg from "@/assets/travel-spreewald.jpg";
 
 export type ContentBlock =
   | { type: "p"; text: string }
