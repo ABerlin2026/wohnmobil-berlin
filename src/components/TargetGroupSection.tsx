@@ -29,7 +29,7 @@ const TargetGroupSection = () => {
                     to="/wohnmobil-brandenburg"
                     className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary hover:underline"
                   >
-                    Wohnmobil mieten Brandenburg <ArrowRight className="h-3.5 w-3.5" />
+                    {t.target.brandenburgCta} <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 )}
               </div>
@@ -38,11 +38,11 @@ const TargetGroupSection = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-12 max-w-2xl mx-auto">
-          Planst du einen Roadtrip durch Brandenburg, in den Spreewald oder an die Mecklenburgische Seenplatte? Schau dir unsere Übersicht{" "}
+          {t.target.brandenburgOutroBefore}
           <Link to="/wohnmobil-brandenburg" className="text-primary font-medium hover:underline">
-            Wohnmobil mieten in Berlin &amp; Brandenburg
-          </Link>{" "}
-          mit den schönsten Zielen an.
+            {t.target.brandenburgOutroLink}
+          </Link>
+          {t.target.brandenburgOutroAfter}
         </p>
       </div>
     </section>

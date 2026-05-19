@@ -454,8 +454,8 @@ const ContactSection = () => {
     } catch (err) {
       console.error("Anfrage konnte nicht gesendet werden:", err);
       toast({
-        title: "Senden fehlgeschlagen",
-        description: "Bitte versuche es erneut oder schreib uns direkt per WhatsApp.",
+        title: t.contact.toastError,
+        description: t.contact.toastErrorDesc,
         variant: "destructive",
       });
     } finally {

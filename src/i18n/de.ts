@@ -141,6 +141,10 @@ export const de = {
       { title: "Für Einsteiger", text: "Persönliche Einweisung und Erklärvideos – ohne Vorkenntnisse starten." },
       { title: "Für Reisen ins Ausland", text: "Auslandsfahrten erlaubt – Europa in deinem Tempo." },
     ],
+    brandenburgCta: "Wohnmobil mieten Brandenburg",
+    brandenburgOutroBefore: "Planst du einen Roadtrip durch Brandenburg, in den Spreewald oder an die Mecklenburgische Seenplatte? Schau dir unsere Übersicht ",
+    brandenburgOutroLink: "Wohnmobil mieten in Berlin & Brandenburg",
+    brandenburgOutroAfter: " mit den schönsten Zielen an.",
   },
 
   // Equipment
@@ -430,6 +434,8 @@ export const de = {
     toastCountryDesc: "Leider deckt unsere Versicherung dieses Land nicht ab.",
     toastSuccess: "Anfrage gesendet!",
     toastSuccessDesc: "Wir melden uns schnellstmöglich bei dir.",
+    toastError: "Senden fehlgeschlagen",
+    toastErrorDesc: "Bitte versuche es erneut oder schreib uns direkt per WhatsApp.",
     termsAcceptPre: "Ich habe die",
     termsLink: "AGB",
     termsAcceptPost: "gelesen und akzeptiere sie.",
