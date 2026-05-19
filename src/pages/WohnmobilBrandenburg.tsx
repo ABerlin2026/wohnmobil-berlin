@@ -14,7 +14,7 @@ const WohnmobilBrandenburg = () => {
     <>
       <PageSEO
         title="Wohnmobil mieten Brandenburg – privat ab Berlin, 119 €/Tag"
-        description="Wohnmobil mieten in Brandenburg – privater Camper für 4 Personen, direkt aus Berlin abholen. Ideal für Spreewald, Mecklenburgische Seenplatte & Ostsee. Vollkasko & 150 km/Tag inkl."
+        description="Wohnmobil mieten in Brandenburg – privater Camper für 4 Personen, ab Berlin. Vollkasko & 150 km/Tag inklusive."
         canonical="https://wohnmobil-berlin.de/wohnmobil-brandenburg"
         breadcrumbs={[
           { name: "Startseite", url: "https://wohnmobil-berlin.de/" },
