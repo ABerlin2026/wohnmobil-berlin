@@ -143,6 +143,10 @@ export const en: typeof de = {
       { title: "For Beginners", text: "Personal introduction and tutorial videos – start without prior experience." },
       { title: "For Trips Abroad", text: "Abroad trips allowed – Europe at your own pace." },
     ],
+    brandenburgCta: "Rent a motorhome in Brandenburg",
+    brandenburgOutroBefore: "Planning a road trip through Brandenburg, the Spreewald or the Mecklenburg Lake District? Check out our overview of ",
+    brandenburgOutroLink: "motorhome rentals in Berlin & Brandenburg",
+    brandenburgOutroAfter: " with the most beautiful destinations.",
   },
 
   // Equipment
