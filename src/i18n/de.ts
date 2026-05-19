@@ -627,6 +627,24 @@ export const de = {
     whyText: "Wir sind keine große Vermietung mit Schalter und Wartenummern. Du mietest unseren eigenen, gepflegten Camper – persönliche Übergabe in Berlin, ehrliche Beratung, transparente Preise ohne versteckte Kosten. So funktioniert Wohnmobil mieten in Berlin Brandenburg, wie es sein sollte.",
   },
 
+  // Reisetipps (Blog)
+  travelTips: {
+    eyebrow: "Reisetipps",
+    breadcrumb: "Reisetipps",
+    indexMetaTitle: "Reisetipps mit dem Wohnmobil ab Berlin – Ostsee, Spreewald & mehr",
+    indexMetaDescription: "Reisetipps für Camper aus Berlin: Wohnmobil-Touren nach Rügen, in den Spreewald und zum Tropical Island. Erfahrungsberichte, Stellplätze und Insider-Tipps.",
+    indexH1: "Reisetipps für deinen nächsten Wohnmobil-Trip ab Berlin",
+    indexIntro: "Ehrliche Erfahrungsberichte, konkrete Stellplatz-Empfehlungen und Insider-Tipps für Camper, die von Berlin aus Brandenburg, die Ostsee und den Spreewald entdecken wollen.",
+    readMore: "Weiterlesen",
+    related: "Weitere Reisetipps",
+    ctaTitle: "Bereit für deine eigene Tour?",
+    ctaText: "Miete unseren privaten Camper für 4 Personen direkt in Berlin-Pankow – Vollkasko, 150 Freikilometer pro Tag und Hunde willkommen.",
+    ctaButton: "Jetzt unverbindlich anfragen",
+    footerLink: "Reisetipps",
+  },
+
+
+
   // Footer
   footer: {
     imprint: "Impressum",
