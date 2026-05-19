@@ -599,6 +599,34 @@ export const de = {
     seoDescription: "Empfiehl Wohnmobil Berlin weiter und erhalte 50 € Provision nach erfolgreicher Buchung. Einfaches Empfehlungsformular – DSGVO-konform.",
   },
 
+  // Brandenburg landing page
+  brandenburgPage: {
+    metaTitle: "Wohnmobil mieten Brandenburg – privat ab Berlin, 119 €/Tag",
+    metaDescription: "Wohnmobil mieten in Brandenburg – privater Camper für 4 Personen, ab Berlin. Vollkasko & 150 km/Tag inklusive.",
+    breadcrumb: "Wohnmobil mieten Brandenburg",
+    eyebrow: "Wohnmobil mieten Brandenburg",
+    h1: "Wohnmobil mieten in Brandenburg – privat ab Berlin",
+    intro: "Du suchst ein Wohnmobil für deinen Brandenburg-Trip? Bei uns leihst du privat einen Camper für 4 Personen – direkt in Berlin abholen und nach wenigen Kilometern bist du mitten im Spreewald, an den Brandenburger Seen oder auf dem Weg zur Ostsee.",
+    bullets: [
+      "✓ Reisemobil für 4 Personen, Vollkasko inklusive",
+      "✓ 150 Freikilometer pro Tag – perfekt für Brandenburg-Touren",
+      "✓ Abholung in Berlin-Pankow (13127) – schnell auf der A10/A11",
+      "✓ Hunde willkommen, Vorzelt & Markise inklusive",
+    ],
+    cta: "Camper für Brandenburg-Trip anfragen",
+    imgAlt: "Wohnmobil mieten Brandenburg – Camper für Spreewald, Seenplatte und Ostsee",
+    destinationsTitle: "Wohnmobilvermietung Brandenburg – die schönsten Ziele",
+    destinationsIntro: "Brandenburg ist das wohl unterschätzteste Camping-Bundesland Deutschlands. Über 3.000 Seen, dichte Wälder, kleine Dörfer und die unberührte Natur des Spreewalds liegen direkt vor Berlins Haustür. Mit unserem Reisemobil bist du in 30 – 60 Minuten an Orten, an denen du wirklich abschalten kannst.",
+    destinations: [
+      { title: "Spreewald", text: "Kahnfahrten, Kanäle und Gurken-Touren. Camper auf einem der ruhigen Stellplätze in Lübbenau oder Burg parken – ab Berlin ca. 1 Std." },
+      { title: "Mecklenburgische Seenplatte", text: "Über 1.000 Seen, perfekt für Familien und Hundebesitzer. Müritz, Plauer See oder Feldberg – mit Wohnmobil flexibel von See zu See." },
+      { title: "Ostsee in 2 – 3 Stunden", text: "Usedom, Rügen oder Darß – mit 150 Freikilometern pro Tag und Vollkasko entspannt aus Berlin Brandenburg starten." },
+      { title: "Brandenburger Seen", text: "Werbellinsee, Stechlin, Scharmützelsee – Stellplätze direkt am Wasser, baden vor der Camper-Tür. Ideal für ein verlängertes Wochenende." },
+    ],
+    whyTitle: "Wohnmobil leihen Brandenburg – warum privat?",
+    whyText: "Wir sind keine große Vermietung mit Schalter und Wartenummern. Du mietest unseren eigenen, gepflegten Camper – persönliche Übergabe in Berlin, ehrliche Beratung, transparente Preise ohne versteckte Kosten. So funktioniert Wohnmobil mieten in Berlin Brandenburg, wie es sein sollte.",
+  },
+
   // Footer
   footer: {
     imprint: "Impressum",
