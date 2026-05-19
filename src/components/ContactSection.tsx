@@ -435,7 +435,7 @@ const ContactSection = () => {
       const { error } = await supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "inquiry-notification",
-          recipientEmail: "anfrage@wohnmobil-berlin.de",
+          recipientEmail: "wohnmobil.berlin@gmx.de",
           idempotencyKey,
           templateData,
         },

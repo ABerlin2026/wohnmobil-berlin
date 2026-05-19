@@ -85,7 +85,7 @@ const InquiryNotificationEmail = ({
         <Heading style={h1}>Neue Anfrage über {SITE_NAME}</Heading>
         <Text style={subtitle}>
           Über das Anfrageformular auf wohnmobil-berlin.de wurde gerade eine
-          unverbindliche Anfrage gesendet.
+          unverbindliche Anfrage gesendet. Diese Anfrage geht an wohnmobil.berlin@gmx.de.
         </Text>
 
         <Section style={card}>
