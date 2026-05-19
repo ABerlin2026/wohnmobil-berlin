@@ -589,7 +589,7 @@ export const de = {
     successText: "Wir nehmen umgehend Kontakt mit der empfohlenen Person auf. Nach erfolgreicher Buchung melden wir uns bei dir wegen der Auszahlung der 50 €.",
     errorMessage: "Beim Absenden ist ein Fehler aufgetreten. Bitte versuche es erneut.",
     payoutNote: "Die Provision wird nach erfolgreichem Mietabschluss per Überweisung ausgezahlt. Bankdaten erfragen wir separat per E-Mail.",
-    seoTitle: "Wohnmobil Berlin empfehlen & 50 € verdienen | Empfehlungsprogramm",
+    seoTitle: "Wohnmobil Berlin empfehlen & 50 € Prämie sichern",
     seoDescription: "Empfiehl Wohnmobil Berlin weiter und erhalte 50 € Provision nach erfolgreicher Buchung. Einfaches Empfehlungsformular – DSGVO-konform.",
   },
 
