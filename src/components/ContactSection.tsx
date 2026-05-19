@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { addDays, endOfMonth, format, differenceInCalendarDays } from "date-fns";
+import { addDays, endOfMonth, format, differenceInCalendarDays, startOfMonth } from "date-fns";
 import { de as dfnsDe, enUS as dfnsEn } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
