@@ -434,6 +434,8 @@ export const de = {
     toastCountryDesc: "Leider deckt unsere Versicherung dieses Land nicht ab.",
     toastSuccess: "Anfrage gesendet!",
     toastSuccessDesc: "Wir melden uns schnellstmöglich bei dir.",
+    toastError: "Senden fehlgeschlagen",
+    toastErrorDesc: "Bitte versuche es erneut oder schreib uns direkt per WhatsApp.",
     termsAcceptPre: "Ich habe die",
     termsLink: "AGB",
     termsAcceptPost: "gelesen und akzeptiere sie.",
