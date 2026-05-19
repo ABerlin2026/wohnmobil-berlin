@@ -17,6 +17,7 @@ const Navigation = () => {
     { label: t.nav.advantages, href: "#vorteile" },
     { label: t.nav.pricing, href: "#preise" },
     { label: t.nav.equipment, href: "#ausstattung" },
+    { label: t.nav.travelTips, href: "/reisetipps", route: true as const },
     { label: t.nav.faq, href: "#faq" },
     { label: t.nav.contact, href: "#kontakt" },
   ];
@@ -27,8 +28,12 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleClick = (href: string) => {
+  const handleClick = (href: string, isRoute?: boolean) => {
     setOpen(false);
+    if (isRoute) {
+      navigate(href);
+      return;
+    }
     const isContact = href === "#kontakt";
     const scroll = () => {
       if (isContact) {
@@ -81,7 +86,7 @@ const Navigation = () => {
             <a
               key={l.href}
               href={l.href}
-              onClick={(e) => { e.preventDefault(); handleClick(l.href); }}
+              onClick={(e) => { e.preventDefault(); handleClick(l.href, "route" in l ? l.route : false); }}
               className={cn(
                 "text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200",
                 scrolled
@@ -142,7 +147,7 @@ const Navigation = () => {
             <a
               key={l.href}
               href={l.href}
-              onClick={(e) => { e.preventDefault(); handleClick(l.href); }}
+              onClick={(e) => { e.preventDefault(); handleClick(l.href, "route" in l ? l.route : false); }}
               className="block w-full text-left text-sm font-medium py-3 px-3 rounded-md text-muted-foreground hover:text-foreground transition-colors"
             >
               {l.label}
