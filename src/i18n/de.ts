@@ -202,7 +202,7 @@ export const de = {
       {
         title: "Außenbereich",
         items: [
-          "Vorzelt – zusätzlicher Wohnraum bei jedem Wetter", "Markise mit LED-Beleuchtung",
+          "Vorzelt zubuchbar – zusätzlicher Wohnraum bei jedem Wetter (gegen Aufpreis)", "Markise mit LED-Beleuchtung",
           "Auffahrkeile & Kabeltrommel", "Stromanschluss für Landanschluss", "Wasserkanister",
         ],
       },
