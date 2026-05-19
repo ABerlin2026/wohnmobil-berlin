@@ -27,6 +27,18 @@ const upsertMeta = (name: string, content: string) => {
   el.setAttribute("content", content);
 };
 
+const upsertMetaProperty = (property: string, content: string): string => {
+  let el = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+  const previous = el?.getAttribute("content") ?? "";
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", property);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+  return previous;
+};
+
 const PageSEO = ({ title, description, canonical, breadcrumbs, noindex }: PageSEOProps) => {
   useEffect(() => {
     const previousTitle = document.title;
@@ -46,6 +58,19 @@ const PageSEO = ({ title, description, canonical, breadcrumbs, noindex }: PageSE
       document.head.appendChild(canonicalEl);
     }
     canonicalEl.setAttribute("href", canonical);
+
+    // Open Graph + Twitter — unique per route
+    const previousOgTitle = upsertMetaProperty("og:title", title);
+    const previousOgDesc = upsertMetaProperty("og:description", description);
+    const previousOgUrl = upsertMetaProperty("og:url", canonical);
+
+    const twTitleEl = document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]');
+    const previousTwTitle = twTitleEl?.getAttribute("content") ?? "";
+    upsertMeta("twitter:title", title);
+
+    const twDescEl = document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]');
+    const previousTwDesc = twDescEl?.getAttribute("content") ?? "";
+    upsertMeta("twitter:description", description);
 
     // Robots (for noindex pages like legal)
     if (noindex) {
@@ -82,6 +107,11 @@ const PageSEO = ({ title, description, canonical, breadcrumbs, noindex }: PageSE
       document.title = previousTitle;
       if (previousDesc) upsertMeta("description", previousDesc);
       if (previousCanonical && canonicalEl) canonicalEl.setAttribute("href", previousCanonical);
+      if (previousOgTitle) upsertMetaProperty("og:title", previousOgTitle);
+      if (previousOgDesc) upsertMetaProperty("og:description", previousOgDesc);
+      if (previousOgUrl) upsertMetaProperty("og:url", previousOgUrl);
+      if (previousTwTitle) upsertMeta("twitter:title", previousTwTitle);
+      if (previousTwDesc) upsertMeta("twitter:description", previousTwDesc);
       if (noindex) {
         const robotsEl = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
         robotsEl?.setAttribute(
