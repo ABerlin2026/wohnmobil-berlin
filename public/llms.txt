@@ -1,0 +1,17 @@
+# Wohnmobil Berlin Brandenburg
+
+> Privater Wohnmobilverleih in Berlin & Brandenburg – Camper für 4 Personen, ab 119 €/Tag inklusive Vollkasko und 150 Freikilometern pro Tag.
+
+Wir vermieten ein voll ausgestattetes Wohnmobil (Diesel, Führerschein Klasse B, unter 3,5 t) mit 4 Sitz- und 4 Schlafplätzen, Küche, Bad, Klimaanlage, Vorzelt und Markise. Direkt aus Berlin starten. Haustiere willkommen. Vollkasko und 150 Freikilometer pro Tag sind im Preis enthalten. Nebensaison (Oktober–April): 119 €/Tag. Hauptsaison (Mai–September): 129 €/Tag.
+
+## Pages
+
+- [Startseite](/): Wohnmobil mieten Berlin – Übersicht, Preise, Ausstattung, Verfügbarkeit, FAQ und Kontakt.
+- [Wohnmobil Brandenburg](/wohnmobil-brandenburg): Wohnmobil mieten für Touren durch Brandenburg – Reiseziele, Stellplätze, Tipps.
+- [Empfehlungsprogramm](/empfehlen): Freunde empfehlen und Prämie sichern.
+
+## Optional
+
+- [AGB](/agb): Allgemeine Geschäftsbedingungen.
+- [Impressum](/impressum): Anbieterkennzeichnung.
+- [Datenschutz](/datenschutz): Datenschutzerklärung.
