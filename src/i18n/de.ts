@@ -141,6 +141,10 @@ export const de = {
       { title: "Für Einsteiger", text: "Persönliche Einweisung und Erklärvideos – ohne Vorkenntnisse starten." },
       { title: "Für Reisen ins Ausland", text: "Auslandsfahrten erlaubt – Europa in deinem Tempo." },
     ],
+    brandenburgCta: "Wohnmobil mieten Brandenburg",
+    brandenburgOutroBefore: "Planst du einen Roadtrip durch Brandenburg, in den Spreewald oder an die Mecklenburgische Seenplatte? Schau dir unsere Übersicht ",
+    brandenburgOutroLink: "Wohnmobil mieten in Berlin & Brandenburg",
+    brandenburgOutroAfter: " mit den schönsten Zielen an.",
   },
 
   // Equipment
