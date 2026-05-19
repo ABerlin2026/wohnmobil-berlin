@@ -198,9 +198,9 @@ const ContactSection = () => {
   // highlight a date when the calendar opens, without pre-filling the input
   // field. Recomputed when bookings or booking type change.
   const suggestedStart = useMemo(
-    () => (calendarLoading ? undefined : findNextValidStart()),
+    () => findNextValidStart(),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [calendarLoading, bookingType, isDateUnavailable],
+    [bookingType, isDateUnavailable, earliestStart.getTime()],
   );
   const suggestedEnd = useMemo(() => {
     const base = startDate ?? suggestedStart;
