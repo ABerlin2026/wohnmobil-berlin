@@ -23,9 +23,10 @@ const WohnmobilBrandenburg = () => {
       />
       <Navigation />
       <main>
-        <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-background">
-          <div className="container-narrow">
+        <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-background px-4 sm:px-6 md:px-8">
+          <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-10 items-center">
+
               <div>
                 <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">
                   Wohnmobil mieten Brandenburg
