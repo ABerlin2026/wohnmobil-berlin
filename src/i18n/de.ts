@@ -33,7 +33,7 @@ export const de = {
       { title: "Vollkasko inklusive", text: "Keine versteckten Versicherungskosten." },
       { title: "Auslandsfahrten erlaubt", text: "Europa entdecken – kein Problem." },
       { title: "Haustierfreundlich", text: "Dein Hund fährt mit auf Reisen." },
-      { title: "Vorzelt inklusive", text: "Extra Wohnraum bei jedem Wetter." },
+      { title: "Vorzelt zubuchbar", text: "Extra Wohnraum bei jedem Wetter – optional gegen Aufpreis." },
       { title: "Markise mit LED", text: "Gemütliche Abende mit Stimmungslicht." },
       { title: "USB am Schlafplatz", text: "Smartphones direkt am Bett laden." },
       { title: "Abholung Berlin", text: "Start in Berlin." },
@@ -202,7 +202,7 @@ export const de = {
       {
         title: "Außenbereich",
         items: [
-          "Vorzelt – zusätzlicher Wohnraum bei jedem Wetter", "Markise mit LED-Beleuchtung",
+          "Vorzelt zubuchbar – zusätzlicher Wohnraum bei jedem Wetter (gegen Aufpreis)", "Markise mit LED-Beleuchtung",
           "Auffahrkeile & Kabeltrommel", "Stromanschluss für Landanschluss", "Wasserkanister",
         ],
       },
