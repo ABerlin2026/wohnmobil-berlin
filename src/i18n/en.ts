@@ -591,7 +591,7 @@ export const en: typeof de = {
     successText: "We will contact the referred person as soon as possible. After a successful booking, we'll get in touch with you about the €50 payout.",
     errorMessage: "An error occurred while submitting. Please try again.",
     payoutNote: "The commission is paid by bank transfer after a successful rental. We'll request your bank details separately by email.",
-    seoTitle: "Refer Wohnmobil Berlin & earn €50 | Referral Program",
+    seoTitle: "Refer Wohnmobil Berlin & earn €50 reward",
     seoDescription: "Recommend Wohnmobil Berlin and receive €50 commission after a successful booking. Simple referral form – GDPR compliant.",
   },
 
