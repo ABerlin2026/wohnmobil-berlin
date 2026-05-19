@@ -21,8 +21,10 @@ const TargetGroupSection = () => {
             const isRoadtrip = i === 2;
             return (
               <div key={i} className="group p-6">
-                <Icon className="h-5 w-5 text-primary mb-4 group-hover:text-loxone-light transition-colors" />
-                <h3 className="font-display font-semibold text-foreground text-sm mb-2">{g.title}</h3>
+                <div className="flex items-center gap-3 mb-2">
+                  <Icon className="h-5 w-5 text-primary shrink-0 group-hover:text-loxone-light transition-colors" />
+                  <h3 className="font-display font-semibold text-foreground text-sm">{g.title}</h3>
+                </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">{g.text}</p>
                 {isRoadtrip && (
                   <Link
