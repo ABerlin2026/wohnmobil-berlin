@@ -149,4 +149,10 @@ input[type="date"]::-webkit-clear-button {
     overflow-wrap: anywhere;
     hyphens: auto;
   }
+
+  p, li {
+    text-align: justify;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
 }
