@@ -1,6 +1,7 @@
 import { Heart, Users, MapPin, Dog, Compass, Globe, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
+import TravelTipsInline from "@/components/TravelTipsInline";
 
 const icons = [Heart, Users, MapPin, Dog, Compass, Globe];
 
@@ -46,6 +47,10 @@ const TargetGroupSection = () => {
           </Link>
           {t.target.brandenburgOutroAfter}
         </p>
+
+        <div className="max-w-2xl mx-auto mt-6">
+          <TravelTipsInline variant="compact" />
+        </div>
       </div>
     </section>
   );

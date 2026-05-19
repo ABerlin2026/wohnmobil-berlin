@@ -3,6 +3,7 @@ import { Home, MapPin, Bath, Users, Check, Trees, Sparkles, Quote } from "lucide
 import { useLanguage } from "@/i18n/LanguageContext";
 import holidayHomeImage from "@/assets/holiday-home-nature.jpg";
 import { scrollToContactName } from "@/lib/scrollToContact";
+import TravelTipsInline from "@/components/TravelTipsInline";
 
 const HolidayHomeSection = () => {
   const { t } = useLanguage();
@@ -185,9 +186,11 @@ const HolidayHomeSection = () => {
             </Button>
           </div>
 
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-xs text-muted-foreground text-center mb-6">
             {t.holidayHome.note}
           </p>
+
+          <TravelTipsInline variant="compact" />
         </div>
       </div>
     </section>
