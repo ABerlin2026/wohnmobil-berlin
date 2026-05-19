@@ -69,6 +69,12 @@ const Unsubscribe = () => {
 
   return (
     <main className="min-h-screen bg-background flex items-center justify-center px-4 py-12">
+      <PageSEO
+        title="Newsletter-Abmeldung – Wohnmobil Berlin"
+        description="Melde dich hier von E-Mails der Wohnmobil-Vermietung Berlin ab."
+        canonical="https://wohnmobil-berlin.de/unsubscribe"
+        noindex
+      />
       <div className="max-w-md w-full bg-surface-1 rounded-xl border border-border/20 p-6 sm:p-8 text-center">
         <h1 className="text-2xl font-display font-bold mb-2">E-Mail-Abmeldung</h1>
         <p className="text-sm text-muted-foreground mb-6">Camper Berlin – Wohnmobil-Vermietung</p>
