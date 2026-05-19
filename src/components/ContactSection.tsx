@@ -194,18 +194,18 @@ const ContactSection = () => {
     return end;
   };
 
-  // Auto-select earliest valid start date once bookings have loaded (only if
-  // user has not already picked a date, e.g. via the availability prefill).
-  useEffect(() => {
-    if (calendarLoading) return;
-    if (startDate) return;
-    const next = findNextValidStart();
-    if (!next) return;
-    setStartDate(next);
-    const autoEnd = computeAutoEnd(next);
-    if (autoEnd) setEndDate(autoEnd);
+  // Memoized "suggested" earliest valid start date — used to visually
+  // highlight a date when the calendar opens, without pre-filling the input
+  // field. Recomputed when bookings or booking type change.
+  const suggestedStart = useMemo(
+    () => (calendarLoading ? undefined : findNextValidStart()),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendarLoading, bookingType]);
+    [calendarLoading, bookingType, isDateUnavailable],
+  );
+  const suggestedEnd = useMemo(() => {
+    const base = startDate ?? suggestedStart;
+    return base ? addDays(base, minDays - 1) : undefined;
+  }, [startDate, suggestedStart, minDays]);
 
 
   const adultsNum = parseInt(form.adults, 10) || 0;
