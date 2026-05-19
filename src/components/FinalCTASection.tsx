@@ -3,6 +3,7 @@ import { MessageCircle, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { WHATSAPP_URL } from "@/lib/contact";
 import { scrollToContactName } from "@/lib/scrollToContact";
+import TravelTipsInline from "@/components/TravelTipsInline";
 
 const FinalCTASection = () => {
   const { t } = useLanguage();
@@ -28,6 +29,8 @@ const FinalCTASection = () => {
             </a>
           </Button>
         </div>
+
+        <TravelTipsInline variant="onPrimary" className="mt-10" />
       </div>
     </section>
   );
