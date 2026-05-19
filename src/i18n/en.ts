@@ -35,7 +35,7 @@ export const en: typeof de = {
       { title: "Fully insured", text: "No hidden insurance costs." },
       { title: "Abroad trips allowed", text: "Explore Europe – no problem." },
       { title: "Pet-friendly", text: "Your dog travels with you." },
-      { title: "Awning tent included", text: "Extra living space in any weather." },
+      { title: "Awning tent add-on", text: "Extra living space in any weather – optional, available as a paid add-on." },
       { title: "Awning with LED", text: "Cozy evenings with mood lighting." },
       { title: "USB at sleeping spots", text: "Charge smartphones right at the bed." },
       { title: "Pickup in Berlin", text: "Start in Berlin." },
