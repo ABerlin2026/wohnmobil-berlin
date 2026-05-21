@@ -18,10 +18,14 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem("lang") as Language;
+    // Default to German (Zielmarkt). Crawler wie Googlebot senden meist
+    // Accept-Language: en-US — würden sonst die englische Variante
+    // indexieren und englische Snippets in den SERPs zeigen.
+    const saved = typeof localStorage !== "undefined"
+      ? (localStorage.getItem("lang") as Language | null)
+      : null;
     if (saved && translations[saved]) return saved;
-    const browserLang = navigator.language.slice(0, 2);
-    return browserLang === "de" ? "de" : "en";
+    return "de";
   });
 
   const setLanguage = useCallback((lang: Language) => {
