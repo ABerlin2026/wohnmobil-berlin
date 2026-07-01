@@ -70,9 +70,12 @@ const FloatingChatbot = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isStreaming]);
 
-  // Focus input when opening
+  // Focus input when opening + track "opened" event
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 100);
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+      trackChatbotEvent("opened");
+    }
   }, [open]);
 
   // Lock body scroll while open (mobile UX)
