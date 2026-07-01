@@ -100,6 +100,7 @@ const FloatingChatbot = () => {
     const nextHistory = [...messages, userMsg];
     setMessages(nextHistory);
     setIsStreaming(true);
+    trackChatbotEvent("message_sent");
 
     // Strip the local-only greeting from outgoing payload
     const outgoing = nextHistory.filter(
