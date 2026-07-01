@@ -44,6 +44,33 @@ export type Database = {
         }
         Relationships: []
       }
+      chatbot_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          page_path: string | null
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          page_path?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          page_path?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
