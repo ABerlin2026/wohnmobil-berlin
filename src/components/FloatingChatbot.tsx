@@ -2,6 +2,34 @@ import { useEffect, useRef, useState, FormEvent } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { WHATSAPP_URL } from "@/lib/contact";
+import { supabase } from "@/integrations/supabase/client";
+
+// Per-tab session id for grouping chatbot events
+const getSessionId = () => {
+  if (typeof window === "undefined") return "";
+  const KEY = "chatbot_session_id";
+  let sid = sessionStorage.getItem(KEY);
+  if (!sid) {
+    sid = crypto.randomUUID();
+    sessionStorage.setItem(KEY, sid);
+  }
+  return sid;
+};
+
+const trackChatbotEvent = (event_type: "opened" | "message_sent") => {
+  if (typeof window === "undefined") return;
+  supabase
+    .from("chatbot_events")
+    .insert({
+      event_type,
+      session_id: getSessionId(),
+      user_agent: navigator.userAgent.slice(0, 500),
+      page_path: window.location.pathname,
+    })
+    .then(({ error }) => {
+      if (error) console.warn("chatbot event tracking failed:", error.message);
+    });
+};
 
 type ChatRole = "user" | "assistant";
 interface ChatMessage {
