@@ -28,7 +28,7 @@ const AdminLogin = () => {
 
   return (
     <>
-      <PageSEO title="Admin Login" description="Interner Admin-Bereich" noindex />
+      <PageSEO title="Admin Login" description="Interner Admin-Bereich" canonical="https://wohnmobil-berlin.de/admin/login" noindex />
       <main className="min-h-screen flex items-center justify-center bg-background p-6">
         <form
           onSubmit={submit}

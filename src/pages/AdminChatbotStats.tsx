@@ -111,7 +111,7 @@ const AdminChatbotStats = () => {
 
   return (
     <>
-      <PageSEO title="Chatbot-Statistiken" description="Interne Auswertung der Chatbot-Nutzung" noindex />
+      <PageSEO title="Chatbot-Statistiken" description="Interne Auswertung der Chatbot-Nutzung" canonical="https://wohnmobil-berlin.de/admin/chatbot-stats" noindex />
       <main className="min-h-screen bg-background p-4 sm:p-8 space-y-6">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div>
