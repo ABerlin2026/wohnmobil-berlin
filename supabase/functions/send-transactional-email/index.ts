@@ -487,48 +487,27 @@ Deno.serve(async (req) => {
         const guestRecipient = guestEmailRaw
         const guestNormalized = guestRecipient.toLowerCase()
 
-        // Ticket-bound guest confirmation: the caller MUST present a fresh,
-        // unconsumed inquiry_confirmation_tickets row whose email matches the
-        // guest recipient. This binds each guest confirmation to a real
-        // anonymous DB insert (rate-limited at the DB layer by RLS volume),
-        // closing the open-relay-at-low-volume residual risk.
-        // Service-role calls bypass the ticket check.
+        // Server-side ticket: the confirmation is bound to a real
+        // inquiry-notification send. The ticket row is created here with the
+        // service role (clients can no longer insert tickets), so anonymous
+        // callers cannot pre-seed or forge tickets. The DB trigger on the table
+        // additionally rate-limits ticket creation per address.
         let consumedTicketId: string | null = null
         if (!isServiceRole) {
-          const ticketId = typeof (templateData as Record<string, unknown>)?.inquiryTicketId === 'string'
-            ? ((templateData as Record<string, unknown>).inquiryTicketId as string)
-            : ''
-          if (!ticketId) {
-            console.warn('[send-transactional-email-block] reason=missing-inquiry-ticket')
-            return new Response(
-              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'missing_ticket' }),
-              { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
-            )
-          }
-          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString()
           const { data: ticket, error: ticketError } = await supabase
             .from('inquiry_confirmation_tickets')
-            .select('id, email, confirmation_sent_at, created_at')
-            .eq('id', ticketId)
+            .insert({ email: guestNormalized })
+            .select('id')
             .maybeSingle()
-          if (
-            ticketError ||
-            !ticket ||
-            ticket.confirmation_sent_at ||
-            ticket.created_at < tenMinAgo ||
-            (ticket.email || '').toLowerCase() !== guestNormalized
-          ) {
-            console.warn('[send-transactional-email-block] reason=invalid-inquiry-ticket', {
-              ticketId,
-              hasTicket: !!ticket,
-              alreadyUsed: !!ticket?.confirmation_sent_at,
-            })
+          if (ticketError || !ticket) {
+            console.warn('[send-transactional-email-block] reason=ticket-create-failed')
             return new Response(
-              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'invalid_ticket' }),
+              JSON.stringify({ success: true, queued: true, guestQueued: false, guestSkipped: 'rate_limited' }),
               { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
             )
           }
           consumedTicketId = ticket.id
+
 
           // Persistent per-address rate limit on guest confirmation sends.
           // Survives cold starts and is enforced regardless of IP. Caps the
