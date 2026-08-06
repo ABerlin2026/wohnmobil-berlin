@@ -430,21 +430,13 @@ const ContactSection = () => {
         bookingType === "rental" ? "Wohnmobil-Miete"
           : bookingType === "event" ? "Event/Übernachtung"
           : "Ferienwohnung";
-      const inquiryTicketId = crypto.randomUUID();
       const idempotencyKey = `inquiry-${crypto.randomUUID()}`;
       const normalizedEmail = form.email.trim().toLowerCase();
 
-      // Anker für die Gast-Bestätigung: einen Ticket-Eintrag anlegen, dessen ID
-      // die Edge Function als Nachweis verlangt, bevor sie eine Bestätigung an
-      // form.email versendet. Das verhindert, dass anonyme Aufrufer den
-      // Bestätigungs-Versand auf beliebige Adressen auslösen können.
-      const { data: ticket, error: ticketError } = await supabase
-        .from("inquiry_confirmation_tickets")
-        .insert({ id: inquiryTicketId, email: normalizedEmail });
-      if (ticketError) throw ticketError;
-
+      // Die Gast-Bestätigung wird komplett serverseitig ausgelöst und dort
+      // per Ticket + Ratelimit abgesichert – kein Client-Insert mehr nötig.
       const templateData = {
-        inquiryTicketId,
+
         bookingType: bookingTypeLabel,
         name: `${form.firstName} ${form.name}`.trim(),
         email: normalizedEmail,
