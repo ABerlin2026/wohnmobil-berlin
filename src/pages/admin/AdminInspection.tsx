@@ -688,27 +688,35 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               />
             </Field>
             <Field label="Frischwassertank">
-              <input
+              <select
                 value={values.fresh_water}
                 onChange={(e) => setValues({ ...values, fresh_water: e.target.value })}
                 className={inputClass}
-              />
+              >
+                {TANK_LEVELS.map((level) => (
+                  <option key={level.value} value={level.value}>
+                    {level.label}
+                  </option>
+                ))}
+              </select>
             </Field>
             <Field label="Abwassertank">
-              <input
+              <select
                 value={values.waste_water}
                 onChange={(e) => setValues({ ...values, waste_water: e.target.value })}
                 className={inputClass}
-              />
+              >
+                {TANK_LEVELS.map((level) => (
+                  <option key={level.value} value={level.value}>
+                    {level.label}
+                  </option>
+                ))}
+              </select>
             </Field>
-            <Field label="Motoröl">
-              <input
-                value={values.motor_oil}
-                onChange={(e) => setValues({ ...values, motor_oil: e.target.value })}
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Schlüsselanzahl">
+            <Field
+              label="Fahrzeugschlüssel"
+              hint="1 Schlüsselsatz: Motorschlüssel inkl. Schlüssel für Heckgarage und seitliche Tür."
+            >
               <input
                 inputMode="numeric"
                 value={values.keys_count}
