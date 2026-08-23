@@ -723,7 +723,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
           </div>
 
           {newMarker && (
-            <div className="mt-4 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
+            <div id="marker-form" className="mt-4 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
               <Field label="Schadensart">
                 <input
                   value={markerDraft.damage_type}
