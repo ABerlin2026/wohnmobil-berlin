@@ -21,6 +21,13 @@ const Reisetipps = lazy(() => import("./pages/Reisetipps.tsx"));
 const Reisetipp = lazy(() => import("./pages/Reisetipp.tsx"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin.tsx"));
 const AdminChatbotStats = lazy(() => import("./pages/AdminChatbotStats.tsx"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard.tsx"));
+const AdminRentals = lazy(() => import("./pages/admin/AdminRentals.tsx"));
+const AdminRentalWizard = lazy(() => import("./pages/admin/AdminRentalWizard.tsx"));
+const AdminCalendar = lazy(() => import("./pages/admin/AdminCalendar.tsx"));
+const AdminCustomers = lazy(() => import("./pages/admin/AdminCustomers.tsx"));
+const AdminVehicles = lazy(() => import("./pages/admin/AdminVehicles.tsx"));
+const AdminInventory = lazy(() => import("./pages/admin/AdminInventory.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
 const queryClient = new QueryClient();
