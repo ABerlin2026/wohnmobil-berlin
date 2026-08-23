@@ -54,6 +54,25 @@ const App = () => (
               <Route path="/reisetipps/:slug" element={<Reisetipp />} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/chatbot-stats" element={<AdminChatbotStats />} />
+              <Route
+                path="/admin/*"
+                element={
+                  <TenantProvider>
+                    <AdminGuard>
+                      <Routes>
+                        <Route path="/" element={<AdminDashboard />} />
+                        <Route path="mietvertraege" element={<AdminRentals />} />
+                        <Route path="mietvertrag/neu" element={<AdminRentalWizard />} />
+                        <Route path="kalender" element={<AdminCalendar />} />
+                        <Route path="kunden" element={<AdminCustomers />} />
+                        <Route path="fahrzeuge" element={<AdminVehicles />} />
+                        <Route path="inventar" element={<AdminInventory />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </AdminGuard>
+                  </TenantProvider>
+                }
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
