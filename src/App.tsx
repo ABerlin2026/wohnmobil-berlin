@@ -7,6 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import Index from "./pages/Index.tsx";
 import ScrollToTop from "./components/ScrollToTop";
+import { TenantProvider } from "@/admin/TenantContext";
+import AdminGuard from "@/components/admin/AdminGuard";
 
 // Code-split sub-pages and the chatbot to reduce the initial JS bundle.
 // These are not needed on the landing page ("/") for first paint.
