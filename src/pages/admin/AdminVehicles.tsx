@@ -16,6 +16,7 @@ import {
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { VEHICLE_SIDES } from "@/admin/constants";
+import VehicleDiagram from "@/components/admin/VehicleDiagram";
 import { toast } from "@/hooks/use-toast";
 
 type VehicleRow = {
@@ -66,7 +67,7 @@ const AdminVehicles = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("damage_markers")
-        .select("id, vehicle_id, vehicle_side, marker_label, description, status, severity")
+        .select("id, vehicle_id, vehicle_side, marker_label, description, status, severity, x_percent, y_percent")
         .eq("tenant_id", tenant!.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -185,11 +186,27 @@ const AdminVehicles = () => {
                 <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {VEHICLE_SIDES.map((side) => {
                     const stored = vehicle[DIAGRAM_COLUMN[side.value]] as string | null;
+                    const sideMarkers = vehicleDamages
+                      .filter((entry) => entry.vehicle_side === side.value)
+                      .map((entry) => ({
+                        id: entry.id as string,
+                        marker_label: entry.marker_label as string,
+                        x_percent: Number(entry.x_percent ?? 50),
+                        y_percent: Number(entry.y_percent ?? 50),
+                      }));
                     return (
                       <div key={side.value} className="rounded-xl border border-border p-3">
                         <p className="text-sm font-medium">{side.label}</p>
+                        <div className="mt-2">
+                          <VehicleDiagram
+                            side={side.value as "front" | "rear" | "driver" | "passenger"}
+                            storedPath={stored}
+                            markers={sideMarkers}
+                            alt={`Skizze ${side.label} – ${vehicle.name}`}
+                          />
+                        </div>
                         <p className="mt-1 text-xs text-muted-foreground">
-                          {stored ? "Skizze hinterlegt" : "Keine Skizze"}
+                          {stored ? "Eigene Skizze hinterlegt" : "Standard-Skizze"}
                         </p>
                         <label className="mt-2 inline-flex cursor-pointer items-center gap-2 text-xs text-primary">
                           <Upload className="h-3.5 w-3.5" />
@@ -208,6 +225,7 @@ const AdminVehicles = () => {
                     );
                   })}
                 </div>
+
 
                 <div className="mt-5">
                   <h3 className="text-sm font-semibold">Schadenshistorie ({vehicleDamages.length})</h3>

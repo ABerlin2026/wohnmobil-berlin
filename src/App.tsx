@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,9 +30,19 @@ const AdminCalendar = lazy(() => import("./pages/admin/AdminCalendar.tsx"));
 const AdminCustomers = lazy(() => import("./pages/admin/AdminCustomers.tsx"));
 const AdminVehicles = lazy(() => import("./pages/admin/AdminVehicles.tsx"));
 const AdminInventory = lazy(() => import("./pages/admin/AdminInventory.tsx"));
+const AdminRentalDetail = lazy(() => import("./pages/admin/AdminRentalDetail.tsx"));
+const AdminInspection = lazy(() => import("./pages/admin/AdminInspection.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
+/** Der öffentliche Chatbot darf im Vermieter-Backend nicht erscheinen. */
+const PublicChatbot = () => {
+  const { pathname } = useLocation();
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) return null;
+  return <FloatingChatbot />;
+};
+
 const queryClient = new QueryClient();
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -65,6 +75,15 @@ const App = () => (
                         <Route path="/" element={<AdminDashboard />} />
                         <Route path="mietvertraege" element={<AdminRentals />} />
                         <Route path="mietvertrag/neu" element={<AdminRentalWizard />} />
+                        <Route path="mietvertrag/:id" element={<AdminRentalDetail />} />
+                        <Route
+                          path="mietvertrag/:id/uebergabe"
+                          element={<AdminInspection mode="handover" />}
+                        />
+                        <Route
+                          path="mietvertrag/:id/rueckgabe"
+                          element={<AdminInspection mode="return" />}
+                        />
                         <Route path="kalender" element={<AdminCalendar />} />
                         <Route path="kunden" element={<AdminCustomers />} />
                         <Route path="fahrzeuge" element={<AdminVehicles />} />
@@ -78,7 +97,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <FloatingChatbot />
+            <PublicChatbot />
           </Suspense>
         </BrowserRouter>
       </TooltipProvider>
