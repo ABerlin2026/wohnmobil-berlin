@@ -792,13 +792,35 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
             </div>
           )}
 
-          <ul className="mt-4 divide-y divide-border text-sm">
+          <p className="mt-4 text-xs text-muted-foreground">
+            Offene Schäden werden automatisch in die nächste Vermietung übernommen. Behobene
+            Schäden entfernst du über „Behoben“ (bleibt in der Historie) oder „Löschen“.
+          </p>
+          <ul className="mt-2 divide-y divide-border text-sm">
             {sideMarkers.map((marker) => (
-              <li key={marker.id} className="py-2">
-                <span className="font-medium">{marker.marker_label}</span> · {marker.description}{" "}
-                <span className="text-muted-foreground">
-                  ({marker.status === "new" ? "neuer Schaden" : "Vorschaden"})
+              <li key={marker.id} className="flex flex-wrap items-center gap-2 py-2">
+                <span className="min-w-0 flex-1">
+                  <span className="font-medium">{marker.marker_label}</span> · {marker.description}{" "}
+                  <span className="text-muted-foreground">
+                    ({marker.status === "new" ? "neuer Schaden" : "Vorschaden"})
+                  </span>
                 </span>
+                {!locked && (
+                  <span className="flex gap-2">
+                    <button
+                      onClick={() => void markMarkerRepaired(marker.id, marker.marker_label)}
+                      className={secondaryButton}
+                    >
+                      Behoben
+                    </button>
+                    <button
+                      onClick={() => void deleteMarker(marker.id, marker.marker_label)}
+                      className={secondaryButton}
+                    >
+                      Löschen
+                    </button>
+                  </span>
+                )}
               </li>
             ))}
             {sideMarkers.length === 0 && (
