@@ -81,7 +81,10 @@ export const TenantProvider = ({ children }: { children: React.ReactNode }) => {
     // RLS already limits tenants to the ones the user may see.
     const { data: tenantRows, error: tenantError } = await supabase
       .from("tenants")
-      .select("id, name, slug, default_deposit_cents, free_km_per_day, extra_km_price_cents, payment_methods, price_list")
+      .select(
+        "id, name, slug, default_deposit_cents, free_km_per_day, extra_km_price_cents, payment_methods, price_list, company_name, street, postal_code, city, phone, email, website",
+      )
+
       .order("name");
 
     if (memberError || tenantError) {
