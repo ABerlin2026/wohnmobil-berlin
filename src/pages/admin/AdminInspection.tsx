@@ -956,7 +956,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                       Behoben
                     </button>
                     <button
-                      onClick={() => void deleteMarker(marker.id, marker.marker_label)}
+                      onClick={() => void deleteMarker(marker.id, marker.marker_label, marker.status)}
                       className={secondaryButton}
                     >
                       Löschen
