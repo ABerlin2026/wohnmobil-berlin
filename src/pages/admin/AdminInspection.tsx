@@ -704,13 +704,26 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                 x_percent: Number(marker.x_percent),
                 y_percent: Number(marker.y_percent),
               }))}
-              onAddMarker={locked ? undefined : (x, y) => setNewMarker({ x, y })}
+              pendingMarker={newMarker}
+              onAddMarker={
+                locked
+                  ? undefined
+                  : (x, y) => {
+                      setNewMarker({ x, y });
+                      requestAnimationFrame(() => {
+                        document
+                          .getElementById("marker-form")
+                          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      });
+                    }
+              }
+
               alt={`Fahrzeugskizze ${activeSide}`}
             />
           </div>
 
           {newMarker && (
-            <div className="mt-4 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
+            <div id="marker-form" className="mt-4 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
               <Field label="Schadensart">
                 <input
                   value={markerDraft.damage_type}
