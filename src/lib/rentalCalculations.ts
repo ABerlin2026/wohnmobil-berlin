@@ -70,12 +70,12 @@ const TANK_FRACTION: Record<TankLevel, number> = {
   full: 1,
 };
 
-/** Missing fuel as a tank fraction (0â€“1) compared to the handover level. */
+/** Missing fuel as a tank fraction (0 bis 1) compared to the handover level. */
 export function tankShortfall(handover: TankLevel | null, ret: TankLevel | null) {
   if (!handover || !ret) return 0;
   return Math.max(0, TANK_FRACTION[handover] - TANK_FRACTION[ret]);
 }
 
 export function tankLabel(level?: string | null) {
-  return TANK_LEVELS.find((entry) => entry.value === level)?.label ?? "â€“";
+  return TANK_LEVELS.find((entry) => entry.value === level)?.label ?? "-";
 }
