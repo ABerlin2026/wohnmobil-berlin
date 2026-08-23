@@ -315,11 +315,21 @@ const AdminInventory = () => {
               </Field>
               <Field label="Sollmenge">
                 <input
-                  type="number"
-                  min="1"
-                  value={editing.quantity}
+                  type="text"
+                  inputMode="numeric"
+                  value={editing.quantityText}
                   onChange={(event) =>
-                    setEditing({ ...editing, quantity: Number(event.target.value) })
+                    setEditing({
+                      ...editing,
+                      quantityText: event.target.value.replace(/[^0-9]/g, ""),
+                    })
+                  }
+                  onBlur={() =>
+                    setEditing((current) =>
+                      current
+                        ? { ...current, quantityText: String(Math.max(1, Number(current.quantityText) || 1)) }
+                        : current,
+                    )
                   }
                   className={inputClass}
                 />
@@ -327,17 +337,30 @@ const AdminInventory = () => {
               <Field
                 label={`Ersatzpreis ${editing.item_type === "set" ? "des gesamten Sets" : "je Artikel"} in EUR`}
                 className="sm:col-span-2"
+                hint="Dezimaltrennzeichen: Komma oder Punkt, z. B. 12,50"
               >
                 <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={(editing.replacement_price_cents / 100).toFixed(2)}
+                  type="text"
+                  inputMode="decimal"
+                  placeholder="0,00"
+                  value={editing.priceText}
                   onChange={(event) =>
                     setEditing({
                       ...editing,
-                      replacement_price_cents: euroToCents(event.target.value),
+                      priceText: event.target.value.replace(/[^0-9.,]/g, ""),
                     })
+                  }
+                  onBlur={() =>
+                    setEditing((current) =>
+                      current
+                        ? {
+                            ...current,
+                            priceText: (euroToCents(current.priceText || "0") / 100)
+                              .toFixed(2)
+                              .replace(".", ","),
+                          }
+                        : current,
+                    )
                   }
                   className={inputClass}
                 />
