@@ -7,6 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import Index from "./pages/Index.tsx";
 import ScrollToTop from "./components/ScrollToTop";
+import { TenantProvider } from "@/admin/TenantContext";
+import AdminGuard from "@/components/admin/AdminGuard";
 
 // Code-split sub-pages and the chatbot to reduce the initial JS bundle.
 // These are not needed on the landing page ("/") for first paint.
@@ -21,6 +23,13 @@ const Reisetipps = lazy(() => import("./pages/Reisetipps.tsx"));
 const Reisetipp = lazy(() => import("./pages/Reisetipp.tsx"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin.tsx"));
 const AdminChatbotStats = lazy(() => import("./pages/AdminChatbotStats.tsx"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard.tsx"));
+const AdminRentals = lazy(() => import("./pages/admin/AdminRentals.tsx"));
+const AdminRentalWizard = lazy(() => import("./pages/admin/AdminRentalWizard.tsx"));
+const AdminCalendar = lazy(() => import("./pages/admin/AdminCalendar.tsx"));
+const AdminCustomers = lazy(() => import("./pages/admin/AdminCustomers.tsx"));
+const AdminVehicles = lazy(() => import("./pages/admin/AdminVehicles.tsx"));
+const AdminInventory = lazy(() => import("./pages/admin/AdminInventory.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
 const queryClient = new QueryClient();
@@ -47,6 +56,25 @@ const App = () => (
               <Route path="/reisetipps/:slug" element={<Reisetipp />} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/chatbot-stats" element={<AdminChatbotStats />} />
+              <Route
+                path="/admin/*"
+                element={
+                  <TenantProvider>
+                    <AdminGuard>
+                      <Routes>
+                        <Route path="/" element={<AdminDashboard />} />
+                        <Route path="mietvertraege" element={<AdminRentals />} />
+                        <Route path="mietvertrag/neu" element={<AdminRentalWizard />} />
+                        <Route path="kalender" element={<AdminCalendar />} />
+                        <Route path="kunden" element={<AdminCustomers />} />
+                        <Route path="fahrzeuge" element={<AdminVehicles />} />
+                        <Route path="inventar" element={<AdminInventory />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </AdminGuard>
+                  </TenantProvider>
+                }
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
