@@ -704,7 +704,20 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                 x_percent: Number(marker.x_percent),
                 y_percent: Number(marker.y_percent),
               }))}
-              onAddMarker={locked ? undefined : (x, y) => setNewMarker({ x, y })}
+              pendingMarker={newMarker}
+              onAddMarker={
+                locked
+                  ? undefined
+                  : (x, y) => {
+                      setNewMarker({ x, y });
+                      requestAnimationFrame(() => {
+                        document
+                          .getElementById("marker-form")
+                          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      });
+                    }
+              }
+
               alt={`Fahrzeugskizze ${activeSide}`}
             />
           </div>
