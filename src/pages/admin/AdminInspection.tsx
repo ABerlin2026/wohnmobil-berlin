@@ -252,6 +252,9 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   }, [inspection]);
 
   const sideMarkers = (markers ?? []).filter((marker) => marker.vehicle_side === activeSide);
+  const isInterior = activeSide === "interior";
+  const mediaForMarker = (markerId: string) =>
+    (markerMedia ?? []).filter((doc) => doc.damage_marker_id === markerId);
 
   const kmSummary = useMemo(() => {
     if (!rental) return null;
@@ -880,6 +883,17 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                   className={inputClass}
                 />
               </Field>
+              <Field label="Foto oder Video" className="sm:col-span-2">
+                <input
+                  type="file"
+                  accept="image/*,video/*"
+                  capture="environment"
+                  onChange={(e) =>
+                    setMarkerDraft({ ...markerDraft, media: e.target.files?.[0] ?? null })
+                  }
+                  className={inputClass}
+                />
+              </Field>
               <div className="flex gap-2 sm:col-span-2">
                 <button onClick={() => void saveMarker()} className={primaryButton}>
                   Schaden speichern
@@ -904,6 +918,31 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                     ({marker.status === "new" ? "neuer Schaden" : "Vorschaden"})
                   </span>
                 </span>
+                {mediaForMarker(marker.id).map((doc) => (
+                  <button
+                    key={doc.id}
+                    onClick={() => void openMarkerMedia(doc.file_path)}
+                    className={secondaryButton}
+                  >
+                    {doc.mime_type?.startsWith("video") ? "Video" : "Foto"} ansehen
+                  </button>
+                ))}
+                {!locked && (
+                  <label className={`${secondaryButton} cursor-pointer`}>
+                    Foto/Video hinzufügen
+                    <input
+                      type="file"
+                      accept="image/*,video/*"
+                      capture="environment"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        e.target.value = "";
+                        if (file) void uploadMarkerMedia(marker.id, marker.marker_label, file);
+                      }}
+                    />
+                  </label>
+                )}
                 {!locked && (
                   <span className="flex gap-2">
                     <button
@@ -923,7 +962,9 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               </li>
             ))}
             {sideMarkers.length === 0 && (
-              <li className="py-2 text-muted-foreground">Keine Schäden auf dieser Seite.</li>
+              <li className="py-2 text-muted-foreground">
+                {isInterior ? "Keine Schäden im Innenbereich." : "Keine Schäden auf dieser Seite."}
+              </li>
             )}
           </ul>
 
