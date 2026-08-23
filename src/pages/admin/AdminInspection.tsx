@@ -326,7 +326,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       damage_type: markerDraft.damage_type || null,
       severity: markerDraft.severity,
       description: markerDraft.description.trim(),
-      status: isReturn ? "new" : "pre_existing",
+      status: isReturn ? "new" : "existing",
     });
     if (error) {
       toast({ title: "Speichern fehlgeschlagen", description: error.message });
