@@ -241,8 +241,11 @@ const AdminInventory = () => {
                         id: item.id,
                         name: item.name,
                         item_type: item.item_type as "single" | "set",
-                        quantity: item.quantity,
-                        replacement_price_cents: item.replacement_price_cents,
+                         quantity: item.quantity,
+                         quantityText: String(item.quantity),
+                         priceText: (item.replacement_price_cents / 100)
+                           .toFixed(2)
+                           .replace(".", ","),
                         sort_order: item.sort_order,
                         active: item.active,
                         components: (item.inventory_components ?? []).map((component) => ({
