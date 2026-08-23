@@ -29,7 +29,8 @@ interface ItemDraft {
   name: string;
   item_type: "single" | "set";
   quantity: number;
-  replacement_price_cents: number;
+  quantityText: string;
+  priceText: string;
   sort_order: number;
   active: boolean;
   components: ComponentDraft[];
@@ -39,7 +40,8 @@ const emptyDraft = (sortOrder: number): ItemDraft => ({
   name: "",
   item_type: "single",
   quantity: 1,
-  replacement_price_cents: 0,
+  quantityText: "1",
+  priceText: "",
   sort_order: sortOrder,
   active: true,
   components: [],
@@ -95,8 +97,8 @@ const AdminInventory = () => {
         vehicle_id: vehicleId,
         name: draft.name.trim(),
         item_type: draft.item_type,
-        quantity: Math.max(1, draft.quantity),
-        replacement_price_cents: Math.max(0, draft.replacement_price_cents),
+        quantity: Math.max(1, Number(draft.quantityText.replace(",", ".")) || 1),
+        replacement_price_cents: Math.max(0, euroToCents(draft.priceText || "0")),
         sort_order: draft.sort_order,
         active: draft.active,
       };
@@ -239,8 +241,11 @@ const AdminInventory = () => {
                         id: item.id,
                         name: item.name,
                         item_type: item.item_type as "single" | "set",
-                        quantity: item.quantity,
-                        replacement_price_cents: item.replacement_price_cents,
+                         quantity: item.quantity,
+                         quantityText: String(item.quantity),
+                         priceText: (item.replacement_price_cents / 100)
+                           .toFixed(2)
+                           .replace(".", ","),
                         sort_order: item.sort_order,
                         active: item.active,
                         components: (item.inventory_components ?? []).map((component) => ({
@@ -310,11 +315,21 @@ const AdminInventory = () => {
               </Field>
               <Field label="Sollmenge">
                 <input
-                  type="number"
-                  min="1"
-                  value={editing.quantity}
+                  type="text"
+                  inputMode="numeric"
+                  value={editing.quantityText}
                   onChange={(event) =>
-                    setEditing({ ...editing, quantity: Number(event.target.value) })
+                    setEditing({
+                      ...editing,
+                      quantityText: event.target.value.replace(/[^0-9]/g, ""),
+                    })
+                  }
+                  onBlur={() =>
+                    setEditing((current) =>
+                      current
+                        ? { ...current, quantityText: String(Math.max(1, Number(current.quantityText) || 1)) }
+                        : current,
+                    )
                   }
                   className={inputClass}
                 />
@@ -322,17 +337,30 @@ const AdminInventory = () => {
               <Field
                 label={`Ersatzpreis ${editing.item_type === "set" ? "des gesamten Sets" : "je Artikel"} in EUR`}
                 className="sm:col-span-2"
+                hint="Dezimaltrennzeichen: Komma oder Punkt, z. B. 12,50"
               >
                 <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={(editing.replacement_price_cents / 100).toFixed(2)}
+                  type="text"
+                  inputMode="decimal"
+                  placeholder="0,00"
+                  value={editing.priceText}
                   onChange={(event) =>
                     setEditing({
                       ...editing,
-                      replacement_price_cents: euroToCents(event.target.value),
+                      priceText: event.target.value.replace(/[^0-9.,]/g, ""),
                     })
+                  }
+                  onBlur={() =>
+                    setEditing((current) =>
+                      current
+                        ? {
+                            ...current,
+                            priceText: (euroToCents(current.priceText || "0") / 100)
+                              .toFixed(2)
+                              .replace(".", ","),
+                          }
+                        : current,
+                    )
                   }
                   className={inputClass}
                 />
