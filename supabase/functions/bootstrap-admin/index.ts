@@ -14,6 +14,7 @@ Deno.serve(async (req) => {
     const email = Deno.env.get("ADMIN_BOOTSTRAP_EMAIL")?.trim().toLowerCase();
     const password = Deno.env.get("ADMIN_BOOTSTRAP_PASSWORD");
     if (!email || !password) return json({ error: "Bootstrap-Zugangsdaten fehlen" }, 400);
+    const shape = { length: email.length, domain: email.split("@")[1] ?? null, parts: email.split("@").length };
 
     const admin = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -38,7 +39,7 @@ Deno.serve(async (req) => {
       // Nutzer existiert evtl. schon -> Passwort setzen
       const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
       const existing = list?.users?.find((u) => u.email?.toLowerCase() === email);
-      if (!existing) return json({ error: createError.message }, 400);
+      if (!existing) return json({ error: createError.message, shape }, 400);
       userId = existing.id;
       await admin.auth.admin.updateUserById(userId, { password, email_confirm: true });
     } else {
