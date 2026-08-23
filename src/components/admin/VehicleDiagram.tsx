@@ -17,8 +17,11 @@ interface Props {
   onAddMarker?: (x: number, y: number) => void;
   onSelectMarker?: (id: string) => void;
   activeMarkerId?: string | null;
+  /** Noch nicht gespeicherter Marker (Vorschau). */
+  pendingMarker?: { x: number; y: number } | null;
   alt: string;
 }
+
 
 /**
  * Fahrzeugskizze mit nummerierten Schadensmarkern.
