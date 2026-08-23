@@ -66,10 +66,9 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     odometer: "",
     tank_level: "full",
     gas_bottles: "2",
-    fresh_water: "",
-    waste_water: "",
-    motor_oil: "",
-    keys_count: "2",
+    fresh_water: "full",
+    waste_water: "empty",
+    keys_count: "1",
     vehicle_papers: true,
     onboard_tools: true,
     warning_triangle: true,
@@ -229,9 +228,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       ...current,
       odometer: inspection.odometer?.toString() ?? current.odometer,
       tank_level: inspection.tank_level ?? current.tank_level,
-      fresh_water: inspection.fresh_water ?? "",
-      waste_water: inspection.waste_water ?? "",
-      motor_oil: inspection.motor_oil ?? "",
+      fresh_water: inspection.fresh_water ?? current.fresh_water,
+      waste_water: inspection.waste_water ?? current.waste_water,
       gas_bottles: inspection.gas_bottles?.toString() ?? current.gas_bottles,
       keys_count: inspection.keys_count?.toString() ?? current.keys_count,
       vehicle_papers: inspection.vehicle_papers ?? false,
@@ -478,7 +476,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         tank_level: values.tank_level,
         fresh_water: values.fresh_water || null,
         waste_water: values.waste_water || null,
-        motor_oil: values.motor_oil || null,
+        motor_oil: null,
         gas_status: `${values.gas_bottles} Flaschen`,
         gas_bottles: Number(values.gas_bottles || 0),
         keys_count: Number(values.keys_count || 0),
@@ -688,27 +686,35 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               />
             </Field>
             <Field label="Frischwassertank">
-              <input
+              <select
                 value={values.fresh_water}
                 onChange={(e) => setValues({ ...values, fresh_water: e.target.value })}
                 className={inputClass}
-              />
+              >
+                {TANK_LEVELS.map((level) => (
+                  <option key={level.value} value={level.value}>
+                    {level.label}
+                  </option>
+                ))}
+              </select>
             </Field>
             <Field label="Abwassertank">
-              <input
+              <select
                 value={values.waste_water}
                 onChange={(e) => setValues({ ...values, waste_water: e.target.value })}
                 className={inputClass}
-              />
+              >
+                {TANK_LEVELS.map((level) => (
+                  <option key={level.value} value={level.value}>
+                    {level.label}
+                  </option>
+                ))}
+              </select>
             </Field>
-            <Field label="Motoröl">
-              <input
-                value={values.motor_oil}
-                onChange={(e) => setValues({ ...values, motor_oil: e.target.value })}
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Schlüsselanzahl">
+            <Field
+              label="Fahrzeugschlüssel"
+              hint="1 Schlüsselsatz: Motorschlüssel inkl. Schlüssel für Heckgarage und seitliche Tür."
+            >
               <input
                 inputMode="numeric"
                 value={values.keys_count}
