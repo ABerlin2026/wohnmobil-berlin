@@ -17,7 +17,7 @@ import VehicleDiagram from "@/components/admin/VehicleDiagram";
 import SignaturePad from "@/components/admin/SignaturePad";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
-import { DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
+import { DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
 import {
   TANK_LEVELS,
@@ -91,12 +91,18 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const [staffSignature, setStaffSignature] = useState<string | null>(null);
   const [inventory, setInventory] = useState<InventoryLine[]>([]);
   const [bank, setBank] = useState({ account_holder: "", iban: "", bic: "", confirmed: false });
-  const [activeSide, setActiveSide] = useState<VehicleSideValue>("front");
+  const [activeSide, setActiveSide] = useState<VehicleSideValue | "interior">("front");
   const [newMarker, setNewMarker] = useState<{ x: number; y: number } | null>(null);
-  const [markerDraft, setMarkerDraft] = useState({
+  const [markerDraft, setMarkerDraft] = useState<{
+    damage_type: string;
+    severity: string;
+    description: string;
+    media: File | null;
+  }>({
     damage_type: "",
     severity: "light",
     description: "",
+    media: null,
   });
   const [overviewPhotos, setOverviewPhotos] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
@@ -184,6 +190,21 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     },
   });
 
+  const { data: markerMedia, refetch: refetchMarkerMedia } = useQuery({
+    queryKey: ["inspection-marker-media", rental?.id],
+    enabled: !!rental?.id,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("documents")
+        .select("id, damage_marker_id, file_name, file_path, mime_type")
+        .eq("rental_id", rental!.id)
+        .not("damage_marker_id", "is", null)
+        .order("created_at");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
   useEffect(() => {
     if (!items || inventory.length > 0) return;
     setInventory(
@@ -231,6 +252,9 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   }, [inspection]);
 
   const sideMarkers = (markers ?? []).filter((marker) => marker.vehicle_side === activeSide);
+  const isInterior = activeSide === "interior";
+  const mediaForMarker = (markerId: string) =>
+    (markerMedia ?? []).filter((doc) => doc.damage_marker_id === markerId);
 
   const kmSummary = useMemo(() => {
     if (!rental) return null;
@@ -316,27 +340,77 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       return;
     }
     const label = `X${(markers ?? []).length + 1}`;
-    const { error } = await supabase.from("damage_markers").insert({
-      tenant_id: tenant.id,
-      vehicle_id: rental.vehicle_id,
-      inspection_id: inspection?.id ?? null,
-      marker_label: label,
-      vehicle_side: activeSide,
-      x_percent: newMarker.x,
-      y_percent: newMarker.y,
-      damage_type: markerDraft.damage_type || null,
-      severity: markerDraft.severity,
-      description: markerDraft.description.trim(),
-      status: isReturn ? "new" : "existing",
-    });
+    const { data: created, error } = await supabase
+      .from("damage_markers")
+      .insert({
+        tenant_id: tenant.id,
+        vehicle_id: rental.vehicle_id,
+        inspection_id: inspection?.id ?? null,
+        marker_label: label,
+        vehicle_side: activeSide,
+        x_percent: newMarker.x,
+        y_percent: newMarker.y,
+        damage_type: markerDraft.damage_type || null,
+        severity: markerDraft.severity,
+        description: markerDraft.description.trim(),
+        status: isReturn ? "new" : "existing",
+      })
+      .select("id")
+      .single();
     if (error) {
       toast({ title: "Speichern fehlgeschlagen", description: error.message });
       return;
     }
+    if (markerDraft.media && created) {
+      const uploaded = await uploadMarkerMedia(created.id, label, markerDraft.media);
+      if (!uploaded) return;
+    }
     setNewMarker(null);
-    setMarkerDraft({ damage_type: "", severity: "light", description: "" });
+    setMarkerDraft({ damage_type: "", severity: "light", description: "", media: null });
     void refetchMarkers();
+    void refetchMarkerMedia();
     toast({ title: `Schaden ${label} gespeichert` });
+  };
+
+  /** Foto oder Video zu einem Schaden hochladen und im Dokumentenarchiv verknüpfen. */
+  const uploadMarkerMedia = async (markerId: string, label: string, file: File) => {
+    if (!tenant || !rental) return false;
+    const path = `${tenant.id}/rentals/${rental.id}/damages/${markerId}-${Date.now()}-${file.name}`;
+    const { error: uploadError } = await supabase.storage
+      .from("rental-documents")
+      .upload(path, file);
+    if (uploadError) {
+      toast({ title: "Upload fehlgeschlagen", description: uploadError.message });
+      return false;
+    }
+    const { error: docError } = await supabase.from("documents").insert({
+      tenant_id: tenant.id,
+      rental_id: rental.id,
+      damage_marker_id: markerId,
+      document_type: `Schadensnachweis ${label}`,
+      file_path: path,
+      file_name: file.name,
+      mime_type: file.type,
+      created_by: session?.user.id ?? null,
+    });
+    if (docError) {
+      toast({ title: "Speichern fehlgeschlagen", description: docError.message });
+      return false;
+    }
+    void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", rental.id] });
+    void refetchMarkerMedia();
+    return true;
+  };
+
+  const openMarkerMedia = async (filePath: string) => {
+    const { data, error } = await supabase.storage
+      .from("rental-documents")
+      .createSignedUrl(filePath, 60 * 10);
+    if (error || !data?.signedUrl) {
+      toast({ title: "Datei konnte nicht geöffnet werden", description: error?.message });
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noopener");
   };
 
   const markMarkerRepaired = async (markerId: string, label: string) => {
@@ -705,51 +779,79 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         <Panel>
           <h2 className="text-lg font-semibold">Fahrzeugzustand &amp; Schäden</h2>
           <div className="mt-3 flex flex-wrap gap-2">
-            {VEHICLE_SIDES.map((side) => (
+            {DAMAGE_AREAS.map((side) => (
               <button
                 key={side.value}
-                onClick={() => setActiveSide(side.value as VehicleSideValue)}
+                onClick={() => {
+                  setActiveSide(side.value as VehicleSideValue | "interior");
+                  setNewMarker(null);
+                }}
                 className={activeSide === side.value ? primaryButton : secondaryButton}
               >
                 {side.label}
               </button>
             ))}
           </div>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Auf die Skizze tippen, um einen neuen Marker zu setzen. Marker werden als
-            Prozentkoordinaten gespeichert.
-          </p>
-          <div className="mt-3 max-w-2xl">
-            <VehicleDiagram
-              side={activeSide}
-              storedPath={
-                (rental.vehicles?.[DIAGRAM_COLUMN[activeSide] as keyof typeof rental.vehicles] as
-                  | string
-                  | null) ?? null
-              }
-              markers={sideMarkers.map((marker) => ({
-                id: marker.id,
-                marker_label: marker.marker_label,
-                x_percent: Number(marker.x_percent),
-                y_percent: Number(marker.y_percent),
-              }))}
-              pendingMarker={newMarker}
-              onAddMarker={
-                locked
-                  ? undefined
-                  : (x, y) => {
-                      setNewMarker({ x, y });
-                      requestAnimationFrame(() => {
-                        document
-                          .getElementById("marker-form")
-                          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-                      });
-                    }
-              }
-
-              alt={`Fahrzeugskizze ${activeSide}`}
-            />
-          </div>
+          {isInterior ? (
+            <>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Innenbereich: Schäden werden ohne Skizze erfasst – Beschreibung plus Foto oder
+                Video.
+              </p>
+              {!locked && (
+                <button
+                  className={`${secondaryButton} mt-3`}
+                  onClick={() => {
+                    setNewMarker({ x: 50, y: 50 });
+                    requestAnimationFrame(() => {
+                      document
+                        .getElementById("marker-form")
+                        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                    });
+                  }}
+                >
+                  Schaden im Innenbereich erfassen
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Auf die Skizze tippen, um einen neuen Marker zu setzen. Marker werden als
+                Prozentkoordinaten gespeichert.
+              </p>
+              <div className="mt-3 max-w-2xl">
+                <VehicleDiagram
+                  side={activeSide as VehicleSideValue}
+                  storedPath={
+                    (rental.vehicles?.[
+                      DIAGRAM_COLUMN[activeSide as VehicleSideValue] as keyof typeof rental.vehicles
+                    ] as string | null) ?? null
+                  }
+                  markers={sideMarkers.map((marker) => ({
+                    id: marker.id,
+                    marker_label: marker.marker_label,
+                    x_percent: Number(marker.x_percent),
+                    y_percent: Number(marker.y_percent),
+                  }))}
+                  pendingMarker={newMarker}
+                  onAddMarker={
+                    locked
+                      ? undefined
+                      : (x, y) => {
+                          setNewMarker({ x, y });
+                          requestAnimationFrame(() => {
+                            document
+                              .getElementById("marker-form")
+                              ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          });
+                        }
+                  }
+                  alt={`Fahrzeugskizze ${activeSide}`}
+                />
+              </div>
+            </>
+          )}
 
           {newMarker && (
             <div id="marker-form" className="mt-4 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
@@ -781,6 +883,17 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                   className={inputClass}
                 />
               </Field>
+              <Field label="Foto oder Video" className="sm:col-span-2">
+                <input
+                  type="file"
+                  accept="image/*,video/*"
+                  capture="environment"
+                  onChange={(e) =>
+                    setMarkerDraft({ ...markerDraft, media: e.target.files?.[0] ?? null })
+                  }
+                  className={inputClass}
+                />
+              </Field>
               <div className="flex gap-2 sm:col-span-2">
                 <button onClick={() => void saveMarker()} className={primaryButton}>
                   Schaden speichern
@@ -805,6 +918,31 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                     ({marker.status === "new" ? "neuer Schaden" : "Vorschaden"})
                   </span>
                 </span>
+                {mediaForMarker(marker.id).map((doc) => (
+                  <button
+                    key={doc.id}
+                    onClick={() => void openMarkerMedia(doc.file_path)}
+                    className={secondaryButton}
+                  >
+                    {doc.mime_type?.startsWith("video") ? "Video" : "Foto"} ansehen
+                  </button>
+                ))}
+                {!locked && (
+                  <label className={`${secondaryButton} cursor-pointer`}>
+                    Foto/Video hinzufügen
+                    <input
+                      type="file"
+                      accept="image/*,video/*"
+                      capture="environment"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        e.target.value = "";
+                        if (file) void uploadMarkerMedia(marker.id, marker.marker_label, file);
+                      }}
+                    />
+                  </label>
+                )}
                 {!locked && (
                   <span className="flex gap-2">
                     <button
@@ -824,7 +962,9 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               </li>
             ))}
             {sideMarkers.length === 0 && (
-              <li className="py-2 text-muted-foreground">Keine Schäden auf dieser Seite.</li>
+              <li className="py-2 text-muted-foreground">
+                {isInterior ? "Keine Schäden im Innenbereich." : "Keine Schäden auf dieser Seite."}
+              </li>
             )}
           </ul>
 

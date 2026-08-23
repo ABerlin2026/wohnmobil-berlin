@@ -19,6 +19,12 @@ export const VEHICLE_SIDES = [
   { value: "passenger", label: "Beifahrerseite" },
 ] as const;
 
+/** Schadensbereiche inkl. Innenraum (Innenraum hat keine Skizze). */
+export const DAMAGE_AREAS = [
+  ...VEHICLE_SIDES,
+  { value: "interior", label: "Innenbereich" },
+] as const;
+
 export const DAMAGE_SEVERITY = [
   { value: "note", label: "Notiz" },
   { value: "light", label: "Leicht" },
