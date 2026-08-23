@@ -97,8 +97,8 @@ const AdminInventory = () => {
         vehicle_id: vehicleId,
         name: draft.name.trim(),
         item_type: draft.item_type,
-        quantity: Math.max(1, draft.quantity),
-        replacement_price_cents: Math.max(0, draft.replacement_price_cents),
+        quantity: Math.max(1, Number(draft.quantityText.replace(",", ".")) || 1),
+        replacement_price_cents: Math.max(0, euroToCents(draft.priceText || "0")),
         sort_order: draft.sort_order,
         active: draft.active,
       };
