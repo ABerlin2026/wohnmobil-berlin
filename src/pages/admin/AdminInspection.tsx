@@ -339,6 +339,34 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     toast({ title: `Schaden ${label} gespeichert` });
   };
 
+  const markMarkerRepaired = async (markerId: string, label: string) => {
+    const { error } = await supabase
+      .from("damage_markers")
+      .update({ status: "repaired" })
+      .eq("id", markerId);
+    if (error) {
+      toast({ title: "Aktualisieren fehlgeschlagen", description: error.message });
+      return;
+    }
+    void refetchMarkers();
+    toast({
+      title: `Schaden ${label} als behoben markiert`,
+      description: "Er wird nicht mehr in die nächste Vermietung übernommen.",
+    });
+  };
+
+  const deleteMarker = async (markerId: string, label: string) => {
+    if (!window.confirm(`Schaden ${label} endgültig löschen?`)) return;
+    const { error } = await supabase.from("damage_markers").delete().eq("id", markerId);
+    if (error) {
+      toast({ title: "Löschen fehlgeschlagen", description: error.message });
+      return;
+    }
+    void refetchMarkers();
+    toast({ title: `Schaden ${label} gelöscht` });
+  };
+
+
   const persist = async (complete: boolean) => {
     if (!tenant || !rental) return;
     if (complete && isReturn && !isValidIban(bank.iban)) {
