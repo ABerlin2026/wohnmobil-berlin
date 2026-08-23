@@ -776,51 +776,79 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         <Panel>
           <h2 className="text-lg font-semibold">Fahrzeugzustand &amp; Schäden</h2>
           <div className="mt-3 flex flex-wrap gap-2">
-            {VEHICLE_SIDES.map((side) => (
+            {DAMAGE_AREAS.map((side) => (
               <button
                 key={side.value}
-                onClick={() => setActiveSide(side.value as VehicleSideValue)}
+                onClick={() => {
+                  setActiveSide(side.value as VehicleSideValue | "interior");
+                  setNewMarker(null);
+                }}
                 className={activeSide === side.value ? primaryButton : secondaryButton}
               >
                 {side.label}
               </button>
             ))}
           </div>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Auf die Skizze tippen, um einen neuen Marker zu setzen. Marker werden als
-            Prozentkoordinaten gespeichert.
-          </p>
-          <div className="mt-3 max-w-2xl">
-            <VehicleDiagram
-              side={activeSide}
-              storedPath={
-                (rental.vehicles?.[DIAGRAM_COLUMN[activeSide] as keyof typeof rental.vehicles] as
-                  | string
-                  | null) ?? null
-              }
-              markers={sideMarkers.map((marker) => ({
-                id: marker.id,
-                marker_label: marker.marker_label,
-                x_percent: Number(marker.x_percent),
-                y_percent: Number(marker.y_percent),
-              }))}
-              pendingMarker={newMarker}
-              onAddMarker={
-                locked
-                  ? undefined
-                  : (x, y) => {
-                      setNewMarker({ x, y });
-                      requestAnimationFrame(() => {
-                        document
-                          .getElementById("marker-form")
-                          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-                      });
-                    }
-              }
-
-              alt={`Fahrzeugskizze ${activeSide}`}
-            />
-          </div>
+          {isInterior ? (
+            <>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Innenbereich: Schäden werden ohne Skizze erfasst – Beschreibung plus Foto oder
+                Video.
+              </p>
+              {!locked && (
+                <button
+                  className={`${secondaryButton} mt-3`}
+                  onClick={() => {
+                    setNewMarker({ x: 50, y: 50 });
+                    requestAnimationFrame(() => {
+                      document
+                        .getElementById("marker-form")
+                        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                    });
+                  }}
+                >
+                  Schaden im Innenbereich erfassen
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Auf die Skizze tippen, um einen neuen Marker zu setzen. Marker werden als
+                Prozentkoordinaten gespeichert.
+              </p>
+              <div className="mt-3 max-w-2xl">
+                <VehicleDiagram
+                  side={activeSide as VehicleSideValue}
+                  storedPath={
+                    (rental.vehicles?.[
+                      DIAGRAM_COLUMN[activeSide as VehicleSideValue] as keyof typeof rental.vehicles
+                    ] as string | null) ?? null
+                  }
+                  markers={sideMarkers.map((marker) => ({
+                    id: marker.id,
+                    marker_label: marker.marker_label,
+                    x_percent: Number(marker.x_percent),
+                    y_percent: Number(marker.y_percent),
+                  }))}
+                  pendingMarker={newMarker}
+                  onAddMarker={
+                    locked
+                      ? undefined
+                      : (x, y) => {
+                          setNewMarker({ x, y });
+                          requestAnimationFrame(() => {
+                            document
+                              .getElementById("marker-form")
+                              ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          });
+                        }
+                  }
+                  alt={`Fahrzeugskizze ${activeSide}`}
+                />
+              </div>
+            </>
+          )}
 
           {newMarker && (
             <div id="marker-form" className="mt-4 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
