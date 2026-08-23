@@ -15,7 +15,15 @@ export interface TenantInfo {
   extra_km_price_cents: number;
   payment_methods: string[];
   price_list: { label: string; amount_cents: number }[];
+  company_name: string | null;
+  street: string | null;
+  postal_code: string | null;
+  city: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
 }
+
 
 interface TenantState {
   loading: boolean;
