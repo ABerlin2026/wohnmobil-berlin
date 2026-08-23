@@ -190,6 +190,21 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     },
   });
 
+  const { data: markerMedia, refetch: refetchMarkerMedia } = useQuery({
+    queryKey: ["inspection-marker-media", rental?.id],
+    enabled: !!rental?.id,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("documents")
+        .select("id, damage_marker_id, file_name, file_path, mime_type")
+        .eq("rental_id", rental!.id)
+        .not("damage_marker_id", "is", null)
+        .order("created_at");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
   useEffect(() => {
     if (!items || inventory.length > 0) return;
     setInventory(
@@ -322,27 +337,77 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       return;
     }
     const label = `X${(markers ?? []).length + 1}`;
-    const { error } = await supabase.from("damage_markers").insert({
-      tenant_id: tenant.id,
-      vehicle_id: rental.vehicle_id,
-      inspection_id: inspection?.id ?? null,
-      marker_label: label,
-      vehicle_side: activeSide,
-      x_percent: newMarker.x,
-      y_percent: newMarker.y,
-      damage_type: markerDraft.damage_type || null,
-      severity: markerDraft.severity,
-      description: markerDraft.description.trim(),
-      status: isReturn ? "new" : "existing",
-    });
+    const { data: created, error } = await supabase
+      .from("damage_markers")
+      .insert({
+        tenant_id: tenant.id,
+        vehicle_id: rental.vehicle_id,
+        inspection_id: inspection?.id ?? null,
+        marker_label: label,
+        vehicle_side: activeSide,
+        x_percent: newMarker.x,
+        y_percent: newMarker.y,
+        damage_type: markerDraft.damage_type || null,
+        severity: markerDraft.severity,
+        description: markerDraft.description.trim(),
+        status: isReturn ? "new" : "existing",
+      })
+      .select("id")
+      .single();
     if (error) {
       toast({ title: "Speichern fehlgeschlagen", description: error.message });
       return;
     }
+    if (markerDraft.media && created) {
+      const uploaded = await uploadMarkerMedia(created.id, label, markerDraft.media);
+      if (!uploaded) return;
+    }
     setNewMarker(null);
-    setMarkerDraft({ damage_type: "", severity: "light", description: "" });
+    setMarkerDraft({ damage_type: "", severity: "light", description: "", media: null });
     void refetchMarkers();
+    void refetchMarkerMedia();
     toast({ title: `Schaden ${label} gespeichert` });
+  };
+
+  /** Foto oder Video zu einem Schaden hochladen und im Dokumentenarchiv verknüpfen. */
+  const uploadMarkerMedia = async (markerId: string, label: string, file: File) => {
+    if (!tenant || !rental) return false;
+    const path = `${tenant.id}/rentals/${rental.id}/damages/${markerId}-${Date.now()}-${file.name}`;
+    const { error: uploadError } = await supabase.storage
+      .from("rental-documents")
+      .upload(path, file);
+    if (uploadError) {
+      toast({ title: "Upload fehlgeschlagen", description: uploadError.message });
+      return false;
+    }
+    const { error: docError } = await supabase.from("documents").insert({
+      tenant_id: tenant.id,
+      rental_id: rental.id,
+      damage_marker_id: markerId,
+      document_type: `Schadensnachweis ${label}`,
+      file_path: path,
+      file_name: file.name,
+      mime_type: file.type,
+      created_by: session?.user.id ?? null,
+    });
+    if (docError) {
+      toast({ title: "Speichern fehlgeschlagen", description: docError.message });
+      return false;
+    }
+    void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", rental.id] });
+    void refetchMarkerMedia();
+    return true;
+  };
+
+  const openMarkerMedia = async (filePath: string) => {
+    const { data, error } = await supabase.storage
+      .from("rental-documents")
+      .createSignedUrl(filePath, 60 * 10);
+    if (error || !data?.signedUrl) {
+      toast({ title: "Datei konnte nicht geöffnet werden", description: error?.message });
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noopener");
   };
 
   const markMarkerRepaired = async (markerId: string, label: string) => {
