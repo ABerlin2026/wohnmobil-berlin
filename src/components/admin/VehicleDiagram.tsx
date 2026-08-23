@@ -87,10 +87,13 @@ const VehicleDiagram = ({
         <button
           key={marker.id}
           type="button"
+          data-marker
+          onPointerUp={(event) => event.stopPropagation()}
           onClick={(event) => {
             event.stopPropagation();
             onSelectMarker?.(marker.id);
           }}
+
           style={{ left: `${marker.x_percent}%`, top: `${marker.y_percent}%` }}
           className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2 py-0.5 text-xs font-semibold shadow ${
             activeMarkerId === marker.id
