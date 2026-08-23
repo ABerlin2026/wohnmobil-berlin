@@ -177,6 +177,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         .from("damage_markers")
         .select("*")
         .eq("vehicle_id", rental!.vehicle_id!)
+        .neq("status", "repaired")
         .order("created_at");
       if (error) throw error;
       return data ?? [];
