@@ -1269,49 +1269,70 @@ export type Database = {
       }
       tenants: {
         Row: {
+          city: string | null
+          company_name: string | null
           created_at: string
           default_deposit_cents: number
+          email: string | null
           extra_km_price_cents: number
           free_km_per_day: number
           id: string
           logo_url: string | null
           name: string
           payment_methods: Json
+          phone: string | null
+          postal_code: string | null
           price_list: Json
           primary_color: string | null
           slug: string
           status: string
+          street: string | null
           updated_at: string
+          website: string | null
         }
         Insert: {
+          city?: string | null
+          company_name?: string | null
           created_at?: string
           default_deposit_cents?: number
+          email?: string | null
           extra_km_price_cents?: number
           free_km_per_day?: number
           id?: string
           logo_url?: string | null
           name: string
           payment_methods?: Json
+          phone?: string | null
+          postal_code?: string | null
           price_list?: Json
           primary_color?: string | null
           slug: string
           status?: string
+          street?: string | null
           updated_at?: string
+          website?: string | null
         }
         Update: {
+          city?: string | null
+          company_name?: string | null
           created_at?: string
           default_deposit_cents?: number
+          email?: string | null
           extra_km_price_cents?: number
           free_km_per_day?: number
           id?: string
           logo_url?: string | null
           name?: string
           payment_methods?: Json
+          phone?: string | null
+          postal_code?: string | null
           price_list?: Json
           primary_color?: string | null
           slug?: string
           status?: string
+          street?: string | null
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }

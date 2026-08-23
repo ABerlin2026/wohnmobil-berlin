@@ -32,6 +32,7 @@ const AdminVehicles = lazy(() => import("./pages/admin/AdminVehicles.tsx"));
 const AdminInventory = lazy(() => import("./pages/admin/AdminInventory.tsx"));
 const AdminRentalDetail = lazy(() => import("./pages/admin/AdminRentalDetail.tsx"));
 const AdminInspection = lazy(() => import("./pages/admin/AdminInspection.tsx"));
+const AdminTenantSettings = lazy(() => import("./pages/admin/AdminTenantSettings.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
 /** Der öffentliche Chatbot darf im Vermieter-Backend nicht erscheinen. */
@@ -88,6 +89,7 @@ const App = () => (
                         <Route path="kunden" element={<AdminCustomers />} />
                         <Route path="fahrzeuge" element={<AdminVehicles />} />
                         <Route path="inventar" element={<AdminInventory />} />
+                        <Route path="mandant" element={<AdminTenantSettings />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </AdminGuard>
