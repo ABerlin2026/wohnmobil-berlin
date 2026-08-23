@@ -1,3 +1,26 @@
 User-agent: *
 Allow: /
+
+# KI-/LLM-Crawler ausdrücklich erlaubt
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Maschinenlesbare Volltext-Zusammenfassung für LLMs
+# https://wohnmobil-berlin.de/llms.txt
+
 Sitemap: https://wohnmobil-berlin.de/sitemap.xml
