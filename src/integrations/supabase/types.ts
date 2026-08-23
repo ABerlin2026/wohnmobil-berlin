@@ -662,75 +662,117 @@ export type Database = {
       }
       inspections: {
         Row: {
+          actual_return_at: string | null
+          car_jack: boolean
+          cleaning_status: string | null
           completed_at: string | null
           completed_by: string | null
           created_at: string
           customer_signature_url: string | null
+          delay_minutes: number | null
+          first_aid_kit: boolean
           fresh_water: string | null
+          gas_bottles: number | null
           gas_status: string | null
           id: string
           inspection_type: string
           instruction_complete: boolean
+          keys_count: number | null
           lessor_signature_url: string | null
           motor_oil: string | null
           no_new_damage_confirmed: boolean
           no_open_questions: boolean
           notes: string | null
           odometer: number | null
+          onboard_tools: boolean
+          payment_override_by: string | null
+          payment_override_reason: string | null
           rental_id: string
+          safety_vests: number | null
           signed_at: string | null
           status: string
           tank_level: string | null
           tenant_id: string
+          tire_tread: string | null
           updated_at: string
+          vehicle_papers: boolean
+          warning_triangle: boolean
           waste_water: string | null
         }
         Insert: {
+          actual_return_at?: string | null
+          car_jack?: boolean
+          cleaning_status?: string | null
           completed_at?: string | null
           completed_by?: string | null
           created_at?: string
           customer_signature_url?: string | null
+          delay_minutes?: number | null
+          first_aid_kit?: boolean
           fresh_water?: string | null
+          gas_bottles?: number | null
           gas_status?: string | null
           id?: string
           inspection_type: string
           instruction_complete?: boolean
+          keys_count?: number | null
           lessor_signature_url?: string | null
           motor_oil?: string | null
           no_new_damage_confirmed?: boolean
           no_open_questions?: boolean
           notes?: string | null
           odometer?: number | null
+          onboard_tools?: boolean
+          payment_override_by?: string | null
+          payment_override_reason?: string | null
           rental_id: string
+          safety_vests?: number | null
           signed_at?: string | null
           status?: string
           tank_level?: string | null
           tenant_id: string
+          tire_tread?: string | null
           updated_at?: string
+          vehicle_papers?: boolean
+          warning_triangle?: boolean
           waste_water?: string | null
         }
         Update: {
+          actual_return_at?: string | null
+          car_jack?: boolean
+          cleaning_status?: string | null
           completed_at?: string | null
           completed_by?: string | null
           created_at?: string
           customer_signature_url?: string | null
+          delay_minutes?: number | null
+          first_aid_kit?: boolean
           fresh_water?: string | null
+          gas_bottles?: number | null
           gas_status?: string | null
           id?: string
           inspection_type?: string
           instruction_complete?: boolean
+          keys_count?: number | null
           lessor_signature_url?: string | null
           motor_oil?: string | null
           no_new_damage_confirmed?: boolean
           no_open_questions?: boolean
           notes?: string | null
           odometer?: number | null
+          onboard_tools?: boolean
+          payment_override_by?: string | null
+          payment_override_reason?: string | null
           rental_id?: string
+          safety_vests?: number | null
           signed_at?: string | null
           status?: string
           tank_level?: string | null
           tenant_id?: string
+          tire_tread?: string | null
           updated_at?: string
+          vehicle_papers?: boolean
+          warning_triangle?: boolean
           waste_water?: string | null
         }
         Relationships: [
@@ -1076,10 +1118,13 @@ export type Database = {
           extra_km_price_cents: number
           free_km_per_day: number
           handover_location: string | null
+          handover_time: string | null
           id: string
+          planned_route: string | null
           rental_number: string
           rental_price_cents: number
           return_location: string | null
+          return_time: string | null
           start_date: string
           status: string
           tank_handover: string | null
@@ -1100,10 +1145,13 @@ export type Database = {
           extra_km_price_cents?: number
           free_km_per_day?: number
           handover_location?: string | null
+          handover_time?: string | null
           id?: string
+          planned_route?: string | null
           rental_number: string
           rental_price_cents?: number
           return_location?: string | null
+          return_time?: string | null
           start_date: string
           status?: string
           tank_handover?: string | null
@@ -1124,10 +1172,13 @@ export type Database = {
           extra_km_price_cents?: number
           free_km_per_day?: number
           handover_location?: string | null
+          handover_time?: string | null
           id?: string
+          planned_route?: string | null
           rental_number?: string
           rental_price_cents?: number
           return_location?: string | null
+          return_time?: string | null
           start_date?: string
           status?: string
           tank_handover?: string | null
@@ -1220,10 +1271,13 @@ export type Database = {
         Row: {
           created_at: string
           default_deposit_cents: number
+          extra_km_price_cents: number
           free_km_per_day: number
           id: string
           logo_url: string | null
           name: string
+          payment_methods: Json
+          price_list: Json
           primary_color: string | null
           slug: string
           status: string
@@ -1232,10 +1286,13 @@ export type Database = {
         Insert: {
           created_at?: string
           default_deposit_cents?: number
+          extra_km_price_cents?: number
           free_km_per_day?: number
           id?: string
           logo_url?: string | null
           name: string
+          payment_methods?: Json
+          price_list?: Json
           primary_color?: string | null
           slug: string
           status?: string
@@ -1244,10 +1301,13 @@ export type Database = {
         Update: {
           created_at?: string
           default_deposit_cents?: number
+          extra_km_price_cents?: number
           free_km_per_day?: number
           id?: string
           logo_url?: string | null
           name?: string
+          payment_methods?: Json
+          price_list?: Json
           primary_color?: string | null
           slug?: string
           status?: string

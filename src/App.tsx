@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,7 +32,15 @@ const AdminVehicles = lazy(() => import("./pages/admin/AdminVehicles.tsx"));
 const AdminInventory = lazy(() => import("./pages/admin/AdminInventory.tsx"));
 const FloatingChatbot = lazy(() => import("./components/FloatingChatbot"));
 
+/** Der öffentliche Chatbot darf im Vermieter-Backend nicht erscheinen. */
+const PublicChatbot = () => {
+  const { pathname } = useLocation();
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) return null;
+  return <FloatingChatbot />;
+};
+
 const queryClient = new QueryClient();
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -78,7 +86,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <FloatingChatbot />
+            <PublicChatbot />
           </Suspense>
         </BrowserRouter>
       </TooltipProvider>
