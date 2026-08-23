@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   Package,
+  Settings,
   Users,
   X,
 } from "lucide-react";
@@ -28,6 +29,7 @@ const links = [
   { to: "/admin/kunden", label: "Kunden", icon: Users },
   { to: "/admin/fahrzeuge", label: "Fahrzeuge", icon: CarFront },
   { to: "/admin/inventar", label: "Inventarliste", icon: Package },
+  { to: "/admin/mandant", label: "Mandantendaten", icon: Settings },
 ];
 
 const STORAGE_KEY = "admin-sidebar-collapsed";
