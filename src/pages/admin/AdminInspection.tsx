@@ -17,7 +17,7 @@ import VehicleDiagram from "@/components/admin/VehicleDiagram";
 import SignaturePad from "@/components/admin/SignaturePad";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
-import { DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
+import { DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
 import {
   TANK_LEVELS,
@@ -91,12 +91,18 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const [staffSignature, setStaffSignature] = useState<string | null>(null);
   const [inventory, setInventory] = useState<InventoryLine[]>([]);
   const [bank, setBank] = useState({ account_holder: "", iban: "", bic: "", confirmed: false });
-  const [activeSide, setActiveSide] = useState<VehicleSideValue>("front");
+  const [activeSide, setActiveSide] = useState<VehicleSideValue | "interior">("front");
   const [newMarker, setNewMarker] = useState<{ x: number; y: number } | null>(null);
-  const [markerDraft, setMarkerDraft] = useState({
+  const [markerDraft, setMarkerDraft] = useState<{
+    damage_type: string;
+    severity: string;
+    description: string;
+    media: File | null;
+  }>({
     damage_type: "",
     severity: "light",
     description: "",
+    media: null,
   });
   const [overviewPhotos, setOverviewPhotos] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
