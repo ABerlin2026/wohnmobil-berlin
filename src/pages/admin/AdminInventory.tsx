@@ -29,7 +29,8 @@ interface ItemDraft {
   name: string;
   item_type: "single" | "set";
   quantity: number;
-  replacement_price_cents: number;
+  quantityText: string;
+  priceText: string;
   sort_order: number;
   active: boolean;
   components: ComponentDraft[];
@@ -39,7 +40,8 @@ const emptyDraft = (sortOrder: number): ItemDraft => ({
   name: "",
   item_type: "single",
   quantity: 1,
-  replacement_price_cents: 0,
+  quantityText: "1",
+  priceText: "",
   sort_order: sortOrder,
   active: true,
   components: [],
