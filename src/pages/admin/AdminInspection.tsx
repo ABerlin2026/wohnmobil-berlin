@@ -429,8 +429,12 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     });
   };
 
-  const deleteMarker = async (markerId: string, label: string) => {
-    if (!window.confirm(`Schaden ${label} endgültig löschen?`)) return;
+  const deleteMarker = async (markerId: string, label: string, status: string) => {
+    const isResolved = status === "existing";
+    const message = isResolved
+      ? `Schaden ${label} ist ein behobener/Vorschaden. Wenn du ihn löschst, wird er dauerhaft entfernt und nicht mehr in die nächste Vermietung übernommen. Trotzdem löschen?`
+      : `Schaden ${label} endgültig löschen?`;
+    if (!window.confirm(message)) return;
     const { error } = await supabase.from("damage_markers").delete().eq("id", markerId);
     if (error) {
       toast({ title: "Löschen fehlgeschlagen", description: error.message });
