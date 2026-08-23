@@ -113,9 +113,10 @@ const AdminVehicles = () => {
       toast({ title: "Upload fehlgeschlagen", description: error.message });
       return;
     }
+    const patch: Record<string, string> = { [DIAGRAM_COLUMN[side]]: path };
     const { error: updateError } = await supabase
       .from("vehicles")
-      .update({ [DIAGRAM_COLUMN[side]]: path })
+      .update(patch as never)
       .eq("id", vehicle.id);
     if (updateError) {
       toast({ title: "Speichern fehlgeschlagen", description: updateError.message });
