@@ -149,7 +149,12 @@ const AdminTenantSettings = () => {
 
   return (
     <AdminShell>
-      <PageSEO title="Mandantendaten | Verwaltung" description="Stammdaten des Mandanten pflegen." noindex />
+      <PageSEO
+        title="Mandantendaten | Verwaltung"
+        description="Stammdaten des Mandanten pflegen."
+        canonical="https://wohnmobil-berlin.de/admin/mandant"
+        noindex
+      />
       <PageHeader
         eyebrow="Verwaltung"
         title="Mandantendaten"
