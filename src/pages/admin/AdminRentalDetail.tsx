@@ -399,6 +399,28 @@ const AdminRentalDetail = () => {
           </p>
         </Panel>
       </div>
+
+      <footer className="mt-6 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
+        <p className="font-medium text-foreground">
+          {tenant?.company_name || tenant?.name || "Vermieter"}
+        </p>
+        {tenant?.street && <p>{tenant.street}</p>}
+        {(tenant?.postal_code || tenant?.city) && (
+          <p>
+            {tenant?.postal_code} {tenant?.city}
+          </p>
+        )}
+        <p>
+          {[
+            tenant?.phone ? `Tel. ${tenant.phone}` : null,
+            tenant?.email,
+            tenant?.website,
+          ]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
+      </footer>
+
     </AdminShell>
   );
 };
