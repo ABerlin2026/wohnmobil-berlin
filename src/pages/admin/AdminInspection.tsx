@@ -477,7 +477,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         tank_level: values.tank_level,
         fresh_water: values.fresh_water || null,
         waste_water: values.waste_water || null,
-        motor_oil: values.motor_oil || null,
+        motor_oil: null,
         gas_status: `${values.gas_bottles} Flaschen`,
         gas_bottles: Number(values.gas_bottles || 0),
         keys_count: Number(values.keys_count || 0),
