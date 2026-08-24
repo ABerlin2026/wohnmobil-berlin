@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PackagePlus, Pencil, Plus, Trash2, X } from "lucide-react";
+import { FileDown, PackagePlus, Pencil, Plus, Trash2, X } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -15,7 +15,9 @@ import {
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { euroToCents, formatEuro } from "@/lib/rentalCalculations";
+import { exportInventoryPdf, loadImageAsDataUrl } from "@/admin/dataExportPdf";
 import { toast } from "@/hooks/use-toast";
+
 
 interface ComponentDraft {
   id?: string;
@@ -162,6 +164,65 @@ const AdminInventory = () => {
 
   const nextSortOrder = ((items ?? []).at(-1)?.sort_order ?? 0) + 10;
 
+  const [exporting, setExporting] = useState(false);
+
+  const exportPdf = async () => {
+    if (!tenant) return;
+    setExporting(true);
+    try {
+      const { data: tenantRow } = await supabase
+        .from("tenants")
+        .select("logo_url")
+        .eq("id", tenant.id)
+        .maybeSingle();
+      let logoDataUrl: string | null = null;
+      const logoPath = tenantRow?.logo_url ?? null;
+      if (logoPath) {
+        if (/^https?:\/\//.test(logoPath)) {
+          logoDataUrl = await loadImageAsDataUrl(logoPath);
+        } else {
+          const { data: signed } = await supabase.storage
+            .from("rental-documents")
+            .createSignedUrl(logoPath, 600);
+          if (signed?.signedUrl) logoDataUrl = await loadImageAsDataUrl(signed.signedUrl);
+        }
+      }
+      exportInventoryPdf({
+        items: filtered.map((item) => ({
+          name: item.name,
+          item_type: item.item_type,
+          quantity: item.quantity,
+          replacement_price_cents: item.replacement_price_cents,
+          active: item.active,
+          components: (item.inventory_components ?? [])
+            .slice()
+            .sort((a, b) => a.sort_order - b.sort_order)
+            .map((component) => ({ name: component.name, quantity: component.quantity })),
+        })),
+        vehicleName: (vehicles ?? []).find((vehicle) => vehicle.id === vehicleId)?.name ?? "Fahrzeug",
+        tenant: {
+          name: tenant.name,
+          company_name: tenant.company_name,
+          street: tenant.street,
+          postal_code: tenant.postal_code,
+          city: tenant.city,
+          phone: tenant.phone,
+          email: tenant.email,
+          website: tenant.website,
+          logoDataUrl,
+        },
+        searchTerm: search,
+      });
+      toast({ title: "PDF erstellt", description: `${filtered.length} Positionen exportiert.` });
+    } catch (error) {
+      toast({ title: "Export fehlgeschlagen", description: (error as Error).message });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+
+
   return (
     <AdminShell>
       <PageSEO
@@ -175,10 +236,20 @@ const AdminInventory = () => {
         title="Inventarliste"
         description="Diese Liste wird beim Anlegen eines Mietvertrags als unveränderbare Momentaufnahme übernommen."
         actions={
-          <button onClick={() => setEditing(emptyDraft(nextSortOrder))} className={primaryButton}>
-            <Plus className="h-4 w-4" /> Position
-          </button>
+          <>
+            <button
+              onClick={() => void exportPdf()}
+              disabled={exporting || !tenant || filtered.length === 0}
+              className={secondaryButton}
+            >
+              <FileDown className="h-4 w-4" /> {exporting ? "Erstellt…" : "PDF-Export"}
+            </button>
+            <button onClick={() => setEditing(emptyDraft(nextSortOrder))} className={primaryButton}>
+              <Plus className="h-4 w-4" /> Position
+            </button>
+          </>
         }
+
       />
 
       <Panel className="mb-4">

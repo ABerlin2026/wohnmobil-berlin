@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Save, Upload } from "lucide-react";
+import { FileDown, Save, Upload } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -14,7 +14,9 @@ import {
 } from "@/components/admin/AdminUI";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
+import { exportTenantPdf, loadImageAsDataUrl } from "@/admin/dataExportPdf";
 import { toast } from "@/hooks/use-toast";
+
 
 type TenantSettingsRow = {
   id: string;
@@ -147,6 +149,21 @@ const AdminTenantSettings = () => {
     toast({ title: "Logo hochgeladen", description: "Bitte noch speichern." });
   };
 
+  const [exporting, setExporting] = useState(false);
+
+  const exportPdf = async () => {
+    setExporting(true);
+    try {
+      const logoDataUrl = logoPreview ? await loadImageAsDataUrl(logoPreview) : null;
+      exportTenantPdf({ ...draft, logoDataUrl });
+      toast({ title: "PDF erstellt", description: "Die Mandantendaten wurden exportiert." });
+    } catch (error) {
+      toast({ title: "Export fehlgeschlagen", description: (error as Error).message });
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <AdminShell>
       <PageSEO
@@ -160,16 +177,27 @@ const AdminTenantSettings = () => {
         title="Mandantendaten"
         description="Firmenname, Adresse, Kontaktdaten und Logo für Verträge, Rechnungen und E-Mails."
         actions={
-          <button
-            className={primaryButton}
-            onClick={() => save.mutate()}
-            disabled={save.isPending || !tenant}
-          >
-            <Save className="h-4 w-4" />
-            {save.isPending ? "Speichert…" : "Speichern"}
-          </button>
+          <>
+            <button
+              className={secondaryButton}
+              onClick={() => void exportPdf()}
+              disabled={exporting || !tenant}
+            >
+              <FileDown className="h-4 w-4" />
+              {exporting ? "Erstellt…" : "PDF-Export"}
+            </button>
+            <button
+              className={primaryButton}
+              onClick={() => save.mutate()}
+              disabled={save.isPending || !tenant}
+            >
+              <Save className="h-4 w-4" />
+              {save.isPending ? "Speichert…" : "Speichern"}
+            </button>
+          </>
         }
       />
+
 
       {!tenant ? (
         <EmptyState title="Kein Mandant ausgewählt" text="Bitte zuerst einen Mandanten wählen." />
