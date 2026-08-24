@@ -186,7 +186,7 @@ export const exportInventoryPdf = (options: {
       item.active ? "aktiv" : "inaktiv",
     ]),
     columnStyles: {
-      0: { cellWidth: 14, halign: "right" },
+      0: { cellWidth: 18, halign: "right" },
       2: { cellWidth: 24 },
       3: { cellWidth: 24, halign: "right" },
       5: { cellWidth: 18 },
