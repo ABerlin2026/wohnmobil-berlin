@@ -31,15 +31,23 @@ export const Panel = ({ children, className = "" }: PropsWithChildren<{ classNam
 export const Field = ({
   label,
   hint,
+  error,
   children,
   className = "",
-}: PropsWithChildren<{ label: string; hint?: string; className?: string }>) => (
+}: PropsWithChildren<{ label: string; hint?: string; error?: string | null; className?: string }>) => (
   <label className={`block ${className}`}>
     <span className="mb-1 block text-sm font-medium">{label}</span>
     {children}
-    {hint && <span className="mt-1 block text-xs text-muted-foreground">{hint}</span>}
+    {error ? (
+      <span role="alert" className="mt-1 block text-xs font-medium text-destructive">
+        {error}
+      </span>
+    ) : (
+      hint && <span className="mt-1 block text-xs text-muted-foreground">{hint}</span>
+    )}
   </label>
 );
+
 
 export const inputClass =
   "w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring";
