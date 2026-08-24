@@ -95,3 +95,59 @@ export const generateRentalPdf = async ({
   if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
   return data as RentalPdfResult;
 };
+
+export interface InspectionDraft {
+  inspection?: Record<string, unknown>;
+  inventory?: Record<string, unknown>[];
+  markers?: Record<string, unknown>[];
+  customerSignature?: string | null;
+  lessorSignature?: string | null;
+}
+
+interface PreviewOptions {
+  rentalId: string;
+  kind: Exclude<RentalPdfKind, "contract">;
+  vehicle?: Record<string, unknown> | null;
+  draft: InspectionDraft;
+}
+
+let lastPreviewUrl: string | null = null;
+
+/**
+ * Erzeugt eine Vorschau-PDF aus den aktuellen Formulareingaben.
+ * Nichts wird archiviert – das PDF kommt als Blob zurück und wird lokal verlinkt.
+ */
+export const previewRentalPdf = async ({
+  rentalId,
+  kind,
+  vehicle,
+  draft,
+}: PreviewOptions): Promise<{ url: string; fileName: string }> => {
+  const diagrams = await collectDiagramImages(vehicle);
+  const { data, error } = await supabase.functions.invoke("generate-rental-pdf", {
+    body: { rentalId, kind, preview: true, draft, diagrams },
+  });
+  if (error) {
+    const context = (error as { context?: Response }).context;
+    let message = error.message;
+    if (context) {
+      try {
+        const payload = await context.clone().json();
+        if (payload?.error) message = String(payload.error);
+      } catch {
+        /* Fehlermeldung bleibt bestehen */
+      }
+    }
+    throw new Error(message);
+  }
+  if (!(data instanceof Blob)) {
+    const payload = data as { error?: string } | null;
+    throw new Error(payload?.error ?? "Vorschau konnte nicht erstellt werden.");
+  }
+
+  if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl);
+  lastPreviewUrl = URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
+  const slug = kind === "handover" ? "uebergabeprotokoll" : "rueckgabeprotokoll";
+  return { url: lastPreviewUrl, fileName: `vorschau-${slug}.pdf` };
+};
+

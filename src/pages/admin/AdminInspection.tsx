@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Camera, FileText, Save, ShieldCheck } from "lucide-react";
+import { Camera, Eye, FileText, Save, ShieldCheck } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -19,7 +19,7 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
-import { generateRentalPdf } from "@/admin/rentalPdf";
+import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
 
 import {
   TANK_LEVELS,
@@ -65,6 +65,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const isReturn = mode === "return";
 
   const [pdfBusy, setPdfBusy] = useState(false);
+  const [previewBusy, setPreviewBusy] = useState(false);
+
 
   const [values, setValues] = useState({
     odometer: "",
@@ -598,7 +600,85 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     }
   };
 
+  /** Aktueller Formularstand als Draft für die PDF-Vorschau. */
+  const buildDraft = () => ({
+    inspection: {
+      inspection_type: mode,
+      odometer: values.odometer ? Number(values.odometer) : null,
+      tank_level: values.tank_level,
+      fresh_water: values.fresh_water || null,
+      waste_water: values.waste_water || null,
+      gas_bottles: Number(values.gas_bottles || 0),
+      keys_count: Number(values.keys_count || 0),
+      vehicle_papers: values.vehicle_papers,
+      onboard_tools: values.onboard_tools,
+      warning_triangle: values.warning_triangle,
+      first_aid_kit: values.first_aid_kit,
+      safety_vests: Number(values.safety_vests || 0),
+      car_jack: values.car_jack,
+      tire_tread: values.tire_tread || null,
+      cleaning_status: values.cleaning_status || null,
+      delay_minutes: isReturn ? Number(values.delay_minutes || 0) : null,
+      actual_return_at: isReturn ? new Date(values.actual_return_at).toISOString() : null,
+      notes: values.notes || null,
+      instruction_complete: confirmations.instruction_complete,
+      no_open_questions: confirmations.no_open_questions,
+      no_new_damage_confirmed: confirmations.no_new_damage_confirmed,
+      customer_signature_url: null,
+      lessor_signature_url: null,
+      signed_at: null,
+    },
+    inventory: inventory.map((line) => ({
+      item_snapshot: { name: line.name, item_type: line.item_type },
+      status: line.status,
+      missing_quantity: line.missing_quantity,
+      damaged_quantity: line.damaged_quantity,
+      deduction_cents: isReturn
+        ? inventoryDeduction(
+            line.replacement_price_cents,
+            line.missing_quantity,
+            line.damaged_quantity,
+            line.item_type === "set" ? "set" : "single",
+          )
+        : 0,
+      notes: line.notes || null,
+    })),
+    markers: (markers ?? []).map((marker) => ({ ...marker })),
+    customerSignature: customerSignature,
+    lessorSignature: staffSignature,
+  });
+
+  const openPreview = async () => {
+    if (!rental) return;
+    setPreviewBusy(true);
+    try {
+      const { url } = await previewRentalPdf({
+        rentalId: rental.id,
+        kind: isReturn ? "return" : "handover",
+        vehicle: rental.vehicles as Record<string, unknown> | null,
+        draft: buildDraft(),
+      });
+      const win = window.open(url, "_blank", "noopener");
+      if (!win) {
+        toast({
+          title: "Popup blockiert",
+          description: "Bitte Pop-ups für diese Seite erlauben.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Vorschau fehlgeschlagen",
+        description: error instanceof Error ? error.message : "Unbekannter Fehler",
+        variant: "destructive",
+      });
+    } finally {
+      setPreviewBusy(false);
+    }
+  };
+
   const createProtocolPdf = async (inspectionId?: string) => {
+
     if (!rental) return;
     setPdfBusy(true);
     try {
@@ -664,6 +744,15 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               Zurück zum Vertrag
             </Link>
             <button
+              onClick={() => void openPreview()}
+              disabled={previewBusy}
+              className={secondaryButton}
+              title="Vorschau aus den aktuellen Eingaben – ohne Speichern"
+            >
+              <Eye className="h-4 w-4" />
+              {previewBusy ? "Vorschau …" : "Vorschau aktualisieren"}
+            </button>
+            <button
               onClick={() => void createProtocolPdf()}
               disabled={pdfBusy || !inspection?.id}
               title={
@@ -676,6 +765,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               <FileText className="h-4 w-4" />
               {pdfBusy ? "Erstellt …" : "Protokoll als PDF"}
             </button>
+
           </>
         }
 

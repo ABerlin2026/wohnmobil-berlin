@@ -1,11 +1,13 @@
 import {
   PDFDocument,
   StandardFonts,
+  degrees,
   rgb,
   type PDFFont,
   type PDFImage,
   type PDFPage,
 } from 'npm:pdf-lib@1.17.1'
+
 
 const A4: [number, number] = [595.28, 841.89]
 const MARGIN = 48
@@ -32,17 +34,20 @@ export class PdfBuilder {
   private y = 0
   private footer: FooterInfo = { lines: [] }
   private title = ''
+  private watermark: string | null = null
 
-  static async create(title: string, footer: FooterInfo) {
+  static async create(title: string, footer: FooterInfo, watermark?: string | null) {
     const builder = new PdfBuilder()
     builder.doc = await PDFDocument.create()
     builder.font = await builder.doc.embedFont(StandardFonts.Helvetica)
     builder.bold = await builder.doc.embedFont(StandardFonts.HelveticaBold)
     builder.footer = footer
     builder.title = title
+    builder.watermark = watermark ?? null
     builder.addPage()
     return builder
   }
+
 
   get width() {
     return A4[0]
@@ -330,9 +335,23 @@ export class PdfBuilder {
   }
 
   async save() {
-    // Seitenzahlen ergänzen
+    // Seitenzahlen und optionales Wasserzeichen ergänzen
     const pages = this.doc.getPages()
     pages.forEach((page, index) => {
+      if (this.watermark) {
+        const text = sanitize(this.watermark)
+        const size = 34
+        const width = this.bold.widthOfTextAtSize(text, size)
+        page.drawText(text, {
+          x: (A4[0] - width * 0.7) / 2,
+          y: A4[1] / 2 - 120,
+          size,
+          font: this.bold,
+          color: rgb(0.85, 0.2, 0.2),
+          opacity: 0.16,
+          rotate: degrees(45),
+        })
+      }
       page.drawText(sanitize(`${this.title} · Seite ${index + 1} von ${pages.length}`), {
         x: A4[0] - MARGIN - 190,
         y: 46,
@@ -344,6 +363,7 @@ export class PdfBuilder {
     return await this.doc.save()
   }
 }
+
 
 function wrap(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
   const paragraphs = String(text ?? '').split('\n')

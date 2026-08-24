@@ -98,6 +98,14 @@ Deno.serve(async (req) => {
     inspectionId?: string
     diagrams?: Record<string, string>
     send?: boolean
+    preview?: boolean
+    draft?: {
+      inspection?: Record<string, any>
+      inventory?: Record<string, any>[]
+      markers?: Record<string, any>[]
+      customerSignature?: string | null
+      lessorSignature?: string | null
+    }
   }
   try {
     body = await req.json()
@@ -107,8 +115,11 @@ Deno.serve(async (req) => {
 
   const rentalId = body.rentalId
   const kind = body.kind ?? 'contract'
+  const preview = body.preview === true
+  const draft = body.draft ?? {}
   if (!rentalId || typeof rentalId !== 'string') return json({ error: 'rentalId fehlt' }, 400)
   if (!KIND_LABEL[kind]) return json({ error: 'kind ungültig' }, 400)
+
 
   const admin = createClient(supabaseUrl, serviceKey)
 
@@ -154,22 +165,32 @@ Deno.serve(async (req) => {
   ].filter((line) => line && line.length > 0)
 
   const documentType = KIND_LABEL[kind]
-  const pdf = await PdfBuilder.create(`${documentType} ${rental.rental_number}`, {
-    lines: footerLines,
-  })
+  const pdf = await PdfBuilder.create(
+    `${documentType} ${rental.rental_number}${preview ? ' (Vorschau)' : ''}`,
+    { lines: footerLines },
+    preview ? 'VORSCHAU - nicht unterschrieben' : null,
+  )
+
 
   const customerName = customer ? `${customer.first_name} ${customer.last_name}` : 'Mieter offen'
   const days = rentalDays(rental.start_date, rental.end_date)
   const includedKm = days * (rental.free_km_per_day ?? 0)
 
-  pdf.heading(`${documentType} ${rental.rental_number}`)
+  pdf.heading(`${documentType} ${rental.rental_number}${preview ? ' - VORSCHAU' : ''}`)
   pdf.text(
     `${tenant.company_name || tenant.name || 'Vermieter'} · Erstellt am ${dateTime(
       new Date().toISOString(),
     )}`,
     { size: 9 },
   )
+  if (preview) {
+    pdf.text(
+      'Vorschau auf Basis der aktuellen Formulareingaben. Nicht rechtsverbindlich, nicht archiviert.',
+      { size: 9, bold: true },
+    )
+  }
   pdf.gap(10)
+
 
   pdf.subheading('Vertragsparteien')
   pdf.keyValues([
@@ -283,10 +304,22 @@ Deno.serve(async (req) => {
         .maybeSingle()
       inspection = data
     }
+    if (preview) {
+      // Formularwerte haben Vorrang, Stammdaten bleiben aus der Datenbank
+      inspection = { ...(inspection ?? {}), ...(draft.inspection ?? {}), status: 'draft' }
+    }
 
     pdf.subheading('Fahrzeugzustand')
     pdf.keyValues([
-      ['Status', inspection?.status === 'completed' ? 'Abgeschlossen' : 'Zwischenstand'],
+      [
+        'Status',
+        preview
+          ? 'Vorschau (ungespeichert)'
+          : inspection?.status === 'completed'
+            ? 'Abgeschlossen'
+            : 'Zwischenstand',
+      ],
+
       ['Kilometerstand', inspection?.odometer ? `${inspection.odometer} km` : '-'],
       ['Tankfüllung', LEVEL_LABEL[inspection?.tank_level ?? ''] ?? inspection?.tank_level ?? '-'],
       ['Frischwasser', LEVEL_LABEL[inspection?.fresh_water ?? ''] ?? inspection?.fresh_water ?? '-'],
@@ -323,12 +356,15 @@ Deno.serve(async (req) => {
       [70, 30],
     )
 
-    const { data: inventoryRows } = inspection
-      ? await admin
-          .from('inspection_inventory')
-          .select('*')
-          .eq('inspection_id', inspection.id)
-      : { data: [] as any[] }
+    const { data: inventoryRows } = preview
+      ? { data: (draft.inventory ?? []) as any[] }
+      : inspection?.id
+        ? await admin
+            .from('inspection_inventory')
+            .select('*')
+            .eq('inspection_id', inspection.id)
+        : { data: [] as any[] }
+
 
     if ((inventoryRows ?? []).length > 0) {
       pdf.subheading('Inventar')
@@ -351,12 +387,15 @@ Deno.serve(async (req) => {
       pdf.gap(6)
     }
 
-    const { data: markers } = await admin
+    const { data: dbMarkers } = await admin
       .from('damage_markers')
       .select('*')
       .eq('vehicle_id', rental.vehicle_id ?? '')
       .neq('status', 'repaired')
       .order('created_at')
+    const markers =
+      preview && Array.isArray(draft.markers) ? (draft.markers as any[]) : (dbMarkers ?? [])
+
 
     pdf.subheading('Schäden')
     if ((markers ?? []).length === 0) {
@@ -414,7 +453,14 @@ Deno.serve(async (req) => {
     )
     const videos = (mediaDocs ?? []).filter((doc) => (doc.mime_type ?? '').startsWith('video/'))
 
-    if (photos.length > 0) {
+    if (photos.length > 0 && preview) {
+      // In der Vorschau werden Fotos nur gelistet (schnell und speicherschonend)
+      pdf.subheading('Fotodokumentation (in der Vorschau nur gelistet)')
+      for (const doc of photos) {
+        pdf.text(`- ${doc.document_type} · ${doc.file_name}`)
+      }
+      pdf.gap(6)
+    } else if (photos.length > 0) {
       pdf.subheading('Fotodokumentation')
       for (const doc of photos.slice(0, 24)) {
         const bytes = await downloadBytes(admin, doc.file_path)
@@ -424,6 +470,7 @@ Deno.serve(async (req) => {
         pdf.drawPhoto(image, `${doc.document_type} · ${doc.file_name}`)
       }
     }
+
 
     if (videos.length > 0) {
       pdf.subheading('Videodokumentation (im Archiv hinterlegt)')
@@ -450,12 +497,21 @@ Deno.serve(async (req) => {
       [70, 30],
     )
 
-    const customerSignature = inspection?.customer_signature_url
-      ? await loadImage(admin, pdf, inspection.customer_signature_url)
-      : null
-    const lessorSignature = inspection?.lessor_signature_url
-      ? await loadImage(admin, pdf, inspection.lessor_signature_url)
-      : null
+    const draftCustomerSig =
+      preview && typeof draft.customerSignature === 'string' ? draft.customerSignature : null
+    const draftLessorSig =
+      preview && typeof draft.lessorSignature === 'string' ? draft.lessorSignature : null
+
+    const customerSignature = draftCustomerSig
+      ? await embedDataUrl(pdf, draftCustomerSig)
+      : inspection?.customer_signature_url
+        ? await loadImage(admin, pdf, inspection.customer_signature_url)
+        : null
+    const lessorSignature = draftLessorSig
+      ? await embedDataUrl(pdf, draftLessorSig)
+      : inspection?.lessor_signature_url
+        ? await loadImage(admin, pdf, inspection.lessor_signature_url)
+        : null
 
     pdf.gap(10)
     pdf.signatures([
@@ -473,6 +529,21 @@ Deno.serve(async (req) => {
   }
 
   const bytes = await pdf.save()
+
+  if (preview) {
+    // Vorschau: nichts speichern, nichts versenden – PDF direkt als Datei zurückgeben
+    const slugPreview =
+      kind === 'contract' ? 'mietvertrag' : kind === 'handover' ? 'uebergabeprotokoll' : 'rueckgabeprotokoll'
+    return new Response(bytes, {
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/octet-stream',
+        'X-Pdf-File-Name': `vorschau-${slugPreview}-${rental.rental_number}.pdf`,
+      },
+    })
+  }
+
+
 
   // Version bestimmen
   const { data: existing } = await admin
@@ -610,4 +681,10 @@ async function loadImage(
   const bytes = await downloadBytes(admin, path)
   if (!bytes) return null
   return await pdf.embedImage(bytes, path.endsWith('.png') ? 'image/png' : 'image/jpeg')
+}
+
+async function embedDataUrl(pdf: PdfBuilder, value: string) {
+  const parsed = parseDataUrl(value)
+  if (!parsed) return null
+  return await pdf.embedImage(parsed.bytes, parsed.mime)
 }
