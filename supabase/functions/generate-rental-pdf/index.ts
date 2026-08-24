@@ -304,10 +304,22 @@ Deno.serve(async (req) => {
         .maybeSingle()
       inspection = data
     }
+    if (preview) {
+      // Formularwerte haben Vorrang, Stammdaten bleiben aus der Datenbank
+      inspection = { ...(inspection ?? {}), ...(draft.inspection ?? {}), status: 'draft' }
+    }
 
     pdf.subheading('Fahrzeugzustand')
     pdf.keyValues([
-      ['Status', inspection?.status === 'completed' ? 'Abgeschlossen' : 'Zwischenstand'],
+      [
+        'Status',
+        preview
+          ? 'Vorschau (ungespeichert)'
+          : inspection?.status === 'completed'
+            ? 'Abgeschlossen'
+            : 'Zwischenstand',
+      ],
+
       ['Kilometerstand', inspection?.odometer ? `${inspection.odometer} km` : '-'],
       ['Tankfüllung', LEVEL_LABEL[inspection?.tank_level ?? ''] ?? inspection?.tank_level ?? '-'],
       ['Frischwasser', LEVEL_LABEL[inspection?.fresh_water ?? ''] ?? inspection?.fresh_water ?? '-'],
