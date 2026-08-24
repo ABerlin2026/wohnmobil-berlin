@@ -23,6 +23,8 @@ import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
 
 import {
   TANK_LEVELS,
+  isTankLevel,
+
   depositSettlement,
   euroToCents,
   extraKilometreCharge,
