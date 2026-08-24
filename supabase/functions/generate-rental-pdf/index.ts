@@ -165,9 +165,12 @@ Deno.serve(async (req) => {
   ].filter((line) => line && line.length > 0)
 
   const documentType = KIND_LABEL[kind]
-  const pdf = await PdfBuilder.create(`${documentType} ${rental.rental_number}`, {
-    lines: footerLines,
-  })
+  const pdf = await PdfBuilder.create(
+    `${documentType} ${rental.rental_number}${preview ? ' (Vorschau)' : ''}`,
+    { lines: footerLines },
+    preview ? 'VORSCHAU - nicht unterschrieben' : null,
+  )
+
 
   const customerName = customer ? `${customer.first_name} ${customer.last_name}` : 'Mieter offen'
   const days = rentalDays(rental.start_date, rental.end_date)
