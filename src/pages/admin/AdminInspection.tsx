@@ -23,6 +23,10 @@ import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
 
 import {
   TANK_LEVELS,
+  isTankLevel,
+  tankHint,
+
+
   depositSettlement,
   euroToCents,
   extraKilometreCharge,
@@ -35,8 +39,38 @@ import { toast } from "@/hooks/use-toast";
 
 type Mode = "handover" | "return";
 
+/** Ganzzahl-Feldregeln für Tank-, Schlüssel- und Zählfelder. */
+const INT_FIELD_RULES = {
+  odometer: { label: "Kilometerstand", min: 0, max: 2_000_000, required: false },
+  gas_bottles: { label: "Gasflaschen", min: 0, max: 4, required: true },
+  keys_count: { label: "Fahrzeugschlüssel", min: 1, max: 5, required: true },
+  safety_vests: { label: "Warnwesten", min: 0, max: 10, required: true },
+  delay_minutes: { label: "Verspätung (Minuten)", min: 0, max: 100_000, required: false },
+} as const;
+
+type IntFieldKey = keyof typeof INT_FIELD_RULES;
+
+const validateIntField = (key: IntFieldKey, raw: string): string | null => {
+  const rule = INT_FIELD_RULES[key];
+  const trimmed = (raw ?? "").trim();
+  if (!trimmed) return rule.required ? `${rule.label} ist erforderlich.` : null;
+  if (!/^\d+$/.test(trimmed)) return `${rule.label}: nur ganze Zahlen erlaubt.`;
+  const numeric = Number(trimmed);
+  if (numeric < rule.min || numeric > rule.max) {
+    return `${rule.label}: erlaubt sind ${rule.min} bis ${rule.max}.`;
+  }
+  return null;
+};
+
+const TANK_FIELD_LABELS: Record<"tank_level" | "fresh_water" | "waste_water", string> = {
+  tank_level: "Tankfüllung",
+  fresh_water: "Frischwassertank",
+  waste_water: "Abwassertank",
+};
+
 interface InventoryLine {
   inventory_item_id: string;
+
   name: string;
   item_type: string;
   quantity: number;
@@ -87,6 +121,25 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     actual_return_at: new Date().toISOString().slice(0, 16),
     notes: "",
   });
+
+  /** Live-Validierung aller Tank-, Schlüssel- und Zählfelder. */
+  const fieldErrors = useMemo(() => {
+    const errors: Record<string, string> = {};
+    (Object.keys(INT_FIELD_RULES) as IntFieldKey[]).forEach((key) => {
+      if (key === "delay_minutes" && !isReturn) return;
+      const message = validateIntField(key, values[key]);
+      if (message) errors[key] = message;
+    });
+    (Object.keys(TANK_FIELD_LABELS) as (keyof typeof TANK_FIELD_LABELS)[]).forEach((key) => {
+      if (!isTankLevel(values[key])) {
+        errors[key] = `${TANK_FIELD_LABELS[key]}: bitte Leer, 1/4, 1/2, 3/4 oder Voll wählen.`;
+      }
+    });
+    return errors;
+  }, [values, isReturn]);
+
+  const hasFieldErrors = Object.keys(fieldErrors).length > 0;
+
   const [confirmations, setConfirmations] = useState({
     instruction_complete: false,
     no_open_questions: false,
@@ -451,6 +504,20 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
   const persist = async (complete: boolean) => {
     if (!tenant || !rental) return;
+    if (hasFieldErrors) {
+      toast({
+        title: "Eingaben prüfen",
+        description: Object.values(fieldErrors)[0],
+      });
+      return;
+    }
+    if (complete && !values.odometer.trim()) {
+      toast({ title: "Kilometerstand fehlt", description: "Für den Abschluss ist der Kilometerstand Pflicht." });
+      return;
+    }
+
+
+
     if (complete && isReturn && !isValidIban(bank.iban)) {
       toast({ title: "IBAN ungültig", description: "Der Abschluss ist ohne gültige IBAN gesperrt." });
       return;
@@ -796,56 +863,76 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                 />
               </Field>
             )}
-            <Field label="Kilometerstand">
+            <Field label="Kilometerstand" error={fieldErrors.odometer} hint="Ganze Kilometer, ohne Punkt.">
               <input
                 inputMode="numeric"
                 value={values.odometer}
+                aria-invalid={Boolean(fieldErrors.odometer)}
                 onChange={(e) => setValues({ ...values, odometer: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Tankfüllung">
+            <Field
+              label="Tankfüllung"
+              error={fieldErrors.tank_level}
+              hint={`Skala: ${tankHint(values.tank_level)}`}
+            >
               <select
                 value={values.tank_level}
+                title={tankHint(values.tank_level)}
+                aria-invalid={Boolean(fieldErrors.tank_level)}
                 onChange={(e) => setValues({ ...values, tank_level: e.target.value })}
                 className={inputClass}
               >
                 {TANK_LEVELS.map((level) => (
-                  <option key={level.value} value={level.value}>
+                  <option key={level.value} value={level.value} title={level.hint}>
                     {level.label}
                   </option>
                 ))}
               </select>
             </Field>
-            <Field label="Gasflaschen (Anzahl)">
+            <Field label="Gasflaschen (Anzahl)" error={fieldErrors.gas_bottles} hint="0 bis 4 Flaschen.">
               <input
                 inputMode="numeric"
                 value={values.gas_bottles}
+                aria-invalid={Boolean(fieldErrors.gas_bottles)}
                 onChange={(e) => setValues({ ...values, gas_bottles: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Frischwassertank">
+            <Field
+              label="Frischwassertank"
+              error={fieldErrors.fresh_water}
+              hint={`Skala: ${tankHint(values.fresh_water)}`}
+            >
               <select
                 value={values.fresh_water}
+                title={tankHint(values.fresh_water)}
+                aria-invalid={Boolean(fieldErrors.fresh_water)}
                 onChange={(e) => setValues({ ...values, fresh_water: e.target.value })}
                 className={inputClass}
               >
                 {TANK_LEVELS.map((level) => (
-                  <option key={level.value} value={level.value}>
+                  <option key={level.value} value={level.value} title={level.hint}>
                     {level.label}
                   </option>
                 ))}
               </select>
             </Field>
-            <Field label="Abwassertank">
+            <Field
+              label="Abwassertank"
+              error={fieldErrors.waste_water}
+              hint={`Skala: ${tankHint(values.waste_water)}`}
+            >
               <select
                 value={values.waste_water}
+                title={tankHint(values.waste_water)}
+                aria-invalid={Boolean(fieldErrors.waste_water)}
                 onChange={(e) => setValues({ ...values, waste_water: e.target.value })}
                 className={inputClass}
               >
                 {TANK_LEVELS.map((level) => (
-                  <option key={level.value} value={level.value}>
+                  <option key={level.value} value={level.value} title={level.hint}>
                     {level.label}
                   </option>
                 ))}
@@ -853,23 +940,28 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
             </Field>
             <Field
               label="Fahrzeugschlüssel"
+              error={fieldErrors.keys_count}
               hint="1 Schlüsselsatz: Motorschlüssel inkl. Schlüssel für Heckgarage und seitliche Tür."
             >
               <input
                 inputMode="numeric"
                 value={values.keys_count}
+                aria-invalid={Boolean(fieldErrors.keys_count)}
+                title="Erlaubt: 1 bis 5 Schlüsselsätze"
                 onChange={(e) => setValues({ ...values, keys_count: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Warnwesten">
+            <Field label="Warnwesten" error={fieldErrors.safety_vests} hint="0 bis 10 Stück.">
               <input
                 inputMode="numeric"
                 value={values.safety_vests}
+                aria-invalid={Boolean(fieldErrors.safety_vests)}
                 onChange={(e) => setValues({ ...values, safety_vests: e.target.value })}
                 className={inputClass}
               />
             </Field>
+
             {isReturn && (
               <>
                 <Field label="Reifenprofil">
@@ -886,11 +978,13 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                     className={inputClass}
                   />
                 </Field>
-                <Field label="Verspätung (Minuten)">
+                <Field label="Verspätung (Minuten)" error={fieldErrors.delay_minutes}>
                   <input
                     inputMode="numeric"
                     value={values.delay_minutes}
+                    aria-invalid={Boolean(fieldErrors.delay_minutes)}
                     onChange={(e) => setValues({ ...values, delay_minutes: e.target.value })}
+
                     className={inputClass}
                   />
                 </Field>
@@ -1402,15 +1496,29 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
           </p>
         </Panel>
 
-        <div className="flex flex-wrap gap-2 pb-8">
-          <button onClick={() => void persist(false)} disabled={saving} className={secondaryButton}>
+        <div className="flex flex-wrap items-center gap-2 pb-8">
+          <button
+            onClick={() => void persist(false)}
+            disabled={saving || hasFieldErrors}
+            className={secondaryButton}
+          >
             <Save className="h-4 w-4" /> Zwischenstand speichern
           </button>
-          <button onClick={() => void persist(true)} disabled={saving} className={primaryButton}>
+          <button
+            onClick={() => void persist(true)}
+            disabled={saving || hasFieldErrors}
+            className={primaryButton}
+          >
             <ShieldCheck className="h-4 w-4" />
             {isReturn ? "Rücknahme abschließen" : "Übergabe abschließen"}
           </button>
+          {hasFieldErrors && (
+            <span role="alert" className="text-xs font-medium text-destructive">
+              {Object.values(fieldErrors)[0]}
+            </span>
+          )}
         </div>
+
       </div>
     </AdminShell>
   );

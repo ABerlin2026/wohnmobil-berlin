@@ -52,15 +52,30 @@ export function euroToCents(value: string | number) {
   return Math.round(numeric * 100);
 }
 
+/**
+ * Einheitliche Skala für Kraftstoff-, Frischwasser- und Abwassertank.
+ * `hint` dient als Tooltip-Text (title-Attribut) in den Admin-Formularen.
+ */
 export const TANK_LEVELS = [
-  { value: "empty", label: "Leer" },
-  { value: "quarter", label: "1/4" },
-  { value: "half", label: "1/2" },
-  { value: "three_quarters", label: "3/4" },
-  { value: "full", label: "Voll" },
+  { value: "empty", label: "Leer", hint: "Leer (0 %)" },
+  { value: "quarter", label: "1/4", hint: "Ein Viertel gefüllt (25 %)" },
+  { value: "half", label: "1/2", hint: "Halb gefüllt (50 %)" },
+  { value: "three_quarters", label: "3/4", hint: "Drei Viertel gefüllt (75 %)" },
+  { value: "full", label: "Voll", hint: "Voll (100 %)" },
 ] as const;
 
 export type TankLevel = (typeof TANK_LEVELS)[number]["value"];
+
+/** Prüft, ob ein Wert zur erlaubten Tankskala gehört. */
+export function isTankLevel(value: unknown): value is TankLevel {
+  return TANK_LEVELS.some((entry) => entry.value === value);
+}
+
+/** Tooltip-Text zu einem Skalenwert. */
+export function tankHint(level?: string | null) {
+  return TANK_LEVELS.find((entry) => entry.value === level)?.hint ?? "Bitte Füllstand wählen";
+}
+
 
 const TANK_FRACTION: Record<TankLevel, number> = {
   empty: 0,
