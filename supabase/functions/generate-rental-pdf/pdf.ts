@@ -100,7 +100,8 @@ export class PdfBuilder {
   }
 
   subheading(text: string) {
-    this.ensure(24)
+    this.y -= 6
+    this.ensure(46)
     this.page.drawText(sanitize(text), {
       x: MARGIN,
       y: this.y - 11,
