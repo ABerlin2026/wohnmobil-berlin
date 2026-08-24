@@ -489,12 +489,21 @@ Deno.serve(async (req) => {
       [70, 30],
     )
 
-    const customerSignature = inspection?.customer_signature_url
-      ? await loadImage(admin, pdf, inspection.customer_signature_url)
-      : null
-    const lessorSignature = inspection?.lessor_signature_url
-      ? await loadImage(admin, pdf, inspection.lessor_signature_url)
-      : null
+    const draftCustomerSig =
+      preview && typeof draft.customerSignature === 'string' ? draft.customerSignature : null
+    const draftLessorSig =
+      preview && typeof draft.lessorSignature === 'string' ? draft.lessorSignature : null
+
+    const customerSignature = draftCustomerSig
+      ? await embedDataUrl(pdf, draftCustomerSig)
+      : inspection?.customer_signature_url
+        ? await loadImage(admin, pdf, inspection.customer_signature_url)
+        : null
+    const lessorSignature = draftLessorSig
+      ? await embedDataUrl(pdf, draftLessorSig)
+      : inspection?.lessor_signature_url
+        ? await loadImage(admin, pdf, inspection.lessor_signature_url)
+        : null
 
     pdf.gap(10)
     pdf.signatures([
@@ -512,6 +521,21 @@ Deno.serve(async (req) => {
   }
 
   const bytes = await pdf.save()
+
+  if (preview) {
+    // Vorschau: nichts speichern, nichts versenden – PDF direkt zurückgeben
+    let binary = ''
+    for (let i = 0; i < bytes.length; i += 1) binary += String.fromCharCode(bytes[i])
+    const slugPreview =
+      kind === 'contract' ? 'mietvertrag' : kind === 'handover' ? 'uebergabeprotokoll' : 'rueckgabeprotokoll'
+    return json({
+      preview: true,
+      documentType,
+      fileName: `vorschau-${slugPreview}-${rental.rental_number}.pdf`,
+      pdfBase64: btoa(binary),
+    })
+  }
+
 
   // Version bestimmen
   const { data: existing } = await admin
