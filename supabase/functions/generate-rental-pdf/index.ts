@@ -531,18 +531,18 @@ Deno.serve(async (req) => {
   const bytes = await pdf.save()
 
   if (preview) {
-    // Vorschau: nichts speichern, nichts versenden – PDF direkt zurückgeben
-    let binary = ''
-    for (let i = 0; i < bytes.length; i += 1) binary += String.fromCharCode(bytes[i])
+    // Vorschau: nichts speichern, nichts versenden – PDF direkt als Datei zurückgeben
     const slugPreview =
       kind === 'contract' ? 'mietvertrag' : kind === 'handover' ? 'uebergabeprotokoll' : 'rueckgabeprotokoll'
-    return json({
-      preview: true,
-      documentType,
-      fileName: `vorschau-${slugPreview}-${rental.rental_number}.pdf`,
-      pdfBase64: btoa(binary),
+    return new Response(bytes, {
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/octet-stream',
+        'X-Pdf-File-Name': `vorschau-${slugPreview}-${rental.rental_number}.pdf`,
+      },
     })
   }
+
 
 
   // Version bestimmen
