@@ -95,3 +95,59 @@ export const generateRentalPdf = async ({
   if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
   return data as RentalPdfResult;
 };
+
+export interface InspectionDraft {
+  inspection?: Record<string, unknown>;
+  inventory?: Record<string, unknown>[];
+  markers?: Record<string, unknown>[];
+  customerSignature?: string | null;
+  lessorSignature?: string | null;
+}
+
+interface PreviewOptions {
+  rentalId: string;
+  kind: Exclude<RentalPdfKind, "contract">;
+  vehicle?: Record<string, unknown> | null;
+  draft: InspectionDraft;
+}
+
+let lastPreviewUrl: string | null = null;
+
+/**
+ * Erzeugt eine Vorschau-PDF aus den aktuellen Formulareingaben.
+ * Nichts wird archiviert – das PDF kommt als Base64 zurück und wird lokal verlinkt.
+ */
+export const previewRentalPdf = async ({
+  rentalId,
+  kind,
+  vehicle,
+  draft,
+}: PreviewOptions): Promise<{ url: string; fileName: string }> => {
+  const diagrams = await collectDiagramImages(vehicle);
+  const { data, error } = await supabase.functions.invoke("generate-rental-pdf", {
+    body: { rentalId, kind, preview: true, draft, diagrams },
+  });
+  if (error) {
+    const context = (error as { context?: Response }).context;
+    let message = error.message;
+    if (context) {
+      try {
+        const payload = await context.clone().json();
+        if (payload?.error) message = String(payload.error);
+      } catch {
+        /* Fehlermeldung bleibt bestehen */
+      }
+    }
+    throw new Error(message);
+  }
+  const payload = data as { pdfBase64?: string; fileName?: string; error?: string };
+  if (payload?.error) throw new Error(payload.error);
+  if (!payload?.pdfBase64) throw new Error("Vorschau konnte nicht erstellt werden.");
+
+  const binary = atob(payload.pdfBase64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl);
+  lastPreviewUrl = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+  return { url: lastPreviewUrl, fileName: payload.fileName ?? "vorschau.pdf" };
+};
