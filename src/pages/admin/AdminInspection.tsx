@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Camera, Save, ShieldCheck } from "lucide-react";
+import { Camera, FileText, Save, ShieldCheck } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -19,6 +19,8 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
+import { generateRentalPdf } from "@/admin/rentalPdf";
+
 import {
   TANK_LEVELS,
   depositSettlement,
@@ -61,6 +63,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const isReturn = mode === "return";
+
+  const [pdfBusy, setPdfBusy] = useState(false);
 
   const [values, setValues] = useState({
     odometer: "",
@@ -583,13 +587,43 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
       toast({ title: complete ? "Protokoll abgeschlossen" : "Zwischenstand gespeichert" });
       void queryClient.invalidateQueries({ queryKey: ["inspection", id, mode] });
-      if (complete) navigate(`/admin/mietvertrag/${rental.id}`);
+      if (complete) {
+        await createProtocolPdf(inspectionId ?? undefined);
+        navigate(`/admin/mietvertrag/${rental.id}`);
+      }
     } catch (error) {
       toast({ title: "Speichern fehlgeschlagen", description: (error as Error).message });
     } finally {
       setSaving(false);
     }
   };
+
+  const createProtocolPdf = async (inspectionId?: string) => {
+    if (!rental) return;
+    setPdfBusy(true);
+    try {
+      const result = await generateRentalPdf({
+        rentalId: rental.id,
+        kind: isReturn ? "return" : "handover",
+        inspectionId: inspectionId ?? inspection?.id,
+        vehicle: rental.vehicles as Record<string, unknown> | null,
+      });
+      toast({
+        title: "Protokoll-PDF erstellt",
+        description: `${result.fileName} liegt im Dokumentenarchiv.`,
+      });
+      if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+    } catch (error) {
+      toast({
+        title: "PDF fehlgeschlagen",
+        description: error instanceof Error ? error.message : "Unbekannter Fehler",
+        variant: "destructive",
+      });
+    } finally {
+      setPdfBusy(false);
+    }
+  };
+
 
   if (isLoading) {
     return (
@@ -625,10 +659,26 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
             : "Fahrzeugwerte, Vorschäden, Inventar, Einweisung und Unterschriften."
         }
         actions={
-          <Link to={`/admin/mietvertrag/${rental.id}`} className={secondaryButton}>
-            Zurück zum Vertrag
-          </Link>
+          <>
+            <Link to={`/admin/mietvertrag/${rental.id}`} className={secondaryButton}>
+              Zurück zum Vertrag
+            </Link>
+            <button
+              onClick={() => void createProtocolPdf()}
+              disabled={pdfBusy || !inspection?.id}
+              title={
+                inspection?.id
+                  ? undefined
+                  : "Bitte zuerst einen Zwischenstand speichern."
+              }
+              className={secondaryButton}
+            >
+              <FileText className="h-4 w-4" />
+              {pdfBusy ? "Erstellt …" : "Protokoll als PDF"}
+            </button>
+          </>
         }
+
       />
 
       {locked && (

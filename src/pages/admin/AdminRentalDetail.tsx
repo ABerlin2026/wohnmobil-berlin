@@ -1,7 +1,16 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { ClipboardCheck, Download, FileArchive, Plus, Undo2 } from "lucide-react";
+import {
+  ClipboardCheck,
+  Download,
+  FileArchive,
+  FileText,
+  Mail,
+  Plus,
+  Undo2,
+} from "lucide-react";
+
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -24,6 +33,8 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
+import { generateRentalPdf } from "@/admin/rentalPdf";
+
 
 const AdminRentalDetail = () => {
   const { id } = useParams();
@@ -148,6 +159,46 @@ const AdminRentalDetail = () => {
     }
   };
 
+  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | null>(null);
+
+  const createContractPdf = async (send: boolean) => {
+    if (!id) return;
+    setPdfBusy(send ? "send" : "create");
+    try {
+      const result = await generateRentalPdf({ rentalId: id, kind: "contract", send });
+      void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", id] });
+      if (send) {
+        if (result.emailQueued) {
+          toast({
+            title: "Mietvertrag versendet",
+            description: `${result.fileName} wurde als Download-Link an den Mieter geschickt.`,
+          });
+        } else {
+          toast({
+            title: "PDF erstellt, Versand offen",
+            description: result.emailError ?? "E-Mail konnte nicht zugestellt werden.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "PDF erstellt",
+          description: `${result.fileName} liegt im Dokumentenarchiv.`,
+        });
+        if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+      }
+    } catch (error) {
+      toast({
+        title: "PDF fehlgeschlagen",
+        description: error instanceof Error ? error.message : "Unbekannter Fehler",
+        variant: "destructive",
+      });
+    } finally {
+      setPdfBusy(null);
+    }
+  };
+
+
   const totals = useMemo(() => {
     if (!rental) return null;
     const paidRent = (payments ?? [])
@@ -214,7 +265,29 @@ const AdminRentalDetail = () => {
               <Undo2 className="h-4 w-4" />
               {returnInspection ? "Rückgabe öffnen" : "Rückgabe"}
             </Link>
+            <button
+              onClick={() => void createContractPdf(false)}
+              disabled={pdfBusy !== null}
+              className={secondaryButton}
+            >
+              <FileText className="h-4 w-4" />
+              {pdfBusy === "create" ? "Erstellt …" : "Vertrags-PDF erstellen"}
+            </button>
+            <button
+              onClick={() => void createContractPdf(true)}
+              disabled={pdfBusy !== null || !rental.customers?.email}
+              title={
+                rental.customers?.email
+                  ? undefined
+                  : "Für den Mieter ist keine E-Mail-Adresse hinterlegt."
+              }
+              className={secondaryButton}
+            >
+              <Mail className="h-4 w-4" />
+              {pdfBusy === "send" ? "Sendet …" : "An Mieter senden"}
+            </button>
           </>
+
         }
       />
 
@@ -394,9 +467,10 @@ const AdminRentalDetail = () => {
             </ul>
           )}
           <p className="mt-3 text-xs text-muted-foreground">
-            Downloads laufen über kurzlebige signierte Links. Die finale Mietvertrags-PDF-Vorlage ist
-            noch nicht verbunden.
+            Downloads laufen über kurzlebige signierte Links. Jede PDF-Erstellung legt eine neue
+            Version an, ältere Versionen bleiben erhalten.
           </p>
+
         </Panel>
       </div>
 
