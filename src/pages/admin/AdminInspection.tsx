@@ -972,11 +972,13 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                     className={inputClass}
                   />
                 </Field>
-                <Field label="Verspätung (Minuten)">
+                <Field label="Verspätung (Minuten)" error={fieldErrors.delay_minutes}>
                   <input
                     inputMode="numeric"
                     value={values.delay_minutes}
+                    aria-invalid={Boolean(fieldErrors.delay_minutes)}
                     onChange={(e) => setValues({ ...values, delay_minutes: e.target.value })}
+
                     className={inputClass}
                   />
                 </Field>
