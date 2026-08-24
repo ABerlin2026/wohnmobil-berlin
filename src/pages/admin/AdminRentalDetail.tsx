@@ -467,9 +467,10 @@ const AdminRentalDetail = () => {
             </ul>
           )}
           <p className="mt-3 text-xs text-muted-foreground">
-            Downloads laufen über kurzlebige signierte Links. Die finale Mietvertrags-PDF-Vorlage ist
-            noch nicht verbunden.
+            Downloads laufen über kurzlebige signierte Links. Jede PDF-Erstellung legt eine neue
+            Version an, ältere Versionen bleiben erhalten.
           </p>
+
         </Panel>
       </div>
 
