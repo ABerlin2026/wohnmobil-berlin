@@ -150,7 +150,9 @@ export const exportInventoryPdf = (options: {
 }) => {
   const { items, vehicleName, tenant, searchTerm } = options;
   const doc = new jsPDF({ unit: "mm", format: "a4" });
-  const subtitleParts = [tenant.company_name?.trim() || tenant.name, vehicleName].filter(Boolean);
+  const subtitleParts = Array.from(
+    new Set([tenant.company_name?.trim() || tenant.name, vehicleName].filter(Boolean)),
+  );
   const startY = header(doc, "Inventarliste", subtitleParts.join(" · "), tenant.logoDataUrl);
 
   const totalCents = items.reduce(
