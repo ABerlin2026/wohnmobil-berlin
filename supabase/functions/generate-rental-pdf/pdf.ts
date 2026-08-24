@@ -32,17 +32,20 @@ export class PdfBuilder {
   private y = 0
   private footer: FooterInfo = { lines: [] }
   private title = ''
+  private watermark: string | null = null
 
-  static async create(title: string, footer: FooterInfo) {
+  static async create(title: string, footer: FooterInfo, watermark?: string | null) {
     const builder = new PdfBuilder()
     builder.doc = await PDFDocument.create()
     builder.font = await builder.doc.embedFont(StandardFonts.Helvetica)
     builder.bold = await builder.doc.embedFont(StandardFonts.HelveticaBold)
     builder.footer = footer
     builder.title = title
+    builder.watermark = watermark ?? null
     builder.addPage()
     return builder
   }
+
 
   get width() {
     return A4[0]
