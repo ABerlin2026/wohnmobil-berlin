@@ -19,7 +19,7 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
-import { generateRentalPdf } from "@/admin/rentalPdf";
+import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
 
 import {
   TANK_LEVELS,
