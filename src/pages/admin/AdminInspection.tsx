@@ -583,13 +583,43 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
       toast({ title: complete ? "Protokoll abgeschlossen" : "Zwischenstand gespeichert" });
       void queryClient.invalidateQueries({ queryKey: ["inspection", id, mode] });
-      if (complete) navigate(`/admin/mietvertrag/${rental.id}`);
+      if (complete) {
+        await createProtocolPdf(inspectionId ?? undefined);
+        navigate(`/admin/mietvertrag/${rental.id}`);
+      }
     } catch (error) {
       toast({ title: "Speichern fehlgeschlagen", description: (error as Error).message });
     } finally {
       setSaving(false);
     }
   };
+
+  const createProtocolPdf = async (inspectionId?: string) => {
+    if (!rental) return;
+    setPdfBusy(true);
+    try {
+      const result = await generateRentalPdf({
+        rentalId: rental.id,
+        kind: isReturn ? "return" : "handover",
+        inspectionId: inspectionId ?? inspection?.id,
+        vehicle: rental.vehicles as Record<string, unknown> | null,
+      });
+      toast({
+        title: "Protokoll-PDF erstellt",
+        description: `${result.fileName} liegt im Dokumentenarchiv.`,
+      });
+      if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+    } catch (error) {
+      toast({
+        title: "PDF fehlgeschlagen",
+        description: error instanceof Error ? error.message : "Unbekannter Fehler",
+        variant: "destructive",
+      });
+    } finally {
+      setPdfBusy(false);
+    }
+  };
+
 
   if (isLoading) {
     return (
