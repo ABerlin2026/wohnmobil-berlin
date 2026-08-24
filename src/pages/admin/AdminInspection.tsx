@@ -659,10 +659,26 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
             : "Fahrzeugwerte, Vorschäden, Inventar, Einweisung und Unterschriften."
         }
         actions={
-          <Link to={`/admin/mietvertrag/${rental.id}`} className={secondaryButton}>
-            Zurück zum Vertrag
-          </Link>
+          <>
+            <Link to={`/admin/mietvertrag/${rental.id}`} className={secondaryButton}>
+              Zurück zum Vertrag
+            </Link>
+            <button
+              onClick={() => void createProtocolPdf()}
+              disabled={pdfBusy || !inspection?.id}
+              title={
+                inspection?.id
+                  ? undefined
+                  : "Bitte zuerst einen Zwischenstand speichern."
+              }
+              className={secondaryButton}
+            >
+              <FileText className="h-4 w-4" />
+              {pdfBusy ? "Erstellt …" : "Protokoll als PDF"}
+            </button>
+          </>
         }
+
       />
 
       {locked && (
