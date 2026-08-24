@@ -674,3 +674,9 @@ async function loadImage(
   if (!bytes) return null
   return await pdf.embedImage(bytes, path.endsWith('.png') ? 'image/png' : 'image/jpeg')
 }
+
+async function embedDataUrl(pdf: PdfBuilder, value: string) {
+  const parsed = parseDataUrl(value)
+  if (!parsed) return null
+  return await pdf.embedImage(parsed.bytes, parsed.mime)
+}
