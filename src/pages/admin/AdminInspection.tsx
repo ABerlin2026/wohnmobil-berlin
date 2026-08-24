@@ -502,6 +502,14 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
   const persist = async (complete: boolean) => {
     if (!tenant || !rental) return;
+    if (hasFieldErrors) {
+      toast({
+        title: "Eingaben prüfen",
+        description: Object.values(fieldErrors)[0],
+      });
+      return;
+    }
+
     if (complete && isReturn && !isValidIban(bank.iban)) {
       toast({ title: "IBAN ungültig", description: "Der Abschluss ist ohne gültige IBAN gesperrt." });
       return;
