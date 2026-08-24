@@ -41,7 +41,7 @@ type Mode = "handover" | "return";
 
 /** Ganzzahl-Feldregeln für Tank-, Schlüssel- und Zählfelder. */
 const INT_FIELD_RULES = {
-  odometer: { label: "Kilometerstand", min: 0, max: 2_000_000, required: true },
+  odometer: { label: "Kilometerstand", min: 0, max: 2_000_000, required: false },
   gas_bottles: { label: "Gasflaschen", min: 0, max: 4, required: true },
   keys_count: { label: "Fahrzeugschlüssel", min: 1, max: 5, required: true },
   safety_vests: { label: "Warnwesten", min: 0, max: 10, required: true },
