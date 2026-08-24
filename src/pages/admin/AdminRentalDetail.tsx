@@ -159,6 +159,46 @@ const AdminRentalDetail = () => {
     }
   };
 
+  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | null>(null);
+
+  const createContractPdf = async (send: boolean) => {
+    if (!id) return;
+    setPdfBusy(send ? "send" : "create");
+    try {
+      const result = await generateRentalPdf({ rentalId: id, kind: "contract", send });
+      void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", id] });
+      if (send) {
+        if (result.emailQueued) {
+          toast({
+            title: "Mietvertrag versendet",
+            description: `${result.fileName} wurde als Download-Link an den Mieter geschickt.`,
+          });
+        } else {
+          toast({
+            title: "PDF erstellt, Versand offen",
+            description: result.emailError ?? "E-Mail konnte nicht zugestellt werden.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "PDF erstellt",
+          description: `${result.fileName} liegt im Dokumentenarchiv.`,
+        });
+        if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+      }
+    } catch (error) {
+      toast({
+        title: "PDF fehlgeschlagen",
+        description: error instanceof Error ? error.message : "Unbekannter Fehler",
+        variant: "destructive",
+      });
+    } finally {
+      setPdfBusy(null);
+    }
+  };
+
+
   const totals = useMemo(() => {
     if (!rental) return null;
     const paidRent = (payments ?? [])
