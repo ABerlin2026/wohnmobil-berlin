@@ -1,7 +1,16 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { ClipboardCheck, Download, FileArchive, Plus, Undo2 } from "lucide-react";
+import {
+  ClipboardCheck,
+  Download,
+  FileArchive,
+  FileText,
+  Mail,
+  Plus,
+  Undo2,
+} from "lucide-react";
+
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
