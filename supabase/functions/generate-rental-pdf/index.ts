@@ -98,6 +98,14 @@ Deno.serve(async (req) => {
     inspectionId?: string
     diagrams?: Record<string, string>
     send?: boolean
+    preview?: boolean
+    draft?: {
+      inspection?: Record<string, any>
+      inventory?: Record<string, any>[]
+      markers?: Record<string, any>[]
+      customerSignature?: string | null
+      lessorSignature?: string | null
+    }
   }
   try {
     body = await req.json()
@@ -107,8 +115,11 @@ Deno.serve(async (req) => {
 
   const rentalId = body.rentalId
   const kind = body.kind ?? 'contract'
+  const preview = body.preview === true
+  const draft = body.draft ?? {}
   if (!rentalId || typeof rentalId !== 'string') return json({ error: 'rentalId fehlt' }, 400)
   if (!KIND_LABEL[kind]) return json({ error: 'kind ungültig' }, 400)
+
 
   const admin = createClient(supabaseUrl, serviceKey)
 
