@@ -855,56 +855,76 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                 />
               </Field>
             )}
-            <Field label="Kilometerstand">
+            <Field label="Kilometerstand" error={fieldErrors.odometer} hint="Ganze Kilometer, ohne Punkt.">
               <input
                 inputMode="numeric"
                 value={values.odometer}
+                aria-invalid={Boolean(fieldErrors.odometer)}
                 onChange={(e) => setValues({ ...values, odometer: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Tankfüllung">
+            <Field
+              label="Tankfüllung"
+              error={fieldErrors.tank_level}
+              hint={`Skala: ${tankHint(values.tank_level)}`}
+            >
               <select
                 value={values.tank_level}
+                title={tankHint(values.tank_level)}
+                aria-invalid={Boolean(fieldErrors.tank_level)}
                 onChange={(e) => setValues({ ...values, tank_level: e.target.value })}
                 className={inputClass}
               >
                 {TANK_LEVELS.map((level) => (
-                  <option key={level.value} value={level.value}>
+                  <option key={level.value} value={level.value} title={level.hint}>
                     {level.label}
                   </option>
                 ))}
               </select>
             </Field>
-            <Field label="Gasflaschen (Anzahl)">
+            <Field label="Gasflaschen (Anzahl)" error={fieldErrors.gas_bottles} hint="0 bis 4 Flaschen.">
               <input
                 inputMode="numeric"
                 value={values.gas_bottles}
+                aria-invalid={Boolean(fieldErrors.gas_bottles)}
                 onChange={(e) => setValues({ ...values, gas_bottles: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Frischwassertank">
+            <Field
+              label="Frischwassertank"
+              error={fieldErrors.fresh_water}
+              hint={`Skala: ${tankHint(values.fresh_water)}`}
+            >
               <select
                 value={values.fresh_water}
+                title={tankHint(values.fresh_water)}
+                aria-invalid={Boolean(fieldErrors.fresh_water)}
                 onChange={(e) => setValues({ ...values, fresh_water: e.target.value })}
                 className={inputClass}
               >
                 {TANK_LEVELS.map((level) => (
-                  <option key={level.value} value={level.value}>
+                  <option key={level.value} value={level.value} title={level.hint}>
                     {level.label}
                   </option>
                 ))}
               </select>
             </Field>
-            <Field label="Abwassertank">
+            <Field
+              label="Abwassertank"
+              error={fieldErrors.waste_water}
+              hint={`Skala: ${tankHint(values.waste_water)}`}
+            >
               <select
                 value={values.waste_water}
+                title={tankHint(values.waste_water)}
+                aria-invalid={Boolean(fieldErrors.waste_water)}
                 onChange={(e) => setValues({ ...values, waste_water: e.target.value })}
                 className={inputClass}
               >
                 {TANK_LEVELS.map((level) => (
-                  <option key={level.value} value={level.value}>
+                  <option key={level.value} value={level.value} title={level.hint}>
                     {level.label}
                   </option>
                 ))}
@@ -912,23 +932,28 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
             </Field>
             <Field
               label="Fahrzeugschlüssel"
+              error={fieldErrors.keys_count}
               hint="1 Schlüsselsatz: Motorschlüssel inkl. Schlüssel für Heckgarage und seitliche Tür."
             >
               <input
                 inputMode="numeric"
                 value={values.keys_count}
+                aria-invalid={Boolean(fieldErrors.keys_count)}
+                title="Erlaubt: 1 bis 5 Schlüsselsätze"
                 onChange={(e) => setValues({ ...values, keys_count: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Warnwesten">
+            <Field label="Warnwesten" error={fieldErrors.safety_vests} hint="0 bis 10 Stück.">
               <input
                 inputMode="numeric"
                 value={values.safety_vests}
+                aria-invalid={Boolean(fieldErrors.safety_vests)}
                 onChange={(e) => setValues({ ...values, safety_vests: e.target.value })}
                 className={inputClass}
               />
             </Field>
+
             {isReturn && (
               <>
                 <Field label="Reifenprofil">
