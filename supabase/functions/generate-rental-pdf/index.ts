@@ -387,12 +387,15 @@ Deno.serve(async (req) => {
       pdf.gap(6)
     }
 
-    const { data: markers } = await admin
+    const { data: dbMarkers } = await admin
       .from('damage_markers')
       .select('*')
       .eq('vehicle_id', rental.vehicle_id ?? '')
       .neq('status', 'repaired')
       .order('created_at')
+    const markers =
+      preview && Array.isArray(draft.markers) ? (draft.markers as any[]) : (dbMarkers ?? [])
+
 
     pdf.subheading('Schäden')
     if ((markers ?? []).length === 0) {
