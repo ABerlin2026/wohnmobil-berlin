@@ -117,6 +117,25 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     actual_return_at: new Date().toISOString().slice(0, 16),
     notes: "",
   });
+
+  /** Live-Validierung aller Tank-, Schlüssel- und Zählfelder. */
+  const fieldErrors = useMemo(() => {
+    const errors: Record<string, string> = {};
+    (Object.keys(INT_FIELD_RULES) as IntFieldKey[]).forEach((key) => {
+      if (key === "delay_minutes" && !isReturn) return;
+      const message = validateIntField(key, values[key]);
+      if (message) errors[key] = message;
+    });
+    (Object.keys(TANK_FIELD_LABELS) as (keyof typeof TANK_FIELD_LABELS)[]).forEach((key) => {
+      if (!isTankLevel(values[key])) {
+        errors[key] = `${TANK_FIELD_LABELS[key]}: bitte Leer, 1/4, 1/2, 3/4 oder Voll wählen.`;
+      }
+    });
+    return errors;
+  }, [values, isReturn]);
+
+  const hasFieldErrors = Object.keys(fieldErrors).length > 0;
+
   const [confirmations, setConfirmations] = useState({
     instruction_complete: false,
     no_open_questions: false,
