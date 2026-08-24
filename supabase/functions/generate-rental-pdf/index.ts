@@ -176,14 +176,21 @@ Deno.serve(async (req) => {
   const days = rentalDays(rental.start_date, rental.end_date)
   const includedKm = days * (rental.free_km_per_day ?? 0)
 
-  pdf.heading(`${documentType} ${rental.rental_number}`)
+  pdf.heading(`${documentType} ${rental.rental_number}${preview ? ' - VORSCHAU' : ''}`)
   pdf.text(
     `${tenant.company_name || tenant.name || 'Vermieter'} · Erstellt am ${dateTime(
       new Date().toISOString(),
     )}`,
     { size: 9 },
   )
+  if (preview) {
+    pdf.text(
+      'Vorschau auf Basis der aktuellen Formulareingaben. Nicht rechtsverbindlich, nicht archiviert.',
+      { size: 9, bold: true },
+    )
+  }
   pdf.gap(10)
+
 
   pdf.subheading('Vertragsparteien')
   pdf.keyValues([
