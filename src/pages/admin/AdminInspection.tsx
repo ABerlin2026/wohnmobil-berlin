@@ -33,9 +33,37 @@ import {
 import { formatIban, isValidIban, normaliseIban } from "@/lib/iban";
 import { toast } from "@/hooks/use-toast";
 
-type Mode = "handover" | "return";
+type Mode2 = never;
 
-interface InventoryLine {
+/** Ganzzahl-Feldregeln für Tank-, Schlüssel- und Zählfelder. */
+const INT_FIELD_RULES = {
+  odometer: { label: "Kilometerstand", min: 0, max: 2_000_000, required: true },
+  gas_bottles: { label: "Gasflaschen", min: 0, max: 4, required: true },
+  keys_count: { label: "Fahrzeugschlüssel", min: 1, max: 5, required: true },
+  safety_vests: { label: "Warnwesten", min: 0, max: 10, required: true },
+  delay_minutes: { label: "Verspätung (Minuten)", min: 0, max: 100_000, required: false },
+} as const;
+
+type IntFieldKey = keyof typeof INT_FIELD_RULES;
+
+const validateIntField = (key: IntFieldKey, raw: string): string | null => {
+  const rule = INT_FIELD_RULES[key];
+  const trimmed = (raw ?? "").trim();
+  if (!trimmed) return rule.required ? `${rule.label} ist erforderlich.` : null;
+  if (!/^\d+$/.test(trimmed)) return `${rule.label}: nur ganze Zahlen erlaubt.`;
+  const numeric = Number(trimmed);
+  if (numeric < rule.min || numeric > rule.max) {
+    return `${rule.label}: erlaubt sind ${rule.min} bis ${rule.max}.`;
+  }
+  return null;
+};
+
+const TANK_FIELD_LABELS: Record<"tank_level" | "fresh_water" | "waste_water", string> = {
+  tank_level: "Tankfüllung",
+  fresh_water: "Frischwassertank",
+  waste_water: "Abwassertank",
+};
+
   inventory_item_id: string;
   name: string;
   item_type: string;
