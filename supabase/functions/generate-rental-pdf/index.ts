@@ -453,7 +453,14 @@ Deno.serve(async (req) => {
     )
     const videos = (mediaDocs ?? []).filter((doc) => (doc.mime_type ?? '').startsWith('video/'))
 
-    if (photos.length > 0) {
+    if (photos.length > 0 && preview) {
+      // In der Vorschau werden Fotos nur gelistet (schnell und speicherschonend)
+      pdf.subheading('Fotodokumentation (in der Vorschau nur gelistet)')
+      for (const doc of photos) {
+        pdf.text(`- ${doc.document_type} · ${doc.file_name}`)
+      }
+      pdf.gap(6)
+    } else if (photos.length > 0) {
       pdf.subheading('Fotodokumentation')
       for (const doc of photos.slice(0, 24)) {
         const bytes = await downloadBytes(admin, doc.file_path)
@@ -463,6 +470,7 @@ Deno.serve(async (req) => {
         pdf.drawPhoto(image, `${doc.document_type} · ${doc.file_name}`)
       }
     }
+
 
     if (videos.length > 0) {
       pdf.subheading('Videodokumentation (im Archiv hinterlegt)')
