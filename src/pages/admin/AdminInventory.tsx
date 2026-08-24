@@ -15,7 +15,9 @@ import {
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { euroToCents, formatEuro } from "@/lib/rentalCalculations";
+import { exportInventoryPdf, loadImageAsDataUrl } from "@/admin/dataExportPdf";
 import { toast } from "@/hooks/use-toast";
+
 
 interface ComponentDraft {
   id?: string;
