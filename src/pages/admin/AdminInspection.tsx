@@ -511,6 +511,12 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       });
       return;
     }
+    if (complete && !values.odometer.trim()) {
+      toast({ title: "Kilometerstand fehlt", description: "Für den Abschluss ist der Kilometerstand Pflicht." });
+      return;
+    }
+
+
 
     if (complete && isReturn && !isValidIban(bank.iban)) {
       toast({ title: "IBAN ungültig", description: "Der Abschluss ist ohne gültige IBAN gesperrt." });
