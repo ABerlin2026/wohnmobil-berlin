@@ -356,12 +356,15 @@ Deno.serve(async (req) => {
       [70, 30],
     )
 
-    const { data: inventoryRows } = inspection
-      ? await admin
-          .from('inspection_inventory')
-          .select('*')
-          .eq('inspection_id', inspection.id)
-      : { data: [] as any[] }
+    const { data: inventoryRows } = preview
+      ? { data: (draft.inventory ?? []) as any[] }
+      : inspection?.id
+        ? await admin
+            .from('inspection_inventory')
+            .select('*')
+            .eq('inspection_id', inspection.id)
+        : { data: [] as any[] }
+
 
     if ((inventoryRows ?? []).length > 0) {
       pdf.subheading('Inventar')
