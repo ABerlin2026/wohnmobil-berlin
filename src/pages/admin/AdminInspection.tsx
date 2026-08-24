@@ -64,6 +64,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const queryClient = useQueryClient();
   const isReturn = mode === "return";
 
+  const [pdfBusy, setPdfBusy] = useState(false);
+
   const [values, setValues] = useState({
     odometer: "",
     tank_level: "full",
