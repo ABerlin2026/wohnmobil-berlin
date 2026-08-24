@@ -115,7 +115,7 @@ let lastPreviewUrl: string | null = null;
 
 /**
  * Erzeugt eine Vorschau-PDF aus den aktuellen Formulareingaben.
- * Nichts wird archiviert – das PDF kommt als Base64 zurück und wird lokal verlinkt.
+ * Nichts wird archiviert – das PDF kommt als Blob zurück und wird lokal verlinkt.
  */
 export const previewRentalPdf = async ({
   rentalId,
@@ -140,14 +140,14 @@ export const previewRentalPdf = async ({
     }
     throw new Error(message);
   }
-  const payload = data as { pdfBase64?: string; fileName?: string; error?: string };
-  if (payload?.error) throw new Error(payload.error);
-  if (!payload?.pdfBase64) throw new Error("Vorschau konnte nicht erstellt werden.");
+  if (!(data instanceof Blob)) {
+    const payload = data as { error?: string } | null;
+    throw new Error(payload?.error ?? "Vorschau konnte nicht erstellt werden.");
+  }
 
-  const binary = atob(payload.pdfBase64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
   if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl);
-  lastPreviewUrl = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
-  return { url: lastPreviewUrl, fileName: payload.fileName ?? "vorschau.pdf" };
+  lastPreviewUrl = URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
+  const slug = kind === "handover" ? "uebergabeprotokoll" : "rueckgabeprotokoll";
+  return { url: lastPreviewUrl, fileName: `vorschau-${slug}.pdf` };
 };
+
