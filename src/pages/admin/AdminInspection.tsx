@@ -744,6 +744,15 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               Zurück zum Vertrag
             </Link>
             <button
+              onClick={() => void openPreview()}
+              disabled={previewBusy}
+              className={secondaryButton}
+              title="Vorschau aus den aktuellen Eingaben – ohne Speichern"
+            >
+              <Eye className="h-4 w-4" />
+              {previewBusy ? "Vorschau …" : "Vorschau aktualisieren"}
+            </button>
+            <button
               onClick={() => void createProtocolPdf()}
               disabled={pdfBusy || !inspection?.id}
               title={
@@ -756,6 +765,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               <FileText className="h-4 w-4" />
               {pdfBusy ? "Erstellt …" : "Protokoll als PDF"}
             </button>
+
           </>
         }
 
