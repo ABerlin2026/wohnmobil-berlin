@@ -33,7 +33,7 @@ import {
 import { formatIban, isValidIban, normaliseIban } from "@/lib/iban";
 import { toast } from "@/hooks/use-toast";
 
-type Mode2 = never;
+type Mode = "handover" | "return";
 
 /** Ganzzahl-Feldregeln für Tank-, Schlüssel- und Zählfelder. */
 const INT_FIELD_RULES = {
@@ -64,7 +64,9 @@ const TANK_FIELD_LABELS: Record<"tank_level" | "fresh_water" | "waste_water", st
   waste_water: "Abwassertank",
 };
 
+interface InventoryLine {
   inventory_item_id: string;
+
   name: string;
   item_type: string;
   quantity: number;
