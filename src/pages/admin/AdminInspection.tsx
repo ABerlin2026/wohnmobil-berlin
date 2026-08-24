@@ -65,6 +65,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const isReturn = mode === "return";
 
   const [pdfBusy, setPdfBusy] = useState(false);
+  const [previewBusy, setPreviewBusy] = useState(false);
+
 
   const [values, setValues] = useState({
     odometer: "",
