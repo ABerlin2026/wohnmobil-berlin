@@ -333,9 +333,23 @@ export class PdfBuilder {
   }
 
   async save() {
-    // Seitenzahlen ergänzen
+    // Seitenzahlen und optionales Wasserzeichen ergänzen
     const pages = this.doc.getPages()
     pages.forEach((page, index) => {
+      if (this.watermark) {
+        const text = sanitize(this.watermark)
+        const size = 34
+        const width = this.bold.widthOfTextAtSize(text, size)
+        page.drawText(text, {
+          x: (A4[0] - width * 0.7) / 2,
+          y: A4[1] / 2 - 120,
+          size,
+          font: this.bold,
+          color: rgb(0.85, 0.2, 0.2),
+          opacity: 0.16,
+          rotate: degrees(45),
+        })
+      }
       page.drawText(sanitize(`${this.title} · Seite ${index + 1} von ${pages.length}`), {
         x: A4[0] - MARGIN - 190,
         y: 46,
@@ -347,6 +361,7 @@ export class PdfBuilder {
     return await this.doc.save()
   }
 }
+
 
 function wrap(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
   const paragraphs = String(text ?? '').split('\n')
