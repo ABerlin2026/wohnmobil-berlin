@@ -1490,15 +1490,29 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
           </p>
         </Panel>
 
-        <div className="flex flex-wrap gap-2 pb-8">
-          <button onClick={() => void persist(false)} disabled={saving} className={secondaryButton}>
+        <div className="flex flex-wrap items-center gap-2 pb-8">
+          <button
+            onClick={() => void persist(false)}
+            disabled={saving || hasFieldErrors}
+            className={secondaryButton}
+          >
             <Save className="h-4 w-4" /> Zwischenstand speichern
           </button>
-          <button onClick={() => void persist(true)} disabled={saving} className={primaryButton}>
+          <button
+            onClick={() => void persist(true)}
+            disabled={saving || hasFieldErrors}
+            className={primaryButton}
+          >
             <ShieldCheck className="h-4 w-4" />
             {isReturn ? "Rücknahme abschließen" : "Übergabe abschließen"}
           </button>
+          {hasFieldErrors && (
+            <span role="alert" className="text-xs font-medium text-destructive">
+              {Object.values(fieldErrors)[0]}
+            </span>
+          )}
         </div>
+
       </div>
     </AdminShell>
   );
