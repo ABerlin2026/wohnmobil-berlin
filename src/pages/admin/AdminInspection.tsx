@@ -24,6 +24,8 @@ import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
 import {
   TANK_LEVELS,
   isTankLevel,
+  tankHint,
+
 
   depositSettlement,
   euroToCents,
