@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Save, Upload } from "lucide-react";
+import { FileDown, Save, Upload } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -14,7 +14,9 @@ import {
 } from "@/components/admin/AdminUI";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
+import { exportTenantPdf, loadImageAsDataUrl } from "@/admin/dataExportPdf";
 import { toast } from "@/hooks/use-toast";
+
 
 type TenantSettingsRow = {
   id: string;
