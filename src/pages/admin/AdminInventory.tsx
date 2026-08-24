@@ -236,10 +236,20 @@ const AdminInventory = () => {
         title="Inventarliste"
         description="Diese Liste wird beim Anlegen eines Mietvertrags als unveränderbare Momentaufnahme übernommen."
         actions={
-          <button onClick={() => setEditing(emptyDraft(nextSortOrder))} className={primaryButton}>
-            <Plus className="h-4 w-4" /> Position
-          </button>
+          <>
+            <button
+              onClick={() => void exportPdf()}
+              disabled={exporting || !tenant || filtered.length === 0}
+              className={secondaryButton}
+            >
+              <FileDown className="h-4 w-4" /> {exporting ? "Erstellt…" : "PDF-Export"}
+            </button>
+            <button onClick={() => setEditing(emptyDraft(nextSortOrder))} className={primaryButton}>
+              <Plus className="h-4 w-4" /> Position
+            </button>
+          </>
         }
+
       />
 
       <Panel className="mb-4">
