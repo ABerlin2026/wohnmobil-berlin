@@ -1,11 +1,13 @@
 import {
   PDFDocument,
   StandardFonts,
+  degrees,
   rgb,
   type PDFFont,
   type PDFImage,
   type PDFPage,
 } from 'npm:pdf-lib@1.17.1'
+
 
 const A4: [number, number] = [595.28, 841.89]
 const MARGIN = 48
