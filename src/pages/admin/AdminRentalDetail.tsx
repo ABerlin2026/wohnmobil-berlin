@@ -265,7 +265,29 @@ const AdminRentalDetail = () => {
               <Undo2 className="h-4 w-4" />
               {returnInspection ? "Rückgabe öffnen" : "Rückgabe"}
             </Link>
+            <button
+              onClick={() => void createContractPdf(false)}
+              disabled={pdfBusy !== null}
+              className={secondaryButton}
+            >
+              <FileText className="h-4 w-4" />
+              {pdfBusy === "create" ? "Erstellt …" : "Vertrags-PDF erstellen"}
+            </button>
+            <button
+              onClick={() => void createContractPdf(true)}
+              disabled={pdfBusy !== null || !rental.customers?.email}
+              title={
+                rental.customers?.email
+                  ? undefined
+                  : "Für den Mieter ist keine E-Mail-Adresse hinterlegt."
+              }
+              className={secondaryButton}
+            >
+              <Mail className="h-4 w-4" />
+              {pdfBusy === "send" ? "Sendet …" : "An Mieter senden"}
+            </button>
           </>
+
         }
       />
 
