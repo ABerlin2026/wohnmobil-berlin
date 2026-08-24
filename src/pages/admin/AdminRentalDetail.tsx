@@ -33,6 +33,8 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
+import { generateRentalPdf } from "@/admin/rentalPdf";
+
 
 const AdminRentalDetail = () => {
   const { id } = useParams();
