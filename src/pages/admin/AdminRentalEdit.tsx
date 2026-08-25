@@ -150,6 +150,7 @@ const AdminRentalEdit = () => {
 
   const invalidDates =
     !!form.start_date && !!form.end_date && form.end_date < form.start_date;
+  const invalidExpectedKm = !(Number(form.expected_km) > 0);
 
   const save = useMutation({
     mutationFn: async () => {
