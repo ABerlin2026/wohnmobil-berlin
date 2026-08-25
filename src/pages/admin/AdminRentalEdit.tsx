@@ -151,6 +151,19 @@ const AdminRentalEdit = () => {
   const invalidDates =
     !!form.start_date && !!form.end_date && form.end_date < form.start_date;
   const invalidExpectedKm = !(Number(form.expected_km) > 0);
+  const missingCustomer = (
+    [
+      "first_name",
+      "last_name",
+      "email",
+      "phone",
+      "street",
+      "postal_code",
+      "city",
+      "identity_number",
+      "identity_expires_at",
+    ] as const
+  ).some((key) => !customer[key].trim());
 
   const save = useMutation({
     mutationFn: async () => {
@@ -275,8 +288,8 @@ const AdminRentalEdit = () => {
               <ArrowLeft className="h-4 w-4" /> Zurück
             </Link>
             <button
-              onClick={() => !invalidDates && !invalidExpectedKm && save.mutate()}
-              disabled={save.isPending || invalidDates || invalidExpectedKm}
+              onClick={() => !invalidDates && !invalidExpectedKm && !missingCustomer && save.mutate()}
+              disabled={save.isPending || invalidDates || invalidExpectedKm || missingCustomer}
               className={primaryButton}
             >
               <Save className="h-4 w-4" />
@@ -460,21 +473,21 @@ const AdminRentalEdit = () => {
           <h2 className="text-lg font-semibold">Mieter</h2>
           {rental.customer_id ? (
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
-              <Field label="Vorname">
+              <Field label="Vorname *">
                 <input
                   value={customer.first_name}
                   onChange={(event) => setCustomer({ ...customer, first_name: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Nachname">
+              <Field label="Nachname *">
                 <input
                   value={customer.last_name}
                   onChange={(event) => setCustomer({ ...customer, last_name: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="E-Mail">
+              <Field label="E-Mail *">
                 <input
                   type="email"
                   value={customer.email}
@@ -482,35 +495,35 @@ const AdminRentalEdit = () => {
                   className={inputClass}
                 />
               </Field>
-              <Field label="Telefon">
+              <Field label="Telefon *">
                 <input
                   value={customer.phone}
                   onChange={(event) => setCustomer({ ...customer, phone: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Straße und Hausnummer" className="sm:col-span-2">
+              <Field label="Straße und Hausnummer *" className="sm:col-span-2">
                 <input
                   value={customer.street}
                   onChange={(event) => setCustomer({ ...customer, street: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="PLZ">
+              <Field label="PLZ *">
                 <input
                   value={customer.postal_code}
                   onChange={(event) => setCustomer({ ...customer, postal_code: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Ort">
+              <Field label="Ort *">
                 <input
                   value={customer.city}
                   onChange={(event) => setCustomer({ ...customer, city: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Ausweisnummer">
+              <Field label="Ausweisnummer *">
                 <input
                   value={customer.identity_number}
                   onChange={(event) =>
@@ -519,7 +532,7 @@ const AdminRentalEdit = () => {
                   className={inputClass}
                 />
               </Field>
-              <Field label="Ausweis gültig bis">
+              <Field label="Ausweis gültig bis *">
                 <input
                   type="date"
                   value={customer.identity_expires_at}

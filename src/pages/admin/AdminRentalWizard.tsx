@@ -23,6 +23,20 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 
+const REQUIRED_CUSTOMER_FIELDS = [
+  "first_name",
+  "last_name",
+  "email",
+  "phone",
+  "street",
+  "postal_code",
+  "city",
+  "identity_number",
+  "identity_expires_at",
+  "license_number",
+  "license_expires_at",
+] as const;
+
 const STEPS = ["Zeitraum & Fahrzeug", "Mieter & Fahrer", "Preis & Kaution"] as const;
 
 interface DriverDraft {
@@ -136,7 +150,8 @@ const AdminRentalWizard = () => {
         endDate >= startDate &&
         Number(expectedKm) > 0
       );
-    if (step === 1) return !!customer.first_name.trim() && !!customer.last_name.trim();
+    if (step === 1)
+      return REQUIRED_CUSTOMER_FIELDS.every((key) => !!customer[key].trim());
     return true;
   };
 
@@ -333,21 +348,21 @@ const AdminRentalWizard = () => {
         {step === 1 && (
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Vorname">
+              <Field label="Vorname *">
                 <input
                   value={customer.first_name}
                   onChange={(event) => setCustomer({ ...customer, first_name: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Nachname">
+              <Field label="Nachname *">
                 <input
                   value={customer.last_name}
                   onChange={(event) => setCustomer({ ...customer, last_name: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="E-Mail">
+              <Field label="E-Mail *">
                 <input
                   type="email"
                   value={customer.email}
@@ -355,35 +370,35 @@ const AdminRentalWizard = () => {
                   className={inputClass}
                 />
               </Field>
-              <Field label="Telefon">
+              <Field label="Telefon *">
                 <input
                   value={customer.phone}
                   onChange={(event) => setCustomer({ ...customer, phone: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Straße und Hausnummer" className="sm:col-span-2">
+              <Field label="Straße und Hausnummer *" className="sm:col-span-2">
                 <input
                   value={customer.street}
                   onChange={(event) => setCustomer({ ...customer, street: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="PLZ">
+              <Field label="PLZ *">
                 <input
                   value={customer.postal_code}
                   onChange={(event) => setCustomer({ ...customer, postal_code: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Ort">
+              <Field label="Ort *">
                 <input
                   value={customer.city}
                   onChange={(event) => setCustomer({ ...customer, city: event.target.value })}
                   className={inputClass}
                 />
               </Field>
-              <Field label="Ausweisnummer">
+              <Field label="Ausweisnummer *">
                 <input
                   value={customer.identity_number}
                   onChange={(event) =>
@@ -392,7 +407,7 @@ const AdminRentalWizard = () => {
                   className={inputClass}
                 />
               </Field>
-              <Field label="Ausweis gültig bis">
+              <Field label="Ausweis gültig bis *">
                 <input
                   type="date"
                   value={customer.identity_expires_at}
@@ -402,7 +417,7 @@ const AdminRentalWizard = () => {
                   className={inputClass}
                 />
               </Field>
-              <Field label="Führerscheinnummer">
+              <Field label="Führerscheinnummer *">
                 <input
                   value={customer.license_number}
                   onChange={(event) =>
@@ -411,7 +426,7 @@ const AdminRentalWizard = () => {
                   className={inputClass}
                 />
               </Field>
-              <Field label="Führerschein gültig bis">
+              <Field label="Führerschein gültig bis *">
                 <input
                   type="date"
                   value={customer.license_expires_at}
