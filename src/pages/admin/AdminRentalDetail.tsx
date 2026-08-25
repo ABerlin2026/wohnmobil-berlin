@@ -34,7 +34,7 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
-import { generateRentalPdf } from "@/admin/rentalPdf";
+import { generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
 
 
 const AdminRentalDetail = () => {
@@ -282,7 +282,7 @@ const AdminRentalDetail = () => {
               {returnInspection ? "Rückgabe öffnen" : "Rückgabe"}
             </Link>
             <button
-              onClick={() => void createContractPdf(false)}
+              onClick={() => void createContractPdf("create")}
               disabled={pdfBusy !== null}
               className={secondaryButton}
             >
@@ -290,7 +290,7 @@ const AdminRentalDetail = () => {
               {pdfBusy === "create" ? "Erstellt …" : "Vertrags-PDF erstellen"}
             </button>
             <button
-              onClick={() => void createContractPdf(true)}
+              onClick={() => void createContractPdf("send")}
               disabled={pdfBusy !== null || !rental.customers?.email}
               title={
                 rental.customers?.email
@@ -300,7 +300,16 @@ const AdminRentalDetail = () => {
               className={secondaryButton}
             >
               <Mail className="h-4 w-4" />
-              {pdfBusy === "send" ? "Sendet …" : "An Mieter senden"}
+              {pdfBusy === "send" ? "Sendet …" : "Per E-Mail senden"}
+            </button>
+            <button
+              onClick={() => void createContractPdf("print")}
+              disabled={pdfBusy !== null}
+              className={secondaryButton}
+              title="PDF erstellen und direkt drucken"
+            >
+              <Printer className="h-4 w-4" />
+              {pdfBusy === "print" ? "Druckt …" : "Drucken"}
             </button>
           </>
 
