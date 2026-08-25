@@ -732,8 +732,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         quantity: line.quantity,
       },
       status: line.status,
-      missing_quantity: line.missing_quantity,
-      damaged_quantity: line.damaged_quantity,
+      missing_quantity: isReturn ? line.missing_quantity : 0,
+      damaged_quantity: isReturn ? line.damaged_quantity : 0,
       deduction_cents: isReturn
         ? inventoryDeduction(
             line.replacement_price_cents,
