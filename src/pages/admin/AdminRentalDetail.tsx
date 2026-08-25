@@ -160,12 +160,22 @@ const AdminRentalDetail = () => {
     }
   };
 
-  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | null>(null);
+  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | "print" | null>(null);
 
-  const createContractPdf = async (send: boolean) => {
+  const createContractPdf = async (mode: "create" | "send" | "print") => {
     if (!id) return;
-    setPdfBusy(send ? "send" : "create");
+    setPdfBusy(mode);
     try {
+      if (mode === "print") {
+        const result = await printRentalPdf({ rentalId: id, kind: "contract" });
+        void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", id] });
+        toast({
+          title: "Druck gestartet",
+          description: `${result.fileName} wurde erstellt und an den Drucker geschickt.`,
+        });
+        return;
+      }
+      const send = mode === "send";
       const result = await generateRentalPdf({ rentalId: id, kind: "contract", send });
       void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", id] });
       if (send) {
@@ -198,6 +208,7 @@ const AdminRentalDetail = () => {
       setPdfBusy(null);
     }
   };
+
 
 
   const totals = useMemo(() => {
