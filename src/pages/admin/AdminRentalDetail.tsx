@@ -7,6 +7,7 @@ import {
   FileArchive,
   FileText,
   Mail,
+  Pencil,
   Plus,
   Undo2,
 } from "lucide-react";
@@ -257,6 +258,10 @@ const AdminRentalDetail = () => {
         }`}
         actions={
           <>
+            <Link to={`/admin/mietvertrag/${rental.id}/bearbeiten`} className={secondaryButton}>
+              <Pencil className="h-4 w-4" />
+              Bearbeiten
+            </Link>
             <Link to={`/admin/mietvertrag/${rental.id}/uebergabe`} className={primaryButton}>
               <ClipboardCheck className="h-4 w-4" />
               {handover ? "Übergabe öffnen" : "Übergabe starten"}
