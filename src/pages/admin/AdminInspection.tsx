@@ -98,7 +98,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const queryClient = useQueryClient();
   const isReturn = mode === "return";
 
-  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | "print" | null>(null);
   const [previewBusy, setPreviewBusy] = useState(false);
 
 
@@ -848,8 +848,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               {previewBusy ? "Vorschau …" : "Vorschau aktualisieren"}
             </button>
             <button
-              onClick={() => void createProtocolPdf()}
-              disabled={pdfBusy || !inspection?.id}
+              onClick={() => void createProtocolPdf(undefined, "create")}
+              disabled={pdfBusy !== null || !inspection?.id}
               title={
                 inspection?.id
                   ? undefined
