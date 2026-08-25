@@ -298,9 +298,19 @@ const AdminRentalWizard = () => {
                 className={inputClass}
               />
             </Field>
-            <Field label="Erwartete Kilometer" hint="Optional">
+            <Field
+              label="Erwartete Kilometer *"
+              hint="Pflichtfeld"
+              error={
+                expectedKm !== "" && !(Number(expectedKm) > 0)
+                  ? "Bitte erwartete Kilometer größer 0 angeben."
+                  : null
+              }
+            >
               <input
                 type="number"
+                min={1}
+                required
                 value={expectedKm}
                 onChange={(event) => setExpectedKm(event.target.value)}
                 className={inputClass}
