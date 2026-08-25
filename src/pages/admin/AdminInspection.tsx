@@ -696,7 +696,11 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       signed_at: null,
     },
     inventory: inventory.map((line) => ({
-      item_snapshot: { name: line.name, item_type: line.item_type },
+      item_snapshot: {
+        name: line.name,
+        item_type: line.item_type,
+        replacement_price_cents: line.replacement_price_cents,
+      },
       status: line.status,
       missing_quantity: line.missing_quantity,
       damaged_quantity: line.damaged_quantity,

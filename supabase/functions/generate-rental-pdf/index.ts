@@ -367,21 +367,35 @@ Deno.serve(async (req) => {
     if ((inventoryRows ?? []).length > 0) {
       pdf.subheading('Inventar')
       pdf.table(
-        ['Artikel', 'Status', 'Fehlt', 'Beschädigt', 'Abzug'],
+        [
+          'Artikel',
+          'Status',
+          'Fehlt',
+          'Beschädigt',
+          'Ersatz bei Beschädigungen, oder teilweise Verlust, in Euro',
+          'Abzug',
+        ],
         (inventoryRows ?? []).map((row: Record<string, any>) => [
           row.item_snapshot?.name ?? '-',
           INVENTORY_STATUS_LABEL[row.status] ?? row.status,
           `${row.missing_quantity ?? 0}`,
           `${row.damaged_quantity ?? 0}`,
+          row.item_snapshot?.replacement_price_cents != null
+            ? euro(row.item_snapshot.replacement_price_cents)
+            : '-',
           euro(row.deduction_cents),
         ]),
-        [36, 18, 12, 16, 18],
+        [26, 14, 9, 12, 24, 15],
       )
       const deductionTotal = (inventoryRows ?? []).reduce(
         (sum: number, row: Record<string, any>) => sum + (row.deduction_cents ?? 0),
         0,
       )
       pdf.text(`Summe Abzüge Inventar: ${euro(deductionTotal)}`, { bold: true })
+      pdf.gap(2)
+      pdf.text(
+        'Hinweis: Auch wenn nur eine Gabel oder ein Löffel fehlt, muss das gesamte Besteckset erneuert werden.',
+      )
       pdf.gap(6)
     }
 
