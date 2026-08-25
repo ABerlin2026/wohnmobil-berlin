@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { cleanMarkerText } from "@/admin/constants";
 import { DEFAULT_DIAGRAMS, resolveDiagramUrl, type VehicleSideValue } from "@/admin/vehicleDiagrams";
 
 export interface DiagramMarker {
