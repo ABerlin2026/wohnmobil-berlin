@@ -275,8 +275,8 @@ const AdminRentalEdit = () => {
               <ArrowLeft className="h-4 w-4" /> Zurück
             </Link>
             <button
-              onClick={() => !invalidDates && save.mutate()}
-              disabled={save.isPending || invalidDates}
+              onClick={() => !invalidDates && !invalidExpectedKm && save.mutate()}
+              disabled={save.isPending || invalidDates || invalidExpectedKm}
               className={primaryButton}
             >
               <Save className="h-4 w-4" />
