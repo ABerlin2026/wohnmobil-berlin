@@ -9,6 +9,8 @@ import {
   Mail,
   Pencil,
   Plus,
+  Printer,
+
   Undo2,
 } from "lucide-react";
 
