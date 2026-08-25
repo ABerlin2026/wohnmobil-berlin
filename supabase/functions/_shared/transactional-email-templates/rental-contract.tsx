@@ -14,6 +14,7 @@ import {
 import type { TemplateEntry } from './registry.ts'
 
 interface RentalContractProps {
+  documentLabel?: string
   customerName?: string
   rentalNumber?: string
   vehicleName?: string
@@ -36,6 +37,7 @@ const Row = ({ label, value }: { label: string; value?: string }) => {
 }
 
 const RentalContractEmail = ({
+  documentLabel = 'Mietvertrag',
   customerName,
   rentalNumber,
   vehicleName,
@@ -51,14 +53,14 @@ const RentalContractEmail = ({
     <Head>
       <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
     </Head>
-    <Preview>Dein Mietvertrag {rentalNumber ?? ''} zum Download</Preview>
+    <Preview>Dein {documentLabel} {rentalNumber ?? ''} zum Download</Preview>
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>
           {customerName ? `Hallo ${customerName},` : 'Hallo,'}
         </Heading>
         <Text style={subtitle}>
-          hier ist dein Mietvertrag {rentalNumber ? `${rentalNumber} ` : ''}als PDF. Bitte
+          hier ist dein {documentLabel} {rentalNumber ? `zum Mietvertrag ${rentalNumber} ` : ''}als PDF. Bitte
           prüfe die Angaben und melde dich, wenn etwas nicht passt.
         </Text>
 
@@ -75,7 +77,7 @@ const RentalContractEmail = ({
         {downloadUrl && (
           <Section style={{ textAlign: 'center' as const, margin: '24px 0' }}>
             <Button href={downloadUrl} style={button}>
-              Mietvertrag als PDF öffnen
+              {documentLabel} als PDF öffnen
             </Button>
             <Text style={hint}>
               Der Download-Link ist aus Sicherheitsgründen 14 Tage gültig. Bitte speichere
@@ -135,11 +137,12 @@ const footer = { fontSize: '11px', color: '#78716c' }
 export const template: TemplateEntry = {
   component: RentalContractEmail,
   subject: (data: Record<string, any>) =>
-    `Dein Mietvertrag${data?.rentalNumber ? ` ${data.rentalNumber}` : ''}`,
+    `Dein ${data?.documentLabel || 'Mietvertrag'}${data?.rentalNumber ? ` ${data.rentalNumber}` : ''}`,
   displayName: 'Mietvertrag (PDF-Link)',
   // Kein allowDynamicRecipient: Versand erfolgt ausschließlich serverseitig
   // durch generate-rental-pdf mit Service-Role.
   previewData: {
+    documentLabel: 'Mietvertrag',
     customerName: 'Max Mustermann',
     rentalNumber: 'MV-20260424-101500',
     vehicleName: 'Wohnmobil Berlin 1',
