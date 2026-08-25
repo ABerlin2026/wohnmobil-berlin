@@ -700,6 +700,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         name: line.name,
         item_type: line.item_type,
         replacement_price_cents: line.replacement_price_cents,
+        quantity: line.quantity,
       },
       status: line.status,
       missing_quantity: line.missing_quantity,
