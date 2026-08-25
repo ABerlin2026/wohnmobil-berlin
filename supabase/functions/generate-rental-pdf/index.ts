@@ -367,7 +367,7 @@ Deno.serve(async (req) => {
     if ((inventoryRows ?? []).length > 0) {
       const isReturn = kind === 'return'
       pdf.subheading('Inventar')
-      const priceHeader = 'Ersatz bei Beschädigungen, oder teilweise Verlust, in Euro'
+      const priceHeader = 'Ersatzpreis'
       const price = (row: Record<string, any>) =>
         row.item_snapshot?.replacement_price_cents != null
           ? euro(row.item_snapshot.replacement_price_cents)

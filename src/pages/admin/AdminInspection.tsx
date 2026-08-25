@@ -1359,23 +1359,28 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
                             </p>
                           )}
                         </div>
-                        <select
-                          value={line.status}
-                          onChange={(e) =>
-                            setInventory((current) =>
-                              current.map((entry, i) =>
-                                i === index ? { ...entry, status: e.target.value } : entry,
-                              ),
-                            )
-                          }
-                          className={`${inputClass} max-w-[190px]`}
-                        >
-                          {INVENTORY_STATUS.map((status) => (
-                            <option key={status.value} value={status.value}>
-                              {status.label}
-                            </option>
-                          ))}
-                        </select>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-muted-foreground whitespace-nowrap">
+                            Ersatzpreis: {formatEuro(line.replacement_price_cents)}
+                          </span>
+                          <select
+                            value={line.status}
+                            onChange={(e) =>
+                              setInventory((current) =>
+                                current.map((entry, i) =>
+                                  i === index ? { ...entry, status: e.target.value } : entry,
+                                ),
+                              )
+                            }
+                            className={`${inputClass} max-w-[190px]`}
+                          >
+                            {INVENTORY_STATUS.map((status) => (
+                              <option key={status.value} value={status.value}>
+                                {status.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                       {isReturn && line.status !== "complete" && (
                         <div className="mt-2 grid gap-2 sm:grid-cols-3">
