@@ -151,3 +151,42 @@ export const previewRentalPdf = async ({
   return { url: lastPreviewUrl, fileName: `vorschau-${slug}.pdf` };
 };
 
+
+/** Öffnet den Druckdialog für ein PDF (via unsichtbarem Iframe, funktioniert auch mobil). */
+export const printPdfFromUrl = async (url: string): Promise<void> => {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("PDF konnte nicht geladen werden.");
+  const blob = await response.blob();
+  const objectUrl = URL.createObjectURL(new Blob([blob], { type: "application/pdf" }));
+  const frame = document.createElement("iframe");
+  frame.style.position = "fixed";
+  frame.style.right = "0";
+  frame.style.bottom = "0";
+  frame.style.width = "0";
+  frame.style.height = "0";
+  frame.style.border = "0";
+  frame.onload = () => {
+    setTimeout(() => {
+      try {
+        frame.contentWindow?.focus();
+        frame.contentWindow?.print();
+      } catch {
+        window.open(objectUrl, "_blank", "noopener");
+      }
+    }, 400);
+  };
+  document.body.appendChild(frame);
+  frame.src = objectUrl;
+  setTimeout(() => {
+    URL.revokeObjectURL(objectUrl);
+    frame.remove();
+  }, 120000);
+};
+
+/** Erzeugt das PDF, archiviert es und öffnet direkt den Druckdialog. */
+export const printRentalPdf = async (options: GenerateOptions): Promise<RentalPdfResult> => {
+  const result = await generateRentalPdf({ ...options, send: false });
+  if (!result.signedUrl) throw new Error("Download-Link fehlt – Druck nicht möglich.");
+  await printPdfFromUrl(result.signedUrl);
+  return result;
+};
