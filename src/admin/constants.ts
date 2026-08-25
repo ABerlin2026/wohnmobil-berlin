@@ -51,3 +51,7 @@ export const PAYMENT_METHODS = ["Überweisung", "Bar", "EC-Karte", "PayPal"] as 
 
 export const formatDate = (value?: string | null) =>
   value ? new Date(value).toLocaleDateString("de-DE") : "-";
+
+/** Entfernt den unerwünschten Platzhalter aus Schadensmarker-Texten. */
+export const cleanMarkerText = (value?: string | null) =>
+  (value ?? "").replace(/\s*Mk€,global\s*/g, "").trim();
