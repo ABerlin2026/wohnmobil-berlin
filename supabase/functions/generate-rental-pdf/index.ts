@@ -365,33 +365,46 @@ Deno.serve(async (req) => {
 
 
     if ((inventoryRows ?? []).length > 0) {
+      const isReturn = kind === 'return'
       pdf.subheading('Inventar')
-      pdf.table(
-        [
-          'Artikel',
-          'Status',
-          'Fehlt',
-          'Beschädigt',
-          'Ersatz bei Beschädigungen, oder teilweise Verlust, in Euro',
-          'Abzug',
-        ],
-        (inventoryRows ?? []).map((row: Record<string, any>) => [
-          row.item_snapshot?.name ?? '-',
-          INVENTORY_STATUS_LABEL[row.status] ?? row.status,
-          `${row.missing_quantity ?? 0}`,
-          `${row.damaged_quantity ?? 0}`,
-          row.item_snapshot?.replacement_price_cents != null
-            ? euro(row.item_snapshot.replacement_price_cents)
-            : '-',
-          euro(row.deduction_cents),
-        ]),
-        [26, 14, 9, 12, 24, 15],
-      )
-      const deductionTotal = (inventoryRows ?? []).reduce(
-        (sum: number, row: Record<string, any>) => sum + (row.deduction_cents ?? 0),
-        0,
-      )
-      pdf.text(`Summe Abzüge Inventar: ${euro(deductionTotal)}`, { bold: true })
+      const priceHeader = 'Ersatz bei Beschädigungen, oder teilweise Verlust, in Euro'
+      const price = (row: Record<string, any>) =>
+        row.item_snapshot?.replacement_price_cents != null
+          ? euro(row.item_snapshot.replacement_price_cents)
+          : '-'
+      const qty = (row: Record<string, any>) => `${row.item_snapshot?.quantity ?? 1}`
+
+      if (isReturn) {
+        pdf.table(
+          ['Artikel', 'Stückzahl', 'Status', 'Fehlt', 'Beschädigt', priceHeader, 'Abzug'],
+          (inventoryRows ?? []).map((row: Record<string, any>) => [
+            row.item_snapshot?.name ?? '-',
+            qty(row),
+            INVENTORY_STATUS_LABEL[row.status] ?? row.status,
+            `${row.missing_quantity ?? 0}`,
+            `${row.damaged_quantity ?? 0}`,
+            price(row),
+            euro(row.deduction_cents),
+          ]),
+          [22, 11, 13, 9, 12, 20, 13],
+        )
+        const deductionTotal = (inventoryRows ?? []).reduce(
+          (sum: number, row: Record<string, any>) => sum + (row.deduction_cents ?? 0),
+          0,
+        )
+        pdf.text(`Summe Abzüge Inventar: ${euro(deductionTotal)}`, { bold: true })
+      } else {
+        pdf.table(
+          ['Artikel', 'Stückzahl', 'Status', priceHeader],
+          (inventoryRows ?? []).map((row: Record<string, any>) => [
+            row.item_snapshot?.name ?? '-',
+            qty(row),
+            INVENTORY_STATUS_LABEL[row.status] ?? row.status,
+            price(row),
+          ]),
+          [40, 14, 18, 28],
+        )
+      }
       pdf.gap(2)
       pdf.text(
         'Hinweis: Auch wenn nur eine Gabel oder ein Löffel fehlt, muss das gesamte Besteckset erneuert werden.',
