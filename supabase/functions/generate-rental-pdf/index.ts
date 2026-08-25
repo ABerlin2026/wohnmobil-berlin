@@ -393,6 +393,9 @@ Deno.serve(async (req) => {
       .eq('vehicle_id', rental.vehicle_id ?? '')
       .neq('status', 'repaired')
       .order('created_at')
+    const cleanMarkerText = (value?: string | null) =>
+      (value ?? "").replace(/\s*Mk€,global\s*/g, "").trim()
+
     const markers =
       preview && Array.isArray(draft.markers) ? (draft.markers as any[]) : (dbMarkers ?? [])
 
@@ -405,12 +408,12 @@ Deno.serve(async (req) => {
       pdf.table(
         ['Nr.', 'Bereich', 'Art', 'Schwere', 'Status', 'Beschreibung'],
         (markers ?? []).map((marker) => [
-          marker.marker_label,
+          cleanMarkerText(marker.marker_label),
           SIDE_LABEL[marker.vehicle_side] ?? marker.vehicle_side,
           marker.damage_type ?? '-',
           SEVERITY_LABEL[marker.severity ?? ''] ?? marker.severity ?? '-',
           STATUS_LABEL[marker.status] ?? marker.status,
-          marker.description,
+          cleanMarkerText(marker.description),
         ]),
         [8, 16, 14, 12, 12, 38],
       )
@@ -432,7 +435,7 @@ Deno.serve(async (req) => {
           (markers ?? [])
             .filter((marker) => marker.vehicle_side === side)
             .map((marker) => ({
-              label: marker.marker_label,
+              label: cleanMarkerText(marker.marker_label),
               x: Number(marker.x_percent),
               y: Number(marker.y_percent),
             })),

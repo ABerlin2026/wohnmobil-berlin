@@ -15,7 +15,7 @@ import {
 } from "@/components/admin/AdminUI";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
-import { VEHICLE_SIDES } from "@/admin/constants";
+import { cleanMarkerText, VEHICLE_SIDES } from "@/admin/constants";
 import VehicleDiagram from "@/components/admin/VehicleDiagram";
 import { toast } from "@/hooks/use-toast";
 
@@ -235,7 +235,7 @@ const AdminVehicles = () => {
                     <ul className="mt-2 divide-y divide-border text-sm">
                       {vehicleDamages.slice(0, 8).map((damage) => (
                         <li key={damage.id} className="py-2">
-                          <span className="font-medium">{damage.marker_label}</span> ·{" "}
+                          <span className="font-medium">{cleanMarkerText(damage.marker_label)}</span> ·{" "}
                           {VEHICLE_SIDES.find((s) => s.value === damage.vehicle_side)?.label} ·{" "}
                           {damage.description}{" "}
                           <span className="text-muted-foreground">({damage.status})</span>

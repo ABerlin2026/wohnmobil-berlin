@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { cleanMarkerText } from "@/admin/constants";
 import { DEFAULT_DIAGRAMS, resolveDiagramUrl, type VehicleSideValue } from "@/admin/vehicleDiagrams";
 
 export interface DiagramMarker {
@@ -100,9 +101,9 @@ const VehicleDiagram = ({
               ? "border-primary bg-primary text-primary-foreground"
               : "border-destructive bg-background text-destructive"
           }`}
-          aria-label={`Schaden ${marker.marker_label}`}
+          aria-label={`Schaden ${cleanMarkerText(marker.marker_label)}`}
         >
-          {marker.marker_label}
+          {cleanMarkerText(marker.marker_label)}
         </button>
       ))}
     </div>
