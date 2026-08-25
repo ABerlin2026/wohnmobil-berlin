@@ -433,10 +433,15 @@ const AdminRentalEdit = () => {
                 className={inputClass}
               />
             </Field>
-            <Field label="Erwartete Kilometer" hint="Optional">
+            <Field
+              label="Erwartete Kilometer *"
+              hint="Pflichtfeld"
+              error={invalidExpectedKm ? "Bitte erwartete Kilometer größer 0 angeben." : null}
+            >
               <input
                 type="number"
-                min={0}
+                min={1}
+                required
                 value={form.expected_km}
                 onChange={(event) => setForm({ ...form, expected_km: event.target.value })}
                 className={inputClass}
