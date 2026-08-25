@@ -394,16 +394,29 @@ Deno.serve(async (req) => {
         )
         pdf.text(`Summe Abzüge Inventar: ${euro(deductionTotal)}`, { bold: true })
       } else {
-        pdf.table(
-          ['Artikel', 'Stückzahl', 'Status', priceHeader],
-          (inventoryRows ?? []).map((row: Record<string, any>) => [
-            row.item_snapshot?.name ?? '-',
-            qty(row),
-            INVENTORY_STATUS_LABEL[row.status] ?? row.status,
-            price(row),
-          ]),
-          [40, 14, 18, 28],
+        // Validierung: Rücknahme-Spalten dürfen im Übergabeprotokoll nicht auftauchen
+        const RETURN_ONLY_HEADERS = ['Fehlt', 'Beschädigt', 'Abzug']
+        const handoverHeaders = ['Artikel', 'Stückzahl', 'Status', priceHeader]
+        const forbidden = handoverHeaders.filter((h) =>
+          RETURN_ONLY_HEADERS.some((r) => h.toLowerCase().includes(r.toLowerCase())),
         )
+        if (forbidden.length > 0) {
+          throw new Error(
+            `Übergabeprotokoll darf keine Rücknahme-Spalten enthalten: ${forbidden.join(', ')}`,
+          )
+        }
+        const handoverRows = (inventoryRows ?? []).map((row: Record<string, any>) => [
+          row.item_snapshot?.name ?? '-',
+          qty(row),
+          INVENTORY_STATUS_LABEL[row.status] ?? row.status,
+          price(row),
+        ])
+        for (const row of handoverRows) {
+          if (row.length !== handoverHeaders.length) {
+            throw new Error('Inventartabelle (Übergabe) hat eine unerwartete Spaltenanzahl')
+          }
+        }
+        pdf.table(handoverHeaders, handoverRows, [40, 14, 18, 28])
       }
       pdf.gap(2)
       pdf.text(
