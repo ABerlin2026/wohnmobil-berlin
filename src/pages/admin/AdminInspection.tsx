@@ -1320,118 +1320,124 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         )}
 
         <Panel>
-          <h2 className="text-lg font-semibold">
-            {isReturn ? "Inventarprüfung" : "Inventarliste (Snapshot)"}
-          </h2>
-          {!isReturn && (
-            <button
-              onClick={() =>
-                setInventory((current) => current.map((line) => ({ ...line, status: "complete" })))
-              }
-              className={`${secondaryButton} mt-3`}
-            >
-              Alles vollständig bestätigen
-            </button>
-          )}
-          <ul className="mt-3 divide-y divide-border">
-            {inventory.map((line, index) => (
-              <li key={line.inventory_item_id} className="py-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div>
-                    <p className="font-medium">
-                      {line.quantity}× {line.name}
-                      {line.item_type === "set" && (
-                        <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-xs">Set</span>
-                      )}
-                    </p>
-                    {line.components.length > 0 && (
-                      <p className="text-xs text-muted-foreground">
-                        {line.components.map((c) => `${c.quantity}× ${c.name}`).join(", ")}
-                      </p>
-                    )}
-                  </div>
-                  <select
-                    value={line.status}
-                    onChange={(e) =>
-                      setInventory((current) =>
-                        current.map((entry, i) =>
-                          i === index ? { ...entry, status: e.target.value } : entry,
-                        ),
-                      )
+          <Accordion type="single" collapsible defaultValue="inventory" className="w-full">
+            <AccordionItem value="inventory" className="border-none">
+              <AccordionTrigger className="text-lg font-semibold hover:no-underline py-0">
+                {isReturn ? "Inventarprüfung" : "Inventarliste (Snapshot)"}
+              </AccordionTrigger>
+              <AccordionContent>
+                {!isReturn && (
+                  <button
+                    onClick={() =>
+                      setInventory((current) => current.map((line) => ({ ...line, status: "complete" })))
                     }
-                    className={`${inputClass} max-w-[190px]`}
+                    className={`${secondaryButton} mt-3`}
                   >
-                    {INVENTORY_STATUS.map((status) => (
-                      <option key={status.value} value={status.value}>
-                        {status.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {isReturn && line.status !== "complete" && (
-                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                    <Field label="Fehlt (Stück)">
-                      <input
-                        inputMode="numeric"
-                        value={line.missing_quantity}
-                        onChange={(e) =>
-                          setInventory((current) =>
-                            current.map((entry, i) =>
-                              i === index
-                                ? { ...entry, missing_quantity: Number(e.target.value || 0) }
-                                : entry,
-                            ),
-                          )
-                        }
-                        className={inputClass}
-                      />
-                    </Field>
-                    <Field label="Beschädigt (Stück)">
-                      <input
-                        inputMode="numeric"
-                        value={line.damaged_quantity}
-                        onChange={(e) =>
-                          setInventory((current) =>
-                            current.map((entry, i) =>
-                              i === index
-                                ? { ...entry, damaged_quantity: Number(e.target.value || 0) }
-                                : entry,
-                            ),
-                          )
-                        }
-                        className={inputClass}
-                      />
-                    </Field>
-                    <Field label="Bemerkung">
-                      <input
-                        value={line.notes}
-                        onChange={(e) =>
-                          setInventory((current) =>
-                            current.map((entry, i) =>
-                              i === index ? { ...entry, notes: e.target.value } : entry,
-                            ),
-                          )
-                        }
-                        className={inputClass}
-                      />
-                    </Field>
-                    <p className="text-sm sm:col-span-3">
-                      Abzug:{" "}
-                      {formatEuro(
-                        inventoryDeduction(
-                          line.replacement_price_cents,
-                          line.missing_quantity,
-                          line.damaged_quantity,
-                          line.item_type === "set" ? "set" : "single",
-                        ),
-                      )}
-                      {line.item_type === "set" && " (Sets werden immer komplett berechnet)"}
-                    </p>
-                  </div>
+                    Alles vollständig bestätigen
+                  </button>
                 )}
-              </li>
-            ))}
-          </ul>
+                <ul className="mt-3 divide-y divide-border">
+                  {inventory.map((line, index) => (
+                    <li key={line.inventory_item_id} className="py-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <p className="font-medium">
+                            {line.quantity}× {line.name}
+                            {line.item_type === "set" && (
+                              <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-xs">Set</span>
+                            )}
+                          </p>
+                          {line.components.length > 0 && (
+                            <p className="text-xs text-muted-foreground">
+                              {line.components.map((c) => `${c.quantity}× ${c.name}`).join(", ")}
+                            </p>
+                          )}
+                        </div>
+                        <select
+                          value={line.status}
+                          onChange={(e) =>
+                            setInventory((current) =>
+                              current.map((entry, i) =>
+                                i === index ? { ...entry, status: e.target.value } : entry,
+                              ),
+                            )
+                          }
+                          className={`${inputClass} max-w-[190px]`}
+                        >
+                          {INVENTORY_STATUS.map((status) => (
+                            <option key={status.value} value={status.value}>
+                              {status.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {isReturn && line.status !== "complete" && (
+                        <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                          <Field label="Fehlt (Stück)">
+                            <input
+                              inputMode="numeric"
+                              value={line.missing_quantity}
+                              onChange={(e) =>
+                                setInventory((current) =>
+                                  current.map((entry, i) =>
+                                    i === index
+                                      ? { ...entry, missing_quantity: Number(e.target.value || 0) }
+                                      : entry,
+                                  ),
+                                )
+                              }
+                              className={inputClass}
+                            />
+                          </Field>
+                          <Field label="Beschädigt (Stück)">
+                            <input
+                              inputMode="numeric"
+                              value={line.damaged_quantity}
+                              onChange={(e) =>
+                                setInventory((current) =>
+                                  current.map((entry, i) =>
+                                    i === index
+                                      ? { ...entry, damaged_quantity: Number(e.target.value || 0) }
+                                      : entry,
+                                  ),
+                                )
+                              }
+                              className={inputClass}
+                            />
+                          </Field>
+                          <Field label="Bemerkung">
+                            <input
+                              value={line.notes}
+                              onChange={(e) =>
+                                setInventory((current) =>
+                                  current.map((entry, i) =>
+                                    i === index ? { ...entry, notes: e.target.value } : entry,
+                                  ),
+                                )
+                              }
+                              className={inputClass}
+                            />
+                          </Field>
+                          <p className="text-sm sm:col-span-3">
+                            Abzug:{" "}
+                            {formatEuro(
+                              inventoryDeduction(
+                                line.replacement_price_cents,
+                                line.missing_quantity,
+                                line.damaged_quantity,
+                                line.item_type === "set" ? "set" : "single",
+                              ),
+                            )}
+                            {line.item_type === "set" && " (Sets werden immer komplett berechnet)"}
+                          </p>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </Panel>
 
         {isReturn && (
