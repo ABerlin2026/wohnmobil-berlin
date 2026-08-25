@@ -239,6 +239,20 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     },
   });
 
+  const { data: savedInventory } = useQuery({
+    queryKey: ["inspection-inventory", inspection?.id],
+    enabled: !!inspection?.id,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("inspection_inventory")
+        .select("inventory_item_id, item_snapshot, status, missing_quantity, damaged_quantity, notes")
+        .eq("inspection_id", inspection!.id);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+
   const { data: markers, refetch: refetchMarkers } = useQuery({
     queryKey: ["inspection-markers", rental?.vehicle_id],
     enabled: !!rental?.vehicle_id,
@@ -271,21 +285,28 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
   useEffect(() => {
     if (!items || inventory.length > 0) return;
-    setInventory(
-      items.map((item) => ({
-        inventory_item_id: item.id,
-        name: item.name,
-        item_type: item.item_type,
-        quantity: item.quantity,
-        replacement_price_cents: item.replacement_price_cents,
-        components: (item.components ?? []).map((c) => ({ name: c.name, quantity: c.quantity })),
-        status: "complete",
-        missing_quantity: 0,
-        damaged_quantity: 0,
-        notes: "",
-      })),
+    if (inspection?.id && savedInventory === undefined) return;
+    const savedByItem = new Map(
+      (savedInventory ?? []).map((row: Record<string, any>) => [row.inventory_item_id, row]),
     );
-  }, [items, inventory.length]);
+    setInventory(
+      items.map((item) => {
+        const saved = savedByItem.get(item.id) as Record<string, any> | undefined;
+        return {
+          inventory_item_id: item.id,
+          name: item.name,
+          item_type: item.item_type,
+          quantity: item.quantity,
+          replacement_price_cents: item.replacement_price_cents,
+          components: (item.components ?? []).map((c) => ({ name: c.name, quantity: c.quantity })),
+          status: saved?.status ?? "complete",
+          missing_quantity: saved?.missing_quantity ?? 0,
+          damaged_quantity: saved?.damaged_quantity ?? 0,
+          notes: saved?.notes ?? "",
+        };
+      }),
+    );
+  }, [items, inventory.length, inspection?.id, savedInventory]);
 
   useEffect(() => {
     if (!inspection) return;
@@ -662,6 +683,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
       toast({ title: complete ? "Protokoll abgeschlossen" : "Zwischenstand gespeichert" });
       void queryClient.invalidateQueries({ queryKey: ["inspection", id, mode] });
+      void queryClient.invalidateQueries({ queryKey: ["inspection-inventory", inspectionId] });
       if (complete) {
         await createProtocolPdf(inspectionId ?? undefined);
         navigate(`/admin/mietvertrag/${rental.id}`);
