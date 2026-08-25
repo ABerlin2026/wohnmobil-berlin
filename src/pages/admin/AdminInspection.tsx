@@ -683,6 +683,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
 
       toast({ title: complete ? "Protokoll abgeschlossen" : "Zwischenstand gespeichert" });
       void queryClient.invalidateQueries({ queryKey: ["inspection", id, mode] });
+      void queryClient.invalidateQueries({ queryKey: ["inspection-inventory", inspectionId] });
       if (complete) {
         await createProtocolPdf(inspectionId ?? undefined);
         navigate(`/admin/mietvertrag/${rental.id}`);
