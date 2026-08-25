@@ -77,6 +77,7 @@ const App = () => (
                         <Route path="mietvertraege" element={<AdminRentals />} />
                         <Route path="mietvertrag/neu" element={<AdminRentalWizard />} />
                         <Route path="mietvertrag/:id" element={<AdminRentalDetail />} />
+                        <Route path="mietvertrag/:id/bearbeiten" element={<AdminRentalEdit />} />
                         <Route
                           path="mietvertrag/:id/uebergabe"
                           element={<AdminInspection mode="handover" />}
