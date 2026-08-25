@@ -17,7 +17,7 @@ import VehicleDiagram from "@/components/admin/VehicleDiagram";
 import SignaturePad from "@/components/admin/SignaturePad";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
-import { DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
+import { cleanMarkerText, DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
 import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
 
