@@ -7,6 +7,7 @@ import {
   FileArchive,
   FileText,
   Mail,
+  Pencil,
   Plus,
   Undo2,
 } from "lucide-react";
