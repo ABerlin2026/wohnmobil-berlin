@@ -128,7 +128,14 @@ const AdminRentalWizard = () => {
   }, [startDate, endDate, freeKm]);
 
   const canContinue = () => {
-    if (step === 0) return !!vehicleId && !!startDate && !!endDate && endDate >= startDate;
+    if (step === 0)
+      return (
+        !!vehicleId &&
+        !!startDate &&
+        !!endDate &&
+        endDate >= startDate &&
+        Number(expectedKm) > 0
+      );
     if (step === 1) return !!customer.first_name.trim() && !!customer.last_name.trim();
     return true;
   };
