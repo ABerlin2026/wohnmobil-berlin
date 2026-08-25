@@ -1157,7 +1157,10 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
             {sideMarkers.map((marker) => (
               <li key={marker.id} className="flex flex-wrap items-center gap-2 py-2">
                 <span className="min-w-0 flex-1">
-                  <span className="font-medium">{marker.marker_label}</span> · {marker.description}{" "}
+                  <span className="font-medium">{cleanMarkerText(marker.marker_label)}</span>
+                  {cleanMarkerText(marker.description)
+                    ? <> · {cleanMarkerText(marker.description)} </>
+                    : " "}
                   <span className="text-muted-foreground">
                     ({marker.status === "new" ? "neuer Schaden" : "Vorschaden"})
                   </span>
