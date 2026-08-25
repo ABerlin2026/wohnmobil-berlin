@@ -325,8 +325,6 @@ Deno.serve(async (req) => {
       ['Frischwasser', LEVEL_LABEL[inspection?.fresh_water ?? ''] ?? inspection?.fresh_water ?? '-'],
       ['Abwasser', LEVEL_LABEL[inspection?.waste_water ?? ''] ?? inspection?.waste_water ?? '-'],
       ['Gasflaschen', inspection?.gas_bottles != null ? `${inspection.gas_bottles}` : '-'],
-      ['Reifenprofil', inspection?.tire_tread ?? '-'],
-      ['Reinigungszustand', inspection?.cleaning_status ?? '-'],
       [
         'Fahrzeugschlüssel',
         inspection?.keys_count != null

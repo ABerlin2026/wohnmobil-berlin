@@ -171,7 +171,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("rentals")
-        .select("*, vehicles(*), customers(first_name, last_name, id)")
+        .select("*, vehicles(*), customers(first_name, last_name, id, email)")
         .eq("id", id!)
         .maybeSingle();
       if (error) throw error;
