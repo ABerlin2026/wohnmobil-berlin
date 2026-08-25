@@ -150,6 +150,7 @@ const AdminRentalEdit = () => {
 
   const invalidDates =
     !!form.start_date && !!form.end_date && form.end_date < form.start_date;
+  const invalidExpectedKm = !(Number(form.expected_km) > 0);
 
   const save = useMutation({
     mutationFn: async () => {
@@ -274,8 +275,8 @@ const AdminRentalEdit = () => {
               <ArrowLeft className="h-4 w-4" /> Zurück
             </Link>
             <button
-              onClick={() => !invalidDates && save.mutate()}
-              disabled={save.isPending || invalidDates}
+              onClick={() => !invalidDates && !invalidExpectedKm && save.mutate()}
+              disabled={save.isPending || invalidDates || invalidExpectedKm}
               className={primaryButton}
             >
               <Save className="h-4 w-4" />
@@ -433,10 +434,15 @@ const AdminRentalEdit = () => {
                 className={inputClass}
               />
             </Field>
-            <Field label="Erwartete Kilometer" hint="Optional">
+            <Field
+              label="Erwartete Kilometer *"
+              hint="Pflichtfeld"
+              error={invalidExpectedKm ? "Bitte erwartete Kilometer größer 0 angeben." : null}
+            >
               <input
                 type="number"
-                min={0}
+                min={1}
+                required
                 value={form.expected_km}
                 onChange={(event) => setForm({ ...form, expected_km: event.target.value })}
                 className={inputClass}
