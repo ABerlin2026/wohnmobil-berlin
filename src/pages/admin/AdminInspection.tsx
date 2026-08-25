@@ -5,6 +5,12 @@ import { Camera, Eye, FileText, Mail, Printer, Save, ShieldCheck } from "lucide-
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   EmptyState,
   Field,
   PageHeader,
