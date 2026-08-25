@@ -612,6 +612,7 @@ Deno.serve(async (req) => {
           recipientEmail: recipient,
           templateData: {
             email: recipient,
+            documentLabel: documentType,
             customerName,
             rentalNumber: rental.rental_number,
             vehicleName: vehicle?.name ?? '',

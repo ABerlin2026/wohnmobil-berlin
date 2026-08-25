@@ -9,6 +9,8 @@ import {
   Mail,
   Pencil,
   Plus,
+  Printer,
+
   Undo2,
 } from "lucide-react";
 
@@ -34,7 +36,7 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
-import { generateRentalPdf } from "@/admin/rentalPdf";
+import { generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
 
 
 const AdminRentalDetail = () => {
@@ -160,12 +162,22 @@ const AdminRentalDetail = () => {
     }
   };
 
-  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | null>(null);
+  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | "print" | null>(null);
 
-  const createContractPdf = async (send: boolean) => {
+  const createContractPdf = async (mode: "create" | "send" | "print") => {
     if (!id) return;
-    setPdfBusy(send ? "send" : "create");
+    setPdfBusy(mode);
     try {
+      if (mode === "print") {
+        const result = await printRentalPdf({ rentalId: id, kind: "contract" });
+        void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", id] });
+        toast({
+          title: "Druck gestartet",
+          description: `${result.fileName} wurde erstellt und an den Drucker geschickt.`,
+        });
+        return;
+      }
+      const send = mode === "send";
       const result = await generateRentalPdf({ rentalId: id, kind: "contract", send });
       void queryClient.invalidateQueries({ queryKey: ["admin-rental-documents", id] });
       if (send) {
@@ -198,6 +210,7 @@ const AdminRentalDetail = () => {
       setPdfBusy(null);
     }
   };
+
 
 
   const totals = useMemo(() => {
@@ -271,7 +284,7 @@ const AdminRentalDetail = () => {
               {returnInspection ? "Rückgabe öffnen" : "Rückgabe"}
             </Link>
             <button
-              onClick={() => void createContractPdf(false)}
+              onClick={() => void createContractPdf("create")}
               disabled={pdfBusy !== null}
               className={secondaryButton}
             >
@@ -279,7 +292,7 @@ const AdminRentalDetail = () => {
               {pdfBusy === "create" ? "Erstellt …" : "Vertrags-PDF erstellen"}
             </button>
             <button
-              onClick={() => void createContractPdf(true)}
+              onClick={() => void createContractPdf("send")}
               disabled={pdfBusy !== null || !rental.customers?.email}
               title={
                 rental.customers?.email
@@ -289,7 +302,16 @@ const AdminRentalDetail = () => {
               className={secondaryButton}
             >
               <Mail className="h-4 w-4" />
-              {pdfBusy === "send" ? "Sendet …" : "An Mieter senden"}
+              {pdfBusy === "send" ? "Sendet …" : "Per E-Mail senden"}
+            </button>
+            <button
+              onClick={() => void createContractPdf("print")}
+              disabled={pdfBusy !== null}
+              className={secondaryButton}
+              title="PDF erstellen und direkt drucken"
+            >
+              <Printer className="h-4 w-4" />
+              {pdfBusy === "print" ? "Druckt …" : "Drucken"}
             </button>
           </>
 

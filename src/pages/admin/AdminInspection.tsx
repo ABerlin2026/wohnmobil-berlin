@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Camera, Eye, FileText, Save, ShieldCheck } from "lucide-react";
+import { Camera, Eye, FileText, Mail, Printer, Save, ShieldCheck } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -19,7 +19,7 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { cleanMarkerText, DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
-import { generateRentalPdf, previewRentalPdf } from "@/admin/rentalPdf";
+import { generateRentalPdf, previewRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
 
 import {
   TANK_LEVELS,
@@ -98,7 +98,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
   const queryClient = useQueryClient();
   const isReturn = mode === "return";
 
-  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfBusy, setPdfBusy] = useState<"create" | "send" | "print" | null>(null);
   const [previewBusy, setPreviewBusy] = useState(false);
 
 
@@ -744,17 +744,45 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     }
   };
 
-  const createProtocolPdf = async (inspectionId?: string) => {
-
+  const createProtocolPdf = async (
+    inspectionId?: string,
+    mode: "create" | "send" | "print" = "create",
+  ) => {
     if (!rental) return;
-    setPdfBusy(true);
+    setPdfBusy(mode);
+    const kind = isReturn ? "return" : "handover";
+    const label = isReturn ? "Rücknahmeprotokoll" : "Übergabeprotokoll";
+    const options = {
+      rentalId: rental.id,
+      kind,
+      inspectionId: inspectionId ?? inspection?.id,
+      vehicle: rental.vehicles as Record<string, unknown> | null,
+    } as const;
     try {
-      const result = await generateRentalPdf({
-        rentalId: rental.id,
-        kind: isReturn ? "return" : "handover",
-        inspectionId: inspectionId ?? inspection?.id,
-        vehicle: rental.vehicles as Record<string, unknown> | null,
-      });
+      if (mode === "print") {
+        const result = await printRentalPdf({ ...options });
+        toast({
+          title: "Druck gestartet",
+          description: `${result.fileName} wurde erstellt und an den Drucker geschickt.`,
+        });
+        return;
+      }
+      const result = await generateRentalPdf({ ...options, send: mode === "send" });
+      if (mode === "send") {
+        if (result.emailQueued) {
+          toast({
+            title: `${label} versendet`,
+            description: `${result.fileName} wurde als Download-Link an den Mieter geschickt.`,
+          });
+        } else {
+          toast({
+            title: "PDF erstellt, Versand offen",
+            description: result.emailError ?? "E-Mail konnte nicht zugestellt werden.",
+            variant: "destructive",
+          });
+        }
+        return;
+      }
       toast({
         title: "Protokoll-PDF erstellt",
         description: `${result.fileName} liegt im Dokumentenarchiv.`,
@@ -767,7 +795,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         variant: "destructive",
       });
     } finally {
-      setPdfBusy(false);
+      setPdfBusy(null);
     }
   };
 
@@ -820,8 +848,8 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               {previewBusy ? "Vorschau …" : "Vorschau aktualisieren"}
             </button>
             <button
-              onClick={() => void createProtocolPdf()}
-              disabled={pdfBusy || !inspection?.id}
+              onClick={() => void createProtocolPdf(undefined, "create")}
+              disabled={pdfBusy !== null || !inspection?.id}
               title={
                 inspection?.id
                   ? undefined
@@ -830,7 +858,33 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
               className={secondaryButton}
             >
               <FileText className="h-4 w-4" />
-              {pdfBusy ? "Erstellt …" : "Protokoll als PDF"}
+              {pdfBusy === "create" ? "Erstellt …" : "Protokoll als PDF"}
+            </button>
+            <button
+              onClick={() => void createProtocolPdf(undefined, "send")}
+              disabled={pdfBusy !== null || !inspection?.id || !rental.customers?.email}
+              title={
+                !inspection?.id
+                  ? "Bitte zuerst einen Zwischenstand speichern."
+                  : rental.customers?.email
+                    ? "Protokoll als PDF-Link an den Mieter senden"
+                    : "Für den Mieter ist keine E-Mail-Adresse hinterlegt."
+              }
+              className={secondaryButton}
+            >
+              <Mail className="h-4 w-4" />
+              {pdfBusy === "send" ? "Sendet …" : "Per E-Mail senden"}
+            </button>
+            <button
+              onClick={() => void createProtocolPdf(undefined, "print")}
+              disabled={pdfBusy !== null || !inspection?.id}
+              title={
+                inspection?.id ? "PDF erstellen und direkt drucken" : "Bitte zuerst einen Zwischenstand speichern."
+              }
+              className={secondaryButton}
+            >
+              <Printer className="h-4 w-4" />
+              {pdfBusy === "print" ? "Druckt …" : "Drucken"}
             </button>
 
           </>
