@@ -239,6 +239,20 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     },
   });
 
+  const { data: savedInventory } = useQuery({
+    queryKey: ["inspection-inventory", inspection?.id],
+    enabled: !!inspection?.id,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("inspection_inventory")
+        .select("inventory_item_id, item_snapshot, status, missing_quantity, damaged_quantity, notes")
+        .eq("inspection_id", inspection!.id);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+
   const { data: markers, refetch: refetchMarkers } = useQuery({
     queryKey: ["inspection-markers", rental?.vehicle_id],
     enabled: !!rental?.vehicle_id,
