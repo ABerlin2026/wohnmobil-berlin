@@ -753,20 +753,13 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     if (!rental) return;
     setPreviewBusy(true);
     try {
-      const { url } = await previewRentalPdf({
+      const { url, fileName } = await previewRentalPdf({
         rentalId: rental.id,
         kind: isReturn ? "return" : "handover",
         vehicle: rental.vehicles as Record<string, unknown> | null,
         draft: buildDraft(),
       });
-      const win = window.open(url, "_blank", "noopener");
-      if (!win) {
-        toast({
-          title: "Popup blockiert",
-          description: "Bitte Pop-ups für diese Seite erlauben.",
-          variant: "destructive",
-        });
-      }
+      await deliverFile(url, fileName);
     } catch (error) {
       toast({
         title: "Vorschau fehlgeschlagen",
