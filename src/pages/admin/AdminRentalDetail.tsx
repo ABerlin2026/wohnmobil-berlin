@@ -48,6 +48,7 @@ import {
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
 import { deliverFile, generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
+import { deleteRentalWithDependencies } from "@/admin/deleteRental";
 
 
 const AdminRentalDetail = () => {
@@ -162,16 +163,7 @@ const AdminRentalDetail = () => {
   const deleteRental = useMutation({
     mutationFn: async () => {
       if (!id) throw new Error("Kein Mietvertrag");
-      const { data: docs } = await supabase
-        .from("documents")
-        .select("file_path")
-        .eq("rental_id", id);
-      const paths = (docs ?? []).map((doc) => doc.file_path).filter(Boolean);
-      if (paths.length > 0) {
-        await supabase.storage.from("rental-documents").remove(paths);
-      }
-      const { error } = await supabase.from("rentals").delete().eq("id", id);
-      if (error) throw error;
+      await deleteRentalWithDependencies(id);
     },
     onSuccess: () => {
       toast({ title: "Mietvertrag gelöscht" });

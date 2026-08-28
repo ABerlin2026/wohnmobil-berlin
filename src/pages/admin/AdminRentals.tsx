@@ -1,7 +1,17 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { FilePlus2, Search } from "lucide-react";
+import { FilePlus2, Search, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import {
@@ -16,11 +26,18 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { RENTAL_STATUS, formatDate } from "@/admin/constants";
 import { formatEuro } from "@/lib/rentalCalculations";
+import { deleteRentalWithDependencies } from "@/admin/deleteRental";
+import { toast } from "@/hooks/use-toast";
 
 const AdminRentals = () => {
-  const { tenant } = useTenant();
+  const { tenant, role, isPlatformAdmin } = useTenant();
+  const canDelete = isPlatformAdmin || role === "tenant_admin" || role === "admin";
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
+  const [rentalToDelete, setRentalToDelete] = useState<{ id: string; rental_number: string } | null>(
+    null,
+  );
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-rentals", tenant?.id],
@@ -36,6 +53,21 @@ const AdminRentals = () => {
       if (error) throw error;
       return rows ?? [];
     },
+  });
+
+  const deleteRental = useMutation({
+    mutationFn: deleteRentalWithDependencies,
+    onSuccess: () => {
+      toast({ title: "Mietvertrag gelöscht" });
+      setRentalToDelete(null);
+      void queryClient.invalidateQueries({ queryKey: ["admin-rentals"] });
+    },
+    onError: (error: Error) =>
+      toast({
+        title: "Löschen fehlgeschlagen",
+        description: error.message,
+        variant: "destructive",
+      }),
   });
 
   const rentals = useMemo(() => {
@@ -103,12 +135,12 @@ const AdminRentals = () => {
         ) : (
           <ul className="divide-y divide-border">
             {rentals.map((rental) => (
-              <li key={rental.id}>
+              <li key={rental.id} className="flex items-center gap-2 py-3">
                 <Link
                   to={`/admin/mietvertrag/${rental.id}`}
-                  className="flex flex-wrap items-center justify-between gap-3 py-3 transition hover:opacity-80"
+                  className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3 transition hover:opacity-80"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <p className="font-medium">
                       {rental.rental_number} ·{" "}
                       {rental.customers
@@ -125,11 +157,53 @@ const AdminRentals = () => {
                     <StatusBadge status={rental.status} />
                   </div>
                 </Link>
+                {canDelete && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setRentalToDelete({ id: rental.id, rental_number: rental.rental_number })
+                    }
+                    disabled={deleteRental.isPending}
+                    className="rounded-lg border border-destructive/40 p-2 text-destructive transition hover:bg-destructive/10 disabled:opacity-50"
+                    title={`Mietvertrag ${rental.rental_number} löschen`}
+                    aria-label={`Mietvertrag ${rental.rental_number} löschen`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
               </li>
             ))}
           </ul>
         )}
       </Panel>
+
+      <AlertDialog
+        open={rentalToDelete !== null}
+        onOpenChange={(open) => {
+          if (!open && !deleteRental.isPending) setRentalToDelete(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Mietvertrag {rentalToDelete?.rental_number} löschen?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Dabei werden auch Fahrer, Zahlungen, Übergabe- und Rückgabeprotokolle, Rechnungen,
+              Schadensmarker sowie alle gespeicherten PDF-Dokumente dieses Vertrags endgültig
+              entfernt. Das kann nicht rückgängig gemacht werden.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteRental.isPending}>Abbrechen</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => rentalToDelete && deleteRental.mutate(rentalToDelete.id)}
+              disabled={deleteRental.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleteRental.isPending ? "Löscht …" : "Endgültig löschen"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminShell>
   );
 };
