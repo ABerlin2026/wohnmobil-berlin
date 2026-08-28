@@ -52,7 +52,10 @@ import { deliverFile, generateRentalPdf, printRentalPdf } from "@/admin/rentalPd
 
 const AdminRentalDetail = () => {
   const { id } = useParams();
-  const { tenant } = useTenant();
+  const navigate = useNavigate();
+  const { tenant, role, isPlatformAdmin } = useTenant();
+  const canDelete = isPlatformAdmin || role === "tenant_admin" || role === "admin";
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const queryClient = useQueryClient();
   const [payment, setPayment] = useState({
     payment_type: "rent",
