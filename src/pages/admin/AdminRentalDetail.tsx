@@ -159,6 +159,34 @@ const AdminRentalDetail = () => {
       toast({ title: "Speichern fehlgeschlagen", description: error.message }),
   });
 
+  const deleteRental = useMutation({
+    mutationFn: async () => {
+      if (!id) throw new Error("Kein Mietvertrag");
+      const { data: docs } = await supabase
+        .from("documents")
+        .select("file_path")
+        .eq("rental_id", id);
+      const paths = (docs ?? []).map((doc) => doc.file_path).filter(Boolean);
+      if (paths.length > 0) {
+        await supabase.storage.from("rental-documents").remove(paths);
+      }
+      const { error } = await supabase.from("rentals").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast({ title: "Mietvertrag gelöscht" });
+      void queryClient.invalidateQueries({ queryKey: ["admin-rentals"] });
+      navigate("/admin/mietvertraege");
+    },
+    onError: (error: Error) =>
+      toast({
+        title: "Löschen fehlgeschlagen",
+        description: error.message,
+        variant: "destructive",
+      }),
+  });
+
+
   const download = async (path: string, fileName: string) => {
     const { data, error } = await supabase.storage
       .from("rental-documents")
