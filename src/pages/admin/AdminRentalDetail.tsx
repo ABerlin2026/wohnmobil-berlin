@@ -148,12 +148,12 @@ const AdminRentalDetail = () => {
   const download = async (path: string, fileName: string) => {
     const { data, error } = await supabase.storage
       .from("rental-documents")
-      .createSignedUrl(path, 60 * 5, { download: fileName });
+      .createSignedUrl(path, 60 * 5);
     if (error || !data) {
       toast({ title: "Download fehlgeschlagen", description: error?.message });
       return;
     }
-    window.open(data.signedUrl, "_blank", "noopener");
+    await deliverFile(data.signedUrl, fileName);
   };
 
   const downloadAll = async () => {
