@@ -203,7 +203,7 @@ export const printPdfFromUrl = async (url: string): Promise<void> => {
         frame.contentWindow?.focus();
         frame.contentWindow?.print();
       } catch {
-        window.open(objectUrl, "_blank", "noopener");
+        void deliverFile(objectUrl, "dokument.pdf");
       }
     }, 400);
   };
