@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ClipboardCheck,
   Download,
@@ -10,9 +10,20 @@ import {
   Pencil,
   Plus,
   Printer,
-
+  Trash2,
   Undo2,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
 
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
@@ -41,7 +52,10 @@ import { deliverFile, generateRentalPdf, printRentalPdf } from "@/admin/rentalPd
 
 const AdminRentalDetail = () => {
   const { id } = useParams();
-  const { tenant } = useTenant();
+  const navigate = useNavigate();
+  const { tenant, role, isPlatformAdmin } = useTenant();
+  const canDelete = isPlatformAdmin || role === "tenant_admin" || role === "admin";
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const queryClient = useQueryClient();
   const [payment, setPayment] = useState({
     payment_type: "rent",
@@ -144,6 +158,34 @@ const AdminRentalDetail = () => {
     onError: (error: Error) =>
       toast({ title: "Speichern fehlgeschlagen", description: error.message }),
   });
+
+  const deleteRental = useMutation({
+    mutationFn: async () => {
+      if (!id) throw new Error("Kein Mietvertrag");
+      const { data: docs } = await supabase
+        .from("documents")
+        .select("file_path")
+        .eq("rental_id", id);
+      const paths = (docs ?? []).map((doc) => doc.file_path).filter(Boolean);
+      if (paths.length > 0) {
+        await supabase.storage.from("rental-documents").remove(paths);
+      }
+      const { error } = await supabase.from("rentals").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast({ title: "Mietvertrag gelöscht" });
+      void queryClient.invalidateQueries({ queryKey: ["admin-rentals"] });
+      navigate("/admin/mietvertraege");
+    },
+    onError: (error: Error) =>
+      toast({
+        title: "Löschen fehlgeschlagen",
+        description: error.message,
+        variant: "destructive",
+      }),
+  });
+
 
   const download = async (path: string, fileName: string) => {
     const { data, error } = await supabase.storage
@@ -313,7 +355,19 @@ const AdminRentalDetail = () => {
               <Printer className="h-4 w-4" />
               {pdfBusy === "print" ? "Druckt …" : "Drucken"}
             </button>
+            {canDelete && (
+              <button
+                onClick={() => setDeleteOpen(true)}
+                disabled={deleteRental.isPending}
+                className={`${secondaryButton} border-destructive/40 text-destructive`}
+                title="Mietvertrag inklusive Protokolle und Dokumente löschen"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deleteRental.isPending ? "Löscht …" : "Löschen"}
+              </button>
+            )}
           </>
+
 
         }
       />
@@ -522,7 +576,29 @@ const AdminRentalDetail = () => {
         </p>
       </footer>
 
+      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Mietvertrag {rental.rental_number} löschen?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Dabei werden auch Fahrer, Zahlungen, Übergabe- und Rückgabeprotokolle, Rechnungen
+              sowie alle gespeicherten PDF-Dokumente dieses Vertrags endgültig entfernt. Das kann
+              nicht rückgängig gemacht werden.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteRental.mutate()}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Endgültig löschen
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminShell>
+
   );
 };
 
