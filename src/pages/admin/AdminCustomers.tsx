@@ -1,17 +1,34 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Search, UserRound } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Search, Trash2, UserRound } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import AdminShell from "@/components/admin/AdminShell";
 import PageSEO from "@/components/PageSEO";
 import { EmptyState, PageHeader, Panel, inputClass } from "@/components/admin/AdminUI";
 import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDate } from "@/admin/constants";
+import { deleteCustomerWithDependencies } from "@/admin/deleteCustomer";
+import { toast } from "@/hooks/use-toast";
 
 const AdminCustomers = () => {
-  const { tenant } = useTenant();
+  const { tenant, role, isPlatformAdmin } = useTenant();
+  const queryClient = useQueryClient();
+  const canDelete = isPlatformAdmin || role === "tenant_admin" || role === "admin";
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
+  const [customerToDelete, setCustomerToDelete] = useState<{ id: string; name: string } | null>(
+    null,
+  );
 
   const { data: customers, isLoading } = useQuery({
     queryKey: ["admin-customers", tenant?.id],
@@ -41,6 +58,23 @@ const AdminCustomers = () => {
       if (error) throw error;
       return data ?? [];
     },
+  });
+
+  const deleteCustomer = useMutation({
+    mutationFn: deleteCustomerWithDependencies,
+    onSuccess: (_data, customerId) => {
+      toast({ title: "Kunde gelöscht" });
+      setCustomerToDelete(null);
+      if (selected === customerId) setSelected(null);
+      void queryClient.invalidateQueries({ queryKey: ["admin-customers"] });
+      void queryClient.invalidateQueries({ queryKey: ["admin-rentals"] });
+    },
+    onError: (error: Error) =>
+      toast({
+        title: "Löschen fehlgeschlagen",
+        description: error.message,
+        variant: "destructive",
+      }),
   });
 
   const filtered = useMemo(() => {
@@ -92,23 +126,43 @@ const AdminCustomers = () => {
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
           <Panel className="space-y-2">
             {filtered.map((customer) => (
-              <button
-                key={customer.id}
-                onClick={() => setSelected(customer.id)}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition ${
-                  selected === customer.id ? "bg-primary text-primary-foreground" : "hover:bg-secondary"
-                }`}
-              >
-                <UserRound className="h-4 w-4 shrink-0" />
-                <span className="min-w-0">
-                  <span className="block truncate font-medium">
-                    {customer.last_name}, {customer.first_name}
+              <div key={customer.id} className="flex items-center gap-2">
+                <button
+                  onClick={() => setSelected(customer.id)}
+                  className={`flex min-w-0 flex-1 items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition ${
+                    selected === customer.id
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-secondary"
+                  }`}
+                >
+                  <UserRound className="h-4 w-4 shrink-0" />
+                  <span className="min-w-0">
+                    <span className="block truncate font-medium">
+                      {customer.last_name}, {customer.first_name}
+                    </span>
+                    <span className="block truncate text-xs opacity-80">
+                      {customer.email ?? customer.phone ?? "keine Kontaktdaten"}
+                    </span>
                   </span>
-                  <span className="block truncate text-xs opacity-80">
-                    {customer.email ?? customer.phone ?? "keine Kontaktdaten"}
-                  </span>
-                </span>
-              </button>
+                </button>
+                {canDelete && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCustomerToDelete({
+                        id: customer.id,
+                        name: `${customer.first_name} ${customer.last_name}`,
+                      })
+                    }
+                    disabled={deleteCustomer.isPending}
+                    className="rounded-lg border border-destructive/40 p-2 text-destructive transition hover:bg-destructive/10 disabled:opacity-50"
+                    title={`Kunde ${customer.first_name} ${customer.last_name} löschen`}
+                    aria-label={`Kunde ${customer.first_name} ${customer.last_name} löschen`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
             ))}
           </Panel>
 
@@ -175,6 +229,34 @@ const AdminCustomers = () => {
           </Panel>
         </div>
       )}
+
+      <AlertDialog
+        open={customerToDelete !== null}
+        onOpenChange={(open) => {
+          if (!open && !deleteCustomer.isPending) setCustomerToDelete(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Kunde {customerToDelete?.name} löschen?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Dabei werden auch alle Mietverträge dieses Kunden mit Fahrern, Zahlungen, Übergabe-
+              und Rückgabeprotokollen, Rechnungen, Schadensmarkern, Bankdaten sowie allen
+              gespeicherten Dokumenten endgültig entfernt. Das kann nicht rückgängig gemacht werden.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteCustomer.isPending}>Abbrechen</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => customerToDelete && deleteCustomer.mutate(customerToDelete.id)}
+              disabled={deleteCustomer.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleteCustomer.isPending ? "Löscht …" : "Endgültig löschen"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminShell>
   );
 };
