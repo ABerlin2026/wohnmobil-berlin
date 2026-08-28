@@ -152,6 +152,38 @@ export const previewRentalPdf = async ({
 };
 
 
+/**
+ * Öffnet bzw. speichert eine Datei ohne Popup-Fenster.
+ * Auf Tablets/iPadOS blockiert Safari `window.open` nach await – daher
+ * wird die Datei geladen und über einen Anker-Klick ausgeliefert.
+ */
+export const deliverFile = async (
+  url: string,
+  fileName?: string,
+  mimeType = "application/pdf",
+): Promise<void> => {
+  let objectUrl: string | null = null;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Datei konnte nicht geladen werden.");
+    const blob = await response.blob();
+    objectUrl = URL.createObjectURL(new Blob([blob], { type: blob.type || mimeType }));
+  } catch {
+    objectUrl = null;
+  }
+
+  const target = objectUrl ?? url;
+  const anchor = document.createElement("a");
+  anchor.href = target;
+  anchor.rel = "noopener";
+  if (fileName) anchor.download = fileName;
+  else anchor.target = "_blank";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  if (objectUrl) setTimeout(() => URL.revokeObjectURL(objectUrl!), 60000);
+};
+
 /** Öffnet den Druckdialog für ein PDF (via unsichtbarem Iframe, funktioniert auch mobil). */
 export const printPdfFromUrl = async (url: string): Promise<void> => {
   const response = await fetch(url);
@@ -171,7 +203,7 @@ export const printPdfFromUrl = async (url: string): Promise<void> => {
         frame.contentWindow?.focus();
         frame.contentWindow?.print();
       } catch {
-        window.open(objectUrl, "_blank", "noopener");
+        void deliverFile(objectUrl, "dokument.pdf");
       }
     }, 400);
   };

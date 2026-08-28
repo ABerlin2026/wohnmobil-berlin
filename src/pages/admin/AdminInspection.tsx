@@ -25,7 +25,7 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { cleanMarkerText, DAMAGE_AREAS, DAMAGE_SEVERITY, INVENTORY_STATUS, VEHICLE_SIDES } from "@/admin/constants";
 import { DIAGRAM_COLUMN, type VehicleSideValue } from "@/admin/vehicleDiagrams";
-import { generateRentalPdf, previewRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
+import { deliverFile, generateRentalPdf, previewRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
 
 import {
   TANK_LEVELS,
@@ -494,7 +494,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       toast({ title: "Datei konnte nicht geöffnet werden", description: error?.message });
       return;
     }
-    window.open(data.signedUrl, "_blank", "noopener");
+    await deliverFile(data.signedUrl, filePath.split("/").pop() ?? undefined);
   };
 
   const markMarkerRepaired = async (markerId: string, label: string) => {
@@ -753,20 +753,13 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
     if (!rental) return;
     setPreviewBusy(true);
     try {
-      const { url } = await previewRentalPdf({
+      const { url, fileName } = await previewRentalPdf({
         rentalId: rental.id,
         kind: isReturn ? "return" : "handover",
         vehicle: rental.vehicles as Record<string, unknown> | null,
         draft: buildDraft(),
       });
-      const win = window.open(url, "_blank", "noopener");
-      if (!win) {
-        toast({
-          title: "Popup blockiert",
-          description: "Bitte Pop-ups für diese Seite erlauben.",
-          variant: "destructive",
-        });
-      }
+      await deliverFile(url, fileName);
     } catch (error) {
       toast({
         title: "Vorschau fehlgeschlagen",
@@ -821,7 +814,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         title: "Protokoll-PDF erstellt",
         description: `${result.fileName} liegt im Dokumentenarchiv.`,
       });
-      if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+      if (result.signedUrl) await deliverFile(result.signedUrl, result.fileName);
     } catch (error) {
       toast({
         title: "PDF fehlgeschlagen",

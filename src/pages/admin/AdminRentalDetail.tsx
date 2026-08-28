@@ -36,7 +36,7 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
-import { generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
+import { deliverFile, generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
 
 
 const AdminRentalDetail = () => {
@@ -148,12 +148,12 @@ const AdminRentalDetail = () => {
   const download = async (path: string, fileName: string) => {
     const { data, error } = await supabase.storage
       .from("rental-documents")
-      .createSignedUrl(path, 60 * 5, { download: fileName });
+      .createSignedUrl(path, 60 * 5);
     if (error || !data) {
       toast({ title: "Download fehlgeschlagen", description: error?.message });
       return;
     }
-    window.open(data.signedUrl, "_blank", "noopener");
+    await deliverFile(data.signedUrl, fileName);
   };
 
   const downloadAll = async () => {
@@ -198,7 +198,7 @@ const AdminRentalDetail = () => {
           title: "PDF erstellt",
           description: `${result.fileName} liegt im Dokumentenarchiv.`,
         });
-        if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+        if (result.signedUrl) await deliverFile(result.signedUrl, result.fileName);
       }
     } catch (error) {
       toast({
