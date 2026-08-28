@@ -494,7 +494,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
       toast({ title: "Datei konnte nicht geöffnet werden", description: error?.message });
       return;
     }
-    window.open(data.signedUrl, "_blank", "noopener");
+    await deliverFile(data.signedUrl, filePath.split("/").pop() ?? undefined);
   };
 
   const markMarkerRepaired = async (markerId: string, label: string) => {
