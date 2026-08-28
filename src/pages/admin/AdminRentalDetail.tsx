@@ -576,7 +576,29 @@ const AdminRentalDetail = () => {
         </p>
       </footer>
 
+      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Mietvertrag {rental.rental_number} löschen?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Dabei werden auch Fahrer, Zahlungen, Übergabe- und Rückgabeprotokolle, Rechnungen
+              sowie alle gespeicherten PDF-Dokumente dieses Vertrags endgültig entfernt. Das kann
+              nicht rückgängig gemacht werden.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteRental.mutate()}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Endgültig löschen
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminShell>
+
   );
 };
 
