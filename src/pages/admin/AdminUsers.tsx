@@ -4,6 +4,7 @@ import { useTenant } from "@/admin/TenantContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import PageSEO from "@/components/PageSEO";
+import AdminShell from "@/components/admin/AdminShell";
 import {
   EmptyState,
   Field,
@@ -137,7 +138,7 @@ const AdminUsers = () => {
   };
 
   return (
-    <>
+    <AdminShell>
       <PageSEO
         title="Benutzerverwaltung"
         description="Interner Bereich"
@@ -285,7 +286,7 @@ const AdminUsers = () => {
           </div>
         </div>
       )}
-    </>
+    </AdminShell>
   );
 };
 
