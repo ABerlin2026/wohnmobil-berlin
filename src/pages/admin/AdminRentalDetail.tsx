@@ -36,7 +36,7 @@ import {
   rentalDays,
 } from "@/lib/rentalCalculations";
 import { toast } from "@/hooks/use-toast";
-import { generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
+import { deliverFile, generateRentalPdf, printRentalPdf } from "@/admin/rentalPdf";
 
 
 const AdminRentalDetail = () => {
