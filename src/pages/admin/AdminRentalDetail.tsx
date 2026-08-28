@@ -355,7 +355,19 @@ const AdminRentalDetail = () => {
               <Printer className="h-4 w-4" />
               {pdfBusy === "print" ? "Druckt …" : "Drucken"}
             </button>
+            {canDelete && (
+              <button
+                onClick={() => setDeleteOpen(true)}
+                disabled={deleteRental.isPending}
+                className={`${secondaryButton} border-destructive/40 text-destructive`}
+                title="Mietvertrag inklusive Protokolle und Dokumente löschen"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deleteRental.isPending ? "Löscht …" : "Löschen"}
+              </button>
+            )}
           </>
+
 
         }
       />
