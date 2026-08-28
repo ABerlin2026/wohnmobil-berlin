@@ -12,7 +12,7 @@ const AdminLogin = () => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate("/admin/chatbot-stats", { replace: true });
+      if (data.session) navigate("/admin", { replace: true });
     });
   }, [navigate]);
 
@@ -23,7 +23,7 @@ const AdminLogin = () => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) setError(error.message);
-    else navigate("/admin/chatbot-stats", { replace: true });
+    else navigate("/admin", { replace: true });
   };
 
   return (
