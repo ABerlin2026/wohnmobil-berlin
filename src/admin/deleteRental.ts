@@ -51,11 +51,6 @@ export const deleteRentalWithDependencies = async (rentalId: string) => {
     ),
   ];
 
-  if (storagePaths.length > 0) {
-    // Fehlende oder bereits entfernte Dateien sollen die Vertragslöschung nicht blockieren.
-    await supabase.storage.from("rental-documents").remove(storagePaths);
-  }
-
   if (markerIds.length > 0) {
     const { error } = await supabase.from("damage_markers").delete().in("id", markerIds);
     if (error) throw error;
@@ -70,4 +65,10 @@ export const deleteRentalWithDependencies = async (rentalId: string) => {
 
   const { error: rentalError } = await supabase.from("rentals").delete().eq("id", rentalId);
   if (rentalError) throw rentalError;
+
+  if (storagePaths.length > 0) {
+    // Erst nach erfolgreicher Datenbanklöschung Dateien entfernen; verwaiste Restdateien
+    // blockieren andernfalls keine erneute Ausführung oder spätere Bereinigung.
+    await supabase.storage.from("rental-documents").remove(storagePaths);
+  }
 };
