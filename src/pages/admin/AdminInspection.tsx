@@ -814,7 +814,7 @@ const AdminInspection = ({ mode }: { mode: Mode }) => {
         title: "Protokoll-PDF erstellt",
         description: `${result.fileName} liegt im Dokumentenarchiv.`,
       });
-      if (result.signedUrl) window.open(result.signedUrl, "_blank", "noopener");
+      if (result.signedUrl) await deliverFile(result.signedUrl, result.fileName);
     } catch (error) {
       toast({
         title: "PDF fehlgeschlagen",
