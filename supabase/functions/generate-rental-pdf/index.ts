@@ -335,7 +335,10 @@ Deno.serve(async (req) => {
     ])
 
     if (kind === 'return') {
+      // Reifenprofil und Reinigungszustand nur im Rückgabeprotokoll (im Übergabeprotokoll bewusst entfernt)
       pdf.keyValues([
+        ['Reifenprofil', inspection?.tire_tread ?? '-'],
+        ['Reinigungszustand', inspection?.cleaning_status ?? '-'],
         ['Tatsächliche Rückgabe', dateTime(inspection?.actual_return_at)],
         ['Verspätung', inspection?.delay_minutes != null ? `${inspection.delay_minutes} Minuten` : '-'],
       ])
