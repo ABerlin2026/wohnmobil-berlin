@@ -21,6 +21,7 @@ const Empfehlen = lazy(() => import("./pages/Empfehlen.tsx"));
 const WohnmobilBrandenburg = lazy(() => import("./pages/WohnmobilBrandenburg.tsx"));
 const Reisetipps = lazy(() => import("./pages/Reisetipps.tsx"));
 const Reisetipp = lazy(() => import("./pages/Reisetipp.tsx"));
+const QrRedirect = lazy(() => import("./pages/QrRedirect.tsx"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin.tsx"));
 const AdminChatbotStats = lazy(() => import("./pages/AdminChatbotStats.tsx"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard.tsx"));
@@ -67,6 +68,7 @@ const App = () => (
               <Route path="/wohnmobil-brandenburg" element={<WohnmobilBrandenburg />} />
               <Route path="/reisetipps" element={<Reisetipps />} />
               <Route path="/reisetipps/:slug" element={<Reisetipp />} />
+              <Route path="/qr/:source" element={<QrRedirect />} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/chatbot-stats" element={<AdminChatbotStats />} />
               <Route
